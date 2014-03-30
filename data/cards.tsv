@@ -1,0 +1,15 @@
+﻿# Format of the source file is:
+# 
+# kanji\thiragana\tkatakana\ttranslation\tnativelang\tdescription<LINEFEED>
+父	ちち	フ	father	en-us	Deck1
+母	はは	ボ	mother	en-us	Deck1
+友	とも	ユウ	friend	en-us	Deck1
+女	おんあ	ジョ	woman	en-us	Deck1
+男	おとこ	ダン	man	en-us	Deck1
+人	ひと	ジン	person	en-us	Deck1
+子	こ	シ	child	en-us	Deck1
+月	つき	ゲツ	month	en-us	Deck1
+火	ひ	カ	fire	en-us	Deck1
+水	みず	スイ	water	en-us	Deck1
+木	き	モク	tree	en-us	Deck1
+金	かね	キン	gold	en-us	Deck1

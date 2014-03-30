@@ -1,0 +1,33 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'
+  xmlns:mail='urn:import:cscie99.team2.lingolearn.client.view'>
+
+  <ui:style>
+    .courses {
+      font-style: italic;
+    }
+  </ui:style>
+
+  <g:HTMLPanel>
+
+    <h2>Welcome <span ui:field='userName'></span></h2>
+
+    <div class='panel panel-default'>
+      <div class='panel-heading'>Instructing courses</div>
+      <div class='panel-body'>
+        <g:VerticalPanel ui:field='coursesAsStudent'></g:VerticalPanel>
+      </div>
+    </div>
+
+    <div class='panel panel-default'>
+      <div class='panel-heading'>Enrolled courses</div>
+      <div class='panel-body'>
+        <g:VerticalPanel ui:field='coursesAsInstructor'></g:VerticalPanel>
+      </div>
+    </div>
+
+    <g:Button ui:field='sampleCardButton' styleName="btn btn-primary">View sample card</g:Button>
+
+  </g:HTMLPanel>
+
+</ui:UiBinder>

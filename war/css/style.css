@@ -1,0 +1,93 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic);
+
+body {
+  font-family: 'Lato', sans-serif;
+  background: url('/images/white_texture.png');
+}
+
+
+#appPreloader {
+  background-image: url(loader.gif);
+  height: 20px;
+  width: 220px;
+}
+
+/*
+ * Header
+ */
+
+.navbar-brand {
+  font-weight: 300;
+}
+
+/*
+ * Card
+ */
+
+.card-container {
+  -webkit-perspective:1000;
+  perspective:1000;
+}
+
+.card-container.card-flipped .card {
+  -webkit-transform:rotateY(180deg);
+  transform:rotateY(180deg);
+}
+
+.card-container {
+  margin-top: 50px;
+}
+
+.card-container, .card-front, .card-back {
+  width: 600px;
+  height: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card {
+  transition: 0.5s;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  position: relative;
+}
+
+/* hide back of pane during swap */
+.card-front, .card-back {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: 80px;
+  text-align: center;
+  border: 1px solid #d3d3d3;
+  box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.5);
+  background: #FFFFFF;
+}
+
+/* front pane, placed above back */
+.card-front {
+  z-index: 2;
+}
+
+/* back, initially hidden pane */
+.card-back {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+}
+
+.card button {
+  margin-top: 20px;
+}
+
+.kanji {
+  font-size: 8em;
+  font-family: sans-serif;  /* TODO */
+}
+
+.translation {
+  font-size: 5em;
+  padding: 0.5em 0;
+}
+
