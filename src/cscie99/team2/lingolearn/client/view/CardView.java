@@ -1,6 +1,9 @@
 package cscie99.team2.lingolearn.client.view;
 
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Button;
@@ -23,49 +26,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardView extends Composite {
-  private FlowPanel card_container;
-  private FlowPanel card;
-  private FlowPanel front;
-  private FlowPanel back;
-  private FlowPanel kanji;
-  private FlowPanel hirigana;
-  private FlowPanel katakana;
-  private FlowPanel englishTranslation;
+  interface Binder extends UiBinder<Widget, CardView> { }
+  private static final Binder binder = GWT.create(Binder.class);
+
+  @UiField FlowPanel card_container;
+  @UiField FlowPanel card;
+  @UiField FlowPanel front;
+  @UiField FlowPanel back;
+  @UiField FlowPanel kanji;
+  @UiField FlowPanel hirigana;
+  @UiField FlowPanel translation;
   private Button flipButton;
   
   public CardView() {
-	  this.card_container = new FlowPanel();
-	  this.card_container.setStyleName("card-container");
-	  initWidget(this.card_container);
-	  
-	  this.card = new FlowPanel();
-	  this.card.setStyleName("card");
-	  this.card_container.add(this.card);
-	  
-	  this.front = new FlowPanel();
-	  this.front.setStyleName("card-front");
-	  this.card.add(this.front);
-	  
-	  this.back = new FlowPanel();
-	  this.back.setStyleName("card-back");
-	  this.card.add(this.back);
-	  
-	  this.kanji = new FlowPanel();
-	  this.kanji.setStyleName("kanji");
-	  this.front.add(this.kanji);
-	  
-	  this.hirigana = new FlowPanel();
-	  this.hirigana.setStyleName("hirigana");
-	  this.front.add(this.hirigana);
+	  initWidget(binder.createAndBindUi(this));
 	  
 	  this.flipButton = new Button();
 	  this.flipButton.setText("Flip");
 	  this.flipButton.setStyleName("btn btn-default btn-lg");
 	  this.front.add(flipButton);
-	  
-	  this.englishTranslation = new FlowPanel();
-	  this.englishTranslation.setStyleName("translation");
-	  this.back.add(this.englishTranslation);
   }
   
   public HasClickHandlers getFlipButton() {
@@ -78,7 +57,7 @@ public class CardView extends Composite {
 	  
 	  //clear DOM nodes
 	  this.kanji.clear();
-	  this.englishTranslation.clear();
+	  this.translation.clear();
 	  
 	  //add card data to DOM nodes
 	  HTML tb1 = new HTML();
@@ -87,7 +66,7 @@ public class CardView extends Composite {
 	  
 	  HTML tb2 = new HTML();
 	  tb2.setText(card.getEnTranslation());
-	  this.englishTranslation.add(tb2);
+	  this.translation.add(tb2);
 	  
   }
   
