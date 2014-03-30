@@ -15,7 +15,7 @@ public class CardDAO {
 	/**
 	 * SingletonHolder is loaded on the first execution of Singleton.getInstance() 
 	 * or the first access to SingletonHolder.INSTANCE, not before.
-	 * ***
+	 * *****
 	 */
 	private static class CardDAOHolder { 
 		public static final CardDAO INSTANCE = new CardDAO();
