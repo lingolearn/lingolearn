@@ -6,6 +6,16 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 
   <!-- Servlets -->
+    <servlet>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>cscie99.team2.lingolearn.client.LoginServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/loginCallback</url-pattern>
+  </servlet-mapping>
+  
   <servlet>
     <servlet-name>cardServlet</servlet-name>
     <servlet-class>cscie99.team2.lingolearn.server.CardServiceImpl</servlet-class>
