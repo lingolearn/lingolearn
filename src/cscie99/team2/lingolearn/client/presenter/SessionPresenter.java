@@ -57,30 +57,23 @@ public class SessionPresenter implements Presenter {
   
   public void bind() {
 	  
-	  display.getKnowledgeHighButton().addClickHandler(new ClickHandler() {
+	  cardPresenter.getDisplay().getKnowledgeHighButton().addClickHandler(new ClickHandler() {
 		  public void onClick(ClickEvent event) {
 			  recordKnowledge("high");
 		  }
 	  });
 	  
-	  display.getKnowledgeMediumButton().addClickHandler(new ClickHandler() {
+	  cardPresenter.getDisplay().getKnowledgeMediumButton().addClickHandler(new ClickHandler() {
 		  public void onClick(ClickEvent event) {
 			  recordKnowledge("medium");
 		  }
 	  });
 	  
-	  display.getKnowledgeLowButton().addClickHandler(new ClickHandler() {
+	  cardPresenter.getDisplay().getKnowledgeLowButton().addClickHandler(new ClickHandler() {
 		  public void onClick(ClickEvent event) {
 			  recordKnowledge("low");
 		  }
-	  });
-	  
-	  eventBus.addHandler(FlippedCardEvent.TYPE,
-        new FlippedCardEventHandler() {
-          public void onFlippedCard(FlippedCardEvent event) {
-              display.showKnowledgeAssessmentArea();
-          }
-        }); 
+	  }); 
 	  
   }
   
@@ -126,7 +119,6 @@ public class SessionPresenter implements Presenter {
 	  if (currentCardNumber >= session.getDeck().getCardIds().size()) {
 		  currentCardNumber = 0;
 	  }
-	  display.hideKnowledgeAssessmentArea();
   }
   
 

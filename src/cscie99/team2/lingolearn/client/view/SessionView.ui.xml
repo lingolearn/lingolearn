@@ -8,12 +8,6 @@
 
     <g:FlowPanel ui:field='cardArea'></g:FlowPanel>
 
-    <g:FlowPanel ui:field='knowledgeAssessmentArea' styleName='btn-group'>
-        <g:Button ui:field='knowledgeLow' styleName='btn btn-default btn-lg'>I had no clue</g:Button>
-        <g:Button ui:field='knowledgeMedium' styleName='btn btn-default btn-lg'>I sorta knew it</g:Button>
-        <g:Button ui:field='knowledgeHigh' styleName='btn btn-default btn-lg'>I definitely knew it</g:Button>
-    </g:FlowPanel>
-
   </g:HTMLPanel>
 
 </ui:UiBinder>
