@@ -12,9 +12,9 @@ import java.io.Serializable;
  */
 public class Card implements Serializable {
 
-	public Card(String enTranslation) {
+	public Card(String translation) {
 		super();
-		this.enTranslation = enTranslation;
+		this.translation = translation;
 	}
 
 	private static final long serialVersionUID = -2630264168091602483L;
@@ -25,7 +25,6 @@ public class Card implements Serializable {
 	private	String hiragana;		// Hiragana Unicode
 	private	String katakana;		// Katakana Unicode
 	private String translation; 	// Translation
-	private String enTranslation; 	// EnTranslation
 	private String nativeLanguage;	// Native language of the translation, example "en-us"
 	private Image image;			// Image
 	private Sound sound;			// Sound
@@ -36,7 +35,7 @@ public class Card implements Serializable {
 	public Card(String kanji, String translation) {
 		super();
 		this.kanji = kanji;
-		this.enTranslation = translation;
+		this.translation = translation;
 	}
 
 	public Long getId() {
@@ -109,14 +108,6 @@ public class Card implements Serializable {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
-	}
-
-	public String getEnTranslation() {
-		return enTranslation;
-	}
-
-	public void setEnTranslation(String enTranslation) {
-		this.enTranslation = enTranslation;
 	}
 
 	/*

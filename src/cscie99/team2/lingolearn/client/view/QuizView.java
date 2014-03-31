@@ -30,7 +30,7 @@ public class QuizView extends Composite {
   private FlowPanel kanji;
   private FlowPanel hirigana;
   private FlowPanel katakana;
-  private FlowPanel englishTranslation;
+  private FlowPanel nativeTranslation;
   private Button flipButton;
   
   public QuizView() {
@@ -63,9 +63,9 @@ public class QuizView extends Composite {
 	  this.flipButton.setStyleName("btn btn-default btn-lg");
 	  this.front.add(flipButton);
 	  
-	  this.englishTranslation = new FlowPanel();
-	  this.englishTranslation.setStyleName("translation");
-	  this.back.add(this.englishTranslation);
+	  this.nativeTranslation = new FlowPanel();
+	  this.nativeTranslation.setStyleName("translation");
+	  this.back.add(this.nativeTranslation);
   }
   
   public HasClickHandlers getSubmitButton() {
@@ -78,7 +78,7 @@ public class QuizView extends Composite {
 	  
 	  //clear DOM nodes
 	  this.kanji.clear();
-	  this.englishTranslation.clear();
+	  this.nativeTranslation.clear();
 	  
 	  //add card data to DOM nodes
 	  HTML tb1 = new HTML();
@@ -86,8 +86,8 @@ public class QuizView extends Composite {
 	  this.kanji.add(tb1);
 	  
 	  HTML tb2 = new HTML();
-	  tb2.setText(card.getEnTranslation());
-	  this.englishTranslation.add(tb2);
+	  tb2.setText(card.getTranslation());
+	  this.nativeTranslation.add(tb2);
 	  
   }
   

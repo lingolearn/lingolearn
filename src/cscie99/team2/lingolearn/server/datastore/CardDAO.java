@@ -144,23 +144,6 @@ public class CardDAO {
 	}
 	
 	/**
-	 *  *** Temp **
-	 * Obtains first available card with specified enTranslation in the datastore
-	 * @param translation in as the search parameter
-	 * @return Card with the requested translation
-	 * @throws CardNotFoundException 
-	 */
-	public Card getCardByEnTranslation(String eng) throws CardNotFoundException {
-		ObjectifyableCard oCard = ofy().load().type(ObjectifyableCard.class).filter("enTransation", eng).first().now();
-		if (oCard==null)
-			throw new CardNotFoundException("Card was not found in the datastore", "enTransation", eng);
-		else {
-			Card card = oCard.getCard();
-			return card;
-		}
-	}
-	
-	/**
 	 * Obtains first available card with specified description in the datastore
 	 * @param description in as the search parameter
 	 * @return Card with the requested description

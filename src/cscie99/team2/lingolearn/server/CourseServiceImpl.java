@@ -69,11 +69,11 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		Card c1 = new Card();
 		c1.setKanji("岡");
 		c1.setId((long)1);
-		c1.setEnTranslation("card 1 translation");
+		c1.setTranslation("card 1 translation");
 		Card c2 = new Card();
 		c2.setKanji("字");
 		c2.setId((long)2);
-		c2.setEnTranslation("card 2 translation");
+		c2.setTranslation("card 2 translation");
 		ArrayList<Card> cards = new ArrayList<Card>();
 		cards.add(c1);
 		cards.add(c2);
@@ -92,11 +92,11 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		Card c1 = new Card();
 		c1.setKanji("岡");
 		c1.setId((long)1);
-		c1.setEnTranslation("card 1 translation");
+		c1.setTranslation("card 1 translation");
 		Card c2 = new Card();
 		c2.setKanji("字");
 		c2.setId((long)2);
-		c2.setEnTranslation("card 2 translation");
+		c2.setTranslation("card 2 translation");
 		ArrayList<Card> cards = new ArrayList<Card>();
 		cards.add(c1);
 		cards.add(c2);

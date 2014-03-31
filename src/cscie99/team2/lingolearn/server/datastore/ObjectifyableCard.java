@@ -24,7 +24,6 @@ public class ObjectifyableCard implements Serializable {
 	
 	@Id private Long cardId;				// Unique card Id
 	@Index private String kanji;			// Kanji Unicode
-	@Index private String enTranslation;	// English translation
 	@Index private	String hiragana;		// Hiragana Unicode
 	@Index private	String katakana;		// Katakana Unicode
 	@Index private String translation; 		// Translation
@@ -42,7 +41,6 @@ public class ObjectifyableCard implements Serializable {
 	public ObjectifyableCard(Card card) {
 		this.cardId = card.getId();
 		this.kanji = card.getKanji();
-		this.enTranslation = card.getEnTranslation();
 		this.hiragana = card.getHiragana();
 		this.katakana = card.getKatakana();
 		this.translation = card.getTranslation();
@@ -80,7 +78,6 @@ public class ObjectifyableCard implements Serializable {
 		Card c = new Card();
 		c.setId(this.cardId);
 		c.setKanji(this.kanji);
-		c.setEnTranslation(this.enTranslation);
 		c.setHiragana(this.hiragana);
 		c.setKatakana(this.katakana);
 		c.setTranslation(this.translation);

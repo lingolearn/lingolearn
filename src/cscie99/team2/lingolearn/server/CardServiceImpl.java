@@ -47,7 +47,7 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 		myCard.setKanji("岡");
 		myCard.setHiragana("あなた");
 		myCard.setKatakana("カナダ");
-		myCard.setEnTranslation("i dont know");
+		myCard.setTranslation("i dont know");
 		myCard.setDesc("Fake card");
 		myCard.setNativeLanguage("us-en");
 		myCard.setImage(myImage);
@@ -56,7 +56,6 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 		try {
 			cardAccessor.storeCard(myCard);
 		} catch (CardNotFoundException myCardNotFoundException) {
-			// TODO Auto-generated catch block
 			// Duplicate card
 			System.err.println(myCardNotFoundException.getMsg() + " for Kanji " + myCardNotFoundException.getSearchParam());
 		}
@@ -66,7 +65,7 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 		Card c1 = new Card();
 		c1.setKanji("岡");
 		c1.setId((long)1);
-		c1.setEnTranslation("card 1 translation");
+		c1.setTranslation("card 1 translation");
 		try {
 			cardAccessor.storeCard(c1);
 		} catch (CardNotFoundException myCardNotFoundException) {
@@ -75,7 +74,7 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 		Card c2 = new Card();
 		c2.setKanji("字");
 		c2.setId((long)2);
-		c2.setEnTranslation("card 2 translation");
+		c2.setTranslation("card 2 translation");
 		try {
 			cardAccessor.storeCard(c2);
 		} catch (CardNotFoundException myCardNotFoundException) {

@@ -90,9 +90,7 @@ public class CardFileLoader {
 				card.setKanji(tokens[0].trim());
 				card.setHiragana(tokens[1].trim());
 				card.setKatakana(tokens[2].trim());
-				// TODO Currently all translations are assumed to be in English
 				card.setTranslation(tokens[3].trim());
-				card.setEnTranslation(tokens[3].trim());
 				card.setNativeLanguage(tokens[4].trim());
 				card.setDesc(tokens[5].trim());
 				card.setImage(new Image());
