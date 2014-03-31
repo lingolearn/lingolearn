@@ -11,6 +11,8 @@ import java.io.Serializable;
  */
 public class OutsideCourse implements Serializable {
 
+	//Test commit
+	
 	private static final long serialVersionUID = 7153828329464294076L;
 
 	private String outsideCourseID;
