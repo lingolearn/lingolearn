@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import cscie99.team2.lingolearn.server.datastore.CardDAO;
 import cscie99.team2.lingolearn.shared.Card;
@@ -62,11 +64,15 @@ public class CardFileLoader {
 	 * @throws FileLoadException Thrown if there is an error loading the cards, see 
 	 * error message provided.
 	 */
-	public void loadFile(String fileName) throws FileLoadException, IOException {
+	public List<Card> loadFile(String fileName) throws FileLoadException, IOException {
 		// The line in the file we are currently reading
 		int lineNumber = 1;
+		
+		// The list of cards that were stored in the database
+		List<Card> cards = new ArrayList<Card>();
+		
 		// The current line being read
-		String data;					
+		String data;
 		
 		BufferedReader reader = null;
 		try {
@@ -93,12 +99,22 @@ public class CardFileLoader {
 				card.setSound(new Sound());
 				try {
 					card = cardLoader.storeCard(card);
-				} catch (CardNotFoundException ex) {
-					// The card already exists, so we don't really need to do anything
+				} catch (CardNotFoundException discarded) {
+					// The card already exists, so get the existing one
+					try {
+						card = cardLoader.getCardByKanji(card.getKanji());
+					} catch (CardNotFoundException ex) {
+						// In theory this should not happen, so assume something
+						// bad occurred if it does
+						throw new FileLoadException("Error loading and existing card.", ex);
+					}
 				}
-				// Update the line number
+				// Store the card and update the line number
+				cards.add(card);
 				lineNumber++;
-			}	
+			}
+			// We are done with the load, return the cards
+			return cards;
 		} catch (FileNotFoundException ex) {
 			throw new FileLoadException("Unable to load the indicated file",  ex);
 		} catch (IOException ex) {
