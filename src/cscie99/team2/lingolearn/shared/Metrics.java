@@ -18,7 +18,11 @@ public class Metrics implements Serializable{
 				 	indecisionRate,			//Percentage of time user changes answers
 				 	dropRate,				//Percentage of time user drops the card
 				 	averageSessionTime,		//Average session length
-				 	repetitionsPerWeek;		//Average number of repetitions per week
+				 	repetitionsPerWeek,		//Average number of repetitions per week
+				 	percentNoClue,			//Percent of cards the user responded "I had no clue"
+				 	percentSortaKnewIt,		//Percent of cards the user responded "I sorta knew it"
+				 	percentDefinitelyKnewIt;//Percent of cards the user responded "I definitely knew it"
+					
 	public Metrics (String gplusId) {
 		this.setGplusId(gplusId);
 		calculateRecallRate();
@@ -27,6 +31,18 @@ public class Metrics implements Serializable{
 		calculateDropRate();
 		calculateAverageSessionTime();
 		calculateRepetitionsPerWeek();
+		calculateUserAssessments();
+	}
+	
+	public void calculateUserAssessments() {
+		//temporarily prepopulates data. This would normally be pulled from all UserResponse objects pertaining to the user's id.
+		int noClues = 200;
+		int sortaKnewIt = 400;
+		int definitelyKnewIt = 400;
+		
+		this.setPercentNoClue(noClues/(noClues+sortaKnewIt+definitelyKnewIt));
+		this.setPercentSortaKnewIt(sortaKnewIt/(noClues+sortaKnewIt+definitelyKnewIt));
+		this.setPercentDefinitelyKnewIt(definitelyKnewIt/(noClues+sortaKnewIt+definitelyKnewIt));
 	}
 
 	public void calculateRecallRate() {
@@ -131,6 +147,30 @@ public class Metrics implements Serializable{
 
 	public void setRepetitionsPerWeek(float repetitionsPerWeek) {
 		this.repetitionsPerWeek = repetitionsPerWeek;
+	}
+	
+	public float getPercentNoClue() {
+		return percentNoClue;
+	}
+	
+	public float getPercentSortaKnewIt() {
+		return percentSortaKnewIt;
+	}
+	
+	public float getPercentDefinitelyKnewIt() {
+		return percentDefinitelyKnewIt;
+	}
+	
+	public void setPercentNoClue(float percentNoClue) {
+		this.percentNoClue = percentNoClue;
+	}
+	
+	public void setPercentSortaKnewIt(float percentSortaKnewIt) {
+		this.percentSortaKnewIt = percentSortaKnewIt;
+	}
+	
+	public void setPercentDefinitelyKnewIt(float percentDefinitelyKnewIt) {
+		this.percentDefinitelyKnewIt = percentDefinitelyKnewIt;
 	}
 
 }

@@ -29,4 +29,7 @@ public interface AnalyticsServiceAsync {
 
 	void getAllStudents(AsyncCallback<List<String>> callback);
 
+	void generateCsvAllData(AsyncCallback<String> callback);
+
+
 }

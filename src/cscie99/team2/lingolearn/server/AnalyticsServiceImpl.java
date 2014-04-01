@@ -69,21 +69,16 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	public Map<String, Float> getMetricsData (String gplusId) {
 		Map<String, Float> data = new HashMap<String, Float>();
 		Metrics m = new Metrics(gplusId);
-		
-		//Temporarily prepopulate
-		m.setRecallRate(0.5f);
-	 	m.setAvgReactionTime(8.5f);
-	 	m.setIndecisionRate(0.33f);
-	 	m.setDropRate(0.2f);
-	 	m.setAverageSessionTime(23145.4f);
-	 	m.setRepetitionsPerWeek(2.5f);
-	 	
+			
 	 	data.put("recallRate", m.getRecallRate());
 	 	data.put("avgReactionTime", m.getAvgReactionTime());
 	 	data.put("indecisionRate", m.getIndecisionRate());
 	 	data.put("dropRate", m.getDropRate());
 	 	data.put("averageSessionTime", m.getAverageSessionTime());
 	 	data.put("repetitionsPerWeek", m.getRepetitionsPerWeek());
+	 	data.put("percentNoClue", m.getPercentNoClue());
+	 	data.put("percentSortaKnewIt", m.getPercentSortaKnewIt());
+	 	data.put("percentDefinitelyKnewIt", m.getPercentDefinitelyKnewIt());
 	 	
 	 	return data;
 	}
@@ -177,6 +172,39 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		}
 		
 		return data;
+	}
+	
+	public String generateCsvAllData() {
+		String csvText = "StudentID,Gender,NativeLanguage,NumberOfLanguages,NumberOfTextbooks,NumberOfOutsideCourses,"
+				+ "Languages,Textbooks,OutsideCourses,RecallRate,AverageReactionTime,IndecisionRate,"
+				+ "DropRate,AverageSessionTime,RepetitionsPerWeek,PercentNoClue,PercentSortaKnewIt,PercentDefinitelyKnewIt\n";
+		
+		List<String> allStudents = this.getAllStudents();
+		for (String s: allStudents) {
+			Map<String, String> bioData = this.getBiographicalData(s);
+			Map<String, Float> metricsData = this.getMetricsData(s);
+			csvText += s +",";
+			csvText += bioData.get("gender") + ",";
+			csvText += bioData.get("nativeLanguage") + ",";
+			csvText += bioData.get("noLanguages") + ",";
+			csvText += bioData.get("noTextbooks") + ",";
+			csvText += bioData.get("noOutsideCourses") + ",";
+			csvText += bioData.get("languages") + ",";
+			csvText += bioData.get("textbooks") + ",";
+			csvText += bioData.get("outsideCourses") + ",";
+			csvText += metricsData.get("recallRate") + ",";
+			csvText += metricsData.get("avgReactionTime") + ",";
+			csvText += metricsData.get("indecisionRate") + ",";
+			csvText += metricsData.get("dropRate") + ",";
+			csvText += metricsData.get("averageSessionTime") + ",";
+			csvText += metricsData.get("repetitionsPerWeek") + ",";
+			csvText += metricsData.get("percentNoClue") + ",";
+			csvText += metricsData.get("percentSortaKnewIt") + ",";
+			csvText += metricsData.get("percentDefinitelyKnewIt") + "\n";
+		}
+		
+		
+		return csvText;
 	}
 
 }

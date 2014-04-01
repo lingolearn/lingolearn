@@ -21,5 +21,7 @@ public interface AnalyticsService extends RemoteService{
 	public Map<String, Map<String, String>> getAllBiographicalData();
 	public Map<String, Map<String, Float>> getAllMetricsData();
 	
+	public String generateCsvAllData();
+	
 
 }
