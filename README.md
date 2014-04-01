@@ -11,7 +11,7 @@ are for Eclipse.
 1. Make sure [Google Plugin for Eclipse](https://developers.google.com/eclipse/) is installed
 2. Clone the repository to your local storage and import the project
 3. Under "[Right Click] > Properties > Google" 
-  1. "Use Default SDK" is selected, the project is on 1.9.0
+  1. "Use Default SDK" is selected, the project is on 1.9.1
   2. "This project has a WAR directory" is selected
   3. "Use Google Web Toolkit" is selected, this project uses 2.6.0
 4. Under "[Right Click] > Properties > Java Build Path > Source"
