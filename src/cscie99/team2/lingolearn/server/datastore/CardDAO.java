@@ -73,10 +73,18 @@ public class CardDAO {
 		return true;	
 	}
 	
+	/**
+	 * Obtains Card by CardId
+	 * @param cardId cardId
+	 * @return Card stored with the cardId
+	 */
 	public Card getCardById(Long cardId) {
 		ObjectifyableCard oCard = ofy().load().type(ObjectifyableCard.class).id(cardId).now();
+		if (oCard != null) {
 			Card card = oCard.getCard();
 			return card;
+			}
+		return null;
 	}
 	
 	/**
@@ -134,9 +142,9 @@ public class CardDAO {
 	 * @throws CardNotFoundException 
 	 */
 	public Card getCardByTranslation(String translation) throws CardNotFoundException {
-		ObjectifyableCard oCard = ofy().load().type(ObjectifyableCard.class).filter("transation", translation).first().now();
+		ObjectifyableCard oCard = ofy().load().type(ObjectifyableCard.class).filter("translation", translation).first().now();
 		if (oCard==null)
-			throw new CardNotFoundException("Card was not found in the datastore", "transation", translation);
+			throw new CardNotFoundException("Card was not found in the datastore", "translation", translation);
 		else {
 			Card card = oCard.getCard();
 			return card;
@@ -164,8 +172,7 @@ public class CardDAO {
 	 * @return List of all Cards in the datastore containing the same kanji
 	 * @throws CardNotFoundException 
 	 */
-	public List<Card> getAllCardsByKanji(String kanji) throws CardNotFoundException
-	{
+	public List<Card> getAllCardsByKanji(String kanji) throws CardNotFoundException {
 		List<ObjectifyableCard> oCards = ofy().load().type(ObjectifyableCard.class).filter("kanji", kanji).list();
 		Iterator<ObjectifyableCard> it = oCards.iterator();
 		List<Card> cards = new ArrayList<>();
@@ -177,5 +184,33 @@ public class CardDAO {
 		} else {
 			return cards;
 		}
+	}
+	
+	/**
+	 * Obtains list of all available cards in specified native language from the datastore
+	 * @param lang native language of the card
+	 * @return List of all Cards in the datastore in the same native language
+	 * @throws CardNotFoundException
+	 */
+	public List<Card> getAllCardsByLanguage(String lang) throws CardNotFoundException {
+		List<ObjectifyableCard> oCards = ofy().load().type(ObjectifyableCard.class).filter("nativeLanguage", lang).list();
+		Iterator<ObjectifyableCard> it = oCards.iterator();
+		List<Card> cards = new ArrayList<>();
+		while (it.hasNext()) {
+			cards.add(it.next().getCard());
+		}
+		if (cards.size() == 0) {
+			throw new CardNotFoundException("Cards were not found in the datastore", "native language", lang);
+		} else {
+			return cards;
+		}
+	}
+	
+	/**
+	 * Deletes the card with the specified CardId from the datastore
+	 * @param cardId
+	 */
+	public void deleteCardById(Long cardId) {
+		ofy().delete().type(ObjectifyableCard.class).id(cardId).now();
 	}
 }
