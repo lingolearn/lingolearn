@@ -12,7 +12,7 @@ import cscie99.team2.lingolearn.shared.error.CardNotFoundException;
  */
 public class Deck implements Serializable {
 	// The id to use for the serialization version
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6277584849217764742L;
 
 	// The unique id of the deck
 	private Long id;

@@ -2,14 +2,7 @@ package cscie99.team2.lingolearn.server.datastore;
 
 import static cscie99.team2.lingolearn.server.datastore.OfyService.ofy;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import cscie99.team2.lingolearn.server.datastore.ObjectifyableCard;
-import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Deck;
-import cscie99.team2.lingolearn.shared.error.CardNotFoundException;
 import cscie99.team2.lingolearn.shared.error.DeckNotFoundException;
 
 public class DeckDAO {

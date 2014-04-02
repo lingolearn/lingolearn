@@ -44,6 +44,7 @@ public class ObjectifyableDeck implements Serializable {
 	 */
 	public ObjectifyableDeck(Deck deck) {
 		// no need to store HashMap of Cards, can always be recreated by knowing cardIds
+		this.id = deck.getId();
 		this.cardIds = deck.getCardIds();
 		this.language = deck.getLangauge();
 		this.nativeLangauge = deck.getLangauge();
@@ -57,6 +58,7 @@ public class ObjectifyableDeck implements Serializable {
 	public Deck getDeck() {
 		CardDAO cardAccessor = CardDAO.getInstance();
 		Deck deck = new Deck();
+		deck.setId(this.id);
 		deck.setCardIds(this.cardIds);
 		deck.setLangauge(this.language);
 		deck.setNativeLangauge(this.nativeLangauge);
