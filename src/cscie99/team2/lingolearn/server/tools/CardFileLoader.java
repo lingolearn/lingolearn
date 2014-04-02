@@ -64,7 +64,7 @@ public class CardFileLoader {
 	 * @throws FileLoadException Thrown if there is an error loading the cards, see 
 	 * error message provided.
 	 */
-	public List<Card> loadFile(String fileName) throws FileLoadException, IOException {
+	public List<Card> loadCards(BufferedReader reader) throws FileLoadException, IOException {
 		// The line in the file we are currently reading
 		int lineNumber = 1;
 		
@@ -74,11 +74,8 @@ public class CardFileLoader {
 		// The current line being read
 		String data;
 		
-		BufferedReader reader = null;
 		try {
-			// Open the file and read the first line
-			FileReader input = new FileReader(fileName);
-			reader = new BufferedReader(input);
+			// Read until the end of the reader
 			while ((data = reader.readLine().trim()) != null){
 				// Parse the tokens from the line that was read
 				String[] tokens = data.trim().split(delimiter);
@@ -121,7 +118,19 @@ public class CardFileLoader {
 			if (reader != null) {
 				reader.close();
 			}
-		}			
+		}	
+	}
+	
+	/**
+	 * Read and parse the source file and store each of the cards in the data store.
+	 * 
+	 * @param fileNameFile name of the input file.
+	 * @throws FileLoadException Thrown if there is an error loading the cards, see 
+	 * error message provided.
+	 */
+	public List<Card> loadCards(String fileName) throws FileLoadException, IOException {
+		FileReader input = new FileReader(fileName);
+		return loadCards(new BufferedReader(input));
 	}
 	
 	/**

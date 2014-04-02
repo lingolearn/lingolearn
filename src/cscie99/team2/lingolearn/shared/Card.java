@@ -1,21 +1,11 @@
-/**
- * CSCIE99 TEAM 2
- */
 package cscie99.team2.lingolearn.shared;
-
 
 import java.io.Serializable;
 
 /**
- * @author YPolyanskyy
- *
+ * A single card within a Deck of cards.
  */
 public class Card implements Serializable {
-
-	public Card(String translation) {
-		super();
-		this.translation = translation;
-	}
 
 	private static final long serialVersionUID = -2630264168091602483L;
 	
@@ -28,15 +18,25 @@ public class Card implements Serializable {
 	private String nativeLanguage;	// Native language of the translation, example "en-us"
 	private Image image;			// Image
 	private Sound sound;			// Sound
-	//private List<Confuser>	confuserList;	// List of "confusers"
 
+	/**
+	 * Constructor.
+	 */
 	public Card () {};
 	
-	public Card(String kanji, String translation) {
-		super();
+	/**
+	 * Constructor.
+	 */
+	public Card(String kanji, String hiragana, String katakana,
+			String translation, String nativeLanguage, String description) {
 		this.kanji = kanji;
+		this.hiragana = hiragana;
+		this.katakana = katakana;
 		this.translation = translation;
+		this.nativeLanguage = nativeLanguage;
+		this.desc = description;
 	}
+
 
 	public Long getId() {
 		return cardId;
@@ -108,16 +108,5 @@ public class Card implements Serializable {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
-	}
-
-	/*
-	public List<Confuser> getConfuserList() {
-		return confuserList;
-	}
-
-	public void setConfuserList(List<Confuser> confuserList) {
-		this.confuserList = confuserList;
-	}
-	*/
-	
+	}	
 }
