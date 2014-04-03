@@ -76,7 +76,11 @@ public class CardFileLoader {
 		
 		try {
 			// Read until the end of the reader
-			while ((data = reader.readLine().trim()) != null){
+			while ((data = reader.readLine()) != null) {
+				// Press on if the line is blank
+				if (data.isEmpty()) {
+					continue;
+				}
 				// Parse the tokens from the line that was read
 				String[] tokens = data.trim().split(delimiter);
 				if (tokens.length != NUM_FIELDS) {

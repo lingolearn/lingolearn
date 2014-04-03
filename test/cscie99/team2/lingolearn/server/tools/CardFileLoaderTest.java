@@ -11,9 +11,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -26,24 +24,18 @@ import cscie99.team2.lingolearn.shared.error.FileLoadException;
  * Test to make sure we can load card files to the data store and clean up afterwards.
  */
 public class CardFileLoaderTest {
-	
+	// The connection to the DAO needed for testing.
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
-		      new LocalDatastoreServiceTestConfig());
-		 
-	@BeforeClass
-	  public static void setUpBeforeClass() throws Exception {
-	  }
-	 
-	  @AfterClass
-	  public static void tearDownAfterClass() throws Exception {
-	  }
-	 
-	  @Before
-	  public void setUp() throws Exception {
-	    helper.setUp();
-	  }
-	
-	
+			new LocalDatastoreServiceTestConfig());
+
+	/**
+	 * Prepare any requirements prior to runnin the tests.
+	 */
+	@Before
+	public void setUp() {
+		helper.setUp();
+	}
+
 	// The following is the contents of the reference TSV file
 	private final static String REFERENCE = 
 		"父	ちち	フ	father	en-us	TestingDeck\n\r母	はは	ボ	mother	en-us	TestingDeck";
@@ -76,7 +68,7 @@ public class CardFileLoaderTest {
 				assertEquals(expected.getKatakana(), actual.getKatakana());
 				assertEquals(expected.getTranslation(), actual.getTranslation());
 				assertEquals(expected.getNativeLanguage(), actual.getNativeLanguage());
-				assertEquals(expected.getDesc(), actual.getKanji());
+				assertEquals(expected.getDesc(), actual.getDesc());
 			}
 		} catch (IOException|FileLoadException ex) {
 			fail("An exception occured during the test, " + ex.getMessage());
