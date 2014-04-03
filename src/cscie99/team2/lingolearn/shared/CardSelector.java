@@ -17,6 +17,6 @@ public interface CardSelector {
 	
 	public boolean hasCard (); 
 	
-	public UserResponse getResponse ();
+	public QuizResponse getResponse ();
 	
 }

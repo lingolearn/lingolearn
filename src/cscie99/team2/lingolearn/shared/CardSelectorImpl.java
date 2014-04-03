@@ -27,7 +27,7 @@ public class CardSelectorImpl implements CardSelector {
 		return false;
 	}; 
 	
-	public UserResponse getResponse (){
+	public QuizResponse getResponse (){
 		return null;
 	};
 	

@@ -71,7 +71,8 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		Metrics m = new Metrics(gplusId);
 			
 	 	data.put("recallRate", m.getRecallRate());
-	 	data.put("avgReactionTime", m.getAvgReactionTime());
+	 	data.put("avgQuizReactionTime", m.getAvgQuizReactionTime());
+	 	data.put("avgFlashCardReactionTime", m.getAvgFlashCardReactionTime());
 	 	data.put("indecisionRate", m.getIndecisionRate());
 	 	data.put("dropRate", m.getDropRate());
 	 	data.put("averageSessionTime", m.getAverageSessionTime());
@@ -176,7 +177,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	
 	public String generateCsvAllData() {
 		String csvText = "StudentID,Gender,NativeLanguage,NumberOfLanguages,NumberOfTextbooks,NumberOfOutsideCourses,"
-				+ "Languages,Textbooks,OutsideCourses,RecallRate,AverageReactionTime,IndecisionRate,"
+				+ "Languages,Textbooks,OutsideCourses,RecallRate,AverageQuizReactionTime,AverageFlashCardReactionTime,IndecisionRate,"
 				+ "DropRate,AverageSessionTime,RepetitionsPerWeek,PercentNoClue,PercentSortaKnewIt,PercentDefinitelyKnewIt\n";
 		
 		List<String> allStudents = this.getAllStudents();
@@ -193,7 +194,8 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 			csvText += bioData.get("textbooks") + ",";
 			csvText += bioData.get("outsideCourses") + ",";
 			csvText += metricsData.get("recallRate") + ",";
-			csvText += metricsData.get("avgReactionTime") + ",";
+			csvText += metricsData.get("avgQuizReactionTime") + ",";
+			csvText += metricsData.get("avgFlashCardReactionTime") + ",";
 			csvText += metricsData.get("indecisionRate") + ",";
 			csvText += metricsData.get("dropRate") + ",";
 			csvText += metricsData.get("averageSessionTime") + ",";

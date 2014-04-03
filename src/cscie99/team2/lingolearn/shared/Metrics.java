@@ -14,7 +14,8 @@ public class Metrics implements Serializable{
 
 	private String 	gplusId;				//Id of the user
 	private float 	recallRate,				//Success rate on flash cards
-				 	avgReactionTime,		//Average reaction time
+				 	avgQuizReactionTime,	//Average quiz question reaction time
+				 	avgFlashCardReactionTime,//Average flashcard reaction time
 				 	indecisionRate,			//Percentage of time user changes answers
 				 	dropRate,				//Percentage of time user drops the card
 				 	averageSessionTime,		//Average session length
@@ -26,7 +27,8 @@ public class Metrics implements Serializable{
 	public Metrics (String gplusId) {
 		this.setGplusId(gplusId);
 		calculateRecallRate();
-		calculateAvgReactionTime();
+		calculateAvgQuizReactionTime();
+		calculateAvgFlashCardReactionTime();
 		calculateIndecisionRate();
 		calculateDropRate();
 		calculateAverageSessionTime();
@@ -35,7 +37,7 @@ public class Metrics implements Serializable{
 	}
 	
 	public void calculateUserAssessments() {
-		//temporarily prepopulates data. This would normally be pulled from all UserResponse objects pertaining to the user's id.
+		//temporarily prepopulates data. This would normally be pulled from all FlashCardResponse objects pertaining to the user's id.
 		int noClues = 200;
 		int sortaKnewIt = 400;
 		int definitelyKnewIt = 400;
@@ -46,26 +48,35 @@ public class Metrics implements Serializable{
 	}
 
 	public void calculateRecallRate() {
-		//temporarily prepopulates data. This would normally be pulled from all UserReponse objects pertaining to the user's id.
-		int correctAnswers = 500;
-		int cardsSeen = 1000;
+		//temporarily prepopulates data. This would normally be pulled from all QuizReponse objects pertaining to the user's id.
+		int correctQuizAnswers = 500;
+		int questionsSeen = 1000;
 		
-		this.setRecallRate((correctAnswers/cardsSeen));
+		this.setRecallRate((correctQuizAnswers/questionsSeen));
 		
 	}
-	public void calculateAvgReactionTime() {
+	public void calculateAvgQuizReactionTime() {
 		//temporarily prepopulates data. This would normally be pulled from all UserReponse objects pertaining to the user's id.
-		float totalTimeToAnswer = 8594.5f;
+		float totalQuizTimeToAnswer = 8594.5f;
+		int questionsSeen = 1000;
+		
+		this.setAvgQuizReactionTime((totalQuizTimeToAnswer/questionsSeen));
+	}
+	
+	public void calculateAvgFlashCardReactionTime() {
+		//temporarily prepopulates data. This would normally be pulled from all UserReponse objects pertaining to the user's id.
+		float totalFlashCardTimeToAnswer = 8594.5f;
 		int cardsSeen = 1000;
 		
-		this.setAvgReactionTime((totalTimeToAnswer/cardsSeen));
+		this.setAvgFlashCardReactionTime((totalFlashCardTimeToAnswer/cardsSeen));
 	}
+	
 	public void calculateIndecisionRate() {
 		//temporarily prepopulates data. This would normally be pulled from all UserReponse objects pertaining to the user's id.
 		int changedAnswers = 333;
-		int cardsSeen = 1000;
+		int questionsSeen = 1000;
 		
-		this.setIndecisionRate((changedAnswers/cardsSeen));
+		this.setIndecisionRate((changedAnswers/questionsSeen));
 		
 	}
 	public void calculateDropRate() {
@@ -109,12 +120,20 @@ public class Metrics implements Serializable{
 		this.gplusId = gplusId;
 	}
 
-	public float getAvgReactionTime() {
-		return avgReactionTime;
+	public float getAvgQuizReactionTime() {
+		return avgQuizReactionTime;
 	}
 
-	public void setAvgReactionTime(float avgReactionTime) {
-		this.avgReactionTime = avgReactionTime;
+	public void setAvgQuizReactionTime(float avgReactionTime) {
+		this.avgQuizReactionTime = avgReactionTime;
+	}
+	
+	public float getAvgFlashCardReactionTime() {
+		return avgFlashCardReactionTime;
+	}
+
+	public void setAvgFlashCardReactionTime(float avgReactionTime) {
+		this.avgFlashCardReactionTime = avgReactionTime;
 	}
 
 	public float getIndecisionRate() {
