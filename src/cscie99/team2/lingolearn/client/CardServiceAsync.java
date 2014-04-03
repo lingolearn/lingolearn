@@ -16,5 +16,6 @@ public interface CardServiceAsync {
 	public void getCardByDescription(String desc, AsyncCallback<Card> callback);
 	public void getAllCardsByKanji(String kanji, AsyncCallback<List<Card>> callback);
 	public void getAllCardsByLanguage(String lang, AsyncCallback<List<Card>> callback );
+	public void getAllCards(AsyncCallback<List<Card>> callback);
 	public void storeCard(Card card, AsyncCallback<Card> callback);
 }

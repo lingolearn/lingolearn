@@ -15,6 +15,15 @@ public class Textbook implements Serializable{
 	private String textbookID;
 	private String name;
 	private int year;
+	
+	public Textbook () {};
+	
+	public Textbook (String t, String n, int y) {
+		textbookID = t;
+		name = n;
+		year = y;
+	}
+
 	public String getTextbookID() {
 		return textbookID;
 	}
@@ -33,11 +42,4 @@ public class Textbook implements Serializable{
 	public void setYear(int year) {
 		this.year = year;
 	}
-	public Textbook (String t, String n, int y) {
-		textbookID = t;
-		name = n;
-		year = y;
-	}
-			
-
 }

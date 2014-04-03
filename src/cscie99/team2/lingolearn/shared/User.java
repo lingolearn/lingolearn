@@ -48,7 +48,7 @@ public class User implements Serializable {
 		this.outsideCourses = new HashSet<OutsideCourse>();
 		this.userRegistrationTime = new Date();
 		
-		addLanguage(nativ);
+		//addLanguage(nativ);
 	}
 	
 	public boolean addLanguage( Language lang ){
@@ -147,5 +147,27 @@ public class User implements Serializable {
 		this.userRegistrationTime = userRegistrationTime;
 	}
 	
+	@Override
+	public String toString() {
+		String result = null;
+		result  = "User Id   : " + this.getGplusId() + "\n";
+		result += "First Name: " + this.getFirstName() + "\n";
+		result += "Last Name : " + this.getLastName() + "\n";
+		result += "Gender    : " + this.getGender() + "\n";
+		result += "Reg. Date : " + this.getUserRegistrationTime() + "\n";
+		result += "     Native Language: " + this.getNativeLanguage().getLangName() + "\n";
+		for (Language lang: this.getLanguages()) {
+			result += "     Other Language : " + lang.getLangName() + "\n";
+		}
+		for (Textbook tb: this.getTextbooks()) {
+			result += "     Texbooks used  : " + tb.getName() + "\n" ;
+		}
+		for (OutsideCourse oc: this.getOutsideCourses()) {
+			result += "     Other Courses  : " + oc.getInstitution() + "\n";
+		}
+		
+		return result;
+		
+	}
 	
 }

@@ -6,19 +6,19 @@ package cscie99.team2.lingolearn.server.datastore;
 import java.io.Serializable;
 
 import com.googlecode.objectify.annotation.Embed;
+import com.googlecode.objectify.annotation.Index;
 
 import cscie99.team2.lingolearn.shared.Language;
 
 /**
- * @author YPolyanskyy
- *
- * This class contains a list of the ISO 639 letter codes and their corresponding English names
- * It provides ability to lookup and assign the standard letter code 
+ * This class represents an Objectifyable version of the Language class
  */
 @Embed
+@Index
 public class ObjectifyableLanguage implements Serializable {
-	private static final long serialVersionUID = -770788580468589881L;
-
+	
+	private static final long serialVersionUID = -2456376848955039648L;
+	
 	private String langId;	// language name in English
 	private String langName;
 

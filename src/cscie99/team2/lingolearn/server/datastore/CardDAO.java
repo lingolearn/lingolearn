@@ -8,6 +8,7 @@ import java.util.List;
 
 import cscie99.team2.lingolearn.server.datastore.ObjectifyableCard;
 import cscie99.team2.lingolearn.shared.Card;
+import cscie99.team2.lingolearn.shared.User;
 import cscie99.team2.lingolearn.shared.error.CardNotFoundException;
 
 public class CardDAO {
@@ -201,6 +202,25 @@ public class CardDAO {
 		}
 		if (cards.size() == 0) {
 			throw new CardNotFoundException("Cards were not found in the datastore", "native language", lang);
+		} else {
+			return cards;
+		}
+	}
+	
+	/**
+	 * Obtains a list of all available Cards in the datastore
+	 * @return list of all Cards or Null if no Cards in the datastore
+	 * @throws CardNotFoundException 
+	 */
+	public List<Card> getAllCards() throws CardNotFoundException {
+		List<ObjectifyableCard> oUsers = ofy().load().type(ObjectifyableCard.class).list();
+		Iterator<ObjectifyableCard> it = oUsers.iterator();
+		List<Card> cards = new ArrayList<>();
+		while (it.hasNext()) {
+			cards.add(it.next().getCard());
+		}
+		if (cards.size() == 0) {
+			throw new CardNotFoundException("No Cards were not found in the datastore");
 		} else {
 			return cards;
 		}

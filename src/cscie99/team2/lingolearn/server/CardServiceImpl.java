@@ -197,4 +197,15 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 		}
 		return cards;
 	}
+	
+	public List<Card> getAllCards() {
+		List<Card> cards = new ArrayList<>();
+		try {
+			cards = cardAccessor.getAllCards();
+		} catch (CardNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cards;
+	};
 }

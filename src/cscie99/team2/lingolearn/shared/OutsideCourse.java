@@ -18,6 +18,15 @@ public class OutsideCourse implements Serializable {
 	private String outsideCourseID;
 	private String name;
 	private String institution;
+	
+	public OutsideCourse () {};
+	
+	public OutsideCourse (String o, String n, String i) {
+		outsideCourseID = o;
+		name = n;
+		institution = i;
+	}
+	
 	public String getOutsideCourseID() {
 		return outsideCourseID;
 	}
@@ -36,10 +45,4 @@ public class OutsideCourse implements Serializable {
 	public void setInstitution(String institution) {
 		this.institution = institution;
 	}
-	public OutsideCourse (String o, String n, String i) {
-		outsideCourseID = o;
-		name = n;
-		institution = i;
-	}
-
 }

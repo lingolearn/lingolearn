@@ -18,5 +18,6 @@ public interface CardService extends RemoteService {
 	public Card getCardByDescription(String desc);
 	public List<Card> getAllCardsByKanji(String kanji);
 	public List<Card> getAllCardsByLanguage(String lang);
+	public List<Card> getAllCards();
 	public Card storeCard(Card card);
 }

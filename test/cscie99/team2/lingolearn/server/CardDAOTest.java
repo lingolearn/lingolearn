@@ -149,7 +149,8 @@ public class CardDAOTest {
 			  c = cardAccessor.getCardByKanji("k1");
 			  result = c.getTranslation();
 		  } catch (CardNotFoundException e) {
-			  System.err.println("Card was not found");
+			  //System.err.println("Card was not found");
+			  assertTrue(false);
 		  }
 		  assertTrue("Retrieval card by Kanjii failed: expected card1, but obtained: " + result, result.equals("card1"));
 	  }
@@ -166,7 +167,8 @@ public class CardDAOTest {
 			  c = cardAccessor.getCardByHiragana("h3");
 			  result = c.getHiragana();
 		  } catch (CardNotFoundException e) {
-			  System.err.println("Card was not found");
+			  //System.err.println("Card was not found");
+			  assertTrue(false);
 		  }
 		  assertTrue("Retrieval card by Hiragana failed: expected h3, but obtained: " + result, result.equals("h3"));
 	  }
@@ -183,7 +185,8 @@ public class CardDAOTest {
 			  c = cardAccessor.getCardByKatakana("kt3");
 			  result = c.getKatakana();
 		  } catch (CardNotFoundException e) {
-			  System.err.println("Card was not found");
+			  //System.err.println("Card was not found");
+			  assertTrue(false);
 		  }
 		  assertTrue("Retrieval card by Katakana failed: expected kt3, but obtained: " + result, result.equals("kt3"));
 	  }
@@ -200,7 +203,8 @@ public class CardDAOTest {
 			  c = cardAccessor.getCardByTranslation("carte2");
 			  result = c.getTranslation();
 		  } catch (CardNotFoundException e) {
-			  System.err.println("Card was not found");
+			  //System.err.println("Card was not found");
+			  assertTrue(false);
 		  }
 		  assertTrue("Retrieval card by Translation failed: expected carte2, but obtained: " + result, result.equals("carte2"));
 	  }
@@ -217,7 +221,8 @@ public class CardDAOTest {
 			  c = cardAccessor.getCardByDescription("MultiMediaDeck");
 			  result = c.getDesc();
 		  } catch (CardNotFoundException e) {
-			  System.err.println("Card was not found");
+			  //System.err.println("Card was not found");
+			  assertTrue(false);
 		  }
 		  assertTrue("Retrieval card by Description failed: expected MultiMediaDeck, but obtained: " + result, result.equals("MultiMediaDeck"));
 	  }
@@ -264,7 +269,8 @@ public class CardDAOTest {
 				cardList = cardAccessor.getAllCardsByKanji("k1");
 			} catch (CardNotFoundException e) {
 				// There is no any Card stored yet with this kanji
-				System.err.println("Cards were not found");
+				//System.err.println("Cards were not found");
+				assertTrue(false);
 			}
 			// The list should contain 2 cards
 			assertTrue("Retrieval of the cards list with the same kanji failed: expected 2 Cards, but obtained: " + cardList.size(), cardList.size() == size);
@@ -288,6 +294,26 @@ public class CardDAOTest {
 			// The list should contain only 1 card
 			assertTrue("Retrieval of the cards list with the same native language failed: expected 1 Card, but obtained: " + cardList.size(), cardList.size() == size);
 	  }
+	  
+		@Test
+		/**
+		 * Test to retrieve all Users from datastore
+		 */
+		public void testGetAllCards() {
+			CardDAO cardAccessor = CardDAO.getInstance();
+			List<Card> cardList = null;
+			int size = 3;
+			
+			try {
+				cardList = cardAccessor.getAllCards();
+			} catch (CardNotFoundException e) {
+				// TODO Auto-generated catch block
+				System.err.println("Cards were not found");
+				assertTrue(false);
+			}
+				// The list should contain 3 Users
+				assertTrue("Retrieval of the all Cards list failed: expected " + size + " Card(s), but obtained: " + cardList.size(), cardList.size() == size);
+		}
 	    
 	  @Test
 	  /**
