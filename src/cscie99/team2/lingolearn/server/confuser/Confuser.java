@@ -1,5 +1,7 @@
 package cscie99.team2.lingolearn.server.confuser;
 
+import java.util.List;
+
 import cscie99.team2.lingolearn.shared.Card;
 
 /**
