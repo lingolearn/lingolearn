@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.InlineHTML;
 
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.Deck;
+import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.Session;
 
 public class CourseView extends Composite {
@@ -39,10 +40,17 @@ public class CourseView extends Composite {
   }
   
   public void setAssignmentList(ArrayList<Session> sessions) {
+	  String type;
 	  for (int i=0;i<sessions.size();i++) {
+		  if (sessions.get(i) instanceof Lesson) {
+			  type = "Lesson";
+		  } else {
+			  type = "Quiz";
+		  }
 		  InlineHTML text = new InlineHTML();
 		  text.setHTML("<a href='app.html?sessionId=" + sessions.get(i).getSessionId() + 
-				  "#session'>Deck #" + sessions.get(i).getDeck().getId() + "</a>");
+				  "#session'>" + type + " (Deck #" + 
+				  sessions.get(i).getDeck().getId() + ")</a>");
 		  assignments.add(text);
 	  }	  
   }

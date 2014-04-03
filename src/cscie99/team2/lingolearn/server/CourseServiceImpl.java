@@ -14,6 +14,7 @@ import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.Deck;
 import cscie99.team2.lingolearn.shared.Image;
 import cscie99.team2.lingolearn.shared.Lesson;
+import cscie99.team2.lingolearn.shared.Quiz;
 import cscie99.team2.lingolearn.shared.Session;
 import cscie99.team2.lingolearn.shared.User;
 import cscie99.team2.lingolearn.shared.error.DeckNotFoundException;
@@ -80,9 +81,13 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		Deck d = new Deck((long) 7, cards, "japanese", "english");
 		Lesson l = new Lesson();
 		l.setDeck(d);
+		Quiz q = new Quiz();
+		q.setDeck(d);
 		ArrayList<Session> s = new ArrayList<Session>();
 		s.add(l);
+		s.add(q);
 		l.setSessionId("session84");
+		q.setSessionId("session85");
 		return s;
 	}
 
@@ -104,7 +109,14 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		Lesson l = new Lesson();
 		l.setDeck(d);
 		l.setSessionId("session84");
-		return l;
+		Quiz q = new Quiz();
+		q.setDeck(d);
+		q.setSessionId("session85");
+		if (sessionId.equals("session84")) {
+			return l;
+		} else {
+			return q;
+		}
 	}
 
 }
