@@ -12,6 +12,7 @@ import cscie99.team2.lingolearn.client.event.ViewCardEvent;
 import cscie99.team2.lingolearn.client.event.ViewCardEventHandler;
 import cscie99.team2.lingolearn.client.view.CardView;
 import cscie99.team2.lingolearn.client.view.CourseView;
+import cscie99.team2.lingolearn.client.view.QuizView;
 import cscie99.team2.lingolearn.client.view.SessionView;
 import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Course;
@@ -40,6 +41,7 @@ public class SessionPresenter implements Presenter {
   private final SessionView display;
   private final CourseServiceAsync courseService;
   private final CardPresenter cardPresenter;
+  private final QuizPresenter quizPresenter;
   private Session session;
   private int currentCardNumber;
   
@@ -48,11 +50,9 @@ public class SessionPresenter implements Presenter {
 		  SessionView display) {
       this.courseService = courseService;
       this.cardPresenter = new CardPresenter(cardService, eventBus, new CardView());
+      this.quizPresenter = new QuizPresenter(cardService, eventBus, new QuizView());
 	  this.eventBus = eventBus;
       this.display = display;
-      
-      //Let the card presenter handle the card display
-      this.cardPresenter.go(this.display.getCardContainer());
   }
   
   public void bind() {
@@ -74,6 +74,12 @@ public class SessionPresenter implements Presenter {
 			  recordKnowledge("low");
 		  }
 	  }); 
+	  
+	  quizPresenter.getDisplay().getNextButton().addClickHandler(new ClickHandler() {
+		  public void onClick(ClickEvent event) {
+			  gotoNextCard();
+		  }
+	  });
 	  
   }
   
@@ -97,6 +103,13 @@ public class SessionPresenter implements Presenter {
 			  new AsyncCallback<Session>() {
 		  public void onSuccess(Session returnedSession) {
 			  session = returnedSession;
+
+		      if (session instanceof Lesson) {
+		    	  cardPresenter.go(display.getCardContainer());
+		      } else {
+		    	  quizPresenter.go(display.getCardContainer());
+		      }
+		      
 			  display.setSessionName("Session " + session.getSessionId());
 			  currentCardNumber = 0;
 			  gotoNextCard();
@@ -114,7 +127,11 @@ public class SessionPresenter implements Presenter {
   }
   
   private void gotoNextCard() {
-	  cardPresenter.setCardData(session.getDeck().getCardIds().get(currentCardNumber));
+	  if (session instanceof Lesson) {
+		  cardPresenter.setCardData(session.getDeck().getCardIds().get(currentCardNumber));
+	  } else {
+		  quizPresenter.setCardData(session.getDeck().getCardIds().get(currentCardNumber));
+	  }
 	  currentCardNumber++;
 	  if (currentCardNumber >= session.getDeck().getCardIds().size()) {
 		  currentCardNumber = 0;

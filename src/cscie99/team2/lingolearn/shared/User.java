@@ -63,6 +63,10 @@ public class User implements Serializable {
 		return outsideCourses.add(outsideCourse);
 	}
 
+	public boolean addLanguages (Language language) {
+		return languages.add(language);
+	}
+	
 	public String getGplusId() {
 		return gplusId;
 	}

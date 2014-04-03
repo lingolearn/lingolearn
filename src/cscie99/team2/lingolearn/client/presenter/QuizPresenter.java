@@ -25,6 +25,7 @@ public class QuizPresenter implements Presenter {
   private final CardServiceAsync cardService;
   private final HandlerManager eventBus;
   private final QuizView display;
+  private String currentCorrectAnswer;
   
   public QuizPresenter(CardServiceAsync cardService, HandlerManager eventBus, QuizView display) {
     this.cardService = cardService;
@@ -32,12 +33,24 @@ public class QuizPresenter implements Presenter {
     this.display = display;
   }
   
+  public QuizView getDisplay() {
+	  return this.display;
+  }
+  
   public void bind() {
     
 	display.getSubmitButton().addClickHandler(new ClickHandler() {   
       public void onClick(ClickEvent event) {
-    	display.flipCard();
-    	
+    	  //Check answer and emit event saying user has submitted
+    	  if (display.getSelectedAnswer().equals(currentCorrectAnswer)) {
+    		  display.showCorrect();
+    		  display.showNextButton();
+    		  display.hideSubmitButton();
+    	  } else {
+    		  display.showIncorrect();
+    		  display.showNextButton();
+    		  display.hideSubmitButton();
+    	  }
       }
     });
     
@@ -50,15 +63,32 @@ public class QuizPresenter implements Presenter {
   }
   
   public void setCardData(Long cardId) {
+	  
 	  cardService.getCardById(cardId, new AsyncCallback<Card>() {
 	      public void onSuccess(Card card) {
-	          //display.setData(card);
+	          populateQuizInfo(card);
 	      }
 	      
 	      public void onFailure(Throwable caught) {
 	        Window.alert("Error fetching card.");
 	      }
 	    });
+  }
+  
+  private void populateQuizInfo(Card card) {
+	  this.currentCorrectAnswer = card.getKanji();
+	  if (card.getHiragana() != null) {
+		  this.currentCorrectAnswer += " " + card.getHiragana();
+	  }
+	  if (card.getKatakana() != null) {
+		  this.currentCorrectAnswer += " " + card.getKatakana();
+	  }
+	  display.clearQuiz();
+	  display.addToStem(card.getTranslation());
+	  display.addAnswer("bs answer");
+	  display.addAnswer("not the right one");
+	  display.addAnswer(this.currentCorrectAnswer);
+	  display.addAnswer("also wrong");
   }
 
 }
