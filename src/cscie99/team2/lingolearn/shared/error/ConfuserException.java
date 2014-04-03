@@ -12,4 +12,11 @@ public class ConfuserException extends Exception {
 	public ConfuserException(String message) {
 		super(message);
 	}
+	
+	/**
+	 * Constructor.
+	 */
+	public ConfuserException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }
