@@ -17,6 +17,8 @@ public class ConfuserToolsTest {
 	public void testOnBlackList() throws ConfuserException, IOException {
 		// Check the phrase "Stop being stupid" against the blacklist
 		assertEquals(true, ConfuserTools.onBlackList("ふざけるな", "jp"));
+		// Check to phrase "Hello" against the blacklist
+		assertEquals(false, ConfuserTools.onBlackList("こんにちは", "jp"));
 	}
 	
 	/**
