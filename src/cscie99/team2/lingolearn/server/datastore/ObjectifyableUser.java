@@ -27,7 +27,7 @@ public class ObjectifyableUser implements Serializable {
 	@Index String firstName;
 	@Index String lastName;
 	Gender gender;
-	@Serialize Language nativeLanguage;
+	@Index ObjectifyableLanguage nativeLanguage;
 	@Serialize Set<Language> languages;
 	@Serialize Set<Textbook> textbooks;
 	@Serialize Set<OutsideCourse> outsideCourses;
@@ -45,7 +45,7 @@ public class ObjectifyableUser implements Serializable {
 		this.firstName = user.getFirstName();
 		this.lastName = user.getLastName();
 		this.gender = user.getGender();
-		this.nativeLanguage = user.getNativeLanguage();
+		this.nativeLanguage = new ObjectifyableLanguage(user.getNativeLanguage());
 		this.languages = user.getLanguages();
 		this.textbooks = user.getTextbooks();
 		this.outsideCourses = user.getOutsideCourses();
@@ -54,7 +54,7 @@ public class ObjectifyableUser implements Serializable {
 
 	/**
 	 * This method reconstructs real object from Objectifyable Proxy
-	 * @return Card object
+	 * @return User object
 	 */
 	public User getUser() {
 		User u = new User ();
@@ -63,7 +63,7 @@ public class ObjectifyableUser implements Serializable {
 		u.setFirstName(this.firstName);
 		u.setLastName(this.lastName);
 		u.setGender(this.gender);
-		u.setNativeLanguage(this.nativeLanguage);
+		u.setNativeLanguage(this.nativeLanguage.getLanguage());
 		u.setLanguages(this.languages);
 		u.setTextbooks(this.textbooks);
 		u.setOutsideCourses(this.outsideCourses);

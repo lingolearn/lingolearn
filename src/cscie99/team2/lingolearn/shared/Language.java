@@ -12,10 +12,18 @@ import java.io.Serializable;
  * It provides ability to lookup and assign the standard letter code 
  */
 public class Language implements Serializable {
+	private static final long serialVersionUID = -770788580468589881L;
 	
 	private String langId;	// language name in English
 	private String langName;
 
+	public Language () {};
+	
+	public Language (String id, String lName) {
+		this.langId = id;
+		this.langName = lName;
+	};
+	
 	public String getLangId() {
 		return langId;
 	}
