@@ -2,6 +2,10 @@ package cscie99.team2.lingolearn.shared;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import cscie99.team2.lingolearn.client.QuizResponseService;
+import cscie99.team2.lingolearn.server.QuizReponseServiceImpl;
 
 /**
  * 
@@ -23,9 +27,18 @@ public class Metrics implements Serializable{
 				 	percentNoClue,			//Percent of cards the user responded "I had no clue"
 				 	percentSortaKnewIt,		//Percent of cards the user responded "I sorta knew it"
 				 	percentDefinitelyKnewIt;//Percent of cards the user responded "I definitely knew it"
+	private QuizResponseService qrs;		//The service for retrieving QuizResponse data.
+	private List<QuizResponse> qResps;		//The list of quiz responses for this user.
 					
 	public Metrics (String gplusId) {
 		this.setGplusId(gplusId);
+		qrs = new QuizReponseServiceImpl();
+		
+		//temporary
+		QuizResponse qr = new QuizResponse(null, null, gplusId, "test", true, false, 5.5f);
+		qrs.storeQuizResponse(qr);
+		
+		qResps = qrs.getAllQuizResponsesByUser(gplusId);
 		calculateRecallRate();
 		calculateAvgQuizReactionTime();
 		calculateAvgFlashCardReactionTime();
@@ -48,19 +61,32 @@ public class Metrics implements Serializable{
 	}
 
 	public void calculateRecallRate() {
-		//temporarily prepopulates data. This would normally be pulled from all QuizReponse objects pertaining to the user's id.
-		int correctQuizAnswers = 500;
-		int questionsSeen = 1000;
+		int correctQuizAnswers = 0;
+		int questionsSeen = 0;
+		for (QuizResponse qr: qResps) {
+			questionsSeen++;
+			if (qr.isCorrect()) {
+				correctQuizAnswers++;
+			}			
+		}
 		
 		this.setRecallRate((correctQuizAnswers/questionsSeen));
 		
 	}
+	
 	public void calculateAvgQuizReactionTime() {
-		//temporarily prepopulates data. This would normally be pulled from all UserReponse objects pertaining to the user's id.
-		float totalQuizTimeToAnswer = 8594.5f;
-		int questionsSeen = 1000;
+		
+		float totalQuizTimeToAnswer = 0.0f;
+		int questionsSeen = 0;
+		if (!qResps.isEmpty()) {
+			for (QuizResponse qr: qResps) {
+				questionsSeen++;
+				totalQuizTimeToAnswer = totalQuizTimeToAnswer + qr.getTimeToAnswer();
+			}
+		}
 		
 		this.setAvgQuizReactionTime((totalQuizTimeToAnswer/questionsSeen));
+		
 	}
 	
 	public void calculateAvgFlashCardReactionTime() {
@@ -72,9 +98,14 @@ public class Metrics implements Serializable{
 	}
 	
 	public void calculateIndecisionRate() {
-		//temporarily prepopulates data. This would normally be pulled from all UserReponse objects pertaining to the user's id.
-		int changedAnswers = 333;
-		int questionsSeen = 1000;
+		int changedAnswers = 0;
+		int questionsSeen = 0;
+		for (QuizResponse qr: qResps) {
+			questionsSeen++;
+			if (qr.isChanged()) {
+				changedAnswers++;
+			}			
+		}
 		
 		this.setIndecisionRate((changedAnswers/questionsSeen));
 		
