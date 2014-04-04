@@ -36,7 +36,7 @@ public class Confuser {
    * Get a list of kanji phrases that have the hiragana extended off the
    * kanji where appropriate.
    */
-  public List<String> getKanjiBoundries(Card) {
+  public List<String> getKanjiBoundries(Card card) {
     return null;
   }
   
