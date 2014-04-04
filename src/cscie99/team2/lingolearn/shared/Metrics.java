@@ -34,19 +34,18 @@ public class Metrics implements Serializable{
 		this.setGplusId(gplusId);
 		qrs = new QuizReponseServiceImpl();
 		
-		//temporary
-		QuizResponse qr = new QuizResponse(null, null, gplusId, "test", true, false, 5.5f);
-		qrs.storeQuizResponse(qr);
-		
 		qResps = qrs.getAllQuizResponsesByUser(gplusId);
-		calculateRecallRate();
-		calculateAvgQuizReactionTime();
-		calculateAvgFlashCardReactionTime();
-		calculateIndecisionRate();
-		calculateDropRate();
-		calculateAverageSessionTime();
-		calculateRepetitionsPerWeek();
-		calculateUserAssessments();
+
+		if (qResps != null) {
+			calculateRecallRate();
+			calculateAvgQuizReactionTime();
+			calculateAvgFlashCardReactionTime();
+			calculateIndecisionRate();
+			calculateDropRate();
+			calculateAverageSessionTime();
+			calculateRepetitionsPerWeek();
+			calculateUserAssessments();
+		}
 	}
 	
 	public void calculateUserAssessments() {

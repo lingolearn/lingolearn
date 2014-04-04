@@ -35,14 +35,24 @@ public class QuizReponseServiceImpl implements QuizResponseService {
 	 * Returns all QuizResponse objects.
 	 */
 	public List<QuizResponse> getAllQuizResponses() {
-		return qRespAccessor.getAllQuizResponses();
+		if (qRespAccessor.getAllQuizResponses() != null) {
+			return qRespAccessor.getAllQuizResponses();
+		}
+		else {
+			return null;
+		}
 	}
 
 	/**
 	 * Returns all QuizResponse objects for a particular user.
 	 */
 	public List<QuizResponse> getAllQuizResponsesByUser(String gplusId) {
-		return qRespAccessor.getAllQuizResponsesByUser(gplusId);
+		if (qRespAccessor.getAllQuizResponsesByUser(gplusId) != null) {
+			return qRespAccessor.getAllQuizResponsesByUser(gplusId);
+		}
+		else {
+			return null;
+		}
 	}
 
 	/**
