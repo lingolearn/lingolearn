@@ -15,7 +15,7 @@ public class Confuser {
    * null will be returned, otherwise, confusers up to the provided count 
    * will be provided.
    */
-  public List<String> getKanjiPhrases(Card card, int count) {
+  public List<String> getKanjiSubsitution(Card card, int count) {
     // Get the confusers for Japanese
     
     // Break the card's kanji phrase appart so we have mulitple options
@@ -33,10 +33,18 @@ public class Confuser {
   }
   
   /**
+   * Get a list of kanji phrases that have the hiragana extended off the
+   * kanji where appropriate.
+   */
+  public List<String> getKanjiBoundries(Card) {
+    return null;
+  }
+  
+  /**
    * Get a list of hiragana phrase confusers that are similar to the one
    * that has been provided.
    */
-  public List<String> getHiraganaPhrases(String phrase, int count) {
+  public List<String> getHiraganaPhrases(String phrase) {
     return null;
   }
   
@@ -44,7 +52,7 @@ public class Confuser {
    * Get a list of katakana phrase confusers that are similar to the one
    * that has been provided.
    */
-  public List<String> getKatakanaPhrases(String phrase, int count) {
+  public List<String> getKatakanaPhrases(String phrase) {
     return null;
   }
 }
