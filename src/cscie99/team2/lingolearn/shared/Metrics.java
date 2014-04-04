@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import cscie99.team2.lingolearn.client.FlashCardResponseService;
 import cscie99.team2.lingolearn.client.QuizResponseService;
+import cscie99.team2.lingolearn.server.FlashCardResponseServiceImpl;
 import cscie99.team2.lingolearn.server.QuizReponseServiceImpl;
 
 /**
@@ -29,30 +31,50 @@ public class Metrics implements Serializable{
 				 	percentDefinitelyKnewIt;//Percent of cards the user responded "I definitely knew it"
 	private QuizResponseService qrs;		//The service for retrieving QuizResponse data.
 	private List<QuizResponse> qResps;		//The list of quiz responses for this user.
+	private FlashCardResponseService fcrs;	//The service for retrieving FlashCardResponse data
+	private List<FlashCardResponse> fcResps;//The list of flashcard responses for this user.
 					
 	public Metrics (String gplusId) {
 		this.setGplusId(gplusId);
 		qrs = new QuizReponseServiceImpl();
-		
+		fcrs = new FlashCardResponseServiceImpl();
+				
 		qResps = qrs.getAllQuizResponsesByUser(gplusId);
+		fcResps = fcrs.getAllFlashCardResponsesByUser(gplusId);
 
 		if (qResps != null) {
 			calculateRecallRate();
 			calculateAvgQuizReactionTime();
-			calculateAvgFlashCardReactionTime();
 			calculateIndecisionRate();
-			calculateDropRate();
 			calculateAverageSessionTime();
-			calculateRepetitionsPerWeek();
-			calculateUserAssessments();
+			calculateRepetitionsPerWeek();			
 		}
+		
+		if (fcResps != null) {
+			calculateUserAssessments();
+			calculateAvgFlashCardReactionTime();
+			calculateDropRate();
+		}
+		
+		
 	}
 	
-	public void calculateUserAssessments() {
-		//temporarily prepopulates data. This would normally be pulled from all FlashCardResponse objects pertaining to the user's id.
-		int noClues = 200;
-		int sortaKnewIt = 400;
-		int definitelyKnewIt = 400;
+	public void calculateUserAssessments() {		
+		int noClues = 0;
+		int sortaKnewIt = 0;
+		int definitelyKnewIt = 0;
+		
+		for (FlashCardResponse fcr: fcResps) {
+			if (fcr.getAssessment() == Assessment.NOCLUE) {
+				noClues++;
+			}
+			else if (fcr.getAssessment() == Assessment.SORTAKNEWIT) {
+				sortaKnewIt++;
+			}
+			else if (fcr.getAssessment() == Assessment.DEFINITELYKNEWIT) {
+				definitelyKnewIt++;
+			}
+		}
 		
 		this.setPercentNoClue(noClues/(noClues+sortaKnewIt+definitelyKnewIt));
 		this.setPercentSortaKnewIt(sortaKnewIt/(noClues+sortaKnewIt+definitelyKnewIt));
@@ -89,9 +111,12 @@ public class Metrics implements Serializable{
 	}
 	
 	public void calculateAvgFlashCardReactionTime() {
-		//temporarily prepopulates data. This would normally be pulled from all UserReponse objects pertaining to the user's id.
-		float totalFlashCardTimeToAnswer = 8594.5f;
-		int cardsSeen = 1000;
+		float totalFlashCardTimeToAnswer = 0.0f;
+		int cardsSeen = 0;
+		for (FlashCardResponse fcr: fcResps) {
+			cardsSeen++;
+			totalFlashCardTimeToAnswer = totalFlashCardTimeToAnswer + fcr.getTimeToAnswer();
+		}
 		
 		this.setAvgFlashCardReactionTime((totalFlashCardTimeToAnswer/cardsSeen));
 	}
@@ -110,9 +135,14 @@ public class Metrics implements Serializable{
 		
 	}
 	public void calculateDropRate() {
-		//temporarily prepopulates data. This would normally be pulled from all UserReponse objects pertaining to the user's id.
-		int droppedCards = 200;
-		int cardsSeen = 1000;
+		int droppedCards = 0;
+		int cardsSeen = 0;
+		for (FlashCardResponse fcr: fcResps) {
+			cardsSeen++;
+			if (fcr.isDropped()) {
+				droppedCards++;
+			}			
+		}
 		
 		this.setDropRate((droppedCards/cardsSeen));
 		
