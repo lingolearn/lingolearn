@@ -27,8 +27,10 @@ public class QuizReponseServiceImpl implements QuizResponseService {
 	 * Deletes a QuizResponse by session id.
 	 */
 	public void deleteQuizResponseById(Long sessionId) {
-		qRespAccessor.deleteQuizResponseById(sessionId);
-
+		if (qRespAccessor.getQuizResponseById(sessionId) != null) {
+			qRespAccessor.deleteQuizResponseById(sessionId);
+		}
+		
 	}
 
 	/**
@@ -59,7 +61,12 @@ public class QuizReponseServiceImpl implements QuizResponseService {
 	 * Returns all QuizResponse objects for a particular session.
 	 */
 	public QuizResponse getQuizResponseById(Long sessionId) {
-		return null;
+		if (qRespAccessor.getQuizResponseById(sessionId) != null) {
+			return qRespAccessor.getQuizResponseById(sessionId);
+		}
+		else {
+			return null;
+		}
 	}
 
 	/**
