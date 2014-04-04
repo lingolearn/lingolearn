@@ -23,6 +23,7 @@ public class OfyService {
 		factory().register(ObjectifyableUser.class);
 		factory().register(ObjectifyableDeck.class);
 		factory().register(ObjectifyableQuizResponse.class);
+		factory().register(ObjectifyableFlashCardResponse.class);
 		// factory().register(OtherClass.class);
 	}
 

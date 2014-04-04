@@ -25,8 +25,8 @@ public class ObjectifyableQuizResponse implements Serializable {
 	private static final long serialVersionUID = -8496591932881375832L;
 
 @Id private Long 	sessionId;				// Session id
+	private Long cardId;					// Id of the card, shown to the user
 	private String	gplusId,				// The user's google ID	
-					cardId,					// Id of the card, shown to the user
 					confuserType;			// The type of confuser that was used
 	@Unindex	private boolean isCorrect;	// Holds status if the user's provided answer was correct
 	@Unindex	private boolean	isChanged;	// Holds status if the user was not sure and changed answer one or more times 

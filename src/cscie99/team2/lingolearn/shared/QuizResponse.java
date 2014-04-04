@@ -15,9 +15,9 @@ public class QuizResponse implements Serializable {
 
 	private static final long serialVersionUID = 3269082972556822708L;
 
-	private Long 	sessionId;		// Session id
+	private Long 	sessionId,		// Session id
+					cardId;			// Id of the card, shown to the user
 	private String	gplusId,		// The user's google ID	
-					cardId,			// Id of the card, shown to the user
 					confuserType;	// The type of confuser that was used
 	private boolean isCorrect,		// Holds status if the user's provided answer was correct
 					isChanged;		// Holds status if the user was not sure and changed answer one or more times 
@@ -25,7 +25,7 @@ public class QuizResponse implements Serializable {
 	
 	public QuizResponse () {};
 	
-	public QuizResponse(Long sessionId, String gplusId, String cardId,
+	public QuizResponse(Long sessionId, Long cardId, String gplusId, 
 			String confuserType, boolean isCorrect, boolean isChanged,
 			float timeToAnswer) {
 		this.sessionId = sessionId;
@@ -49,10 +49,10 @@ public class QuizResponse implements Serializable {
 	public void setGplusId(String gplusId) {
 		this.gplusId = gplusId;
 	}
-	public String getCardId() {
+	public Long getCardId() {
 		return cardId;
 	}
-	public void setCardId(String cardId) {
+	public void setCardId(Long cardId) {
 		this.cardId = cardId;
 	}
 	public String getConfuserType() {

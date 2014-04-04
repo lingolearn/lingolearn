@@ -49,11 +49,11 @@ public class QuizResponseDAOTest {
 		helper.setUp();
 
 		// Create and store 3 test QuizResponse objects
-		QuizResponse qr1 = new QuizResponse(111L, "gplusId", "101",
+		QuizResponse qr1 = new QuizResponse(111L, 101L, "gplusId",
 				"difficultConfuser", false, false, 2.5f);
-		QuizResponse qr2 = new QuizResponse(112L, "gplusId", "102",
+		QuizResponse qr2 = new QuizResponse(112L, 102L, "gplusId",
 				"simpleConfuser", true, false, 1.5f);
-		QuizResponse qr3 = new QuizResponse(113L, "gplusId2", "103",
+		QuizResponse qr3 = new QuizResponse(113L, 103L, "gplusId2",
 				"difficultConfuser", true, false, 4.5f);
 		
 		// Store them in the local In-memory datastore
