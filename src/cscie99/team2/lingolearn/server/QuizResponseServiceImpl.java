@@ -3,6 +3,8 @@ package cscie99.team2.lingolearn.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 import cscie99.team2.lingolearn.client.QuizResponseService;
 import cscie99.team2.lingolearn.server.datastore.QuizResponseDAO;
 import cscie99.team2.lingolearn.shared.QuizResponse;
@@ -12,14 +14,14 @@ import cscie99.team2.lingolearn.shared.QuizResponse;
  * @author JNichols
  *
  */
-public class QuizReponseServiceImpl implements QuizResponseService {
+public class QuizResponseServiceImpl extends RemoteServiceServlet implements QuizResponseService {
 	
 	QuizResponseDAO qRespAccessor;
 	
 	/**
 	 * The constructor assigns the DAO object.
 	 */
-	public QuizReponseServiceImpl() {
+	public QuizResponseServiceImpl() {
 		qRespAccessor = QuizResponseDAO.getInstance();
 	}
 

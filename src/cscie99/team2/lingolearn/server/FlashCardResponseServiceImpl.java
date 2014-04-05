@@ -2,12 +2,14 @@ package cscie99.team2.lingolearn.server;
 
 import java.util.List;
 
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 import cscie99.team2.lingolearn.client.FlashCardResponseService;
 import cscie99.team2.lingolearn.server.datastore.FlashCardResponseDAO;
 import cscie99.team2.lingolearn.server.datastore.QuizResponseDAO;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
 
-public class FlashCardResponseServiceImpl implements FlashCardResponseService {
+public class FlashCardResponseServiceImpl extends RemoteServiceServlet implements FlashCardResponseService {
 	
 	FlashCardResponseDAO fcRespAccessor;
 	

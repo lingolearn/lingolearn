@@ -7,7 +7,7 @@ import java.util.List;
 import cscie99.team2.lingolearn.client.FlashCardResponseService;
 import cscie99.team2.lingolearn.client.QuizResponseService;
 import cscie99.team2.lingolearn.server.FlashCardResponseServiceImpl;
-import cscie99.team2.lingolearn.server.QuizReponseServiceImpl;
+import cscie99.team2.lingolearn.server.QuizResponseServiceImpl;
 
 /**
  * 
@@ -36,7 +36,7 @@ public class Metrics implements Serializable{
 					
 	public Metrics (String gplusId) {
 		this.setGplusId(gplusId);
-		qrs = new QuizReponseServiceImpl();
+		qrs = new QuizResponseServiceImpl();
 		fcrs = new FlashCardResponseServiceImpl();
 				
 		qResps = qrs.getAllQuizResponsesByUser(gplusId);

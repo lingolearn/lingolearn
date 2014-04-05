@@ -29,17 +29,24 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
   private final CardServiceAsync cardService; 
   private final CourseServiceAsync courseService;
   private final AnalyticsServiceAsync analyticsService;
+  private final QuizResponseServiceAsync quizResponseService;
+  private final FlashCardResponseServiceAsync flashCardResponseService;
   private HasWidgets container;
   private boolean userAuthenticated;
   
   public AppController(UserServiceAsync userService, CourseServiceAsync courseService,
 		  CardServiceAsync cardService, AnalyticsServiceAsync analyticsService, 
+		  QuizResponseServiceAsync quizResponseService, 
+		  FlashCardResponseServiceAsync flashCardResponseService, 
 		  HandlerManager eventBus) {
     this.eventBus = eventBus;
     this.userService = userService;
     this.cardService = cardService;
     this.courseService = courseService;
     this.analyticsService = analyticsService;
+    this.quizResponseService = quizResponseService;
+    this.flashCardResponseService = flashCardResponseService;
+    
     this.userAuthenticated = false;
     bind();
   }
