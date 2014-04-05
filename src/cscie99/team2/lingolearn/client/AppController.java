@@ -8,6 +8,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+import cscie99.team2.lingolearn.client.event.AnalyticsEvent;
+import cscie99.team2.lingolearn.client.event.AnalyticsEventHandler;
 import cscie99.team2.lingolearn.client.event.ViewCardEvent;
 import cscie99.team2.lingolearn.client.event.ViewCardEventHandler;
 import cscie99.team2.lingolearn.client.presenter.CardPresenter;
@@ -22,6 +24,8 @@ import cscie99.team2.lingolearn.client.view.CourseView;
 import cscie99.team2.lingolearn.client.view.HomeView;
 import cscie99.team2.lingolearn.client.view.SessionView;
 import cscie99.team2.lingolearn.shared.Card;
+import cscie99.team2.lingolearn.shared.FlashCardResponse;
+import cscie99.team2.lingolearn.shared.QuizResponse;
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
   private final HandlerManager eventBus;
@@ -61,6 +65,48 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
             doViewCard();
           }
         });  
+    
+    eventBus.addHandler(AnalyticsEvent.TYPE,
+        new AnalyticsEventHandler() {
+
+		@Override
+		public void onQuizResponse(AnalyticsEvent event,
+				QuizResponse quizResponse) {
+			quizResponseService.storeQuizResponse(quizResponse, new AsyncCallback<QuizResponse>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					System.out.println("failed to store quiz response");
+				}
+
+				@Override
+				public void onSuccess(QuizResponse result) {
+					System.out.println("successfully stored quiz response");
+				}
+				
+			});
+			
+		}
+
+		@Override
+		public void onFlashCardResponse(AnalyticsEvent event,
+				FlashCardResponse flashCardResponse) {
+			flashCardResponseService.storeFlashCardResponse(flashCardResponse, new AsyncCallback<FlashCardResponse>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					System.out.println("failed to store flash card response");
+				}
+
+				@Override
+				public void onSuccess(FlashCardResponse result) {
+					System.out.println("successfully stored flash response");
+				}
+				
+			});
+			
+		}
+    });
 
   }
   
