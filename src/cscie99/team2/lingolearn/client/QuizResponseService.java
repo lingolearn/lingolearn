@@ -7,7 +7,7 @@ import cscie99.team2.lingolearn.shared.QuizResponse;
 
 import java.util.List;
 
-@RemoteServiceRelativePath("cardService")
+@RemoteServiceRelativePath("quizResponseService")
 public interface QuizResponseService extends RemoteService {
 	public void deleteQuizResponseById(Long sessionId);
 	public List<QuizResponse> getAllQuizResponses();
