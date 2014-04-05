@@ -94,14 +94,14 @@ public class CardDAOTest {
 		
 		// Store them in the local In-memory datastore
 		CardDAO cardAccessor = CardDAO.getInstance();
-		try {
+	//	try {
 			cardAccessor.storeCard(tc1);
 			cardAccessor.storeCard(tc2);
 			cardAccessor.storeCard(tc3);
-		} catch (CardNotFoundException myCardNotFoundException) {
+//		} catch (CardNotFoundException myCardNotFoundException) {
 			// Duplicate card
-			System.err.println(myCardNotFoundException.getMsg() + " for " + myCardNotFoundException.getSearchParam());
-		}
+		//	System.err.println(myCardNotFoundException.getMsg() + " for " + myCardNotFoundException.getSearchParam());
+	//	}
 	  }
 	  
 	  @After

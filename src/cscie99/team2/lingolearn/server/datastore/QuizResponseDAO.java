@@ -25,10 +25,13 @@ public class QuizResponseDAO {
 	/**
 	 * This method stores the QuizResponse in the datastore
 	 * @param qResp QuizResponse object to be stored in datastore
-	 * @return QuizResponse for diagnostic
+	 * @return stored QuizResponse for diagnostic
 	 */
 	public QuizResponse storeQuizResponse(QuizResponse qResp) {
-		ofy().save().entity(new ObjectifyableQuizResponse(qResp)).now();
+		ObjectifyableQuizResponse oQResp = new ObjectifyableQuizResponse(qResp);
+		ofy().save().entity(oQResp).now();
+		ObjectifyableQuizResponse fetched = ofy().load().entity(oQResp).now();
+		qResp = fetched.getQuizResponse();
 		return qResp;	
 	}
 	

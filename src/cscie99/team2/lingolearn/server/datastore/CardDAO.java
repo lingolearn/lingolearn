@@ -29,15 +29,18 @@ public class CardDAO {
 	/**
 	 * This method stores the Card in the datastore
 	 * @param card Card to be stored in the datastore
-	 * @return card for diagnostic purpose
+	 * @return stored Card for diagnostic purpose
 	 * @throws CardNotFoundException if the card is duplicate
 	 */
 	public Card storeCard( Card card ) throws CardNotFoundException {
-		if (isCardUnique(card)) {
-			ofy().save().entity(new ObjectifyableCard(card)).now();
+		Card duplicateCard = findDuplicateCard(card);
+		if (duplicateCard == null) {
+			ObjectifyableCard oCard = new ObjectifyableCard(card); 
+			ofy().save().entity(oCard).now();
+			ObjectifyableCard fetched = ofy().load().entity(oCard).now();
+			card = fetched.getCard();
 		} else {
-			// TODO This should really be named something else
-			throw new CardNotFoundException("Duplicate card. It is already in the datastore", "kanji", card.getKanji());
+			card = duplicateCard;
 		}
 		return card;
 	}
@@ -49,16 +52,16 @@ public class CardDAO {
 	 * kanji, hiragana, katakana, translation, description and native language are the same.
 	 *    
 	 * @param card Card
-	 * @return true if this card is not in the datastore 
+	 * @return null if this card is not in the datastore or the Card is the card is already stored 
 	 */
-	private boolean isCardUnique(Card card) { 
+	private Card findDuplicateCard(Card card) { 
 		// First obtain a list of all Cards with the same kanji
 		List<Card> cardList;
 		try {
 			cardList = getAllCardsByKanji(card.getKanji());
 		} catch (CardNotFoundException e) {
 			// There is no any Card stored yet with this kanji, no further checks are needed, proceed with storing
-			return true;
+			return null;
 		}
 		Iterator<Card> it = cardList.iterator();
 		while (it.hasNext()) {
@@ -67,11 +70,11 @@ public class CardDAO {
 					.equalsIgnoreCase			
 					((card.getHiragana()+card.getKatakana())+card.getTranslation()+card.getDesc()+card.getNativeLanguage())) 
 			{
-				return false;
+				return currCard;
 			}
 		}
 		// Will be considered Unique card, proceed with storing
-		return true;	
+		return null;	
 	}
 	
 	/**
