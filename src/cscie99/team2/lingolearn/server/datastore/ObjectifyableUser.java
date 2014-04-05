@@ -33,7 +33,11 @@ public class ObjectifyableUser implements Serializable {
 	@Index Set<ObjectifyableOutsideCourse> outsideCourses;
 	Date userRegistrationTime;			// not indexed, no search by this field
 	
-	public ObjectifyableUser(){}
+	public ObjectifyableUser(){
+		languages = new HashSet<ObjectifyableLanguage>();
+		textbooks = new HashSet<ObjectifyableTextbook>();
+		outsideCourses = new HashSet<ObjectifyableOutsideCourse>();
+	}
 	
 	/**
 	 * This method creates Objectifyable Proxy from real object

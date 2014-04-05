@@ -27,7 +27,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		//Temporarily prepopulate
 		Language l = new Language();
 		User u = new User("googleID", "gmailaddress", "John",
-							"Smith", Gender.MALE, l);
+							"Smith", Gender.Male, l);
 		u.addOutsideCourse(new OutsideCourse("123", "Fun Course", "Fun School"));
 		u.addTextbook(new Textbook("ABC", "Sweet Book", 2005));
 		String languageString = "";

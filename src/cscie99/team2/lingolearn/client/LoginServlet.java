@@ -15,8 +15,18 @@ public class LoginServlet extends HttpServlet {
 	@Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
-        resp.setContentType("text/plain");
-        resp.getWriter().println("Hello, world");
+        
+		HttpSession session = req.getSession();
+    	session.setAttribute(
+    			UserServiceImpl.GMAIL_SESSION_KEY, null );
+    	session.setAttribute( UserServiceImpl.GID_SESSION_KEY,
+    							null );
+    	
+    	resp.setContentType("text/html");
+    	// Get the printwriter object from response to write the required json object to the output stream      
+    	PrintWriter out = resp.getWriter();
+    	out.write("<p><b>You are now logged out.</b>  You may still be logged into gmail.</p>");
+    	out.write("return to <a href='/login.html'>login page</a>");
     }
 	
     @Override

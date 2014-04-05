@@ -30,13 +30,16 @@ public class User implements Serializable {
 	Date userRegistrationTime;
 	
 	public User(){
-		this.languages = new HashSet<Language>();
-		this.textbooks = new HashSet<Textbook>();
-		this.outsideCourses = new HashSet<OutsideCourse>();
+		this( null, null, null, null, null, null );
 	}
 	
 	public User( String gplusId, String gmail, String fname,
 							String lname, Gender gender, Language nativ ){
+		
+		this.languages = new HashSet<Language>();
+		this.textbooks = new HashSet<Textbook>();
+		this.outsideCourses = new HashSet<OutsideCourse>();
+		
 		this.gplusId = gplusId;
 		this.gmail = gmail;
 		this.firstName = fname;

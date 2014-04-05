@@ -24,6 +24,10 @@ public class Language implements Serializable {
 		this.langName = lName;
 	};
 	
+	public Language( String lName ){
+		this( null, lName );
+	}
+	
 	public String getLangId() {
 		return langId;
 	}

@@ -26,6 +26,7 @@ import cscie99.team2.lingolearn.client.view.SessionView;
 import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
 import cscie99.team2.lingolearn.shared.QuizResponse;
+import cscie99.team2.lingolearn.shared.GoogleIdPackage;
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
   private final HandlerManager eventBus;
@@ -39,10 +40,11 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
   private boolean userAuthenticated;
   
   public AppController(UserServiceAsync userService, CourseServiceAsync courseService,
-		  CardServiceAsync cardService, AnalyticsServiceAsync analyticsService, 
+		  CardServiceAsync cardService, AnalyticsServiceAsync analyticsService,
 		  QuizResponseServiceAsync quizResponseService, 
 		  FlashCardResponseServiceAsync flashCardResponseService, 
 		  HandlerManager eventBus) {
+	  
     this.eventBus = eventBus;
     this.userService = userService;
     this.cardService = cardService;
@@ -65,81 +67,11 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
             doViewCard();
           }
         });  
-    
-    eventBus.addHandler(AnalyticsEvent.TYPE,
-        new AnalyticsEventHandler() {
-
-		@Override
-		public void onQuizResponse(AnalyticsEvent event,
-				QuizResponse quizResponse) {
-			quizResponseService.storeQuizResponse(quizResponse, new AsyncCallback<QuizResponse>() {
-
-				@Override
-				public void onFailure(Throwable caught) {
-					System.out.println("failed to store quiz response");
-				}
-
-				@Override
-				public void onSuccess(QuizResponse result) {
-					System.out.println("successfully stored quiz response");
-				}
-				
-			});
-			
-		}
-
-		@Override
-		public void onFlashCardResponse(AnalyticsEvent event,
-				FlashCardResponse flashCardResponse) {
-			flashCardResponseService.storeFlashCardResponse(flashCardResponse, new AsyncCallback<FlashCardResponse>() {
-
-				@Override
-				public void onFailure(Throwable caught) {
-					System.out.println("failed to store flash card response");
-				}
-
-				@Override
-				public void onSuccess(FlashCardResponse result) {
-					System.out.println("successfully stored flash response");
-				}
-				
-			});
-			
-		}
-    });
 
   }
-  
-  private void doViewCard() {
-    History.newItem("viewCard");
-  }
-  
-  @Override
-  public void go(final HasWidgets container) {
-    this.container = container;
-    
-    authenticateUser();
-  }
 
-  /*
-   * Redirect the User to their appropriate view.
-   * @param isAuthenticated - this indicates if the user is logged in
-   * or not.  If the user is not logged in, they will be
-   * redirected to the login page.
-   */
-  private void openView( boolean isAuthenticated ){
-
-	  if( isAuthenticated ){
-		  if ("".equals(History.getToken())) {
-		        History.newItem("home");
-		  }
-		  else {
-		        History.fireCurrentHistoryState();
-		  }
-	  }
-	  else {
-		  Window.Location.assign("/login.html");
-	  }
+  public static void redirectUser(String pageUrl ){
+	  Window.Location.assign(pageUrl);
   }
   
   public void onValueChange(ValueChangeEvent<String> event) {
@@ -178,6 +110,38 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     }
   } 
   
+  private void doViewCard() {
+	    History.newItem("viewCard");
+	  }
+	  
+	  @Override
+	  public void go(final HasWidgets container) {
+	    this.container = container;
+	    
+	    authenticateUser();
+	  }
+  
+  /*
+   * Redirect the User to their appropriate view.
+   * @param isAuthenticated - this indicates if the user is logged in
+   * or not.  If the user is not logged in, they will be
+   * redirected to the login page.
+   */
+  private void openView( boolean isAuthenticated ){
+
+	  if( isAuthenticated ){
+		  if ("".equals(History.getToken())) {
+		        History.newItem("home");
+		  }
+		  else {
+		        History.fireCurrentHistoryState();
+		  }
+	  }
+	  else {
+		  AppController.redirectUser("/login.html");
+	  }
+  }
+  
   /*
    * Check to see that a user is logged into this session.
    * This is performed by calling the user service.
@@ -188,24 +152,39 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
    */
   private void authenticateUser(){
 	  
-	  //TODO: Add registration redirection, rather than just
-	  // gmail login.
-	  /*
-	  userService.isUserLoggedIn( new AsyncCallback<Boolean>(){
-	  
-		  public void onSuccess(Boolean auth) {
-			  userAuthenticated = auth;
+	  userService.isUserLoggedIn(new AsyncCallback<Boolean>(){
+		  public void onSuccess( Boolean loggedIn ) {
+			  if( loggedIn ){
+				  openView(true);
+			  }else{
+				  getGoogleSession();
+			  }
+				  
+				  
 		  }
 		      
 		  public void onFailure(Throwable caught) {
 		        Window.alert("Error fetching card.");
 		  }
+	  
 	  });
-	  */
-	  userService.getSessionGmail( new AsyncCallback<String>(){
-		  public void onSuccess(String gmail) {
-			  userAuthenticated = !gmail.equals("");
-			  openView(userAuthenticated);
+	 
+
+  }
+  
+  /*
+   * Retrieve the Google ID information (gmail, and gplusid).
+   * If this information is retreived, then the app will attempt
+   * to login the user.
+   */
+  private void getGoogleSession(){
+	  userService.getSessionGoogleIds(new AsyncCallback<GoogleIdPackage>(){
+		  public void onSuccess(GoogleIdPackage gpack) {
+			  if( gpack.isValid() )
+				  attemptLogin( gpack );
+			  else{
+				  openView(false);
+			  }
 		  }
 		      
 		  public void onFailure(Throwable caught) {
@@ -214,4 +193,51 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	  
 	  });
   }
+  
+  /*
+   * Attempt to login the session user with the provided
+   * Google ID information (gmail, gplus).  On success,
+   * the user will be logged in, if the user with the google
+   * id info doesn't exist, they will be sent to the
+   * registration page.
+   * 
+   */
+  private void attemptLogin( GoogleIdPackage gpack ){
+	  userService.loginUser(gpack.getGmail(), new AsyncCallback<Boolean>(){
+		  public void onSuccess( Boolean loggedIn ){
+			  if( loggedIn ){
+				  openView(true);
+			  }else{
+				  History.newItem("register");
+			  }
+		  }
+		  
+		  public void onFailure( Throwable caught ){
+			  AppController.redirectUser("/error.html");
+		  }
+	  });
+  }
+  
+  private void attemptRegistration(){
+	  userService.getSessionGoogleIds(new AsyncCallback<GoogleIdPackage>(){
+		  public void onSuccess(GoogleIdPackage gpack) {
+			  if( gpack.isValid() )
+				  History.newItem("register");
+			  else{
+				  openView(false);
+			  }
+		  }
+		      
+		  public void onFailure(Throwable caught) {
+		        Window.alert("Error fetching card.");
+		  }
+	  
+	  });
+  }
+  
+  private void getCurrentUser(){
+	  
+  }
+  
+  
 }

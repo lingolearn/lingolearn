@@ -10,5 +10,5 @@ package cscie99.team2.lingolearn.shared;
  *
  */
 public enum Gender {
-	MALE, FEMALE;
+	Male, Female;
 }

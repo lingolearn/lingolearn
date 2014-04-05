@@ -5,8 +5,9 @@ import javax.servlet.http.HttpSession;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import cscie99.team2.lingolearn.client.UserService;
-import cscie99.team2.lingolearn.shared.User;
 import cscie99.team2.lingolearn.server.datastore.UserDAO;
+import cscie99.team2.lingolearn.shared.GoogleIdPackage;
+import cscie99.team2.lingolearn.shared.User;
 
 public class UserServiceImpl  extends RemoteServiceServlet implements UserService {
 	
@@ -52,7 +53,14 @@ public class UserServiceImpl  extends RemoteServiceServlet implements UserServic
 		UserDAO udao = UserDAO.getInstance();
 		User loggedInUser = udao.getUserByGmail(gmail);
 		
-		return loggedInUser != null;
+		if( loggedInUser != null ){
+			HttpSession session = this.getThreadLocalRequest().getSession();
+			session.setAttribute(USER_SESSION_KEY, loggedInUser);
+			return true;
+		}
+		
+		
+		return false;
 	}
 	
 	/**
@@ -78,6 +86,8 @@ public class UserServiceImpl  extends RemoteServiceServlet implements UserServic
 		//TODO:: add exception handling, e.g. db error
 		UserDAO udao = UserDAO.getInstance();
 		User registered = udao.storeUser(u);
+		HttpSession session = this.getThreadLocalRequest().getSession();
+		session.setAttribute(USER_SESSION_KEY, registered);
 		
 		return registered;
 	}
@@ -141,5 +151,14 @@ public class UserServiceImpl  extends RemoteServiceServlet implements UserServic
 		String gplusId = (String) sessionGid;
 		
 		return gplusId;
+	}
+	
+	public GoogleIdPackage getSessionGoogleIds(){
+		
+		String gmail = getSessionGmail();
+		String gplus = getSessionGplusId();
+		GoogleIdPackage gpack = new GoogleIdPackage( gmail, gplus );
+		
+		return gpack;
 	}
 }

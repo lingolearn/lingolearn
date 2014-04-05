@@ -30,8 +30,11 @@ public class UserDAO {
 	 * @return USer for diagnostic
 	 */
 	public User storeUser( User user ) {
-		ofy().save().entity(new ObjectifyableUser(user)).now();
-		return user;	
+		
+		ObjectifyableUser userEntity = new ObjectifyableUser(user);
+		ofy().save().entity(userEntity).now();
+		User stored = userEntity.getUser();
+		return stored;	
 	}
 	
 	/**

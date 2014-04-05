@@ -4,11 +4,7 @@ package cscie99.team2.lingolearn.client.view;
 import java.util.Iterator;
 import java.util.List;
 
-import com.google.gwt.event.logical.shared.AttachEvent.Handler;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -18,6 +14,9 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import cscie99.team2.lingolearn.shared.Gender;
+import cscie99.team2.lingolearn.shared.LanguageTypes;
 
 public class AppRegisterView extends Composite {
 
@@ -33,6 +32,7 @@ public class AppRegisterView extends Composite {
 	private ListBox yearsExperience = new ListBox();
 	private ListBox birthYear = new ListBox();
 	private ListBox nativeLanguage = new ListBox();
+	private ListBox gender = new ListBox();
 	private Button register = new Button(REG_BTN_TXT);
 	
 	private Label emailAddressLabel;
@@ -41,6 +41,7 @@ public class AppRegisterView extends Composite {
 	private Label yearsExperienceLabel;
 	private Label birthYearLabel;
 	private Label nativeLanguageLabel;
+	private Label genderLabel;
 	
 	public AppRegisterView(){
 		this.initWidget(this.holder);
@@ -58,8 +59,8 @@ public class AppRegisterView extends Composite {
 	 * @param handler The Handler that will execute when the
 	 * register button is clicked.
 	 */
-	public void addRegistrationHandler( Handler handler ){
-		register.addAttachHandler(handler);
+	public void addRegistrationHandler( ClickHandler handler ){
+		register.addClickHandler( handler );
 	}
 	
 	/**
@@ -105,6 +106,7 @@ public class AppRegisterView extends Composite {
 		birthYearLabel = new Label("What year were you born?");
 		yearsExperienceLabel = new Label("Years Experience");
 		nativeLanguageLabel = new Label("Native Language");
+		genderLabel = new Label("Gender");
 		gmail.setReadOnly(true);
 		
 		holder.add(emailAddressLabel);
@@ -120,6 +122,8 @@ public class AppRegisterView extends Composite {
 		holder.add(birthYear);
 		holder.add(nativeLanguageLabel);
 		holder.add(nativeLanguage);
+		holder.add(genderLabel);
+		holder.add(gender);
 		holder.add(register);
 		
 	}
@@ -140,16 +144,11 @@ public class AppRegisterView extends Composite {
 			birthYear.addItem( String.valueOf(i) );
 		}
 		
-		// List<String> languages = cardService.getSupportedLanguages();
-		/*
-		List<String> languages = new ArrayList<String>();
-		languages.add("English");
-		languages.add("Japanese");
+		for( LanguageTypes lang : LanguageTypes.values() )
+			nativeLanguage.addItem( lang.name() );
 		
-		for( int i = 0; i < languages.size(); i++ ){
-			nativeLanguage.addItem( languages.get(i) );
-		}
-		*/
+		for( Gender g : Gender.values() )
+			gender.addItem(g.name());
 		
 	}
 
@@ -236,5 +235,14 @@ public class AppRegisterView extends Composite {
 	public static String getRegBtnTxt() {
 		return REG_BTN_TXT;
 	}
+
+	public ListBox getGender() {
+		return gender;
+	}
+
+	public void setGender(ListBox gender) {
+		this.gender = gender;
+	}
+	
 	
 }

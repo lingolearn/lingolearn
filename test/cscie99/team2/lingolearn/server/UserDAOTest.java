@@ -58,17 +58,17 @@ public class UserDAOTest {
 		OutsideCourse course1 = new OutsideCourse("11111", "JP101", "Harvard");
 		
 		User u1 = new User("googleID", "test@gmail.com", "John",
-				"Smith", Gender.MALE, lang1);
+				"Smith", Gender.Male, lang1);
 		u1.addOutsideCourse(new OutsideCourse("123", "Fun Course", "Fun School"));
 		u1.addTextbook(new Textbook("ABC", "Sweet Book", 2005));
 		u1.addLanguages(lang2);
 			
 		User u2 = new User("googleID2", "test2@gmail.com", "Joe",
-				"Smith", Gender.MALE, lang1);
+				"Smith", Gender.Male, lang1);
 		u2.addOutsideCourse(course1);
 		
 		User u3 = new User("googleID3", "test2@gmail.com", "Josiane",
-				"Cadieux", Gender.FEMALE, lang2);
+				"Cadieux", Gender.Female, lang2);
 		
 		// Store them in the local In-memory datastore
 		UserDAO userAccessor = UserDAO.getInstance();
@@ -199,7 +199,7 @@ public class UserDAOTest {
 	public void testGetListByGender() {
 		UserDAO userAccessor = UserDAO.getInstance();
 		List<User> userList = null;
-		Gender gender = Gender.MALE;
+		Gender gender = Gender.Male;
 		int size = 2;
 		
 		userList = userAccessor.getAllUsersByGender(gender);

@@ -2,6 +2,7 @@ package cscie99.team2.lingolearn.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import cscie99.team2.lingolearn.shared.GoogleIdPackage;
 import cscie99.team2.lingolearn.shared.User;
 
 public interface UserServiceAsync {
@@ -22,4 +23,6 @@ public interface UserServiceAsync {
 	
 	/* Get the gplusid address of the session user - who is not yet registered */
 	public void getSessionGplusId( AsyncCallback<String> callback );
+	
+	public void getSessionGoogleIds( AsyncCallback<GoogleIdPackage> callback );
 }
