@@ -25,10 +25,13 @@ public class FlashCardResponseDAO {
 	/**
 	 * This method stores the FlashCardResponse in the datastore
 	 * @param qResp FlashCardResponse object to be stored in datastore
-	 * @return FlashCardResponse for diagnostic
+	 * @return stored FlashCardResponse for diagnostic
 	 */
 	public FlashCardResponse storeFlashCardResponse(FlashCardResponse qResp) {
-		ofy().save().entity(new ObjectifyableFlashCardResponse(qResp)).now();
+		ObjectifyableFlashCardResponse oResp = new ObjectifyableFlashCardResponse(qResp);
+		ofy().save().entity(oResp).now();
+		ObjectifyableFlashCardResponse fetched = ofy().load().entity(oResp).now();
+		qResp = fetched.getFlashCardResponse();
 		return qResp;	
 	}
 	

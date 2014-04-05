@@ -23,10 +23,13 @@ public class DeckDAO {
 	 * Stores the deck into the datastore.
 	 * Is verification for duplication needed here?
 	 * @param deck to be stored
-	 * @return deck stored
+	 * @return stored Deck for diagnostic 
 	 */
 	public Deck storeDeck( Deck deck ) {
-		ofy().save().entity(new ObjectifyableDeck(deck)).now();
+		ObjectifyableDeck oDeck = new ObjectifyableDeck(deck);
+		ofy().save().entity(oDeck).now();
+		ObjectifyableDeck fetched = ofy().load().entity(oDeck).now();
+		deck = fetched.getDeck();
 		return deck;	
 	}
 	
