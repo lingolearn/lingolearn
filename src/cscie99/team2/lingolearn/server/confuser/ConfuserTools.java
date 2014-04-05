@@ -75,22 +75,17 @@ public class ConfuserTools {
 	 * @param character The character to be tested.
 	 * @return The type of character provided, or unknown if it was not determined.
 	 */
-	public static CharacterType checkCharacter(String character) throws ConfuserException {
-		// Make sure we are only working with a single character
-		if (character.length() != 1) {
-			throw new ConfuserException("The character string is an invalid length.");
-		}		
+	public static CharacterType checkCharacter(char character) {
 		// Check to see if this is a hiragana
-		char ch = character.charAt(0);
-		if (ch >= 0x3041 && ch <= 0x3096) {
+		if (character >= 0x3041 && character <= 0x3096) {
 			return CharacterType.Hiragana;
 		}
 		// Check to see if this is a katakana
-		if (ch >= 0x30A1 && ch <= 0x30FC) {
+		if (character >= 0x30A1 && character <= 0x30FC) {
 			return CharacterType.Katakana;
 		}
 		// Check to see if this is kanji
-		if (ch >= 0x4E00 && ch <= 0x9FAF) {
+		if (character >= 0x4E00 && character <= 0x9FAF) {
 			return CharacterType.Kanji;
 		}
 		// Fall through to unknown
