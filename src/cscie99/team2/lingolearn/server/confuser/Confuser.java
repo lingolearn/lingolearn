@@ -2,6 +2,9 @@ package cscie99.team2.lingolearn.server.confuser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import com.google.api.server.spi.response.ConflictException;
 
 import cscie99.team2.lingolearn.shared.Card;
 
@@ -17,9 +20,34 @@ public class Confuser {
 	 * @param type
 	 * @param count
 	 * @return
+	 * @throws ConflictException 
 	 */
-	public List<String> getConfusers(Card card, CharacterType type, int count) {
-		return null;
+	public List<String> getConfusers(Card card, CharacterType type, int count) throws ConflictException {
+		// Start by running the relevant functions
+		List<String> results = new ArrayList<String>();
+		switch (type) {
+			case Hiragana:
+				results.addAll(getNManipulation(card.getHiragana()));
+				results.addAll(getSmallTsuManiuplation(card.getHiragana()));
+				break;
+			case Katakana:
+				results.addAll(getNManipulation(card.getKatakana()));
+				results.addAll(getSmallTsuManiuplation(card.getKatakana()));
+				break;
+			case Kanji:
+				results.addAll(getKanjiBoundries(card));
+				results.addAll(getKanjiSubsitution(card, count));
+				break;
+			default:
+				throw new ConflictException("An invalid type, " + type + " was provided.");
+		}
+		// Trim the results down to the count and return them
+		Random random = new Random();
+		while (results.size() > count) {
+			int ndx = random.nextInt(results.size());
+			results.remove(ndx);
+		}
+		return results;
 	}
 	
 	/**
@@ -42,7 +70,7 @@ public class Confuser {
 		// Try to find a confuser based upon each family provided
 
 		// Return the confusers
-		return null;
+		return new ArrayList<String>();
 	}
 	
 	/**
@@ -163,6 +191,52 @@ public class Confuser {
 			// If this is an n* sound, add a n before it
 			else if (characters.contains(String.valueOf(ch))) {
 				phrases.add(phrase.substring(0, ndx) + n + phrase.substring(ndx));
+			}
+		}
+		return phrases;
+	}
+	
+	/**
+	 * Add or remove the small tsu (っ, ッ) from the phrase as warranted.
+	 * 
+	 * @param phrase The hiragana to be manipulated.
+	 * @return A list of manipulations or an empty list if there is no valid
+	 * work to be done.
+	 */
+	public List<String> getSmallTsuManiuplation(String phrase) {
+		// The following are the parameters for xtsu (っ, ッ) manipulation
+		char xtsu = 'っ';
+		String characters = "かきくけこさしたちつてとはひふへほぱぴぷぺぽ";
+		if (ConfuserTools.checkCharacter(phrase.charAt(0)) == CharacterType.Katakana) {
+			xtsu = 'ッ';
+			characters = "カキクケコサシタチツテトハヒフヘホパピプペポ";
+		}
+		// Now start scanning through the phrase for relevant matches for this 
+		// we are only focusing on the characters that are in the middle of 
+		// the phrase
+		List<String> phrases = new ArrayList<String>();
+		for (int ndx = 0; ndx < phrase.length(); ndx++) {
+			char ch = phrase.charAt(ndx);
+			// If this is a small tsu character, remove it
+			if (ch == xtsu) {
+				phrases.add(phrase.substring(0, ndx) + phrase.substring(ndx + 1));
+			}
+			// If this is a matching sound, add a small tsu
+			else if (characters.contains(String.valueOf(ch))) {
+				// Are we at the end of the phrase?
+				if ((ndx + 1) == phrase.length()) {
+					continue;
+				}
+				// Make sure the next character is not the small tsu
+				if (phrase.charAt(ndx + 1) == xtsu) {
+					continue;
+				}
+				// Make sure the phrase is built correctly
+				if (ndx == 0) {
+					phrases.add(String.valueOf(phrase.charAt(0)) + xtsu + phrase.substring(1));
+				} else {
+					phrases.add(phrase.substring(0, ndx) + xtsu + phrase.substring(ndx));
+				}
 			}
 		}
 		return phrases;

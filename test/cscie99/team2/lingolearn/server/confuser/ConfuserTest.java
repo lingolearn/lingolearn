@@ -94,7 +94,15 @@ public class ConfuserTest {
 	 */
 	@Test
 	public void smallTsuManipulation() {
-		fail("Not implimented");
+		// Test to make sure ヒット (hit) is manipulated correctly
+		List<String> results = confuser.getSmallTsuManiuplation("ヒット");
+		assertEquals(1, results.size());
+		assertEquals("ヒト", results.get(0));
+		
+		// Test to make sure ヒト  (person) is manipulated correctly
+		results = confuser.getSmallTsuManiuplation("ヒト");
+		assertEquals(1, results.size());
+		assertEquals("ヒット", results.get(0));
 	}
 
 	/**
