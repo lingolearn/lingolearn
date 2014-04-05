@@ -216,28 +216,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			  AppController.redirectUser("/error.html");
 		  }
 	  });
-  }
-  
-  private void attemptRegistration(){
-	  userService.getSessionGoogleIds(new AsyncCallback<GoogleIdPackage>(){
-		  public void onSuccess(GoogleIdPackage gpack) {
-			  if( gpack.isValid() )
-				  History.newItem("register");
-			  else{
-				  openView(false);
-			  }
-		  }
-		      
-		  public void onFailure(Throwable caught) {
-		        Window.alert("Error fetching card.");
-		  }
-	  
-	  });
-  }
-  
-  private void getCurrentUser(){
-	  
-  }
-  
+  }  
   
 }

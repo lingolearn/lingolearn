@@ -25,29 +25,14 @@ public class RegistrationPresenter implements Presenter {
 	  private String gplusId;
 	  
 	  public RegistrationPresenter( UserServiceAsync userService,
-				HandlerManager eventBus, AppRegisterView view,
-				String gmail, String gplusId ){
+				HandlerManager eventBus, AppRegisterView view ){
 		  
 		  this.userService = userService;
 		  this.eventBus = eventBus;
 		  this.display = view;
-		  this.gmail = gmail;
-		  this.gplusId = gplusId;
+
 		}
-	  
-	  
-	  public RegistrationPresenter( UserServiceAsync userService,
-			  				HandlerManager eventBus, AppRegisterView view ){
-		  /*
-		  this.userService = userService;
-		  this.eventBus = eventBus;
-		  this.display = view;
-		  */
-		  
-		  this( userService, eventBus, view, "", "" );
-	  }
-	  
-	  
+	
 	  public void bind(){
 
 	  }
@@ -72,7 +57,12 @@ public class RegistrationPresenter implements Presenter {
 	  }
 	  
 	  
-	  
+	  /**
+	   * Determine if the registration view form data
+	   * is valid for a user registration
+	   * @param view The AppRegisterView
+	   * @return boolean - true if the data is valid, false othewise.
+	   */
 	  public static boolean isRegistrationValid( final AppRegisterView view ){
 		  
 		  if( view.getFirstName().getText().toString().trim().isEmpty() )
@@ -90,6 +80,10 @@ public class RegistrationPresenter implements Presenter {
 		  return true;
 	  }
 	  
+	  /*
+	   * Helper method for go that is called after
+	   * async services return.
+	   */
 	  private void showRegistrationView(final HasWidgets container,
 			  									GoogleIdPackage gpack ){
 		    bind();
@@ -107,6 +101,12 @@ public class RegistrationPresenter implements Presenter {
 		    container.add(display.asWidget());
 	  }
 	  
+	  /*
+	   * Registration Click Handler class.
+	   * This click handler checks that the form data is valid
+	   * and if it is, the user is registered with the 
+	   * user service.
+	   */
 	  private class RegisterClickHandler implements ClickHandler {
 		  
 		  final AppRegisterView view;
@@ -121,8 +121,6 @@ public class RegistrationPresenter implements Presenter {
 		
 		@Override
 		public void onClick(ClickEvent event) {
-			
-			Window.alert("Registration clicked");
 			
 			if( !RegistrationPresenter.isRegistrationValid(this.view))
 				return;
@@ -141,21 +139,6 @@ public class RegistrationPresenter implements Presenter {
 			User newUser = new User( userGplusId, userGmail, firstName,
 							lastName, userGender, nativeLanguage );
 			
-			/*
-			newUser.setFirstName(
-					view.getFirstName().getText().toString().trim() );
-			
-			newUser.setLastName(
-					view.getLastName().getText().toString().trim() );
-			
-
-
-			newUser.setNativeLanguage(nativeLanguage);
-
-			newUser.setGender( Gender.valueOf(selectedGender));
-			newUser.setGmail(view.getGmail().getText().toString().trim());
-			newUser.setGplusId(view.getGplusId().getValue().toString().trim());
-			*/
 			registerUser( newUser );
 			
 		} 

@@ -21,7 +21,7 @@ public class LoginServlet extends HttpServlet {
     			UserServiceImpl.GMAIL_SESSION_KEY, null );
     	session.setAttribute( UserServiceImpl.GID_SESSION_KEY,
     							null );
-    	
+    	session.setAttribute(UserServiceImpl.USER_SESSION_KEY, null);
     	resp.setContentType("text/html");
     	// Get the printwriter object from response to write the required json object to the output stream      
     	PrintWriter out = resp.getWriter();
