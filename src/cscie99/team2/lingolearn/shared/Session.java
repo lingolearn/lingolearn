@@ -21,7 +21,6 @@ public abstract class Session implements Serializable {
 	
 	private Deck   deck;		// Deck associated with this session
 	private Course courseId;	// Course Id that this session belongs to
-	private String gplusId;	 	//id of the user in the session
 	
 	/**
 	 * This method interacts with DeckMng to obtain the deck for this session
