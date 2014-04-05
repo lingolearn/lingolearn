@@ -18,4 +18,5 @@ public interface CardServiceAsync {
 	public void getAllCardsByLanguage(String lang, AsyncCallback<List<Card>> callback );
 	public void getAllCards(AsyncCallback<List<Card>> callback);
 	public void storeCard(Card card, AsyncCallback<Card> callback);
+	public void getConfusersForCard(Card card, AsyncCallback<List<String>> callback);
 }

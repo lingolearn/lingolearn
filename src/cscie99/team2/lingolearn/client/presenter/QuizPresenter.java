@@ -99,10 +99,32 @@ public class QuizPresenter implements Presenter {
 	  }
 	  display.clearQuiz();
 	  display.addToStem(card.getTranslation());
-	  display.addAnswer("bs answer");
-	  display.addAnswer("not the right one");
 	  display.addAnswer(this.currentCorrectAnswer);
-	  display.addAnswer("also wrong");
+	  cardService.getConfusersForCard(currentCard, new AsyncCallback<List<String>>() {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			display.addAnswer("bs answer");
+			display.addAnswer("not the right one");
+			display.addAnswer("also wrong");
+		}
+		
+		@Override
+		public void onSuccess(List<String> result) {
+			if (result.size() < 3) {
+				//The confuser code did not do what we asked
+				display.addAnswer("mock confuser 1");
+				display.addAnswer("mock confuser 2");
+				display.addAnswer("mock confuser 3");
+			} else {
+				for (int i=0;i<result.size();i++) {
+					display.addAnswer(result.get(i));
+				}
+			}
+		}
+		  
+	  });
+	  
   }
 
 }

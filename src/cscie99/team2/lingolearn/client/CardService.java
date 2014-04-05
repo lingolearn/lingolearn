@@ -20,4 +20,5 @@ public interface CardService extends RemoteService {
 	public List<Card> getAllCardsByLanguage(String lang);
 	public List<Card> getAllCards();
 	public Card storeCard(Card card);
+	public List<String> getConfusersForCard(Card card);
 }

@@ -3,9 +3,12 @@ package cscie99.team2.lingolearn.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.api.server.spi.response.ConflictException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import cscie99.team2.lingolearn.client.CardService;
+import cscie99.team2.lingolearn.server.confuser.CharacterType;
+import cscie99.team2.lingolearn.server.confuser.Confuser;
 import cscie99.team2.lingolearn.server.datastore.CardDAO;
 import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Image;
@@ -37,6 +40,8 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 		}
 		return c;
 	}
+	
+	
 	public void deleteCardById(Long cardId) {
 		cardAccessor.deleteCardById(cardId);
 	}
@@ -121,5 +126,17 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 			e.printStackTrace();
 		}
 		return cards;
+	}
+
+	@Override
+	public List<String> getConfusersForCard(Card card) {
+		List<String> confuserStrings = null;
+		Confuser confuser = new Confuser();
+		try {
+			confuserStrings = confuser.getConfusers(card, CharacterType.Hiragana, 3);
+		} catch (ConflictException e) {
+			e.printStackTrace();
+		}
+		return confuserStrings;
 	};
 }
