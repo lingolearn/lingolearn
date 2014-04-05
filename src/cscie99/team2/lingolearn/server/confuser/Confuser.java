@@ -11,10 +11,14 @@ import cscie99.team2.lingolearn.shared.Card;
  */
 public class Confuser {
 	/**
-	 * Get a list of hiragana phrase confusers that are similar to the one that
-	 * has been provided.
+	 * Get a random list of confusers of given type limited to the count provided.
+	 * 
+	 * @param card
+	 * @param type
+	 * @param count
+	 * @return
 	 */
-	public List<String> getHiraganaPhrases(String phrase) {
+	public List<String> getConfusers(Card card, CharacterType type, int count) {
 		return null;
 	}
 	
@@ -122,14 +126,6 @@ public class Confuser {
 
 		// Return the results
 		return phrases;
-	}
-
-	/**
-	 * Get a list of katakana phrase confusers that are similar to the one that
-	 * has been provided.
-	 */
-	public List<String> getKatakanaPhrases(String phrase) {
-		return null;
 	}
 
 	/**
