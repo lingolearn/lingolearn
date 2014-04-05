@@ -28,6 +28,10 @@ public class Course implements Serializable {
 		return this.courseName;
 	}
 	
+	public void setCourseId(String courseId) {
+		this.courseId = courseId;
+	}
+	
 	public String getCourseId() {
 		return courseId;
 	}

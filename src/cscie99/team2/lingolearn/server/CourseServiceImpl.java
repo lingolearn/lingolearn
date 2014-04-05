@@ -22,6 +22,10 @@ import cscie99.team2.lingolearn.shared.error.DeckNotFoundException;
 @SuppressWarnings("serial")
 public class CourseServiceImpl extends RemoteServiceServlet implements CourseService {
 	
+	public CourseServiceImpl() {
+		new MockDataGenerator().generateMockData();
+	}
+	
 	public ArrayList<Course> getCoursesUserIsInstructing(User user) {
 		ArrayList<Course> list = new ArrayList<Course>();
 		Course c;
@@ -43,6 +47,7 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		
 		//Temporarily prepopulate
 		c = new Course();
+		c.setCourseId("course_one");
 		c.setName("Difficult course");
 		list.add(c);
 		
@@ -59,6 +64,7 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		
 		//Temporarily prepopulate
 		c = new Course();
+		c.setCourseId(id);
 		c.setName("Difficult course");
 		return c;
 	}
@@ -66,57 +72,44 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 
 	@Override
 	public ArrayList<Session> getSessionsForCourse(String courseId) {
-		// TODO Auto-generated method stub
-		Card c1 = new Card();
-		c1.setKanji("岡");
-		c1.setId((long)1);
-		c1.setTranslation("card 1 translation");
-		Card c2 = new Card();
-		c2.setKanji("字");
-		c2.setId((long)2);
-		c2.setTranslation("card 2 translation");
-		ArrayList<Card> cards = new ArrayList<Card>();
-		cards.add(c1);
-		cards.add(c2);
-		Deck d = new Deck((long) 7, cards, "japanese", "english");
-		Lesson l = new Lesson();
-		l.setDeck(d);
-		Quiz q = new Quiz();
-		q.setDeck(d);
-		ArrayList<Session> s = new ArrayList<Session>();
-		s.add(l);
-		s.add(q);
-		l.setSessionId("session84");
-		q.setSessionId("session85");
-		return s;
+		new MockDataGenerator().generateMockData();
+		
+		ArrayList<Session> sAll = new ArrayList<Session>();
+		Session s1 = new Lesson();
+		try {
+			s1.setDeck(DeckDAO.getInstance().getDeckById((long) 102));
+		} catch (Exception e) {}
+		s1.setSessionId("session84");
+		
+		Session s2 = new Quiz();
+		try {
+			s2.setDeck(DeckDAO.getInstance().getDeckById((long) 101));
+		} catch (Exception e) {}
+		s2.setSessionId("session85");
+		
+		sAll.add(s1);
+		sAll.add(s2);
+		return sAll;
 	}
 
 
 	@Override
 	public Session getSessionById(String sessionId) {
-		Card c1 = new Card();
-		c1.setKanji("岡");
-		c1.setId((long)1);
-		c1.setTranslation("card 1 translation");
-		Card c2 = new Card();
-		c2.setKanji("字");
-		c2.setId((long)2);
-		c2.setTranslation("card 2 translation");
-		ArrayList<Card> cards = new ArrayList<Card>();
-		cards.add(c1);
-		cards.add(c2);
-		Deck d = new Deck((long) 7, cards, "japanese", "english");
-		Lesson l = new Lesson();
-		l.setDeck(d);
-		l.setSessionId("session84");
-		Quiz q = new Quiz();
-		q.setDeck(d);
-		q.setSessionId("session85");
+		
+		Session s;
 		if (sessionId.equals("session84")) {
-			return l;
+			s = new Lesson();
+			try {
+				s.setDeck(DeckDAO.getInstance().getDeckById((long) 102));
+			} catch (Exception e) {}
 		} else {
-			return q;
+			s = new Quiz();
+			try {
+				s.setDeck(DeckDAO.getInstance().getDeckById((long) 101));
+			} catch (Exception e) {}
 		}
+		s.setSessionId(sessionId);
+		return s;
 	}
 
 }

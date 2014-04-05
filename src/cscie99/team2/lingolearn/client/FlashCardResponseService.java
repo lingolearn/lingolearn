@@ -7,7 +7,7 @@ import cscie99.team2.lingolearn.shared.FlashCardResponse;
 
 import java.util.List;
 
-@RemoteServiceRelativePath("cardService")
+@RemoteServiceRelativePath("flashCardResponseService")
 public interface FlashCardResponseService extends RemoteService{
 	public void deleteFlashCardResponseById(Long sessionId);
 	public List<FlashCardResponse> getAllFlashCardResponses();
