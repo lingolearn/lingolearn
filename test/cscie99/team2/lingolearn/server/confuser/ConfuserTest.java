@@ -103,6 +103,19 @@ public class ConfuserTest {
 	 */
 	@Test
 	public void nManipulation() {
-		fail("Not implimented");
+		// Test to make sure テニス (tennis) is manipulated correctly
+		List<String> results = confuser.getNManipulation("テニス");
+		assertEquals(1, results.size());
+		assertEquals("テンニス", results.get(0));
+		
+		// Test to make sure なのか (seven days) is manipulated correctly
+		results = confuser.getNManipulation("なのか");
+		assertEquals(1, results.size());
+		assertEquals("なんのか", results.get(0));
+		
+		// Test to make sure こんなん  (stress) is manipulated correctly
+		results = confuser.getNManipulation("こんなん");
+		assertEquals(1, results.size());
+		assertEquals("こなん", results.get(0));
 	}
 }
