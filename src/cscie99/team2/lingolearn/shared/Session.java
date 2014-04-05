@@ -16,8 +16,6 @@ import java.util.Date;
 public abstract class Session implements Serializable {
 
 	private String sessId;		// Session Id
-	private Date   sessStart,	// Timestamp of the session's start
-				   sessEnd;		// Timestamp of the session's end
 	
 	private Deck   deck;		// Deck associated with this session
 	private Course courseId;	// Course Id that this session belongs to
