@@ -20,6 +20,7 @@ import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
 import cscie99.team2.lingolearn.shared.Lesson;
+import cscie99.team2.lingolearn.shared.QuizResponse;
 import cscie99.team2.lingolearn.shared.Session;
 import cscie99.team2.lingolearn.shared.User;
 
@@ -53,7 +54,7 @@ public class SessionPresenter implements Presenter {
 		  SessionView display) {
       this.courseService = courseService;
       this.cardPresenter = new CardPresenter(cardService, eventBus, new CardView());
-      this.quizPresenter = new QuizPresenter(cardService, eventBus, new QuizView());
+      this.quizPresenter = new QuizPresenter(cardService, eventBus, new QuizView(), this);
 	  this.eventBus = eventBus;
       this.display = display;
   }
@@ -128,12 +129,19 @@ public class SessionPresenter implements Presenter {
 	  //Send knowledge to the analytics service
 	  FlashCardResponse flashCardResponse = new FlashCardResponse();
 	  flashCardResponse.setCardId(session.getDeck().getCardIds().get(currentCardNumber));
+	  flashCardResponse.setSessionId(session.getSessionId());
 	  flashCardResponse.setAssessment(knowledge);
 	  AnalyticsEvent flashCardEvent = new AnalyticsEvent(flashCardResponse);
 	  eventBus.fireEvent(flashCardEvent);
 	  
 	  //Move to the next card
 	  gotoNextCard();
+  }
+  
+  public void recordQuizResponse(QuizResponse quizResponse) {
+	  quizResponse.setSessionId(session.getSessionId());
+	  AnalyticsEvent quizEvent = new AnalyticsEvent(quizResponse);
+	  eventBus.fireEvent(quizEvent);
   }
   
   private void gotoNextCard() {

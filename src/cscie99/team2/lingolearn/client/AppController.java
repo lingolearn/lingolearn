@@ -27,6 +27,7 @@ import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
 import cscie99.team2.lingolearn.shared.QuizResponse;
 import cscie99.team2.lingolearn.shared.GoogleIdPackage;
+import cscie99.team2.lingolearn.shared.User;
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
   private final HandlerManager eventBus;
@@ -73,39 +74,62 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     
     		@Override
     		public void onQuizResponse(AnalyticsEvent event,
-    				QuizResponse quizResponse) {
-    			quizResponseService.storeQuizResponse(quizResponse, new AsyncCallback<QuizResponse>() {
-    
-    				@Override
-    				public void onFailure(Throwable caught) {
-    					System.out.println("failed to store quiz response");
-    				}
-    
-    				@Override
-    				public void onSuccess(QuizResponse result) {
-    					System.out.println("successfully stored quiz response");
-    				}
-    				
-    			});
+    				final QuizResponse quizResponse) {
+    			
+    			userService.getCurrentUser(new AsyncCallback<User>() {
+    				  public void onSuccess(User user) {
+    					  if (user instanceof User) {
+    						  quizResponse.setGplusId(user.getGplusId());
+    						  quizResponseService.storeQuizResponse(quizResponse, 
+    								  new AsyncCallback<QuizResponse>() {
+    							    
+    			    				@Override
+    			    				public void onFailure(Throwable caught) {
+    			    					System.out.println("failed to store quiz response");
+    			    				}
+    			    
+    			    				@Override
+    			    				public void onSuccess(QuizResponse result) {
+    			    					System.out.println("success");
+    			    				}
+    			    				
+    			    			});
+    					  }
+    				  }
+    				  public void onFailure(Throwable caught) {
+    					  Window.alert("Error getting current user");
+    				  }
+    			  });
     			
     		}
     
     		@Override
     		public void onFlashCardResponse(AnalyticsEvent event,
-    				FlashCardResponse flashCardResponse) {
-    			flashCardResponseService.storeFlashCardResponse(flashCardResponse, new AsyncCallback<FlashCardResponse>() {
-     
-    				@Override
-    				public void onFailure(Throwable caught) {
-    					System.out.println("failed to store flash card response");
-    				}
-    
-    				@Override
-    				public void onSuccess(FlashCardResponse result) {
-    					System.out.println("successfully stored flash response");
-    				}
-    				
-    			});
+    				final FlashCardResponse flashCardResponse) {
+    			
+    			userService.getCurrentUser(new AsyncCallback<User>() {
+  				  public void onSuccess(User user) {
+  					  if (user instanceof User) {
+  						    flashCardResponse.setGplusId(user.getGplusId());
+	  						flashCardResponseService.storeFlashCardResponse(flashCardResponse, new AsyncCallback<FlashCardResponse>() {
+	  						     
+	  		    				@Override
+	  		    				public void onFailure(Throwable caught) {
+	  		    					System.out.println("failed to store flash card response");
+	  		    				}
+	  		    
+	  		    				@Override
+	  		    				public void onSuccess(FlashCardResponse result) {
+	  		    					System.out.println("successfully stored flash response");
+	  		    				}
+	  		    				
+	  		    			});
+  					  }
+  				  }
+  				  public void onFailure(Throwable caught) {
+  					  Window.alert("Error getting current user");
+  				  }
+  			  });
     			
     		}
         });
@@ -155,14 +179,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
   
   private void doViewCard() {
 	    History.newItem("viewCard");
-	  }
-	  
-	  @Override
-	  public void go(final HasWidgets container) {
-	    this.container = container;
-	    
-	    authenticateUser();
-	  }
+  }
+  
+  @Override
+  public void go(final HasWidgets container) {
+    this.container = container;
+    
+    authenticateUser();
+  }
   
   /*
    * Redirect the User to their appropriate view.

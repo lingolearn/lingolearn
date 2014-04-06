@@ -28,13 +28,16 @@ public class QuizPresenter implements Presenter {
   private final CardServiceAsync cardService;
   private final HandlerManager eventBus;
   private final QuizView display;
+  private final SessionPresenter sessionPresenter;
   private Card currentCard;
   private String currentCorrectAnswer;
   
-  public QuizPresenter(CardServiceAsync cardService, HandlerManager eventBus, QuizView display) {
+  public QuizPresenter(CardServiceAsync cardService, HandlerManager eventBus, 
+		  QuizView display, SessionPresenter sessionPresenter) {
     this.cardService = cardService;
     this.eventBus = eventBus;
     this.display = display;
+    this.sessionPresenter = sessionPresenter;
   }
   
   public QuizView getDisplay() {
@@ -62,8 +65,7 @@ public class QuizPresenter implements Presenter {
     	  QuizResponse quizResponse = new QuizResponse();
     	  quizResponse.setCardId(currentCard.getId());
     	  quizResponse.setCorrect(wasCorrect);
-    	  AnalyticsEvent quizEvent = new AnalyticsEvent(quizResponse);
-    	  eventBus.fireEvent(quizEvent);
+    	  sessionPresenter.recordQuizResponse(quizResponse);
       }
     });
     
