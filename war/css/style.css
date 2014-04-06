@@ -8,8 +8,9 @@ body {
 
 #appPreloader {
   background-image: url('/images/loading.gif');
-  height: 20px;
-  width: 220px;
+  height: 13px;
+  width: 212px;
+  margin: 100px auto 0;
 }
 
 h2 {
