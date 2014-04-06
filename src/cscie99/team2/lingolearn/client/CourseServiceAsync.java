@@ -14,5 +14,6 @@ public interface CourseServiceAsync {
   public void getCourseById(Long id, AsyncCallback<Course> callback);
   public void getSessionsForCourse(Long courseId, AsyncCallback<ArrayList<Session>> callback);
   public void getSessionById(Long sessionId, AsyncCallback<Session> callback);
+  public void createCourse(Course course, AsyncCallback<Course> callback);
 }
 

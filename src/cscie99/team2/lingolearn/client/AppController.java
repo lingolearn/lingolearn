@@ -17,11 +17,13 @@ import cscie99.team2.lingolearn.client.presenter.CoursePresenter;
 import cscie99.team2.lingolearn.client.presenter.HomePresenter;
 import cscie99.team2.lingolearn.client.presenter.Presenter;
 import cscie99.team2.lingolearn.client.presenter.RegistrationPresenter;
+import cscie99.team2.lingolearn.client.presenter.ResearchPresenter;
 import cscie99.team2.lingolearn.client.presenter.SessionPresenter;
 import cscie99.team2.lingolearn.client.view.AppRegisterView;
 import cscie99.team2.lingolearn.client.view.CardView;
 import cscie99.team2.lingolearn.client.view.CourseView;
 import cscie99.team2.lingolearn.client.view.HomeView;
+import cscie99.team2.lingolearn.client.view.ResearchView;
 import cscie99.team2.lingolearn.client.view.SessionView;
 import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
@@ -169,6 +171,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     	  presenter = new RegistrationPresenter(userService, eventBus, 
     			  new AppRegisterView());
     	  break;
+      case "research":
+    	  presenter = new ResearchPresenter(analyticsService, eventBus, 
+    			  new ResearchView());
       }
       
       if (presenter != null) {
