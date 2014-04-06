@@ -12,6 +12,11 @@ body {
   width: 220px;
 }
 
+h2 {
+	margin-top: 0;
+	margin-bottom: 14px;
+}
+
 /*
  * Header
  */
