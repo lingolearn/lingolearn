@@ -1,6 +1,7 @@
 package cscie99.team2.lingolearn.shared;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * 
@@ -10,20 +11,33 @@ import java.io.Serializable;
  *
  */
 public class CourseRegistration implements Serializable{
+
+	private static final long serialVersionUID = -1107489289326201552L;
 	
-	private String gplusId;
-	private String courseId;
+	private String gplusId;				// User's Id
+	private Set <Long> courseIdList;	// List of courses that this user is registered to 
+	
+	public CourseRegistration() {};
+	
+	public CourseRegistration(String gplusId, Set<Long> courseIdList) {
+		this.gplusId = gplusId;
+		this.courseIdList = courseIdList;
+	}
+
 	public String getGplusId() {
 		return gplusId;
 	}
+
 	public void setGplusId(String gplusId) {
 		this.gplusId = gplusId;
 	}
-	public String getCourseId() {
-		return courseId;
+
+	public Set<Long> getCourseIdList() {
+		return courseIdList;
 	}
-	public void setCourseId(String courseId) {
-		this.courseId = courseId;
+
+	public void setCourseIdList(Set<Long> courseIdList) {
+		this.courseIdList = courseIdList;
 	}
 
 }
