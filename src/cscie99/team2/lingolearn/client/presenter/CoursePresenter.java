@@ -54,12 +54,12 @@ public class CoursePresenter implements Presenter {
     container.add(display.asWidget());
     
     //Set course based on query parameter in URL
-    String courseId = "course1";
-    courseId = Window.Location.getParameter("courseId");
+    Long courseId = (long) 31;
+    courseId = Long.valueOf(Window.Location.getParameter("courseId"));
     this.getCourseInfo(courseId);
   }
   
-  private void getCourseInfo(String courseId) {
+  private void getCourseInfo(Long courseId) {
 	  courseService.getCourseById(courseId, new AsyncCallback<Course>() {
 		  public void onSuccess(Course returnedCourse) {
 			  course = returnedCourse;

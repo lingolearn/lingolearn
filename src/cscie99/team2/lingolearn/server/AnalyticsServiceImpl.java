@@ -87,7 +87,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	/**
 	 * Gets a list of all student id's enrolled in a specific course 
 	 */
-	public List<String> getUsersInCourse(String courseId) {
+	public List<String> getUsersInCourse(Long courseId) {
 		//temporarily prepopulates the data. This would normally pull all student ids currently registered in the course.
 		//This data can be found in the CourseRegistration object
 		List<String> students = new ArrayList<String>();
@@ -116,7 +116,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	/**
 	 * Pulls all biographical data for students in a particular course
 	 */
-	public Map<String, Map<String, String>> getCourseBiographicalData(String courseId) {
+	public Map<String, Map<String, String>> getCourseBiographicalData(Long courseId) {
 		List<String> students = getUsersInCourse(courseId);
 		Map<String, Map<String, String>> data = new HashMap<String, Map<String, String>>();
 		
@@ -131,7 +131,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	/**
 	 *  Pulls all metrics data for students in a particular course.
 	 */
-	public Map<String, Map<String, Float>> getCourseMetricsData(String courseId) {
+	public Map<String, Map<String, Float>> getCourseMetricsData(Long courseId) {
 		List<String> students = getUsersInCourse(courseId);
 		Map<String, Map<String, Float>> data = new HashMap<String, Map<String, Float>>();
 		

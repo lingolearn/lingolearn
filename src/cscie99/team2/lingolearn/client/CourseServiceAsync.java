@@ -11,8 +11,8 @@ import cscie99.team2.lingolearn.shared.User;
 public interface CourseServiceAsync {
   public void getCoursesUserIsInstructing(User user, AsyncCallback<ArrayList<Course>> callback);
   public void getCoursesUserIsEnrolledIn(User user, AsyncCallback<ArrayList<Course>> callback);
-  public void getCourseById(String id, AsyncCallback<Course> callback);
-  public void getSessionsForCourse(String courseId, AsyncCallback<ArrayList<Session>> callback);
-  public void getSessionById(String sessionId, AsyncCallback<Session> callback);
+  public void getCourseById(Long id, AsyncCallback<Course> callback);
+  public void getSessionsForCourse(Long courseId, AsyncCallback<ArrayList<Session>> callback);
+  public void getSessionById(Long sessionId, AsyncCallback<Session> callback);
 }
 

@@ -15,7 +15,7 @@ import java.util.Date;
  */
 public abstract class Session implements Serializable {
 
-	private String sessId;		// Session Id
+	private Long   sessId;		// Session Id
 	private Date   sessStart,	// Timestamp of the session's start
 				   sessEnd;		// Timestamp of the session's end
 	
@@ -35,11 +35,11 @@ public abstract class Session implements Serializable {
 		this.deck = deck;
 	}
 	
-	public String getSessionId() {
+	public Long getSessionId() {
 		return sessId;
 	}
 	
-	public void setSessionId(String sessionId) {
+	public void setSessionId(Long sessionId) {
 		this.sessId = sessionId;
 	}
 	

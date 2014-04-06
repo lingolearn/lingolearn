@@ -13,12 +13,12 @@ public interface AnalyticsServiceAsync {
 	void getMetricsData(String gplusId,
 			AsyncCallback<Map<String, Float>> callback);
 
-	void getUsersInCourse(String courseId, AsyncCallback<List<String>> callback);
+	void getUsersInCourse(Long courseId, AsyncCallback<List<String>> callback);
 
-	void getCourseBiographicalData(String courseId,
+	void getCourseBiographicalData(Long courseId,
 			AsyncCallback<Map<String, Map<String, String>>> callback);
 
-	void getCourseMetricsData(String courseId,
+	void getCourseMetricsData(Long courseId,
 			AsyncCallback<Map<String, Map<String, Float>>> callback);
 
 	void getAllBiographicalData(

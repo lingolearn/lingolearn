@@ -92,15 +92,15 @@ public class SessionPresenter implements Presenter {
     container.add(display.asWidget());
     
     //Set session based on query parameter in URL
-    String sessionId = "session1";
-    sessionId = Window.Location.getParameter("sessionId");
+    Long sessionId = (long) 0;
+    sessionId = Long.valueOf(Window.Location.getParameter("sessionId"));
     this.setSession(sessionId);
   }
   
   /*
    * Sets and starts a session
    */
-  public void setSession(String sessionId) {
+  public void setSession(Long sessionId) {
 	  
 	  courseService.getSessionById(sessionId, 
 			  new AsyncCallback<Session>() {

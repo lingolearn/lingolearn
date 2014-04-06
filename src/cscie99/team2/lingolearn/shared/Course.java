@@ -14,8 +14,8 @@ import java.util.Date;
  */
 public class Course implements Serializable {
 	
-	private String courseId,	// Unique course Id
-				   courseDesc,	// Course description
+	private Long   courseId;	// Unique course Id
+	private String courseDesc,	// Course description
 				   courseName;  // Course name
 	Date 	       courseStart,	// Course start date
 				   courseEnd;	// Course end date
@@ -28,11 +28,11 @@ public class Course implements Serializable {
 		return this.courseName;
 	}
 	
-	public void setCourseId(String courseId) {
+	public void setCourseId(Long courseId) {
 		this.courseId = courseId;
 	}
 	
-	public String getCourseId() {
+	public Long getCourseId() {
 		return courseId;
 	}
 				   

@@ -32,6 +32,7 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		
 		//Temporarily prepopulate
 		c = new Course();
+		c.setCourseId((long) 31);
 		c.setName("Best course eva!");
 		list.add(c);
 		
@@ -47,7 +48,7 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		
 		//Temporarily prepopulate
 		c = new Course();
-		c.setCourseId("course_one");
+		c.setCourseId((long) 32);
 		c.setName("Difficult course");
 		list.add(c);
 		
@@ -57,7 +58,7 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 
 
 	@Override
-	public Course getCourseById(String id) {
+	public Course getCourseById(Long id) {
 		//Stub
 		Course c;
 		
@@ -71,7 +72,7 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 
 
 	@Override
-	public ArrayList<Session> getSessionsForCourse(String courseId) {
+	public ArrayList<Session> getSessionsForCourse(Long courseId) {
 		new MockDataGenerator().generateMockData();
 		
 		ArrayList<Session> sAll = new ArrayList<Session>();
@@ -79,13 +80,13 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		try {
 			s1.setDeck(DeckDAO.getInstance().getDeckById((long) 102));
 		} catch (Exception e) {}
-		s1.setSessionId("session84");
+		s1.setSessionId((long)84);
 		
 		Session s2 = new Quiz();
 		try {
 			s2.setDeck(DeckDAO.getInstance().getDeckById((long) 101));
 		} catch (Exception e) {}
-		s2.setSessionId("session85");
+		s2.setSessionId((long)85);
 		
 		sAll.add(s1);
 		sAll.add(s2);
@@ -94,10 +95,10 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 
 
 	@Override
-	public Session getSessionById(String sessionId) {
+	public Session getSessionById(Long sessionId) {
 		
 		Session s;
-		if (sessionId.equals("session84")) {
+		if (sessionId.equals((long)84)) {
 			s = new Lesson();
 			try {
 				s.setDeck(DeckDAO.getInstance().getDeckById((long) 102));

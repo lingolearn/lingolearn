@@ -117,25 +117,25 @@ public class MockDataGenerator {
 		
 		Lesson l = new Lesson();
 		l.setDeck(d2);
-		l.setSessionId("session84");
+		l.setSessionId((long)84);
 		
 		//TODO: store lesson in data store
 		
 		
 		Quiz q = new Quiz();
 		q.setDeck(d1);
-		q.setSessionId("session85");
+		q.setSessionId((long)85);
 		
 		//TODO: store quizzes in data store
 		
 		
 		Course course1;
 		course1 = new Course();
-		course1.setCourseId("course_one");
+		course1.setCourseId((long) 31);
 		course1.setName("Best course eva!");
 		Course course2;
 		course2 = new Course();
-		course2.setCourseId("course_two");
+		course2.setCourseId((long) 32);
 		course2.setName("Difficult course");
 		
 		//TODO: store courses in data store

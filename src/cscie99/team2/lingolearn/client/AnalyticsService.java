@@ -12,11 +12,11 @@ public interface AnalyticsService extends RemoteService{
 	public Map<String, String> getBiographicalData (String gplusId);
 	public Map<String, Float> getMetricsData (String gplusId);
 	
-	public List<String> getUsersInCourse (String courseId);
+	public List<String> getUsersInCourse (Long courseId);
 	public List<String> getAllStudents();
 	
-	public Map<String, Map<String, String>> getCourseBiographicalData(String courseId);
-	public Map<String, Map<String, Float>> getCourseMetricsData(String courseId);
+	public Map<String, Map<String, String>> getCourseBiographicalData(Long courseId);
+	public Map<String, Map<String, Float>> getCourseMetricsData(Long courseId);
 	
 	public Map<String, Map<String, String>> getAllBiographicalData();
 	public Map<String, Map<String, Float>> getAllMetricsData();

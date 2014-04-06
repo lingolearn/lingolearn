@@ -13,7 +13,7 @@ import cscie99.team2.lingolearn.shared.User;
 public interface CourseService extends RemoteService {
 	public ArrayList<Course> getCoursesUserIsInstructing(User user);
 	public ArrayList<Course> getCoursesUserIsEnrolledIn(User user);
-	public Course getCourseById(String courseId);
-	public ArrayList<Session> getSessionsForCourse(String courseId);
-	public Session getSessionById(String sessionId);
+	public Course getCourseById(Long courseId);
+	public ArrayList<Session> getSessionsForCourse(Long courseId);
+	public Session getSessionById(Long sessionId);
 }
