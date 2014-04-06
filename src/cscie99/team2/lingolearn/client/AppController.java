@@ -67,6 +67,49 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
             doViewCard();
           }
         });  
+    
+    eventBus.addHandler(AnalyticsEvent.TYPE,
+            new AnalyticsEventHandler() {
+    
+    		@Override
+    		public void onQuizResponse(AnalyticsEvent event,
+    				QuizResponse quizResponse) {
+    			quizResponseService.storeQuizResponse(quizResponse, new AsyncCallback<QuizResponse>() {
+    
+    				@Override
+    				public void onFailure(Throwable caught) {
+    					System.out.println("failed to store quiz response");
+    				}
+    
+    				@Override
+    				public void onSuccess(QuizResponse result) {
+    					System.out.println("successfully stored quiz response");
+    				}
+    				
+    			});
+    			
+    		}
+    
+    		@Override
+    		public void onFlashCardResponse(AnalyticsEvent event,
+    				FlashCardResponse flashCardResponse) {
+    			flashCardResponseService.storeFlashCardResponse(flashCardResponse, new AsyncCallback<FlashCardResponse>() {
+     
+    				@Override
+    				public void onFailure(Throwable caught) {
+    					System.out.println("failed to store flash card response");
+    				}
+    
+    				@Override
+    				public void onSuccess(FlashCardResponse result) {
+    					System.out.println("successfully stored flash response");
+    				}
+    				
+    			});
+    			
+    		}
+        });
+    
 
   }
 
