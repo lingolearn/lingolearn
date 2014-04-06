@@ -18,7 +18,7 @@ import cscie99.team2.lingolearn.shared.Course;
 @Entity(name="ObjectifyableCourse")
 public class ObjectifyableCourse implements Serializable {
 
-	private static final long serialVersionUID = 3307093343888121538L;
+	private static final long serialVersionUID = -4995077387409263724L;
 	
 	@Id private Long   courseId;		// Unique course Id
 	@Index private String courseDesc;	// Course description
@@ -30,7 +30,7 @@ public class ObjectifyableCourse implements Serializable {
 	
 	/**
 	 * This method constructor creates Objectifyable Course from real object
-	 * @param card		Course object
+	 * @param course		Course object
 	 */
 	public ObjectifyableCourse (Course course) {
 		this.courseId = course.getCourseId();
