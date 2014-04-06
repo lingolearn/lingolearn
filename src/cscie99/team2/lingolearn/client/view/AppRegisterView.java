@@ -4,49 +4,42 @@ package cscie99.team2.lingolearn.client.view;
 import java.util.Iterator;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Hidden;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import cscie99.team2.lingolearn.shared.Gender;
 import cscie99.team2.lingolearn.shared.LanguageTypes;
 
 public class AppRegisterView extends Composite {
-
-	private static final String REG_BTN_TXT = "Register";
+	interface Binder extends UiBinder<Widget, AppRegisterView> { }
+	private static final Binder binder = GWT.create(Binder.class);
 	
 	/* Widgets */
-	VerticalPanel holder = new VerticalPanel();
-	private FormPanel formPanel = new FormPanel();
-	private TextBox gmail = new TextBox();
-	private Hidden gplusId = new Hidden();
-	private TextBox firstName = new TextBox();
-	private TextBox lastName = new TextBox();
-	private ListBox yearsExperience = new ListBox();
-	private ListBox birthYear = new ListBox();
-	private ListBox nativeLanguage = new ListBox();
-	private ListBox gender = new ListBox();
-	private Button register = new Button(REG_BTN_TXT);
-	
-	private Label emailAddressLabel;
-	private Label firstNameLabel;
-	private Label lastNameLabel;
-	private Label yearsExperienceLabel;
-	private Label birthYearLabel;
-	private Label nativeLanguageLabel;
-	private Label genderLabel;
+	@UiField FormPanel form;
+	@UiField TextBox gmail;
+	@UiField Hidden gplusId;
+	@UiField TextBox firstName;
+	@UiField TextBox lastName;
+	@UiField ListBox yearsExperience;
+	@UiField ListBox birthYear;
+	@UiField ListBox nativeLanguage;
+	@UiField ListBox gender;
+	@UiField Button register;
 	
 	public AppRegisterView(){
-		this.initWidget(this.holder);
-		initForm();
+		initWidget(binder.createAndBindUi(this));
 		
+		initForm();
 	}
 	
 	public Widget asWidget() {
@@ -96,36 +89,11 @@ public class AppRegisterView extends Composite {
 	 * Helper method to initialize form elements 
 	 */
 	private void initForm(){
-		formPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
-		formPanel.setMethod(FormPanel.METHOD_POST);
+		form.setEncoding(FormPanel.ENCODING_MULTIPART);
+		form.setMethod(FormPanel.METHOD_POST);
 		
 		initListBoxes();
-		emailAddressLabel = new Label("Email Address");
-		firstNameLabel = new Label("First Name");
-		lastNameLabel = new Label("Last Name");
-		birthYearLabel = new Label("What year were you born?");
-		yearsExperienceLabel = new Label("Years Experience");
-		nativeLanguageLabel = new Label("Native Language");
-		genderLabel = new Label("Gender");
 		gmail.setReadOnly(true);
-		
-		holder.add(emailAddressLabel);
-		holder.add(gmail);
-		holder.add(gplusId);
-		holder.add(firstNameLabel);
-		holder.add(firstName);
-		holder.add(lastNameLabel);
-		holder.add(lastName);
-		holder.add(yearsExperienceLabel);
-		holder.add(yearsExperience);
-		holder.add(birthYearLabel);
-		holder.add(birthYear);
-		holder.add(nativeLanguageLabel);
-		holder.add(nativeLanguage);
-		holder.add(genderLabel);
-		holder.add(gender);
-		holder.add(register);
-		
 	}
 	
 	
@@ -152,20 +120,12 @@ public class AppRegisterView extends Composite {
 		
 	}
 
-	public VerticalPanel getHolder() {
-		return holder;
-	}
-
-	public void setHolder(VerticalPanel holder) {
-		this.holder = holder;
-	}
-
 	public FormPanel getFormPanel() {
-		return formPanel;
+		return form;
 	}
 
 	public void setFormPanel(FormPanel formPanel) {
-		this.formPanel = formPanel;
+		this.form = formPanel;
 	}
 
 	public TextBox getGmail() {
@@ -230,10 +190,6 @@ public class AppRegisterView extends Composite {
 
 	public void setRegister(Button register) {
 		this.register = register;
-	}
-
-	public static String getRegBtnTxt() {
-		return REG_BTN_TXT;
 	}
 
 	public ListBox getGender() {
