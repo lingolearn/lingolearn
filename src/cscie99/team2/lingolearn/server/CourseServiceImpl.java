@@ -113,4 +113,11 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		return s;
 	}
 
+	@Override
+	public Course createCourse(Course course) {
+		// TODO Put the course in the data store (after it has an id)
+		course.setCourseId((long) -1);
+		return course;
+	}
+
 }

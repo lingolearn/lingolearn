@@ -16,4 +16,5 @@ public interface CourseService extends RemoteService {
 	public Course getCourseById(Long courseId);
 	public ArrayList<Session> getSessionsForCourse(Long courseId);
 	public Session getSessionById(Long sessionId);
+	public Course createCourse(Course course);
 }
