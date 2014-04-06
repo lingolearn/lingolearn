@@ -1,0 +1,61 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'
+  xmlns:mail='urn:import:cscie99.team2.lingolearn.client.view'>
+
+  <g:HTMLPanel>
+
+  	<div class='panel panel-default'>
+  		<div class='panel-heading'>Signup</div>
+  		<div class='panel-body'>
+		  	<g:FormPanel ui:field='form' styleName='form-horizontal'>
+			    <g:FlowPanel>
+			    
+			    	<g:FlowPanel styleName='form-group'>
+			    		<g:Label text="Email" styleName='col-sm-4'/>
+			    		<g:FlowPanel styleName='col-sm-8'><g:TextBox ui:field='gmail' styleName='form-control'/></g:FlowPanel>
+			    	</g:FlowPanel>
+			    	
+			    	<g:FlowPanel styleName='form-group'>
+			    		<g:Label text="First Name" styleName='col-sm-4'/>
+			    		<g:FlowPanel styleName='col-sm-8'><g:TextBox ui:field='firstName' styleName='form-control'/></g:FlowPanel>
+			    	</g:FlowPanel>
+			    	
+			    	<g:FlowPanel styleName='form-group'>
+			    		<g:Label text="Last Name" styleName='col-sm-4'/>
+			    		<g:FlowPanel styleName='col-sm-8'><g:TextBox ui:field='lastName' styleName='form-control'/></g:FlowPanel>
+			    	</g:FlowPanel>
+			    
+			     	<g:FlowPanel styleName='form-group'>
+			    		<g:Label text="Birth year" styleName='col-sm-4'/>
+			    		<g:FlowPanel styleName='col-sm-8'><g:ListBox ui:field='birthYear' styleName='form-control'/></g:FlowPanel>
+			    	</g:FlowPanel>
+			    	
+			    	<g:FlowPanel styleName='form-group'>
+			    		<g:Label text="Years Experience" styleName='col-sm-4'/>
+			    		<g:FlowPanel styleName='col-sm-8'><g:ListBox ui:field='yearsExperience' styleName='form-control'/></g:FlowPanel>
+			    	</g:FlowPanel>
+			    	
+			    	<g:FlowPanel styleName='form-group'>
+			    		<g:Label text="Native Language" styleName='col-sm-4'/>
+			    		<g:FlowPanel styleName='col-sm-8'><g:ListBox ui:field='nativeLanguage' styleName='form-control'/></g:FlowPanel>
+			    	</g:FlowPanel>
+			    	
+			    	<g:FlowPanel styleName='form-group'>
+			    		<g:Label text="Gender" styleName='col-sm-4'/>
+			    		<g:FlowPanel styleName='col-sm-8'><g:ListBox ui:field='gender' styleName='form-control'/></g:FlowPanel>
+			    	</g:FlowPanel>
+			  
+			  		<g:Hidden ui:field='gplusId' />
+			  		
+			    	<g:FlowPanel styleName='form-group'>
+				  		<g:FlowPanel styleName='col-sm-offset-4 col-sm-8'>
+				   			<g:Button ui:field='register' styleName='btn btn-primary'>Register</g:Button>
+				   		</g:FlowPanel>
+			   		</g:FlowPanel>
+		   		
+		   		</g:FlowPanel>
+		   	</g:FormPanel>
+   		</div>
+   	</div>
+  </g:HTMLPanel>
+</ui:UiBinder>
