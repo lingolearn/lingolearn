@@ -1,5 +1,6 @@
 package cscie99.team2.lingolearn.server.confuser;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -7,6 +8,7 @@ import java.util.Random;
 import com.google.api.server.spi.response.ConflictException;
 
 import cscie99.team2.lingolearn.shared.Card;
+import cscie99.team2.lingolearn.shared.error.ConfuserException;
 
 /**
  * This class encapsulates a means of getting characters that are similar to a
@@ -14,15 +16,16 @@ import cscie99.team2.lingolearn.shared.Card;
  */
 public class Confuser {
 	/**
-	 * Get a random list of confusers of given type limited to the count provided.
+	 * Get a random list of confusers of given type limited to the count 
+	 * provided, these results are checked against the black list to 
+	 * ensure that nothing inappropriate is returned. 
 	 * 
-	 * @param card
-	 * @param type
-	 * @param count
-	 * @return
-	 * @throws ConflictException 
+	 * @param card The card to get the confusers for.
+	 * @param type The focus of the confusers.
+	 * @param count The number that should be returned.
+	 * @return A list of string zero to the requested count of confusers.
 	 */
-	public List<String> getConfusers(Card card, CharacterType type, int count) throws ConflictException {
+	public List<String> getConfusers(Card card, CharacterType type, int count) throws ConfuserException {
 		// Start by running the relevant functions
 		List<String> results = new ArrayList<String>();
 		switch (type) {
@@ -39,7 +42,19 @@ public class Confuser {
 				results.addAll(getKanjiSubsitution(card, count));
 				break;
 			default:
-				throw new ConflictException("An invalid type, " + type + " was provided.");
+				throw new ConfuserException("An invalid type, " + type + " was provided.");
+		}
+		// Check to make sure all of the results are appropriate
+		try {
+			for (int ndx = 0; ndx < results.size(); ndx++) {
+				if (ConfuserTools.onBlackList(results.get(ndx), "jp")) {
+					results.remove(ndx);
+					ndx--;
+				}
+			}
+		}
+		catch (IOException ex) {
+			throw new ConfuserException("There was an error while reading the blacklist.", ex);
 		}
 		// Trim the results down to the count and return them
 		Random random = new Random();

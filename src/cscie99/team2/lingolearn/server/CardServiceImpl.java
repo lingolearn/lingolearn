@@ -14,6 +14,7 @@ import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Image;
 import cscie99.team2.lingolearn.shared.Sound;
 import cscie99.team2.lingolearn.shared.error.CardNotFoundException;
+import cscie99.team2.lingolearn.shared.error.ConfuserException;
 
 @SuppressWarnings("serial")
 public class CardServiceImpl extends RemoteServiceServlet implements CardService {
@@ -134,7 +135,7 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 		Confuser confuser = new Confuser();
 		try {
 			confuserStrings = confuser.getConfusers(card, CharacterType.Hiragana, 3);
-		} catch (ConflictException e) {
+		} catch (ConfuserException e) {
 			e.printStackTrace();
 		}
 		return confuserStrings;
