@@ -29,7 +29,9 @@ import cscie99.team2.lingolearn.client.view.CardView.Binder;
 import cscie99.team2.lingolearn.shared.Card;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class QuizView extends Composite {
   interface Binder extends UiBinder<Widget, QuizView> { }
@@ -108,6 +110,7 @@ public class QuizView extends Composite {
 			checkIfAnswerSelected();
 		} 
 	  });
+	  shuffleAnswerNodes();
   }
   
   public void clearResponseArea() {
@@ -143,6 +146,22 @@ public class QuizView extends Composite {
 		  if (r.getValue()) {
 			  enableSubmitButton();
 		  }
+	  }
+  }
+  
+  private void shuffleAnswerNodes() {
+	  //Shuffle.  Note that Collections.shuffle() not supported in GWT
+	  Random random = new Random();  
+	  for(int i=0;i<answerNodes.size();i++) {  
+	      Collections.swap(answerNodes,i,i+random.nextInt(answerNodes.size()-i));  
+	  }
+	  
+	  //Remove and re-add
+	  for (int i=0;i<answerNodes.size();i++) {
+		  answerContainer.remove(answerNodes.get(i));
+	  }
+	  for (int i=0;i<answerNodes.size();i++) {
+		  answerContainer.add(answerNodes.get(i));
 	  }
   }
   
