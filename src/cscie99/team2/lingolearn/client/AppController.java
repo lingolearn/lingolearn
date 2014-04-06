@@ -15,6 +15,7 @@ import cscie99.team2.lingolearn.client.event.ViewCardEventHandler;
 import cscie99.team2.lingolearn.client.presenter.CardPresenter;
 import cscie99.team2.lingolearn.client.presenter.CoursePresenter;
 import cscie99.team2.lingolearn.client.presenter.HomePresenter;
+import cscie99.team2.lingolearn.client.presenter.NewCoursePresenter;
 import cscie99.team2.lingolearn.client.presenter.Presenter;
 import cscie99.team2.lingolearn.client.presenter.RegistrationPresenter;
 import cscie99.team2.lingolearn.client.presenter.ResearchPresenter;
@@ -23,6 +24,7 @@ import cscie99.team2.lingolearn.client.view.AppRegisterView;
 import cscie99.team2.lingolearn.client.view.CardView;
 import cscie99.team2.lingolearn.client.view.CourseView;
 import cscie99.team2.lingolearn.client.view.HomeView;
+import cscie99.team2.lingolearn.client.view.NewCourseView;
 import cscie99.team2.lingolearn.client.view.ResearchView;
 import cscie99.team2.lingolearn.client.view.SessionView;
 import cscie99.team2.lingolearn.shared.Card;
@@ -162,6 +164,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
       case "course":
     	  presenter = new CoursePresenter(courseService, analyticsService, 
     			  eventBus, new CourseView());
+    	  break;
+      case "newCourse":
+    	  presenter = new NewCoursePresenter(courseService, 
+    			  eventBus, new NewCourseView());
     	  break;
       case "session":
     	  presenter = new SessionPresenter(courseService, cardService, 

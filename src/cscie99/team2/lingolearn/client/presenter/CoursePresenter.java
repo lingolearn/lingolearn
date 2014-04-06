@@ -54,7 +54,7 @@ public class CoursePresenter implements Presenter {
     container.add(display.asWidget());
     
     //Set course based on query parameter in URL
-    Long courseId = (long) 31;
+    Long courseId;
     courseId = Long.valueOf(Window.Location.getParameter("courseId"));
     this.getCourseInfo(courseId);
   }
