@@ -8,6 +8,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import cscie99.team2.lingolearn.client.CardService;
 import cscie99.team2.lingolearn.client.CourseService;
 import cscie99.team2.lingolearn.server.datastore.CardDAO;
+import cscie99.team2.lingolearn.server.datastore.CourseDAO;
 import cscie99.team2.lingolearn.server.datastore.DeckDAO;
 import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Course;
@@ -22,19 +23,22 @@ import cscie99.team2.lingolearn.shared.error.DeckNotFoundException;
 @SuppressWarnings("serial")
 public class CourseServiceImpl extends RemoteServiceServlet implements CourseService {
 	
+	private CourseDAO courseAccessor;
+	
 	public CourseServiceImpl() {
 		new MockDataGenerator().generateMockData();
+		courseAccessor = CourseDAO.getInstance();
 	}
 	
 	public ArrayList<Course> getCoursesUserIsInstructing(User user) {
+		List<Course> rawList;
 		ArrayList<Course> list = new ArrayList<Course>();
-		Course c;
 		
-		//Temporarily prepopulate
-		c = new Course();
-		c.setCourseId((long) 31);
-		c.setName("Best course eva!");
-		list.add(c);
+		//Temporarily populate with all
+		rawList = courseAccessor.getAllCourses();
+		for (int i=0;(i < 5) && (i < rawList.size());i++) {
+			list.add(rawList.get(i));
+		}
 		
 		return list;
 		
@@ -42,15 +46,14 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 	
 	
 	public ArrayList<Course> getCoursesUserIsEnrolledIn(User user) {
+		List<Course> rawList;
 		ArrayList<Course> list = new ArrayList<Course>();
-		Course c;
 		
-		
-		//Temporarily prepopulate
-		c = new Course();
-		c.setCourseId((long) 32);
-		c.setName("Difficult course");
-		list.add(c);
+		//Temporarily populate with all
+		rawList = courseAccessor.getAllCourses();
+		for (int i=0;(i < 5) && (i < rawList.size());i++) {
+			list.add(rawList.get(i));
+		}
 		
 		return list;
 		
@@ -59,14 +62,7 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 
 	@Override
 	public Course getCourseById(Long id) {
-		//Stub
-		Course c;
-		
-		
-		//Temporarily prepopulate
-		c = new Course();
-		c.setCourseId(id);
-		c.setName("Difficult course");
+		Course c = courseAccessor.getCourseById(id);
 		return c;
 	}
 
@@ -115,8 +111,8 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 
 	@Override
 	public Course createCourse(Course course) {
-		// TODO Put the course in the data store (after it has an id)
-		course.setCourseId((long) -1);
+		// Put the course in the data store (after it has an id)
+		course = courseAccessor.storeCourse(course);
 		return course;
 	}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cscie99.team2.lingolearn.server.datastore.CardDAO;
+import cscie99.team2.lingolearn.server.datastore.CourseDAO;
 import cscie99.team2.lingolearn.server.datastore.DeckDAO;
 import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Course;
@@ -19,7 +20,7 @@ public class MockDataGenerator {
 	public void generateMockData() {
 		
 		Card tc1 = new Card();
-		tc1.setId((long) 101); 
+		//tc1.setId((long) 101); 
 		tc1.setKanji("k1");
 		tc1.setHiragana("h1");
 		tc1.setKatakana("kt1");
@@ -29,7 +30,7 @@ public class MockDataGenerator {
 
 		// same kanji as in tc1
 		Card tc2 = new Card();
-		tc2.setId((long) 102); 
+		//tc2.setId((long) 102); 
 		tc2.setKanji("k1");
 		tc2.setHiragana("h2");
 		tc2.setKatakana("kt2");
@@ -47,7 +48,7 @@ public class MockDataGenerator {
 		mySound.setSoundUri(soundUri);
 
 		Card tc3 = new Card();
-		tc3.setId((long) 103); 
+		//tc3.setId((long) 103); 
 		tc3.setKanji("k3");
 		tc3.setHiragana("h3");
 		tc3.setKatakana("kt3");
@@ -60,12 +61,27 @@ public class MockDataGenerator {
 		
 		Card c1 = new Card();
 		c1.setKanji("岡");
-		c1.setId((long)1);
+		//c1.setId((long)1);
 		c1.setTranslation("card 1 translation");
 		Card c2 = new Card();
 		c2.setKanji("字");
-		c2.setId((long)2);
+		//c2.setId((long)2);
 		c2.setTranslation("card 2 translation");
+		
+
+
+		// Store cards in the local In-memory datastore
+		CardDAO cardAccessor = CardDAO.getInstance();
+		try {
+			tc1 = cardAccessor.storeCard(tc1);
+			tc2 = cardAccessor.storeCard(tc2);
+			tc3 = cardAccessor.storeCard(tc3);
+			c1 = cardAccessor.storeCard(c1);
+			c2 = cardAccessor.storeCard(c2);
+		} catch (CardNotFoundException myCardNotFoundException) {
+			// Duplicate card
+			System.err.println(myCardNotFoundException.getMsg() + " for " + myCardNotFoundException.getSearchParam());
+		}
 		
 
 		// Create 2 decks
@@ -73,7 +89,7 @@ public class MockDataGenerator {
 		Deck d2 = new Deck();
 
 		// Add 3 cards to the deck1
-		d1.setId((long) 101);
+		//d1.setId((long) 101);
 		d1.setLangauge("ja-jp");
 		d1.setNativeLangauge("en-us");
 		d1.setCardIds(new ArrayList<Long>());
@@ -83,7 +99,7 @@ public class MockDataGenerator {
 		d1.add(tc3);
 
 		// Add 1 cards to the deck2
-		d2.setId((long) 102);
+		//d2.setId((long) 102);
 		d2.setLangauge("ja-jp");
 		d2.setNativeLangauge("en-us");
 		d2.setCardIds(new ArrayList<Long>());
@@ -91,24 +107,11 @@ public class MockDataGenerator {
 		d2.add(c1);
 		d2.add(c2);
 
-		// Store cards in the local In-memory datastore
-		CardDAO cardAccessor = CardDAO.getInstance();
-		try {
-			cardAccessor.storeCard(tc1);
-			cardAccessor.storeCard(tc2);
-			cardAccessor.storeCard(tc3);
-			cardAccessor.storeCard(c1);
-			cardAccessor.storeCard(c2);
-		} catch (CardNotFoundException myCardNotFoundException) {
-			// Duplicate card
-			System.err.println(myCardNotFoundException.getMsg() + " for " + myCardNotFoundException.getSearchParam());
-		}
-
 		// Store decks in the local In-memory datastore
 		DeckDAO deckAccessor = DeckDAO.getInstance();
 		try {
-			deckAccessor.storeDeck(d1);
-			deckAccessor.storeDeck(d2);
+			d1 = deckAccessor.storeDeck(d1);
+			d2 = deckAccessor.storeDeck(d2);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -131,15 +134,23 @@ public class MockDataGenerator {
 		
 		Course course1;
 		course1 = new Course();
-		course1.setCourseId((long) 31);
+		//course1.setCourseId((long) 31);
 		course1.setName("Best course eva!");
 		Course course2;
 		course2 = new Course();
-		course2.setCourseId((long) 32);
+		//course2.setCourseId((long) 32);
 		course2.setName("Difficult course");
 		
-		//TODO: store courses in data store
 		
+		
+		//TODO: store courses in data store
+		CourseDAO courseAccessor = CourseDAO.getInstance();
+		try {
+			course1 = courseAccessor.storeCourse(course1);
+			course2 = courseAccessor.storeCourse(course2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	

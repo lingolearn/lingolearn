@@ -1,0 +1,26 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'
+  xmlns:mail='urn:import:cscie99.team2.lingolearn.client.view'>
+
+  <g:HTMLPanel>
+
+  	<div class='panel panel-default'>
+  		<div class='panel-heading'>Import Cards and Decks</div>
+  		<div class='panel-body'>
+		  	<g:FormPanel ui:field='form' styleName='form-horizontal'>
+			    <g:FlowPanel>
+			    
+			    	<g:FlowPanel styleName='form-group'>
+			    		<g:FileUpload ui:field="fileUpload"></g:FileUpload>
+      					<g:Button ui:field="uploadButton">Submit</g:Button>
+			    		
+			    	</g:FlowPanel>
+			    	
+
+		   		
+		   		</g:FlowPanel>
+		   	</g:FormPanel>
+   		</div>
+   	</div>
+  </g:HTMLPanel>
+</ui:UiBinder>

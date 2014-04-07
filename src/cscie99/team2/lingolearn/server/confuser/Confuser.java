@@ -1,78 +1,82 @@
 package cscie99.team2.lingolearn.server.confuser;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.google.api.server.spi.response.ConflictException;
-
 import cscie99.team2.lingolearn.shared.Card;
+import cscie99.team2.lingolearn.shared.error.ConfuserException;
 
 /**
  * This class encapsulates a means of getting characters that are similar to a
  * given example for the purposes of confusing humans.
  */
 public class Confuser {
+	// The path to the directory of confusers
+	private final static String CONFUSER_DIRECTORY = "/confusers/";
+	
+	// The extension for the files
+	private final static String CONFUSER_EXTENSION = ".confusers";
+	
+	// The language code we are working with
+	private final static String CONFUSER_LANGUAGE = "jp";
+	
 	/**
-	 * Get a random list of confusers of given type limited to the count provided.
+	 * Get a random list of confusers of given type limited to the count 
+	 * provided, these results are checked against the black list to 
+	 * ensure that nothing inappropriate is returned. 
 	 * 
-	 * @param card
-	 * @param type
-	 * @param count
-	 * @return
-	 * @throws ConflictException 
+	 * @param card The card to get the confusers for.
+	 * @param type The focus of the confusers.
+	 * @param count The number that should be returned.
+	 * @return A list of string zero to the requested count of confusers.
 	 */
-	public List<String> getConfusers(Card card, CharacterType type, int count) throws ConflictException {
-		// Start by running the relevant functions
-		List<String> results = new ArrayList<String>();
-		switch (type) {
-			case Hiragana:
-				results.addAll(getNManipulation(card.getHiragana()));
-				results.addAll(getSmallTsuManiuplation(card.getHiragana()));
-				break;
-			case Katakana:
-				results.addAll(getNManipulation(card.getKatakana()));
-				results.addAll(getSmallTsuManiuplation(card.getKatakana()));
-				break;
-			case Kanji:
-				results.addAll(getKanjiBoundries(card));
-				results.addAll(getKanjiSubsitution(card, count));
-				break;
-			default:
-				throw new ConflictException("An invalid type, " + type + " was provided.");
+	public List<String> getConfusers(Card card, CharacterType type, int count) throws ConfuserException {
+		try {
+			// Start by running the relevant functions
+			List<String> results = new ArrayList<String>();
+			switch (type) {
+				case Hiragana:
+					results.addAll(getNManipulation(card.getHiragana()));
+					results.addAll(getSmallTsuManiuplation(card.getHiragana()));
+					break;
+				case Katakana:
+					results.addAll(getNManipulation(card.getKatakana()));
+					results.addAll(getSmallTsuManiuplation(card.getKatakana()));
+					results.addAll(getVowelManiuplation(card.getKatakana()));
+					break;
+				case Kanji:
+					results.addAll(getKanjiBoundries(card));
+					results.addAll(getKanjiSubsitution(card.getKanji()));
+					break;
+				default:
+					throw new ConfuserException("An invalid type, " + type + " was provided.");
+			}
+			// Check to make sure all of the results are appropriate
+			for (int ndx = 0; ndx < results.size(); ndx++) {
+				if (ConfuserTools.onBlackList(results.get(ndx), "jp")) {
+					results.remove(ndx);
+					ndx--;
+				}
+			}
+			// Trim the results down to the count and return them
+			Random random = new Random();
+			while (results.size() > count) {
+				int ndx = random.nextInt(results.size());
+				results.remove(ndx);
+			}
+			return results;
 		}
-		// Trim the results down to the count and return them
-		Random random = new Random();
-		while (results.size() > count) {
-			int ndx = random.nextInt(results.size());
-			results.remove(ndx);
+		catch (IOException ex) {
+			throw new ConfuserException("There was an error while reading the blacklist.", ex);
 		}
-		return results;
 	}
-	
-	/**
-	 * Get a list of kanji phrases that are similar to the one that has been
-	 * provided. In the event that no kanji confusers for the given card then
-	 * null will be returned, otherwise, confusers up to the provided count will
-	 * be provided.
-	 */
-	public List<String> getKanjiSubsitution(Card card, int count) {
-		// Get the confusers for Japanese
-
-		// Break the card's kanji phrase apart so we have multiple options
-
-		// Iterate through the families until we find the correct one
-
-		// We have a match, note the family
-
-		// If we don't have any families identified, return null
-
-		// Try to find a confuser based upon each family provided
-
-		// Return the confusers
-		return new ArrayList<String>();
-	}
-	
+		
 	/**
 	 * Get a list of kanji phrases that have the hiragana extended off the kanji
 	 * where appropriate.
@@ -157,6 +161,37 @@ public class Confuser {
 	}
 
 	/**
+	 * Get a list of kanji phrases that are similar to the one that has been
+	 * provided. In the event that no kanji confusers for the given card then
+	 * null will be returned, otherwise, confusers up to the provided count will
+	 * be provided.
+	 * 
+	 * @param card
+	 * @return
+	 */
+	public List<String> getKanjiSubsitution(String phrase) throws ConfuserException, IOException {
+		// Read the confusers from the resource file
+		List<String> confusers = readConfusers();
+		// Iterate through the characters in this phrase
+		List<String> phrases = new ArrayList<String>();
+		for (int ndx = 0; ndx < phrase.length(); ndx++) {
+			char ch = phrase.charAt(ndx);
+			if (ConfuserTools.checkCharacter(ch) != CharacterType.Kanji) {
+				continue;
+			}
+			// Iterate through each of the lines for confusers
+			for (String confuser : confusers) {
+				if (confuser.contains(String.valueOf(ch))) {
+					phrases.addAll(getReplacements(phrase, ch, ndx, confuser));
+					break;
+				}
+			}
+		}
+		// Return the confusers
+		return phrases;		
+	}
+		
+	/**
 	 * Manipulate the phrase provided to add or remove n characters (ん, ン) as
 	 * appropriate.
 	 * 
@@ -191,6 +226,40 @@ public class Confuser {
 			// If this is an n* sound, add a n before it
 			else if (characters.contains(String.valueOf(ch))) {
 				phrases.add(phrase.substring(0, ndx) + n + phrase.substring(ndx));
+			}
+		}
+		return phrases;
+	}
+	
+	/**
+	 * Generate all of the valid replacements for the parameters provided.
+	 * 
+	 * @param phrase The kanji phrase have the substitutions applied to.
+	 * @param kanji The kanji that is to be replaced.
+	 * @param index The index that the kanji exists at.
+	 * @param replacements The kanji family as read from the confusers list.
+	 * @return The list of updated kanji phrases.
+	 */
+	private List<String> getReplacements(String phrase, char kanji, int index, String replacements) {
+		// Make sure the kanji provided does not appear in the list
+		replacements = replacements.replace(String.valueOf(kanji), "");
+		// Iterate through the replacements and generate new strings with 
+		// the character at the index being replaced
+		List<String> phrases = new ArrayList<String>();
+		for (int ndx = 0; ndx < replacements.length(); ndx++) { 
+			char replacement = replacements.charAt(ndx);
+			// Make sure the phrase is built correctly
+			if (index == 0) {
+				phrases.add(String.valueOf(replacement) + phrase.substring(1));
+				continue;
+			}
+			int offset = (index == 1) ? 1 : index - 1;
+			if (index == (phrase.length() - 1)) {
+					phrases.add(phrase.substring(0, offset) + String.valueOf(replacement));
+			} else {
+				String bah = phrase.substring(0, offset) + replacement + phrase.substring(index + 1);
+
+				phrases.add(bah);
 			}
 		}
 		return phrases;
@@ -240,5 +309,94 @@ public class Confuser {
 			}
 		}
 		return phrases;
+	}
+	
+	/**
+	 * Add or remove vowel elongation characters (ー) from the provided phrase. 
+	 * This algorithm attempts to either add or remove a single character on a
+	 * single pass through the entire phrase.
+	 * 
+	 * @param phrase The phrase to be manipulated.
+	 * @return A list of valid manipulations of the provided phrase.
+	 */
+	public List<String> getVowelManiuplation(String phrase) {
+		// The following are the parameters for the manipulation
+		char choonpu = 'ー';
+		char n = 'ン';
+		String invalidFollowers = "ャュョェ";
+		// Start scanning through the phrase for relevant matches and either
+		// add or remove the choopu as required
+		List<String> phrases = new ArrayList<String>();
+		for (int ndx = 0; ndx < phrase.length(); ndx++) {
+			char ch = phrase.charAt(ndx);
+			// Press on if we can't replace this character
+			if (ch == n) {
+				continue;
+			}
+			// Check to make sure the next character is not an extension
+			if (ndx != (phrase.length() - 1)) {
+				char next = phrase.charAt(ndx + 1);
+				if (next == choonpu || invalidFollowers.contains(String.valueOf(next))) {
+					continue;
+				}
+			}
+			// Are we doing a delete?
+			if (ch == choonpu) {
+				phrases.add(phrase.substring(0, ndx) + phrase.substring(ndx + 1));
+				continue;
+			}
+			// We must be performing an insert instead
+			if (ndx == 0) {
+				phrases.add(String.valueOf(ch) + choonpu + phrase.substring(1));
+			} else if (ndx == (phrase.length() - 1)) {
+				phrases.add(phrase + choonpu);
+			} else {
+				String foo = phrase.substring(0, ndx + 1) + choonpu + phrase.substring(ndx + 1);
+				phrases.add(foo);
+			}
+		}
+		return phrases;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private List<String> readConfusers() throws ConfuserException, IOException {
+		// Open the black list for this language and check to see if it exists
+		String path = CONFUSER_DIRECTORY + CONFUSER_LANGUAGE + CONFUSER_EXTENSION;
+		InputStream confusers = ConfuserTools.class.getResourceAsStream(path);
+		if (confusers == null) {
+			throw new ConfuserException("Unable to open the confusers for, " + CONFUSER_LANGUAGE);
+		}
+		// Prepare the stream reader
+		BufferedReader reader = null;
+		InputStreamReader stream = null;
+		try {
+			// Open up the stream to be read
+			stream = new InputStreamReader(confusers);
+			reader = new BufferedReader(stream);
+			// Read and process the contents
+			List<String> results = new ArrayList<String>();
+			String data;
+			while ((data = reader.readLine()) != null) {
+				if (data.isEmpty() || data.charAt(0) == '#') {
+					continue;
+				}
+				results.add(data.replace(" ", ""));
+			}
+			return results;
+		} catch (FileNotFoundException ex) {
+			throw new ConfuserException("Unable to open the confusers for, " + CONFUSER_LANGUAGE);
+		} catch (IOException ex) {
+			throw new ConfuserException("An error occured while reading the next line", ex);
+		} finally {
+			if (reader != null) {
+				reader.close();
+			}
+			if (stream != null) {
+				stream.close();
+			}
+		}
 	}
 }
