@@ -91,10 +91,19 @@ public class ConfuserTest {
 		}
 		
 		// Test to make sure 党議拘束 (compulsory adherence to a party decision; 
-		// restrictions on party debate) is manipulated correctly in this case,
+		// restrictions on party debate) is manipulated correctly, in this case
 		// the second kanji will be replaced
 		expected = new String[] { "党儀拘束", "党嶬拘束", "党犠拘束", "党礒拘束", "党義拘束", "党艤拘束", "党蟻拘束"};
 		results = confuser.getKanjiSubsitution("党議拘束");
+		assertEquals(expected.length, results.size());
+		for (String phrase : expected) {
+			assertEquals(true, results.contains(phrase));
+		}
+		
+		// Test to make sure 動詞 (verb) is manipulated correctly, in this case
+		// the last kanji will be replaced
+		expected = new String[] { "動伺", "動司", "動嗣", "動祠", "動笥", "動覗", "動飼"};
+		results = confuser.getKanjiSubsitution("動詞");
 		assertEquals(expected.length, results.size());
 		for (String phrase : expected) {
 			assertEquals(true, results.contains(phrase));
