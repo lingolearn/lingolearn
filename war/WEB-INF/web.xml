@@ -76,6 +76,16 @@
     <url-pattern>/lingolearn/flashCardResponseService</url-pattern>
   </servlet-mapping>
   
+    <servlet>
+    <servlet-name>storageServlet</servlet-name>
+    <servlet-class>cscie99.team2.lingolearn.server.StorageServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>storageServlet</servlet-name>
+    <url-pattern>/lingolearn/storageService</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>app.html</welcome-file>
