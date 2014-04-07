@@ -9,11 +9,15 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import cscie99.team2.lingolearn.client.AnalyticsService;
 import cscie99.team2.lingolearn.server.datastore.CourseRegistrationDAO;
+import cscie99.team2.lingolearn.server.datastore.FlashCardResponseDAO;
+import cscie99.team2.lingolearn.server.datastore.QuizResponseDAO;
 import cscie99.team2.lingolearn.server.datastore.UserDAO;
 import cscie99.team2.lingolearn.shared.CourseRegistration;
+import cscie99.team2.lingolearn.shared.FlashCardResponse;
 import cscie99.team2.lingolearn.shared.Metrics;
 import cscie99.team2.lingolearn.shared.OutsideCourse;
 import cscie99.team2.lingolearn.shared.Language;
+import cscie99.team2.lingolearn.shared.QuizResponse;
 import cscie99.team2.lingolearn.shared.Textbook;
 import cscie99.team2.lingolearn.shared.User;
 
@@ -21,10 +25,15 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	
 	UserDAO uAccessor;
 	CourseRegistrationDAO crAccessor;
+	QuizResponseDAO qRespAccessor;
+	FlashCardResponseDAO fcRespAccessor;
+	
 	
 	public AnalyticsServiceImpl() {
 		uAccessor = UserDAO.getInstance();
 		crAccessor = CourseRegistrationDAO.getInstance();
+		qRespAccessor = QuizResponseDAO.getInstance();
+		fcRespAccessor = FlashCardResponseDAO.getInstance();
 	}
 
 	/**
@@ -191,38 +200,74 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	}
 	
 	public String generateCsvAllData() {
-		String csvText = "StudentID,GMail,Gender,NativeLanguage,NumberOfLanguages,NumberOfTextbooks,NumberOfOutsideCourses,"
+		
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("StudentID,GMail,Gender,NativeLanguage,NumberOfLanguages,NumberOfTextbooks,NumberOfOutsideCourses,"
 				+ "Languages,Textbooks,OutsideCourses,RecallRate,AverageQuizReactionTime,AverageFlashCardReactionTime,IndecisionRate,"
-				+ "DropRate,AverageSessionTime,RepetitionsPerWeek,PercentNoClue,PercentSortaKnewIt,PercentDefinitelyKnewIt";
+				+ "DropRate,AverageSessionTime,RepetitionsPerWeek,PercentNoClue,PercentSortaKnewIt,PercentDefinitelyKnewIt");
+		sb.append("\n");
 		
 		List<String> allStudents = this.getAllStudents();
 		for (String s: allStudents) {
 			Map<String, String> bioData = this.getBiographicalData(s);
 			Map<String, Float> metricsData = this.getMetricsData(s);
-			csvText += s +",";
-			csvText += bioData.get("gmail") + ",";
-			csvText += bioData.get("gender") + ",";
-			csvText += bioData.get("nativeLanguage") + ",";
-			csvText += bioData.get("noLanguages") + ",";
-			csvText += bioData.get("noTextbooks") + ",";
-			csvText += bioData.get("noOutsideCourses") + ",";
-			csvText += bioData.get("languages") + ",";
-			csvText += bioData.get("textbooks") + ",";
-			csvText += bioData.get("outsideCourses") + ",";
-			csvText += metricsData.get("recallRate") + ",";
-			csvText += metricsData.get("avgQuizReactionTime") + ",";
-			csvText += metricsData.get("avgFlashCardReactionTime") + ",";
-			csvText += metricsData.get("indecisionRate") + ",";
-			csvText += metricsData.get("dropRate") + ",";
-			csvText += metricsData.get("averageSessionTime") + ",";
-			csvText += metricsData.get("repetitionsPerWeek") + ",";
-			csvText += metricsData.get("percentNoClue") + ",";
-			csvText += metricsData.get("percentSortaKnewIt") + ",";
-			csvText += metricsData.get("percentDefinitelyKnewIt") + "\n";
+			sb.append(s + ",");
+			sb.append(bioData.get("gmail") + ",");
+			sb.append(bioData.get("gender") + ",");
+			sb.append(bioData.get("nativeLanguage") + ",");
+			sb.append(bioData.get("noLanguages") + ",");
+			sb.append(bioData.get("noTextbooks") + ",");
+			sb.append(bioData.get("noOutsideCourses") + ",");
+			sb.append(bioData.get("languages") + ",");
+			sb.append(bioData.get("textbooks") + ",");
+			sb.append(bioData.get("outsideCourses") + ",");
+			sb.append(metricsData.get("recallRate") + ",");
+			sb.append(metricsData.get("avgQuizReactionTime") + ",");
+			sb.append(metricsData.get("avgFlashCardReactionTime") + ",");
+			sb.append(metricsData.get("indecisionRate") + ",");
+			sb.append(metricsData.get("dropRate") + ",");
+			sb.append(metricsData.get("averageSessionTime") + ",");
+			sb.append(metricsData.get("repetitionsPerWeek") + ",");
+			sb.append(metricsData.get("percentNoClue") + ",");
+			sb.append(metricsData.get("percentSortaKnewIt") + ",");
+			sb.append(metricsData.get("percentDefinitelyKnewIt") + "\n");
 		}
 		
 		
-		return csvText;
+		return sb.toString();
+	}
+	
+	/**
+	 * Stores a QuizResponse object in the datastore.
+	 */
+	public QuizResponse storeQuizResponse(QuizResponse qResp) {
+		qRespAccessor.storeQuizResponse(qResp);
+		return qResp;
+	}
+	
+	/**
+	 * Deletes a QuizResponse by session id.
+	 */
+	public void deleteQuizResponseById(Long sessionId) {
+		if (qRespAccessor.getQuizResponseById(sessionId) != null) {
+			qRespAccessor.deleteQuizResponseById(sessionId);
+		}
+		
+	}
+	
+	/**
+	 * Stores flashcard response in the datastore
+	 */
+	public FlashCardResponse storeFlashCardResponse(FlashCardResponse fcResp) {
+		fcRespAccessor.storeFlashCardResponse(fcResp);
+		return fcResp;
+	}
+	
+	public void deleteFlashCardResponseById(Long sessionId) {
+		if (fcRespAccessor.getFlashCardResponseById(sessionId) != null) {
+			fcRespAccessor.deleteFlashCardResponseById(sessionId);
+		}
 	}
 
 }
