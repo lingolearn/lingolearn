@@ -13,15 +13,29 @@
     <div class='panel panel-default'>
       <div class='panel-heading'>New course</div>
       <div class='panel-body'>
-          <b>Name:</b> <g:TextBox ui:field='courseName'></g:TextBox>
-          <br/>
-          <b>Description:</b>
-          <br/>
-          <g:TextArea ui:field='courseDescription'></g:TextArea>
+      	<g:FormPanel styleName='form-horizontal'>
+      		<g:FlowPanel>
+      		
+			    <g:FlowPanel styleName='form-group'>
+		        	<g:Label text="Name" styleName='col-sm-4'/>
+			    	<g:FlowPanel styleName='col-sm-8'><g:TextBox ui:field='courseName' styleName='form-control' /></g:FlowPanel>
+			    </g:FlowPanel>
+			    	
+		    	<g:FlowPanel styleName='form-group'>
+		    		<g:Label text="Description" styleName='col-sm-4'/>
+		    		<g:FlowPanel styleName='col-sm-8'><g:TextArea ui:field='courseDescription' styleName='form-control'/></g:FlowPanel>
+		    	</g:FlowPanel>
+			    
+		    	<g:FlowPanel styleName='form-group'>
+			  		<g:FlowPanel styleName='col-sm-offset-4 col-sm-8'>
+			   			<g:Button ui:field='createCourseButton' styleName='btn btn-primary'>Create</g:Button>
+			   		</g:FlowPanel>
+		   		</g:FlowPanel>
+		   		
+          </g:FlowPanel>
+		</g:FormPanel>
       </div>
     </div>
-    
-    <g:Button ui:field='createCourseButton'>Create</g:Button>
 
   </g:HTMLPanel>
 
