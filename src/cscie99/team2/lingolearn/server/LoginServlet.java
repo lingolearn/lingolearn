@@ -1,4 +1,4 @@
-package cscie99.team2.lingolearn.client;
+package cscie99.team2.lingolearn.server;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,10 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import cscie99.team2.lingolearn.server.UserServiceImpl;
 
 public class LoginServlet extends HttpServlet {
 
+  //private static final Logger log = Logger.getLogger(LoginServlet.class
+   //   .getName());
+	
 	@Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
