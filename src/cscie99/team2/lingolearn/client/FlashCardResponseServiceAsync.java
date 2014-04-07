@@ -20,7 +20,7 @@ public interface FlashCardResponseServiceAsync {
 	void getFlashCardResponseById(Long sessionId,
 			AsyncCallback<FlashCardResponse> callback);
 
-	void storeFlashCardResponse(FlashCardResponse qResp,
+	void storeFlashCardResponse(FlashCardResponse fcResp,
 			AsyncCallback<FlashCardResponse> callback);
 
 }

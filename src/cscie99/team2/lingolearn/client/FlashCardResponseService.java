@@ -13,6 +13,6 @@ public interface FlashCardResponseService extends RemoteService{
 	public List<FlashCardResponse> getAllFlashCardResponses();
 	public List<FlashCardResponse> getAllFlashCardResponsesByUser(String gplusId);
 	public FlashCardResponse getFlashCardResponseById(Long sessionId);
-	public FlashCardResponse storeFlashCardResponse(FlashCardResponse qResp);
+	public FlashCardResponse storeFlashCardResponse(FlashCardResponse fcResp);
 		
 }
