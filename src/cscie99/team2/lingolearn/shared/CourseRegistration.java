@@ -13,15 +13,25 @@ import java.util.Set;
 public class CourseRegistration implements Serializable{
 
 	private static final long serialVersionUID = -1107489289326201552L;
+
+	private Long courseRegId;	// CourseRegistration Id 
+	private String gplusId;		// User's Id
+	private Long courseId;		// Course's Id
 	
-	private String gplusId;				// User's Id
-	private Set <Long> courseIdList;	// List of courses that this user is registered to 
-	
-	public CourseRegistration() {};
-	
-	public CourseRegistration(String gplusId, Set<Long> courseIdList) {
+	public CourseRegistration() {}
+
+	public CourseRegistration(Long courseRegId, String gplusId, Long courseId) {
+		this.courseRegId = courseRegId;
 		this.gplusId = gplusId;
-		this.courseIdList = courseIdList;
+		this.courseId = courseId;
+	}
+	
+	public Long getCourseRegId() {
+		return courseRegId;
+	}
+
+	public void setCourseRegId(Long courseRegId) {
+		this.courseRegId = courseRegId;
 	}
 
 	public String getGplusId() {
@@ -32,12 +42,12 @@ public class CourseRegistration implements Serializable{
 		this.gplusId = gplusId;
 	}
 
-	public Set<Long> getCourseIdList() {
-		return courseIdList;
+	public Long getCourseId() {
+		return courseId;
 	}
 
-	public void setCourseIdList(Set<Long> courseIdList) {
-		this.courseIdList = courseIdList;
-	}
-
+	public void setCourseId(Long courseId) {
+		this.courseId = courseId;
+	};
+	
 }
