@@ -116,7 +116,21 @@ public class ConfuserTest {
 	 */
 	@Test
 	public void vowelElongationTest() {
-		fail("Not implimented");
+		// Test to make sure コンピュータ (computer) is manipulated correctly
+		String[] expected = new String[] { "コーンピュータ", "コンピューター", "コンピュタ" };
+		List<String> results = confuser.getVowelManiuplation("コンピュータ");	
+		assertEquals(expected.length, results.size());
+		for (String phrase : expected) {
+			assertEquals(true, results.contains(phrase));
+		}
+		
+		// Test to make sure プロジェクト (project) is being manipulated correctly
+		expected = new String[] { "プーロジェクト", "プロージェクト", "プロジェークト", "プロジェクート", "プロジェクトー" };
+		results = confuser.getVowelManiuplation("プロジェクト");	
+		assertEquals(expected.length, results.size());
+		for (String phrase : expected) {
+			assertEquals(true, results.contains(phrase));
+		}
 	}
 
 	/**

@@ -48,6 +48,7 @@ public class Confuser {
 				case Katakana:
 					results.addAll(getNManipulation(card.getKatakana()));
 					results.addAll(getSmallTsuManiuplation(card.getKatakana()));
+					results.addAll(getVowelManiuplation(card.getKatakana()));
 					break;
 				case Kanji:
 					results.addAll(getKanjiBoundries(card));
@@ -305,6 +306,53 @@ public class Confuser {
 				} else {
 					phrases.add(phrase.substring(0, ndx) + xtsu + phrase.substring(ndx));
 				}
+			}
+		}
+		return phrases;
+	}
+	
+	/**
+	 * Add or remove vowel elongation characters (ー) from the provided phrase. 
+	 * This algorithm attempts to either add or remove a single character on a
+	 * single pass through the entire phrase.
+	 * 
+	 * @param phrase The phrase to be manipulated.
+	 * @return A list of valid manipulations of the provided phrase.
+	 */
+	public List<String> getVowelManiuplation(String phrase) {
+		// The following are the parameters for the manipulation
+		char choonpu = 'ー';
+		char n = 'ン';
+		String invalidFollowers = "ャュョェ";
+		// Start scanning through the phrase for relevant matches and either
+		// add or remove the choopu as required
+		List<String> phrases = new ArrayList<String>();
+		for (int ndx = 0; ndx < phrase.length(); ndx++) {
+			char ch = phrase.charAt(ndx);
+			// Press on if we can't replace this character
+			if (ch == n) {
+				continue;
+			}
+			// Check to make sure the next character is not an extension
+			if (ndx != (phrase.length() - 1)) {
+				char next = phrase.charAt(ndx + 1);
+				if (next == choonpu || invalidFollowers.contains(String.valueOf(next))) {
+					continue;
+				}
+			}
+			// Are we doing a delete?
+			if (ch == choonpu) {
+				phrases.add(phrase.substring(0, ndx) + phrase.substring(ndx + 1));
+				continue;
+			}
+			// We must be performing an insert instead
+			if (ndx == 0) {
+				phrases.add(String.valueOf(ch) + choonpu + phrase.substring(1));
+			} else if (ndx == (phrase.length() - 1)) {
+				phrases.add(phrase + choonpu);
+			} else {
+				String foo = phrase.substring(0, ndx + 1) + choonpu + phrase.substring(ndx + 1);
+				phrases.add(foo);
 			}
 		}
 		return phrases;
