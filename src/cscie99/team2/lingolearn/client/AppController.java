@@ -15,6 +15,7 @@ import cscie99.team2.lingolearn.client.event.ViewCardEventHandler;
 import cscie99.team2.lingolearn.client.presenter.CardPresenter;
 import cscie99.team2.lingolearn.client.presenter.CoursePresenter;
 import cscie99.team2.lingolearn.client.presenter.HomePresenter;
+import cscie99.team2.lingolearn.client.presenter.ImportPresenter;
 import cscie99.team2.lingolearn.client.presenter.NewCoursePresenter;
 import cscie99.team2.lingolearn.client.presenter.Presenter;
 import cscie99.team2.lingolearn.client.presenter.RegistrationPresenter;
@@ -24,13 +25,13 @@ import cscie99.team2.lingolearn.client.view.AppRegisterView;
 import cscie99.team2.lingolearn.client.view.CardView;
 import cscie99.team2.lingolearn.client.view.CourseView;
 import cscie99.team2.lingolearn.client.view.HomeView;
+import cscie99.team2.lingolearn.client.view.ImportView;
 import cscie99.team2.lingolearn.client.view.NewCourseView;
 import cscie99.team2.lingolearn.client.view.ResearchView;
 import cscie99.team2.lingolearn.client.view.SessionView;
-import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
-import cscie99.team2.lingolearn.shared.QuizResponse;
 import cscie99.team2.lingolearn.shared.GoogleIdPackage;
+import cscie99.team2.lingolearn.shared.QuizResponse;
 import cscie99.team2.lingolearn.shared.User;
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
@@ -41,6 +42,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
   private final AnalyticsServiceAsync analyticsService;
   private final QuizResponseServiceAsync quizResponseService;
   private final FlashCardResponseServiceAsync flashCardResponseService;
+  private final StorageServiceAsync storageService;
   private HasWidgets container;
   private boolean userAuthenticated;
   
@@ -48,6 +50,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		  CardServiceAsync cardService, AnalyticsServiceAsync analyticsService,
 		  QuizResponseServiceAsync quizResponseService, 
 		  FlashCardResponseServiceAsync flashCardResponseService, 
+		  StorageServiceAsync storageService,
 		  HandlerManager eventBus) {
 	  
     this.eventBus = eventBus;
@@ -57,6 +60,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     this.analyticsService = analyticsService;
     this.quizResponseService = quizResponseService;
     this.flashCardResponseService = flashCardResponseService;
+    this.storageService = storageService;
     
     this.userAuthenticated = false;
     bind();
@@ -180,8 +184,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
       case "research":
     	  presenter = new ResearchPresenter(analyticsService, eventBus, 
     			  new ResearchView());
-      }
+    	  break;
+      case "import":
+    	  presenter = new ImportPresenter(userService, storageService, eventBus, 
+    			  new ImportView());
+    	  break;
       
+      }
+
       if (presenter != null) {
         presenter.go(container);
       }
