@@ -9,6 +9,17 @@ import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * This view provides an interface to upload data to the application.
+ * For now this is meant to facilitate card and deck uploads.
+ * 
+ * @see StorageServiceImpl.java
+ * @see CsvBlobstoreServlet
+ * @see ImportPresenter.java
+ * 
+ * @author Jeff Rabe
+ *
+ */
 public class ImportView extends Composite {
 	interface Binder extends UiBinder<Widget, ImportView> { }
 	private static final Binder binder = GWT.create(Binder.class);

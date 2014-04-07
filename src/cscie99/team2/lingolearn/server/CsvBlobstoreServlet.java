@@ -21,18 +21,32 @@ import cscie99.team2.lingolearn.server.tools.CardFileLoader;
 import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.error.FileLoadException;
 
+/**
+ * CsvBlobstoreServlet.java
+ * 
+ * This servlet is used to parse imported files, and store their contained
+ * data in the blobstore.  Each row is meant to represent an entity (e.g. Card)
+ * 
+ * @author Jeff Rabe
+ *
+ */
 @SuppressWarnings("serial")
 public class CsvBlobstoreServlet extends HttpServlet {
 
   private BlobstoreService blobstoreService = BlobstoreServiceFactory
       .getBlobstoreService();
 	
-	@Override
+		@Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
 		
-	}
-	
+		}
+		
+		/**
+		 * The post handler is used as a callback to parse the CSV file(s) 
+		 * provided by the import form / view.  
+		 */
+		//TODO: Add robust exception handling in catch block
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
               throws IOException {
@@ -47,15 +61,7 @@ public class CsvBlobstoreServlet extends HttpServlet {
 	      CardFileLoader cardLoader = new CardFileLoader();
 	      List<Card> importedCards = cardLoader.loadCards(reader);
 	      Iterator<Card> cardItr = importedCards.iterator();
-	      while( cardItr.hasNext() ){
-	      	Card card = cardItr.next();
-	      	System.out.print(card.getHiragana());
-	      	System.out.print(" ");
-	      	System.out.print(card.getKanji());
-	      	System.out.print(" ");
-	      	System.out.print(card.getKatakana());
-	      	System.out.println();
-	      }
+
     	}catch(FileLoadException fle ){
     		fle.printStackTrace();
     	}
