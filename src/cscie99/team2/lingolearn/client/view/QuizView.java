@@ -38,7 +38,7 @@ public class QuizView extends Composite {
   private static final Binder binder = GWT.create(Binder.class);
 
   @UiField FlowPanel stemContainer;
-  @UiField VerticalPanel answerContainer;
+  @UiField FlowPanel answerContainer;
   @UiField Button submitButton;
   @UiField Button nextButton;
   @UiField FlowPanel responseArea;
@@ -101,6 +101,7 @@ public class QuizView extends Composite {
   
   public void addAnswer(String answerText) {
 	  RadioButton r = new RadioButton("answersGroup");
+	  r.setStyleName("radio");
 	  r.setHTML(answerText);
 	  answerNodes.add(r);
 	  answerContainer.add(r);
