@@ -8,7 +8,7 @@ import cscie99.team2.lingolearn.client.StorageService;
 
 public class StorageServiceImpl extends RemoteServiceServlet implements StorageService {
 
-	public static final String UPLOAD_SUCCESS_PATH = "/upload";
+	public static final String UPLOAD_SUCCESS_PATH = "/import";
 	
 	public String getBlobstoreUploadUri(){
 		BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();

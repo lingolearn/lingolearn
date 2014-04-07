@@ -8,12 +8,22 @@
   <!-- Servlets -->
     <servlet>
     <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>cscie99.team2.lingolearn.client.LoginServlet</servlet-class>
+    <servlet-class>cscie99.team2.lingolearn.server.LoginServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/loginCallback</url-pattern>
+  </servlet-mapping>
+  
+      <servlet>
+    <servlet-name>CsvBlobstoreServlet</servlet-name>
+    <servlet-class>cscie99.team2.lingolearn.server.CsvBlobstoreServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>CsvBlobstoreServlet</servlet-name>
+    <url-pattern>/import</url-pattern>
   </servlet-mapping>
   
   <servlet>
