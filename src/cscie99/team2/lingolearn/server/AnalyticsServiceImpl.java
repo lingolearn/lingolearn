@@ -8,11 +8,11 @@ import java.util.Map;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import cscie99.team2.lingolearn.client.AnalyticsService;
-import cscie99.team2.lingolearn.client.CourseService;
+import cscie99.team2.lingolearn.server.datastore.CourseRegistrationDAO;
 import cscie99.team2.lingolearn.server.datastore.UserDAO;
+import cscie99.team2.lingolearn.shared.CourseRegistration;
 import cscie99.team2.lingolearn.shared.Metrics;
 import cscie99.team2.lingolearn.shared.OutsideCourse;
-import cscie99.team2.lingolearn.shared.Gender;
 import cscie99.team2.lingolearn.shared.Language;
 import cscie99.team2.lingolearn.shared.Textbook;
 import cscie99.team2.lingolearn.shared.User;
@@ -20,9 +20,11 @@ import cscie99.team2.lingolearn.shared.User;
 public class AnalyticsServiceImpl extends RemoteServiceServlet implements AnalyticsService{
 	
 	UserDAO uAccessor;
+	CourseRegistrationDAO crAccessor;
 	
 	public AnalyticsServiceImpl() {
 		uAccessor = UserDAO.getInstance();
+		crAccessor = CourseRegistrationDAO.getInstance();
 	}
 
 	/**
@@ -90,13 +92,19 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	 * Gets a list of all student id's enrolled in a specific course 
 	 */
 	public List<String> getUsersInCourse(Long courseId) {
-		//temporarily prepopulates the data. This would normally pull all student ids currently registered in the course.
-		//This data can be found in the CourseRegistration object
-		List<String> students = new ArrayList<String>();
-		students.add("123");
-		students.add("456");
-		students.add("789");
 		
+		List<User> users = new ArrayList<User>();
+		if (crAccessor.getUserCourseId(courseId) != null) {
+			users = crAccessor.getUserCourseId(courseId);
+		}
+		List<String> students = new ArrayList<String>();
+				
+		if (users != null) {
+			for (User u: users) {
+				students.add(u.getGplusId());
+			}
+		}
+				
 		return students;
 	}
 	
@@ -105,10 +113,16 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	 */
 	public List<String> getAllStudents() {
 		List<String> students = new ArrayList<String>();
+		List<User> users = new ArrayList<User>();
 		
-		List<User> users = uAccessor.getAllUsers();
-		for (User u: users) {
-			students.add(u.getGplusId());
+		if (uAccessor.getAllUsers() != null) {
+			users = uAccessor.getAllUsers();
+		}
+		
+		if (users != null) {
+			for (User u: users) {
+				students.add(u.getGplusId());
+			}
 		}
 		
 		return students;
