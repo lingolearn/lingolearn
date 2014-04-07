@@ -16,7 +16,9 @@
     <h2>Welcome <span ui:field='userName'></span></h2>
 
     <div class='panel panel-default'>
-      <div class='panel-heading'>Instructing courses<a class='panel-upper-right' href='#newCourse'>Create</a></div>
+      <div class='panel-heading'>Instructing courses
+      	<a class='btn btn-primary btn-xs pull-right' href='#newCourse'>Create</a>
+      </div>
       <div class='panel-body'>
         <g:VerticalPanel ui:field='coursesAsStudent'></g:VerticalPanel>
       </div>
