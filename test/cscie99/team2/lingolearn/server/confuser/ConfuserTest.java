@@ -81,9 +81,20 @@ public class ConfuserTest {
 		// TODO replacement kanji is in the middle and one were the replacement
 		// TODO kanji is at the end
 		
-		// Test to make sure 介護 (nursing) is manipulated correctly
+		// Test to make sure 介護 (nursing) is manipulated correctly, in this
+		// case, the first kanji will be replaced
 		String[] expected = new String[] { "价護", "堺護", "界護", "畍護", "疥護", "芥護"};
 		List<String> results = confuser.getKanjiSubsitution("介護");
+		assertEquals(expected.length, results.size());
+		for (String phrase : expected) {
+			assertEquals(true, results.contains(phrase));
+		}
+		
+		// Test to make sure 党議拘束 (compulsory adherence to a party decision; 
+		// restrictions on party debate) is manipulated correctly in this case,
+		// the second kanji will be replaced
+		expected = new String[] { "党儀拘束", "党嶬拘束", "党犠拘束", "党礒拘束", "党義拘束", "党艤拘束", "党蟻拘束"};
+		results = confuser.getKanjiSubsitution("党議拘束");
 		assertEquals(expected.length, results.size());
 		for (String phrase : expected) {
 			assertEquals(true, results.contains(phrase));

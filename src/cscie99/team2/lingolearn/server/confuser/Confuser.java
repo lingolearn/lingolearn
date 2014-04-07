@@ -169,48 +169,27 @@ public class Confuser {
 	 * @return
 	 */
 	public List<String> getKanjiSubsitution(String phrase) throws ConfuserException, IOException {
-		// Open the black list for this language and check to see if it exists
-		String path = CONFUSER_DIRECTORY + CONFUSER_LANGUAGE + CONFUSER_EXTENSION;
-		InputStream confusers = ConfuserTools.class.getResourceAsStream(path);
-		if (confusers == null) {
-			throw new ConfuserException("Unable to open the confusers for, " + CONFUSER_LANGUAGE);
+		// Read the confusers from the resource file
+		List<String> confusers = readConfusers();
+		// Iterate through the characters in this phrase
+		List<String> phrases = new ArrayList<String>();
+		for (int ndx = 0; ndx < phrase.length(); ndx++) {
+			char ch = phrase.charAt(ndx);
+			if (ConfuserTools.checkCharacter(ch) != CharacterType.Kanji) {
+				continue;
+			}
+			// Iterate through each of the lines for confusers
+			for (String confuser : confusers) {
+				if (confuser.contains(String.valueOf(ch))) {
+					phrases.addAll(getReplacements(phrase, ch, ndx, confuser));
+					break;
+				}
+			}
 		}
-		BufferedReader reader = null;
-		try {		
-			// Prepare the stream reader
-			InputStreamReader stream = new InputStreamReader(confusers);
-			// Iterate through the characters in this phrase
-			List<String> phrases = new ArrayList<String>();
-			for (int ndx = 0; ndx < phrase.length(); ndx++) {
-				char ch = phrase.charAt(ndx);
-				if (ConfuserTools.checkCharacter(ch) != CharacterType.Kanji) {
-					continue;
-				}
-				// Make sure we are at the start of the stream
-				reader = new BufferedReader(stream);
-				// Iterate through each of the lines for confusers
-				String data;
-				while ((data = reader.readLine()) != null) {
-					if (data.contains(String.valueOf(ch))) {
-						phrases.addAll(getReplacements(phrase, ch, ndx, data));
-						break;
-					}
-				}
-			}
-			// Return the confusers
-			reader.close();
-			return phrases;
-		} catch (FileNotFoundException ex) {
-			throw new ConfuserException("Unable to open the confusers for, " + CONFUSER_LANGUAGE);
-		} catch (IOException ex) {
-			throw new ConfuserException("An error occured while reading the next line", ex);
-		} finally {
-			if (reader != null) {
-				reader.close();
-			}
-		}		
+		// Return the confusers
+		return phrases;		
 	}
-	
+		
 	/**
 	 * Manipulate the phrase provided to add or remove n characters (ん, ン) as
 	 * appropriate.
@@ -261,9 +240,7 @@ public class Confuser {
 	 * @return The list of updated kanji phrases.
 	 */
 	private List<String> getReplacements(String phrase, char kanji, int index, String replacements) {
-		// Make sure there are no spaces in the replacements along with the 
-		// kanji to be replaced
-		replacements = replacements.replace(" ", "");
+		// Make sure the kanji provided does not appear in the list
 		replacements = replacements.replace(String.valueOf(kanji), "");
 		// Iterate through the replacements and generate new strings with 
 		// the character at the index being replaced
@@ -273,10 +250,15 @@ public class Confuser {
 			// Make sure the phrase is built correctly
 			if (index == 0) {
 				phrases.add(String.valueOf(replacement) + phrase.substring(1));
-			} else if (index == (phrase.length() - 1)) {
-					phrases.add(phrase.substring(0, index - 1) + String.valueOf(replacement));
+				continue;
+			}
+			int offset = (index == 1) ? 1 : index - 1;
+			if (index == (phrase.length() - 1)) {
+					phrases.add(phrase.substring(0, offset) + String.valueOf(replacement));
 			} else {
-				phrases.add(phrase.substring(0, index - 1) + replacement + phrase.substring(index + 1));
+				String bah = phrase.substring(0, offset) + replacement + phrase.substring(index + 1);
+
+				phrases.add(bah);
 			}
 		}
 		return phrases;
@@ -326,5 +308,47 @@ public class Confuser {
 			}
 		}
 		return phrases;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private List<String> readConfusers() throws ConfuserException, IOException {
+		// Open the black list for this language and check to see if it exists
+		String path = CONFUSER_DIRECTORY + CONFUSER_LANGUAGE + CONFUSER_EXTENSION;
+		InputStream confusers = ConfuserTools.class.getResourceAsStream(path);
+		if (confusers == null) {
+			throw new ConfuserException("Unable to open the confusers for, " + CONFUSER_LANGUAGE);
+		}
+		// Prepare the stream reader
+		BufferedReader reader = null;
+		InputStreamReader stream = null;
+		try {
+			// Open up the stream to be read
+			stream = new InputStreamReader(confusers);
+			reader = new BufferedReader(stream);
+			// Read and process the contents
+			List<String> results = new ArrayList<String>();
+			String data;
+			while ((data = reader.readLine()) != null) {
+				if (data.isEmpty() || data.charAt(0) == '#') {
+					continue;
+				}
+				results.add(data.replace(" ", ""));
+			}
+			return results;
+		} catch (FileNotFoundException ex) {
+			throw new ConfuserException("Unable to open the confusers for, " + CONFUSER_LANGUAGE);
+		} catch (IOException ex) {
+			throw new ConfuserException("An error occured while reading the next line", ex);
+		} finally {
+			if (reader != null) {
+				reader.close();
+			}
+			if (stream != null) {
+				stream.close();
+			}
+		}
 	}
 }
