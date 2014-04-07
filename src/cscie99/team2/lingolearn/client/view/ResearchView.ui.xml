@@ -2,17 +2,12 @@
   xmlns:g='urn:import:com.google.gwt.user.client.ui'
   xmlns:mail='urn:import:cscie99.team2.lingolearn.client.view'>
 
-  <ui:style>
-    .courses {
-      font-style: italic;
-    }
-  </ui:style>
-
   <g:HTMLPanel>
     <h2>Research</h2>
 
 	<p>All data</p>
-    <g:Button ui:field='downloadAllButton'>Start download</g:Button>
+	
+    <g:Button ui:field='downloadAllButton' styleName='btn btn-primary btn-lg'>Start download</g:Button>
 
   </g:HTMLPanel>
 
