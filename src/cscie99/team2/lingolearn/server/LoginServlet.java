@@ -8,13 +8,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
+/**
+ * This servlet is used as a service endpoint for application login and logout.
+ * Since the login and logout are implemented with sessions, and for now,
+ * partially ajax calls, this makes sense.  
+ * 
+ * @note Later this may be replaced with a more complex mechanism (oauth?)
+ * 
+ * @author Jeff Rabe
+ *
+ */
 public class LoginServlet extends HttpServlet {
 
-  //private static final Logger log = Logger.getLogger(LoginServlet.class
-   //   .getName());
-	
-	@Override
+
+	private static final long serialVersionUID = 4470963089960248631L;
+
+		/**
+		 * The HTTP GET method is used for logout only.  Session variables are unset,
+		 * and some basic HTML is served.
+		 */
+		@Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
         
@@ -31,6 +44,16 @@ public class LoginServlet extends HttpServlet {
     	out.write("return to <a href='/login.html'>login page</a>");
     }
 	
+		/**
+		 * the HTTP POST method is used for login.  No content is served, rather
+		 * this is an endpoint for a REST ajax call.  The request parameters
+		 * expect the following
+		 * 				"gmail" 	: the gmail address of a user signed into gmail
+		 * 				"gplusid"	: the google plus id of the same signed in user.
+		 * 
+		 * Currently this AJAX call is made from /login.html
+		 * @return - void, but Applicaton/json is served.
+		 */
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
               throws IOException {
