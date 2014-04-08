@@ -40,8 +40,8 @@ public class QuizResponseDAO {
 	 * @param uId qRespId
 	 * @return QuizResponse stored with the qRespId or null if not found
 	 */
-	public QuizResponse getQuizResponseById(Long sessionId) {
-		ObjectifyableQuizResponse oQuizResponse = ofy().load().type(ObjectifyableQuizResponse.class).id(sessionId).now();
+	public QuizResponse getQuizResponseById(Long qRespId) {
+		ObjectifyableQuizResponse oQuizResponse = ofy().load().type(ObjectifyableQuizResponse.class).id(qRespId).now();
 		if (oQuizResponse != null) {
 			QuizResponse qResp = oQuizResponse.getQuizResponse();
 			return qResp;
@@ -91,7 +91,7 @@ public class QuizResponseDAO {
 	 * Deletes the QuizResponse with the specified sessionId from the datastore
 	 * @param cardId
 	 */
-	public void deleteQuizResponseById(Long sessionId) {
-		ofy().delete().type(ObjectifyableQuizResponse.class).id(sessionId).now();
+	public void deleteQuizResponseById(Long qRespId) {
+		ofy().delete().type(ObjectifyableQuizResponse.class).id(qRespId).now();
 	}
 }
