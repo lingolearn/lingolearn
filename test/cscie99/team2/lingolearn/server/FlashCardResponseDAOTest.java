@@ -50,11 +50,11 @@ public class FlashCardResponseDAOTest {
 		helper.setUp();
 
 		// Create and store 3 test FlashCardResponse objects
-		FlashCardResponse fcr1 = new FlashCardResponse(111L, 101L, "gplusId",
+		FlashCardResponse fcr1 = new FlashCardResponse(111L, 111L, 111L, 101L, "gplusId",
 				"difficultConfuser", 3, 3, false, 2.5f, Assessment.SORTAKNEWIT);
-		FlashCardResponse fcr2 = new FlashCardResponse(112L, 102L, "gplusId",
+		FlashCardResponse fcr2 = new FlashCardResponse(112L, 111L, 112L, 102L, "gplusId",
 				"difficultConfuser", 2, 2, false, 12.5f, Assessment.DEFINITELYKNEWIT);
-		FlashCardResponse fcr3 = new FlashCardResponse(113L, 102L, "gplusId2",
+		FlashCardResponse fcr3 = new FlashCardResponse(113L, 112L, 113L, 102L, "gplusId2",
 				"easyConfuser", 1, 2, false, 1.5f, Assessment.DEFINITELYKNEWIT);
 		
 		// Store them in the local In-memory datastore
@@ -135,7 +135,6 @@ public class FlashCardResponseDAOTest {
 		  // Retrieve non-existing FlashCardResp with sessionId = 111
 		  fcr = qRespAccessor.getFlashCardResponseById(111L);
 		  if (fcr != null) {
-			  System.out.println("!!! " + fcr);
 			  assertTrue(false);
 		  } else {
 			  assertTrue(true);

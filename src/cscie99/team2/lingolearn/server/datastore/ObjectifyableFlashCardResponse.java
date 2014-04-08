@@ -25,7 +25,9 @@ public class ObjectifyableFlashCardResponse implements Serializable {
 	
 	private static final long serialVersionUID = -3156440500322923957L;
 	
-@Id private Long 	sessionId;				// Session id
+@Id private Long 	fcRespId;				// Unique FlashCardResponse id
+	private Long	userSessionId;			// UserSession id
+	private Long 	sessionId;				// Session id / Assignment Id
 	private Long	cardId;					// Id of the card, shown to the user
 	private String	gplusId,				// The user's google ID	
 
@@ -43,6 +45,8 @@ public class ObjectifyableFlashCardResponse implements Serializable {
 	 * @param fcResp		FlashCardResponse object
 	 */
 	public ObjectifyableFlashCardResponse (FlashCardResponse fcResp) {
+		this.fcRespId = fcResp.getFcRespId();
+		this.userSessionId = fcResp.getUserSessionId();
 		this.sessionId = fcResp.getSessionId();
 		this.gplusId = fcResp.getGplusId();
 		this.cardId = fcResp.getCardId();
@@ -60,6 +64,8 @@ public class ObjectifyableFlashCardResponse implements Serializable {
 	 */
 	public FlashCardResponse getFlashCardResponse() {
 		FlashCardResponse fcResp = new FlashCardResponse();
+		fcResp.setFcRespId(this.fcRespId);
+		fcResp.setUserSessionId(this.userSessionId);
 		fcResp.setSessionId(this.sessionId);
 		fcResp.setGplusId(this.gplusId);
 		fcResp.setCardId(this.cardId);

@@ -9,7 +9,9 @@ public class FlashCardResponse implements Serializable {
 
 	private static final long serialVersionUID = -1298962988486358463L;
 	
-	private Long 	sessionId,		// Session id
+	private Long 	fcRespId,		// Unique QuizResponse id
+					userSessionId,	// UserSession id
+					sessionId,		// Session id/ Assignment Id
 					cardId;			// Id of the card, shown to the user
 	private String	gplusId,		// The user's google ID	
 					confuserType;	// The type of confuser that was used
@@ -35,6 +37,23 @@ public class FlashCardResponse implements Serializable {
 		this.assessment = assessment;
 	}
 
+	public FlashCardResponse(Long fcRespId, Long userSessionId, Long sessionId,
+			Long cardId, String gplusId, String confuserType,
+			int sessionCardNo, int responseNo, boolean isDropped,
+			float timeToAnswer, Assessment assessment) {
+		this.fcRespId = fcRespId;
+		this.userSessionId = userSessionId;
+		this.sessionId = sessionId;
+		this.cardId = cardId;
+		this.gplusId = gplusId;
+		this.confuserType = confuserType;
+		this.sessionCardNo = sessionCardNo;
+		this.responseNo = responseNo;
+		this.isDropped = isDropped;
+		this.timeToAnswer = timeToAnswer;
+		this.assessment = assessment;
+	}
+	
 	public Long getSessionId() {
 		return sessionId;
 	}
@@ -105,5 +124,21 @@ public class FlashCardResponse implements Serializable {
 
 	public void setAssessment(Assessment assessment) {
 		this.assessment = assessment;
+	}
+
+	public Long getFcRespId() {
+		return fcRespId;
+	}
+
+	public void setFcRespId(Long fcRespId) {
+		this.fcRespId = fcRespId;
+	}
+
+	public Long getUserSessionId() {
+		return userSessionId;
+	}
+
+	public void setUserSessionId(Long userSessionId) {
+		this.userSessionId = userSessionId;
 	}
 }
