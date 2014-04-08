@@ -11,7 +11,7 @@
       			<g:Image url="/images/checkmark.png" altText="Correct!" />
       		</g:FlowPanel>
       		
-       		<g:FlowPanel styleName='card-front'>
+       		<g:FlowPanel ui:field='card' styleName='card-front animated'>
 			    <g:FlowPanel ui:field='stemContainer' styleName='quiz-question'></g:FlowPanel>
 			    
 			    <g:FlowPanel ui:field='answerContainer'>
@@ -19,7 +19,7 @@
 			    
 			    <g:FlowPanel>
 			    	<g:Button ui:field='submitButton' styleName='btn btn-primary btn-lg'>Submit</g:Button>
-			    	<g:Button ui:field='nextButton' styleName='btn btn-default btn-lg'>Next</g:Button>
+			    	<g:Button ui:field='nextButton' styleName='btn btn-primary btn-lg'>Next</g:Button>
 			    </g:FlowPanel>
 			    <g:FlowPanel ui:field='responseArea'> </g:FlowPanel>
 	    

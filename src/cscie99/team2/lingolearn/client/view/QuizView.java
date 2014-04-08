@@ -38,6 +38,7 @@ public class QuizView extends Composite {
   interface Binder extends UiBinder<Widget, QuizView> { }
   private static final Binder binder = GWT.create(Binder.class);
 
+  @UiField FlowPanel card;
   @UiField FlowPanel stemContainer;
   @UiField FlowPanel answerContainer;
   @UiField Button submitButton;
@@ -103,7 +104,7 @@ public class QuizView extends Composite {
   
   public void addAnswer(String answerText) {
 	  RadioButton r = new RadioButton("answersGroup");
-	  r.setStyleName("radio");
+	  r.setStyleName("quiz-choice");
 	  r.setHTML(answerText);
 	  answerNodes.add(r);
 	  answerContainer.add(r);
@@ -144,9 +145,23 @@ public class QuizView extends Composite {
   }
   
   public void showIncorrect() {
-	  InlineHTML h = new InlineHTML();
-	  h.setHTML("Incorrect");
-	  responseArea.add(h);
+	  card.addStyleName("shake");
+	  
+	  Timer shake_timer = new Timer() {
+	      public void run() {
+	    	  card.removeStyleName("shake");
+	      }
+	  };
+	  
+	  shake_timer.schedule(700);
+	  
+	  // TODO: highlight correct response, currently hardcoded to second element
+	  answerNodes.get(1).addStyleName("text-success");
+	  
+	  for (RadioButton element : answerNodes) {
+		  element.setEnabled(false);
+	  }
+
   }
   
   public String getSelectedAnswer() {
