@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import cscie99.team2.lingolearn.server.confuser.CharacterType;
 import cscie99.team2.lingolearn.server.confuser.Confuser;
 import cscie99.team2.lingolearn.server.confuser.ConfuserTools;
@@ -29,9 +31,7 @@ public class ConfuserAnalysis {
 	private final static String JLPT_LEVEL = "5";
 
 	/**
-	 * 
-	 * @param args
-	 * @throws IOException 
+	 * Main entry point for the application.
 	 */
 	public static void main(String [] args) throws IOException {
 		try {
@@ -49,10 +49,9 @@ public class ConfuserAnalysis {
 	}
 	
 	/**
+	 * Perform an analysis of the cards that were loaded.
 	 * 
-	 * @param cards
-	 * @throws IOException 
-	 * @throws ConfuserException 
+	 * @param cards The cards to perform an analysis on.
 	 */
 	private static void analyzeConfusers(List<Card> cards) throws ConfuserException, IOException {
 		// Prepare the counters
@@ -60,6 +59,10 @@ public class ConfuserAnalysis {
 		List<Integer> kanjiConfusers = new ArrayList<Integer>();
 		List<Integer> hiraganaConfusers = new ArrayList<Integer>();
 		List<Integer> katakanaConfusers = new ArrayList<Integer>();
+		// Print the header
+		System.out.println(StringUtils.repeat("-", 40));
+		System.out.println("Starting analysis...");
+		System.out.println(StringUtils.repeat("-", 40));
 		// Iterate through the cards to find the results
 		Confuser confuser = new Confuser();
 		List<String> results;
@@ -74,13 +77,31 @@ public class ConfuserAnalysis {
 					System.out.println(ex.getMessage());
 				}
 			}
+			if (!card.getHiragana().isEmpty()) {
+				results = confuser.getNManipulation(card.getHiragana());
+				results.addAll(confuser.getSmallTsuManiuplation(card.getHiragana()));
+				hiragana++;
+				hiraganaConfusers.add(results.size());
+			}
+			if (!card.getKatakana().isEmpty()) {
+				results = confuser.getNManipulation(card.getKatakana());
+				results.addAll(confuser.getSmallTsuManiuplation(card.getKatakana()));
+				results.addAll(confuser.getVowelManiuplation(card.getKatakana()));
+				katakana++;
+				katakanaConfusers.add(results.size());
+			}
 		}
+		// Display the summary results
+		showMetrics("Kanji", kanji, kanjiConfusers);
+		showMetrics("Hiragana", hiragana, hiraganaConfusers);
+		showMetrics("Katakana", katakana, katakanaConfusers);
 	}
 	
 	/**
+	 * Load the cards from the resource file indicated.
 	 * 
-	 * @param resourceName
-	 * @return
+	 * @param resourceName The path to the resource file to be loaded.
+	 * @return The cards that were loaded from the resource file.
 	 */
 	private static List<Card> loadCards(String resourceName) throws IOException {
 		// Open the resource file
@@ -102,7 +123,9 @@ public class ConfuserAnalysis {
 				card.setKanji(values[0]);
 				if (ConfuserTools.checkCharacter(values[1].charAt(0)) == CharacterType.Hiragana) {
 					card.setHiragana(values[1]);
+					card.setKatakana("");
 				} else {
+					card.setHiragana("");
 					card.setKatakana(values[1]);
 				}
 				card.setTranslation(values[2]);
@@ -118,5 +141,21 @@ public class ConfuserAnalysis {
 		}
 		// Return the results
 		return cards;
+	}
+	
+	/**
+	 * Display the metrics for the results.
+	 * 
+	 * @param type The type of phrase processed.
+	 * @param phrases The number of phrases observed in the data file.
+	 * @param observations The actual observations.
+	 */
+	private static void showMetrics(String type, int phrases, List<Integer> observations) {
+		System.out.println(StringUtils.repeat("-", 40));
+		System.out.println(type);
+		System.out.println("Phrases:" + phrases);
+		System.out.println("\tWith Confusers: " + BasicMath.notZero(observations));
+		System.out.println("\tAverage: " + BasicMath.average(observations));
+		System.out.println("\tTotal:" + BasicMath.sum(observations));
 	}
 }
