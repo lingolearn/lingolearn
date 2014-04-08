@@ -96,13 +96,39 @@ h2 {
 
 /* front pane, placed above back */
 .card-front {
-  z-index: 2;
+  	z-index: 2;
+  	-webkit-animation-duration: 0.5s;
+	animation-duration: 0.5s;
 }
 
 /* back, initially hidden pane */
 .card-back {
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
+}
+
+.card-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: #5cb85c;
+	width: 600px;
+	height: 400px;
+	z-index: -100;
+	text-align: center;
+	padding-top: 115px;
+	transition: opacity 0.3s ease-out;
+	-webkit-transition: opacity 0.3s ease-out;
+	opacity: 0;
+}
+
+.card-overlay-forefront {
+	z-index: 100;
+}
+
+.card-overlay-show {
+	opacity: 1;
+	z-index: 100;
 }
 
 .card button {
@@ -117,5 +143,18 @@ h2 {
 .translation {
   font-size: 5em;
   padding: 0.5em 0;
+}
+
+.quiz-question {
+	font-size: 2.5em;
+	padding-bottom: 12px;
+}
+
+.quiz-choice {
+	display: block;
+}
+
+.quiz-choice input {
+	margin-right: 6px;
 }
 

@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -37,11 +38,13 @@ public class QuizView extends Composite {
   interface Binder extends UiBinder<Widget, QuizView> { }
   private static final Binder binder = GWT.create(Binder.class);
 
+  @UiField FlowPanel card;
   @UiField FlowPanel stemContainer;
   @UiField FlowPanel answerContainer;
   @UiField Button submitButton;
   @UiField Button nextButton;
   @UiField FlowPanel responseArea;
+  @UiField FlowPanel successOverlay;
   
   ArrayList<RadioButton> answerNodes;
   
@@ -101,7 +104,7 @@ public class QuizView extends Composite {
   
   public void addAnswer(String answerText) {
 	  RadioButton r = new RadioButton("answersGroup");
-	  r.setStyleName("radio");
+	  r.setStyleName("quiz-choice");
 	  r.setHTML(answerText);
 	  answerNodes.add(r);
 	  answerContainer.add(r);
@@ -119,15 +122,46 @@ public class QuizView extends Composite {
   }
   
   public void showCorrect() {
-	  InlineHTML h = new InlineHTML();
-	  h.setHTML("Correct");
-	  responseArea.add(h);
+	  successOverlay.addStyleName("card-overlay-forefront");
+	  successOverlay.addStyleName("card-overlay-show");
+	  
+	  // has to be done in two seperate steps to avoid covering up the form elements
+	  Timer overlay_timer = new Timer() {
+	      public void run() {
+	    	  successOverlay.removeStyleName("card-overlay-show");
+	      }
+	  };
+	  
+	  Timer forefront_timer = new Timer() {
+	      public void run() {
+	    	  successOverlay.removeStyleName("card-overlay-forefront");
+	      }
+	  };
+	  
+	  overlay_timer.schedule(1000);
+	  forefront_timer.schedule(1350);
+	    
+	  // TODO: switch to next quiz right away
   }
   
   public void showIncorrect() {
-	  InlineHTML h = new InlineHTML();
-	  h.setHTML("Incorrect");
-	  responseArea.add(h);
+	  card.addStyleName("shake");
+	  
+	  Timer shake_timer = new Timer() {
+	      public void run() {
+	    	  card.removeStyleName("shake");
+	      }
+	  };
+	  
+	  shake_timer.schedule(700);
+	  
+	  // TODO: highlight correct response, currently hardcoded to second element
+	  answerNodes.get(1).addStyleName("text-success");
+	  
+	  for (RadioButton element : answerNodes) {
+		  element.setEnabled(false);
+	  }
+
   }
   
   public String getSelectedAnswer() {
