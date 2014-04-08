@@ -4,16 +4,28 @@
 
   <g:HTMLPanel>
 
-    <g:FlowPanel ui:field='stemContainer'></g:FlowPanel>
-    
-    <g:FlowPanel ui:field='answerContainer'>
-    </g:FlowPanel>
-    
-    <g:FlowPanel>
-    	<g:Button ui:field='submitButton' styleName='btn btn-primary btn-lg'>Submit</g:Button>
-    	<g:Button ui:field='nextButton' styleName='btn btn-default btn-lg'>Next</g:Button>
-    </g:FlowPanel>
-    <g:FlowPanel ui:field='responseArea'> </g:FlowPanel>
+    <g:FlowPanel styleName='card-container'>
+      	<g:FlowPanel styleName='card'>
+      	
+      		<g:FlowPanel ui:field='successOverlay' styleName='card-overlay card-hidden'>
+      			<g:Image url="/images/checkmark.png" altText="Correct!" />
+      		</g:FlowPanel>
+      		
+       		<g:FlowPanel styleName='card-front'>
+			    <g:FlowPanel ui:field='stemContainer' styleName='quiz-question'></g:FlowPanel>
+			    
+			    <g:FlowPanel ui:field='answerContainer'>
+			    </g:FlowPanel>
+			    
+			    <g:FlowPanel>
+			    	<g:Button ui:field='submitButton' styleName='btn btn-primary btn-lg'>Submit</g:Button>
+			    	<g:Button ui:field='nextButton' styleName='btn btn-default btn-lg'>Next</g:Button>
+			    </g:FlowPanel>
+			    <g:FlowPanel ui:field='responseArea'> </g:FlowPanel>
+	    
+	    	</g:FlowPanel>
+     	</g:FlowPanel>
+     </g:FlowPanel>
 
   </g:HTMLPanel>
 

@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -42,6 +43,7 @@ public class QuizView extends Composite {
   @UiField Button submitButton;
   @UiField Button nextButton;
   @UiField FlowPanel responseArea;
+  @UiField FlowPanel successOverlay;
   
   ArrayList<RadioButton> answerNodes;
   
@@ -119,9 +121,26 @@ public class QuizView extends Composite {
   }
   
   public void showCorrect() {
-	  InlineHTML h = new InlineHTML();
-	  h.setHTML("Correct");
-	  responseArea.add(h);
+	  successOverlay.addStyleName("card-overlay-forefront");
+	  successOverlay.addStyleName("card-overlay-show");
+	  
+	  // has to be done in two seperate steps to avoid covering up the form elements
+	  Timer overlay_timer = new Timer() {
+	      public void run() {
+	    	  successOverlay.removeStyleName("card-overlay-show");
+	      }
+	  };
+	  
+	  Timer forefront_timer = new Timer() {
+	      public void run() {
+	    	  successOverlay.removeStyleName("card-overlay-forefront");
+	      }
+	  };
+	  
+	  overlay_timer.schedule(1000);
+	  forefront_timer.schedule(1350);
+	    
+	  // TODO: switch to next quiz right away
   }
   
   public void showIncorrect() {

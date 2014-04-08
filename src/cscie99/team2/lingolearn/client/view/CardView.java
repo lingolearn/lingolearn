@@ -35,7 +35,7 @@ public class CardView extends Composite {
 	  
 	  this.flipButton = new Button();
 	  this.flipButton.setText("Flip");
-	  this.flipButton.setStyleName("btn btn-default btn-lg");
+	  this.flipButton.setStyleName("btn btn-primary btn-lg");
 	  this.front.add(flipButton);
   }
   
