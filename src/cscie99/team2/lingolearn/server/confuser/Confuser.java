@@ -85,10 +85,11 @@ public class Confuser {
 	 * @return A list of phrases built from the card, or an empty list if there
 	 * are no valid confusers.
 	 */
-	public List<String> getKanjiBoundries(Card card) {
-		// Check to see if the phrase ends with する (to do) since this approach
-		// is invalid
-		if (card.getKanji().endsWith("する")) {
+	public List<String> getKanjiBoundries(Card card) throws ConfuserException {
+		// Check to see if there is only one character which we can't work with
+		// and also check to see if the phrase ends with する (to do) since this 
+		// approach is invalid
+		if (card.getKanji().length() == 1 || card.getKanji().endsWith("する")) {
 			return new ArrayList<String>();
 		}
 
@@ -123,19 +124,28 @@ public class Confuser {
 		// Store any remaining phrase information
 		kanjiOrder.add(phrase.toString());
 		kanjiOffset.add(offset);
-
+		
 		// Iterate through kana and use that to build out substrings
 		List<String> phrases = new ArrayList<String>();
 		for (int ndx = 0; ndx < kanjiOrder.size(); ndx++) {
 			// Note the items in this pairing
 			String kana = kanjiOrder.get(ndx);
 			offset = kanjiOffset.get(ndx);
+			// Discard this string if it is only a single character
+			if (kana.length() <= 1) {
+				continue;
+			}
 			// Get the hiragana for this substring
 			char ch = kana.charAt(kana.length() - 1);
 			String hiragana = card.getHiragana();
+			// TODO Make sure we can find the character, this may happen in some
+			// TODO cases where a kanji is confused for a hiragana
+			if (hiragana.indexOf(ch, offset) == -1) {
+				throw new ConfuserException("Error finding boundry for " + kanji);
+			}
 			hiragana = hiragana.substring(kanjiOffset.get(ndx), hiragana.indexOf(ch, offset) + 1);
-			// Discard the first character since it is represented by the kanji
-			if (hiragana.length() == 1) {
+			// Press on if we don't have at least two characters to work with
+			if (hiragana.length() <= 1) {
 				continue;
 			}
 			hiragana = hiragana.substring(1);
