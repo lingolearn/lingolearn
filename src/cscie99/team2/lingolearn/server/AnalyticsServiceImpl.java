@@ -12,9 +12,7 @@ import cscie99.team2.lingolearn.server.datastore.CourseRegistrationDAO;
 import cscie99.team2.lingolearn.server.datastore.FlashCardResponseDAO;
 import cscie99.team2.lingolearn.server.datastore.QuizResponseDAO;
 import cscie99.team2.lingolearn.server.datastore.UserDAO;
-import cscie99.team2.lingolearn.shared.CourseRegistration;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
-import cscie99.team2.lingolearn.shared.Metrics;
 import cscie99.team2.lingolearn.shared.OutsideCourse;
 import cscie99.team2.lingolearn.shared.Language;
 import cscie99.team2.lingolearn.shared.QuizResponse;
@@ -27,6 +25,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	CourseRegistrationDAO crAccessor;
 	QuizResponseDAO qRespAccessor;
 	FlashCardResponseDAO fcRespAccessor;
+	MetricsCalculator mc;
 	
 	
 	public AnalyticsServiceImpl() {
@@ -34,6 +33,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		crAccessor = CourseRegistrationDAO.getInstance();
 		qRespAccessor = QuizResponseDAO.getInstance();
 		fcRespAccessor = FlashCardResponseDAO.getInstance();
+		mc = new MetricsCalculator();
 	}
 
 	/**
@@ -71,8 +71,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		data.put("languages",  languageString);
 		data.put("textbooks",  textbookString);
 		data.put("outsideCourses", outsideCourseString);
-		
-		
+				
 		return data;
 	}
 	
@@ -81,18 +80,17 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	 */
 	public Map<String, Float> getMetricsData (String gplusId) {
 		Map<String, Float> data = new HashMap<String, Float>();
-		Metrics m = new Metrics(gplusId);
 			
-	 	data.put("recallRate", m.getRecallRate());
-	 	data.put("avgQuizReactionTime", m.getAvgQuizReactionTime());
-	 	data.put("avgFlashCardReactionTime", m.getAvgFlashCardReactionTime());
-	 	data.put("indecisionRate", m.getIndecisionRate());
-	 	data.put("dropRate", m.getDropRate());
-	 	data.put("averageSessionTime", m.getAverageSessionTime());
-	 	data.put("repetitionsPerWeek", m.getRepetitionsPerWeek());
-	 	data.put("percentNoClue", m.getPercentNoClue());
-	 	data.put("percentSortaKnewIt", m.getPercentSortaKnewIt());
-	 	data.put("percentDefinitelyKnewIt", m.getPercentDefinitelyKnewIt());
+	 	data.put("recallRate", mc.calculateRecallRate(gplusId));
+	 	data.put("avgQuizReactionTime", mc.calculateAvgQuizReactionTime(gplusId));
+	 	data.put("avgFlashCardReactionTime", mc.calculateAvgFlashCardReactionTime(gplusId));
+	 	data.put("indecisionRate", mc.calculateIndecisionRate(gplusId));
+	 	data.put("dropRate", mc.calculateDropRate(gplusId));
+	 	data.put("averageSessionTime", mc.calculateAverageSessionTime(gplusId));
+	 	data.put("repetitionsPerWeek", mc.calculateRepetitionsPerWeek(gplusId));
+	 	data.put("percentNoClue", mc.calculatePercentNoClue(gplusId));
+	 	data.put("percentSortaKnewIt", mc.calculatePercentSortaKnewIt(gplusId));
+	 	data.put("percentDefinitelyKnewIt", mc.calculatePercentDefinitelyKnewIt(gplusId));
 	 	
 	 	return data;
 	}
