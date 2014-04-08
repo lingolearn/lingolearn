@@ -42,16 +42,12 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
   private final CardServiceAsync cardService; 
   private final CourseServiceAsync courseService;
   private final AnalyticsServiceAsync analyticsService;
-  private final QuizResponseServiceAsync quizResponseService;
-  private final FlashCardResponseServiceAsync flashCardResponseService;
   private final StorageServiceAsync storageService;
   private HasWidgets container;
   private boolean userAuthenticated;
   
   public AppController(UserServiceAsync userService, CourseServiceAsync courseService,
 		  CardServiceAsync cardService, AnalyticsServiceAsync analyticsService,
-		  QuizResponseServiceAsync quizResponseService, 
-		  FlashCardResponseServiceAsync flashCardResponseService, 
 		  StorageServiceAsync storageService,
 		  HandlerManager eventBus) {
 	  
@@ -60,8 +56,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     this.cardService = cardService;
     this.courseService = courseService;
     this.analyticsService = analyticsService;
-    this.quizResponseService = quizResponseService;
-    this.flashCardResponseService = flashCardResponseService;
     this.storageService = storageService;
     
     this.userAuthenticated = false;
@@ -90,7 +84,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     				  public void onSuccess(User user) {
     					  if (user instanceof User) {
     						  quizResponse.setGplusId(user.getGplusId());
-    						  quizResponseService.storeQuizResponse(quizResponse, 
+    						  analyticsService.storeQuizResponse(quizResponse, 
     								  new AsyncCallback<QuizResponse>() {
     							    
     			    				@Override
@@ -120,8 +114,8 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     			userService.getCurrentUser(new AsyncCallback<User>() {
   				  public void onSuccess(User user) {
   					  if (user instanceof User) {
-  						    flashCardResponse.setGplusId(user.getGplusId());
-	  						flashCardResponseService.storeFlashCardResponse(flashCardResponse, new AsyncCallback<FlashCardResponse>() {
+  						  flashCardResponse.setGplusId(user.getGplusId());
+  						  analyticsService.storeFlashCardResponse(flashCardResponse, new AsyncCallback<FlashCardResponse>() {
 	  						     
 	  		    				@Override
 	  		    				public void onFailure(Throwable caught) {

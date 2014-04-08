@@ -18,13 +18,10 @@ public class LingoLearn implements EntryPoint {
 		CourseServiceAsync courseService = GWT.create(CourseService.class);
 		CardServiceAsync cardService = GWT.create(CardService.class);
 		AnalyticsServiceAsync analyticsService = GWT.create(AnalyticsService.class);
-		QuizResponseServiceAsync quizResponseService = GWT.create(QuizResponseService.class);
-		FlashCardResponseServiceAsync flashCardResponseService = GWT.create(FlashCardResponseService.class);
 		StorageServiceAsync storageService = GWT.create(StorageService.class);
 	    HandlerManager eventBus = new HandlerManager(null);
 	    AppController appViewer = new AppController(userService, courseService, 
-	    		cardService, analyticsService, quizResponseService, 
-	    		flashCardResponseService, storageService, eventBus);
+	    		cardService, analyticsService, storageService, eventBus);
 	    
 	    //Clear loading screen
 	    RootPanel.get("content").clear(true);

@@ -66,26 +66,6 @@
     <url-pattern>/lingolearn/analyticsService</url-pattern>
   </servlet-mapping>
   
-  <servlet>
-    <servlet-name>quizResponseServlet</servlet-name>
-    <servlet-class>cscie99.team2.lingolearn.server.QuizResponseServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>quizResponseServlet</servlet-name>
-    <url-pattern>/lingolearn/quizResponseService</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-    <servlet-name>flashCardResponseServlet</servlet-name>
-    <servlet-class>cscie99.team2.lingolearn.server.FlashCardResponseServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>flashCardResponseServlet</servlet-name>
-    <url-pattern>/lingolearn/flashCardResponseService</url-pattern>
-  </servlet-mapping>
-  
     <servlet>
     <servlet-name>storageServlet</servlet-name>
     <servlet-class>cscie99.team2.lingolearn.server.StorageServiceImpl</servlet-class>
