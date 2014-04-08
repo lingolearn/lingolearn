@@ -156,6 +156,6 @@ public class ConfuserAnalysis {
 		System.out.println("Phrases:" + phrases);
 		System.out.println("\tWith Confusers: " + BasicMath.notZero(observations));
 		System.out.println("\tAverage: " + BasicMath.average(observations));
-		System.out.println("\tTotal:" + BasicMath.sum(observations));
+		System.out.println("\tTotal: " + BasicMath.sum(observations));
 	}
 }
