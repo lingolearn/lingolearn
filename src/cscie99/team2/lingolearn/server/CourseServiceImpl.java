@@ -12,6 +12,8 @@ import cscie99.team2.lingolearn.shared.UserSession;
 import cscie99.team2.lingolearn.server.datastore.CardDAO;
 import cscie99.team2.lingolearn.server.datastore.CourseDAO;
 import cscie99.team2.lingolearn.server.datastore.DeckDAO;
+import cscie99.team2.lingolearn.server.datastore.LessonDAO;
+import cscie99.team2.lingolearn.server.datastore.QuizDAO;
 import cscie99.team2.lingolearn.server.datastore.UserSessionDAO;
 import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Course;
@@ -27,11 +29,15 @@ import cscie99.team2.lingolearn.shared.error.DeckNotFoundException;
 public class CourseServiceImpl extends RemoteServiceServlet implements CourseService {
 	
 	private CourseDAO courseAccessor;
+	private LessonDAO lessonAccessor;
+	private QuizDAO quizAccessor;
 	private UserSessionDAO userSessionAccessor;
 	
 	public CourseServiceImpl() {
 		new MockDataGenerator().generateMockData();
 		courseAccessor = CourseDAO.getInstance();
+		lessonAccessor = LessonDAO.getInstance();
+		quizAccessor = QuizDAO.getInstance();
 		userSessionAccessor = UserSessionDAO.getInstance();
 	}
 	
@@ -74,43 +80,36 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 
 	@Override
 	public ArrayList<Session> getSessionsForCourse(Long courseId) {
+		//TEMPORARY MOCK
 		new MockDataGenerator().generateMockData();
 		
 		ArrayList<Session> sAll = new ArrayList<Session>();
-		Session s1 = new Lesson();
-		try {
-			s1.setDeck(DeckDAO.getInstance().getDeckById((long) 102));
-		} catch (Exception e) {}
-		s1.setSessionId((long)84);
 		
-		Session s2 = new Quiz();
-		try {
-			s2.setDeck(DeckDAO.getInstance().getDeckById((long) 101));
-		} catch (Exception e) {}
-		s2.setSessionId((long)85);
+		List<Lesson> lessons = lessonAccessor.getAllLessonsByCourseId(courseId);
+		if (lessons != null) {
+			for (int i=0;i<lessons.size();i++) {
+				sAll.add(lessons.get(i));
+			}
+		}
+	
+		List<Quiz> quizzes = quizAccessor.getAllQuizsByCourseId(courseId);
+		if (quizzes != null) {
+			for (int i=0;i<quizzes.size();i++) {
+				sAll.add(quizzes.get(i));
+			}
+		}
 		
-		sAll.add(s1);
-		sAll.add(s2);
 		return sAll;
 	}
 
 
 	@Override
 	public Session getSessionById(Long sessionId) {
-		
 		Session s;
-		if (sessionId.equals((long)84)) {
-			s = new Lesson();
-			try {
-				s.setDeck(DeckDAO.getInstance().getDeckById((long) 102));
-			} catch (Exception e) {}
-		} else {
-			s = new Quiz();
-			try {
-				s.setDeck(DeckDAO.getInstance().getDeckById((long) 101));
-			} catch (Exception e) {}
+		s = lessonAccessor.getLessonById(sessionId);
+		if (s == null) {
+			s = quizAccessor.getQuizById(sessionId);
 		}
-		s.setSessionId(sessionId);
 		return s;
 	}
 

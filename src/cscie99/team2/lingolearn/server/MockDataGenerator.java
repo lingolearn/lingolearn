@@ -6,6 +6,8 @@ import java.util.HashMap;
 import cscie99.team2.lingolearn.server.datastore.CardDAO;
 import cscie99.team2.lingolearn.server.datastore.CourseDAO;
 import cscie99.team2.lingolearn.server.datastore.DeckDAO;
+import cscie99.team2.lingolearn.server.datastore.LessonDAO;
+import cscie99.team2.lingolearn.server.datastore.QuizDAO;
 import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.Deck;
@@ -17,10 +19,16 @@ import cscie99.team2.lingolearn.shared.error.CardNotFoundException;
 
 public class MockDataGenerator {
 	
+	private static boolean dataHasBeenGenerated = false;
+	
 	public void generateMockData() {
 		
+		if (MockDataGenerator.dataHasBeenGenerated) {
+			return;
+		}
+		MockDataGenerator.dataHasBeenGenerated = true;
+		
 		Card tc1 = new Card();
-		//tc1.setId((long) 101); 
 		tc1.setKanji("k1");
 		tc1.setHiragana("h1");
 		tc1.setKatakana("kt1");
@@ -30,7 +38,6 @@ public class MockDataGenerator {
 
 		// same kanji as in tc1
 		Card tc2 = new Card();
-		//tc2.setId((long) 102); 
 		tc2.setKanji("k1");
 		tc2.setHiragana("h2");
 		tc2.setKatakana("kt2");
@@ -48,7 +55,6 @@ public class MockDataGenerator {
 		mySound.setSoundUri(soundUri);
 
 		Card tc3 = new Card();
-		//tc3.setId((long) 103); 
 		tc3.setKanji("k3");
 		tc3.setHiragana("h3");
 		tc3.setKatakana("kt3");
@@ -61,11 +67,9 @@ public class MockDataGenerator {
 		
 		Card c1 = new Card();
 		c1.setKanji("岡");
-		//c1.setId((long)1);
 		c1.setTranslation("card 1 translation");
 		Card c2 = new Card();
 		c2.setKanji("字");
-		//c2.setId((long)2);
 		c2.setTranslation("card 2 translation");
 		
 
@@ -89,7 +93,6 @@ public class MockDataGenerator {
 		Deck d2 = new Deck();
 
 		// Add 3 cards to the deck1
-		//d1.setId((long) 101);
 		d1.setLangauge("ja-jp");
 		d1.setNativeLangauge("en-us");
 		d1.setCardIds(new ArrayList<Long>());
@@ -99,7 +102,6 @@ public class MockDataGenerator {
 		d1.add(tc3);
 
 		// Add 1 cards to the deck2
-		//d2.setId((long) 102);
 		d2.setLangauge("ja-jp");
 		d2.setNativeLangauge("en-us");
 		d2.setCardIds(new ArrayList<Long>());
@@ -118,32 +120,16 @@ public class MockDataGenerator {
 		
 		
 		
-		Lesson l = new Lesson();
-		l.setDeck(d2);
-		l.setSessionId((long)84);
-		
-		//TODO: store lesson in data store
-		
-		
-		Quiz q = new Quiz();
-		q.setDeck(d1);
-		q.setSessionId((long)85);
-		
-		//TODO: store quizzes in data store
-		
-		
 		Course course1;
 		course1 = new Course();
-		//course1.setCourseId((long) 31);
 		course1.setName("Best course eva!");
 		Course course2;
 		course2 = new Course();
-		//course2.setCourseId((long) 32);
 		course2.setName("Difficult course");
 		
 		
 		
-		//TODO: store courses in data store
+		//store courses in data store
 		CourseDAO courseAccessor = CourseDAO.getInstance();
 		try {
 			course1 = courseAccessor.storeCourse(course1);
@@ -151,6 +137,23 @@ public class MockDataGenerator {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		
+		Lesson l = new Lesson();
+		l.setDeck(d2);
+		l.setCourseId(course1.getCourseId());
+		
+		//store lesson in data store
+		LessonDAO lessonAccessor = LessonDAO.getInstance();
+		lessonAccessor.storeLesson(l);
+		
+		Quiz q = new Quiz();
+		q.setDeck(d1);
+		q.setCourseId(course2.getCourseId());
+		
+		//store quizzes in data store
+		QuizDAO quizAccessor = QuizDAO.getInstance();
+		quizAccessor.storeQuiz(q);
 		
 	}
 	
