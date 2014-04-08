@@ -4,29 +4,36 @@
 package cscie99.team2.lingolearn.shared;
 
 import java.io.Serializable;
-import java.util.Date;
 
 
 /**
  * @author YPolyanskyy
  * 
- * This abstract class represents Session of the system. It defines common elements of all sessions.
+ * This class represents Session of the system. It defines common elements of all sessions.
  * Required for implementation of Lesson, Quiz, Test.
  */
 public abstract class Session implements Serializable {
+	private static final long serialVersionUID = -8324973450477098118L;
 
-	private Long   sessId;		// Session Id
-//	private Date   sessStart,	// Timestamp of the session's start
-//				   sessEnd;		// Timestamp of the session's end
+	private Long   sessId;	// Unique Session / Assignment Id
+	private Deck    deck;	// Deck associated with this session
+	private Long courseId;	// Course Id that this session belongs to
 	
-	private Deck   deck;		// Deck associated with this session
-	private Course courseId;	// Course Id that this session belongs to
+	public Session() {};
+	
+	public Session(Long sessId, Deck deck, Long courseId) {
+		this.sessId = sessId;
+		this.deck = deck;
+		this.courseId = courseId;
+	}
+	
 	
 	/**
 	 * This method interacts with DeckMng to obtain the deck for this session
 	 * 
 	 * @return	Deck of the cards for this session
 	 */
+	
 	public Deck getDeck() {
 		return deck;
 	}
@@ -42,5 +49,12 @@ public abstract class Session implements Serializable {
 	public void setSessionId(Long sessionId) {
 		this.sessId = sessionId;
 	}
-	
+
+	public Long getCourseId() {
+		return courseId;
+	}
+
+	public void setCourseId(Long courseId) {
+		this.courseId = courseId;
+	}
 }

@@ -12,6 +12,38 @@ import java.io.Serializable;
  */
 public class Test extends Session implements Serializable {
 
+	private static final long serialVersionUID = 8855393807202007560L;
+	
 	private int 	timeLimit;		// Time limit (minutes) allowed to take this test
-	private Float	Grade;			// Resulting grade (percent value) for obtained during this session 
+	private Float	grade;			// Resulting grade (percent value) for obtained during this session
+	
+	public Test() {
+		super();
+	}
+
+	public Test(Long sessId, Deck deck, Long courseId) {
+		super(sessId, deck, courseId);
+	}
+	
+	public Test(Long sessId, Deck deck, Long courseId, int timeLimit, Float grade) {
+		super(sessId, deck, courseId);
+		this.timeLimit = timeLimit;
+		this.grade = grade;
+	}
+
+	public int getTimeLimit() {
+		return timeLimit;
+	}
+
+	public void setTimeLimit(int timeLimit) {
+		this.timeLimit = timeLimit;
+	}
+
+	public Float getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Float grade) {
+		this.grade = grade;
+	}
 }

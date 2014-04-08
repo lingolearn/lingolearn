@@ -12,4 +12,13 @@ import java.io.Serializable;
  */
 public class Lesson extends Session implements Serializable {
 
+	private static final long serialVersionUID = -4494986159570600954L;	
+	
+	public Lesson() {
+		super();
+	}
+
+	public Lesson(Long sessId, Deck deck, Long courseId) {
+		super(sessId, deck, courseId);
+	}
 }

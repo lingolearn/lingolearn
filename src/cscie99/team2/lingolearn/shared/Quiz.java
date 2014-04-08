@@ -12,5 +12,29 @@ import java.io.Serializable;
  */
 public class Quiz extends Session implements Serializable {
 	
+	private static final long serialVersionUID = -8062629930985217357L;
+	
 	private String mode;		// Defines if the quiz should use confuser algorithm
+	
+	public Quiz() {
+		super();
+	}
+
+	public Quiz(Long sessId, Deck deck, Long courseId) {
+		super(sessId, deck, courseId);
+	}
+
+	public Quiz(Long sessId, Deck deck, Long courseId, String mode) {
+		super(sessId, deck, courseId);
+		this.mode = mode;
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
+
 }
