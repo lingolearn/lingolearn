@@ -24,7 +24,9 @@ public class ObjectifyableQuizResponse implements Serializable {
 
 	private static final long serialVersionUID = -8496591932881375832L;
 
-@Id private Long 	sessionId;				// Session id
+@Id private Long 	qRespId;				// Unique QuizResponse id
+	private Long	userSessionId;			// UserSession id
+	private Long 	sessionId;				// Session id
 	private Long cardId;					// Id of the card, shown to the user
 	private String	gplusId,				// The user's google ID	
 					confuserType;			// The type of confuser that was used
@@ -39,6 +41,8 @@ public class ObjectifyableQuizResponse implements Serializable {
 	 * @param qResp		QuizResponse object
 	 */
 	public ObjectifyableQuizResponse (QuizResponse qResp) {
+		this.qRespId = qResp.getqRespId();
+		this.userSessionId = qResp.getUserSessionId();
 		this.sessionId = qResp.getSessionId();
 		this.gplusId = qResp.getGplusId();
 		this.cardId = qResp.getCardId();
@@ -54,6 +58,8 @@ public class ObjectifyableQuizResponse implements Serializable {
 	 */
 	public QuizResponse getQuizResponse() {
 		QuizResponse qResp = new QuizResponse();
+		qResp.setqRespId(this.qRespId);
+		qResp.setUserSessionId(this.userSessionId);
 		qResp.setSessionId(this.sessionId);
 		qResp.setGplusId(this.gplusId);
 		qResp.setCardId(this.cardId);
