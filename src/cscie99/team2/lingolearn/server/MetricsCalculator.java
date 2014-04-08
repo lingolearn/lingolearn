@@ -138,7 +138,7 @@ public class MetricsCalculator {
 
 			}
 		
-			return (noClues/flashCardsSeen);
+			return ((float)noClues/(float)flashCardsSeen);
 		}
 		else {
 			return 0.0f;
@@ -153,12 +153,12 @@ public class MetricsCalculator {
 		if (fcResps != null) {
 			for (FlashCardResponse fcr: fcResps) {
 				flashCardsSeen++;
-				if (fcr.getAssessment() == Assessment.NOCLUE) {
+				if (fcr.getAssessment() == Assessment.SORTAKNEWIT) {
 					sortaKnewIt++;
 				}
 
 			}		
-			return (sortaKnewIt/flashCardsSeen);
+			return ((float)sortaKnewIt/(float)flashCardsSeen);
 		}
 		else {
 			return 0.0f;
@@ -174,12 +174,12 @@ public class MetricsCalculator {
 		if (fcResps != null) {
 			for (FlashCardResponse fcr: fcResps) {
 				flashCardsSeen++;
-				if (fcr.getAssessment() == Assessment.NOCLUE) {
+				if (fcr.getAssessment() == Assessment.DEFINITELYKNEWIT) {
 					definitelyKnewIt++;
 				}
 
 			}		
-		return (definitelyKnewIt/flashCardsSeen);
+		return ((float)definitelyKnewIt/(float)flashCardsSeen);
 		}
 		else {
 			return 0.0f;
@@ -199,8 +199,8 @@ public class MetricsCalculator {
 					correctQuizAnswers++;
 				}			
 			}
-		
-			return (correctQuizAnswers/questionsSeen);
+
+			return ((float)correctQuizAnswers/(float)questionsSeen);
 		}
 		else {
 			return 0.0f;
@@ -222,7 +222,7 @@ public class MetricsCalculator {
 					totalQuizTimeToAnswer = totalQuizTimeToAnswer + qr.getTimeToAnswer();
 				}
 			}
-			return (totalQuizTimeToAnswer/questionsSeen);
+			return (totalQuizTimeToAnswer/(float)questionsSeen);
 		}
 		else {
 			return 0.0f;
@@ -241,7 +241,7 @@ public class MetricsCalculator {
 				cardsSeen++;
 				totalFlashCardTimeToAnswer = totalFlashCardTimeToAnswer + fcr.getTimeToAnswer();
 			}
-			return (totalFlashCardTimeToAnswer/cardsSeen);
+			return (totalFlashCardTimeToAnswer/(float)cardsSeen);
 		}
 		else {
 			return 0.0f;
@@ -262,7 +262,7 @@ public class MetricsCalculator {
 				}			
 			}
 		
-			return (changedAnswers/questionsSeen);
+			return ((float)changedAnswers/(float)questionsSeen);
 		}
 		else {
 			return 0.0f;
@@ -283,8 +283,8 @@ public class MetricsCalculator {
 					droppedCards++;
 				}			
 			}
-		
-			return (droppedCards/cardsSeen);
+			
+			return ((float)droppedCards/(float)cardsSeen);
 		}
 		else {
 			return 0.0f;
@@ -305,7 +305,7 @@ public class MetricsCalculator {
 				totalSessionTime = totalSessionTime + length;
 			}
 		
-			return (totalSessionTime/noSessions);
+			return (totalSessionTime/(float)noSessions);
 		}
 		else {
 			return 0.0f;
@@ -323,7 +323,7 @@ public class MetricsCalculator {
 			Date today = new Date();
 			long timeSinceRegistration = (today.getTime() - u.getUserRegistrationTime().getTime());
 				
-			return (noSessions/ (timeSinceRegistration/604800000));
+			return ((float)noSessions/ (timeSinceRegistration/604800000));
 		}
 		else {
 			return 0.0f;
