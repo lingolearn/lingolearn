@@ -31,7 +31,7 @@ public class ConfuserTest {
 	 * Test to make sure that we can extend kanji with valid hiragana.
 	 */
 	@Test
-	public void kanjiBoundriesTest() {
+	public void kanjiBoundriesTest() throws ConfuserException {
 		// Test to make sure 食べ難い (difficult to eat) is extended correctly
 		Card card = new Card();
 		card.setKanji("食べ難い");
