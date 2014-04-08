@@ -129,15 +129,20 @@ public class MetricsCalculator {
 		
 		List<FlashCardResponse> fcResps = this.getAllFlashCardResponsesByUser(gplusId);
 		
-		for (FlashCardResponse fcr: fcResps) {
-			flashCardsSeen++;
-			if (fcr.getAssessment() == Assessment.NOCLUE) {
-				noClues++;
-			}
+		if (fcResps != null) {
+			for (FlashCardResponse fcr: fcResps) {
+				flashCardsSeen++;
+				if (fcr.getAssessment() == Assessment.NOCLUE) {
+					noClues++;
+				}
 
-		}
+			}
 		
-		return (noClues/flashCardsSeen);
+			return (noClues/flashCardsSeen);
+		}
+		else {
+			return 0.0f;
+		}
 	}
 	
 	public float calculatePercentSortaKnewIt(String gplusId) {		
@@ -145,16 +150,19 @@ public class MetricsCalculator {
 		int flashCardsSeen = 0;
 		
 		List<FlashCardResponse> fcResps = this.getAllFlashCardResponsesByUser(gplusId);
-		
-		for (FlashCardResponse fcr: fcResps) {
-			flashCardsSeen++;
-			if (fcr.getAssessment() == Assessment.NOCLUE) {
-				sortaKnewIt++;
-			}
+		if (fcResps != null) {
+			for (FlashCardResponse fcr: fcResps) {
+				flashCardsSeen++;
+				if (fcr.getAssessment() == Assessment.NOCLUE) {
+					sortaKnewIt++;
+				}
 
+			}		
+			return (sortaKnewIt/flashCardsSeen);
 		}
-		
-		return (sortaKnewIt/flashCardsSeen);
+		else {
+			return 0.0f;
+		}
 	}
 	
 	public float calculatePercentDefinitelyKnewIt(String gplusId) {		
@@ -163,15 +171,19 @@ public class MetricsCalculator {
 		
 		List<FlashCardResponse> fcResps = this.getAllFlashCardResponsesByUser(gplusId);
 		
-		for (FlashCardResponse fcr: fcResps) {
-			flashCardsSeen++;
-			if (fcr.getAssessment() == Assessment.NOCLUE) {
-				definitelyKnewIt++;
-			}
+		if (fcResps != null) {
+			for (FlashCardResponse fcr: fcResps) {
+				flashCardsSeen++;
+				if (fcr.getAssessment() == Assessment.NOCLUE) {
+					definitelyKnewIt++;
+				}
 
-		}
-		
+			}		
 		return (definitelyKnewIt/flashCardsSeen);
+		}
+		else {
+			return 0.0f;
+		}
 	}
 
 	public float calculateRecallRate(String gplusId) {
@@ -180,14 +192,19 @@ public class MetricsCalculator {
 		
 		List<QuizResponse> qResps = this.getAllQuizResponsesByUser(gplusId);
 		
-		for (QuizResponse qr: qResps) {
-			questionsSeen++;
-			if (qr.isCorrect()) {
-				correctQuizAnswers++;
-			}			
-		}
+		if (qResps != null) {
+			for (QuizResponse qr: qResps) {
+				questionsSeen++;
+				if (qr.isCorrect()) {
+					correctQuizAnswers++;
+				}			
+			}
 		
-		return (correctQuizAnswers/questionsSeen);
+			return (correctQuizAnswers/questionsSeen);
+		}
+		else {
+			return 0.0f;
+		}
 		
 	}
 	
@@ -198,14 +215,18 @@ public class MetricsCalculator {
 		
 		List<QuizResponse> qResps = this.getAllQuizResponsesByUser(gplusId);
 		
-		if (!qResps.isEmpty()) {
-			for (QuizResponse qr: qResps) {
-				questionsSeen++;
-				totalQuizTimeToAnswer = totalQuizTimeToAnswer + qr.getTimeToAnswer();
+		if (qResps != null) {
+			if (!qResps.isEmpty()) {
+				for (QuizResponse qr: qResps) {
+					questionsSeen++;
+					totalQuizTimeToAnswer = totalQuizTimeToAnswer + qr.getTimeToAnswer();
+				}
 			}
+			return (totalQuizTimeToAnswer/questionsSeen);
 		}
-		
-		return (totalQuizTimeToAnswer/questionsSeen);
+		else {
+			return 0.0f;
+		}
 		
 	}
 	
@@ -215,12 +236,16 @@ public class MetricsCalculator {
 		
 		List<FlashCardResponse> fcResps = this.getAllFlashCardResponsesByUser(gplusId);
 		
-		for (FlashCardResponse fcr: fcResps) {
-			cardsSeen++;
-			totalFlashCardTimeToAnswer = totalFlashCardTimeToAnswer + fcr.getTimeToAnswer();
+		if (fcResps != null) {
+			for (FlashCardResponse fcr: fcResps) {
+				cardsSeen++;
+				totalFlashCardTimeToAnswer = totalFlashCardTimeToAnswer + fcr.getTimeToAnswer();
+			}
+			return (totalFlashCardTimeToAnswer/cardsSeen);
 		}
-		
-		return (totalFlashCardTimeToAnswer/cardsSeen);
+		else {
+			return 0.0f;
+		}
 	}
 	
 	public float calculateIndecisionRate(String gplusId) {
@@ -229,14 +254,19 @@ public class MetricsCalculator {
 		
 		List<QuizResponse> qResps = this.getAllQuizResponsesByUser(gplusId);
 		
-		for (QuizResponse qr: qResps) {
-			questionsSeen++;
-			if (qr.isChanged()) {
-				changedAnswers++;
-			}			
-		}
+		if (qResps != null) {
+			for (QuizResponse qr: qResps) {
+				questionsSeen++;
+				if (qr.isChanged()) {
+					changedAnswers++;
+				}			
+			}
 		
-		return (changedAnswers/questionsSeen);
+			return (changedAnswers/questionsSeen);
+		}
+		else {
+			return 0.0f;
+		}
 		
 	}
 	
@@ -246,14 +276,19 @@ public class MetricsCalculator {
 		
 		List<FlashCardResponse> fcResps = this.getAllFlashCardResponsesByUser(gplusId);
 		
-		for (FlashCardResponse fcr: fcResps) {
-			cardsSeen++;
-			if (fcr.isDropped()) {
-				droppedCards++;
-			}			
-		}
+		if (fcResps != null) {
+			for (FlashCardResponse fcr: fcResps) {
+				cardsSeen++;
+				if (fcr.isDropped()) {
+					droppedCards++;
+				}			
+			}
 		
-		return (droppedCards/cardsSeen);
+			return (droppedCards/cardsSeen);
+		}
+		else {
+			return 0.0f;
+		}
 		
 	}
 	
@@ -263,13 +298,19 @@ public class MetricsCalculator {
 		
 		List<UserSession> usResps = this.getAllUserSessionsByUser(gplusId);
 		
-		for (UserSession us: usResps) {
-			noSessions++;
-			float length = (float)(us.getSessEnd().getTime() - us.getSessStart().getTime());
-			totalSessionTime = totalSessionTime + length;
+		if (usResps != null) {
+			for (UserSession us: usResps) {
+				noSessions++;
+				float length = (float)(us.getSessEnd().getTime() - us.getSessStart().getTime());
+				totalSessionTime = totalSessionTime + length;
+			}
+		
+			return (totalSessionTime/noSessions);
+		}
+		else {
+			return 0.0f;
 		}
 		
-		return (totalSessionTime/noSessions);
 		
 	}
 	
@@ -277,12 +318,16 @@ public class MetricsCalculator {
 		User u = this.getUserById(gplusId);
 		List<UserSession> usResps = this.getAllUserSessionsByUser(gplusId);
 		
-		int noSessions = usResps.size();
-		Date today = new Date();
-		long timeSinceRegistration = (today.getTime() - u.getUserRegistrationTime().getTime());
-		
-		
-		return (noSessions/ (timeSinceRegistration/604800000));
+		if (usResps != null) {
+			int noSessions = usResps.size();
+			Date today = new Date();
+			long timeSinceRegistration = (today.getTime() - u.getUserRegistrationTime().getTime());
+				
+			return (noSessions/ (timeSinceRegistration/604800000));
+		}
+		else {
+			return 0.0f;
+		}
 		
 	}
 
