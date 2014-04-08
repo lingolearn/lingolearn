@@ -14,6 +14,7 @@ import cscie99.team2.lingolearn.client.event.ViewCardEvent;
 import cscie99.team2.lingolearn.client.event.ViewCardEventHandler;
 import cscie99.team2.lingolearn.client.presenter.CardPresenter;
 import cscie99.team2.lingolearn.client.presenter.CoursePresenter;
+import cscie99.team2.lingolearn.client.presenter.EnrollInCoursePresenter;
 import cscie99.team2.lingolearn.client.presenter.HomePresenter;
 import cscie99.team2.lingolearn.client.presenter.ImportPresenter;
 import cscie99.team2.lingolearn.client.presenter.NewCoursePresenter;
@@ -24,6 +25,7 @@ import cscie99.team2.lingolearn.client.presenter.SessionPresenter;
 import cscie99.team2.lingolearn.client.view.AppRegisterView;
 import cscie99.team2.lingolearn.client.view.CardView;
 import cscie99.team2.lingolearn.client.view.CourseView;
+import cscie99.team2.lingolearn.client.view.EnrollInCourseView;
 import cscie99.team2.lingolearn.client.view.HomeView;
 import cscie99.team2.lingolearn.client.view.ImportView;
 import cscie99.team2.lingolearn.client.view.NewCourseView;
@@ -173,6 +175,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     	  presenter = new NewCoursePresenter(courseService, 
     			  eventBus, new NewCourseView());
     	  break;
+      case "enrollInCourse":
+    	  presenter = new EnrollInCoursePresenter(courseService, 
+    			  eventBus, new EnrollInCourseView());
+    	  break;
       case "session":
     	  presenter = new SessionPresenter(courseService, cardService, 
     			  eventBus, new SessionView());
@@ -268,6 +274,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
   private void getGoogleSession(){
 	  userService.getSessionGoogleIds(new AsyncCallback<GoogleIdPackage>(){
 		  public void onSuccess(GoogleIdPackage gpack) {
+			  CurrentUser.gplusId = gpack.getGplusId();
 			  if( gpack.isValid() )
 				  attemptLogin( gpack );
 			  else{

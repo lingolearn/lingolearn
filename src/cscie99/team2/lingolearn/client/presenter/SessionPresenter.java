@@ -6,6 +6,7 @@ import cscie99.team2.lingolearn.client.AnalyticsServiceAsync;
 import cscie99.team2.lingolearn.client.CardService;
 import cscie99.team2.lingolearn.client.CardServiceAsync;
 import cscie99.team2.lingolearn.client.CourseServiceAsync;
+import cscie99.team2.lingolearn.client.CurrentUser;
 import cscie99.team2.lingolearn.client.event.AnalyticsEvent;
 import cscie99.team2.lingolearn.client.event.FlippedCardEvent;
 import cscie99.team2.lingolearn.client.event.FlippedCardEventHandler;
@@ -23,6 +24,7 @@ import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.QuizResponse;
 import cscie99.team2.lingolearn.shared.Session;
 import cscie99.team2.lingolearn.shared.User;
+import cscie99.team2.lingolearn.shared.UserSession;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -47,6 +49,7 @@ public class SessionPresenter implements Presenter {
   private final CardPresenter cardPresenter;
   private final QuizPresenter quizPresenter;
   private Session session;
+  private UserSession userSession;
   private int currentCardNumber;
   
   public SessionPresenter(CourseServiceAsync courseService, 
@@ -108,15 +111,28 @@ public class SessionPresenter implements Presenter {
 		  public void onSuccess(Session returnedSession) {
 			  session = returnedSession;
 
-		      if (session instanceof Lesson) {
-		    	  cardPresenter.go(display.getCardContainer());
-		      } else {
-		    	  quizPresenter.go(display.getCardContainer());
-		      }
-		      
-			  display.setSessionName("Session " + session.getSessionId());
-			  currentCardNumber = 0;
-			  gotoNextCard();
+			  courseService.createUserSession(session.getSessionId(), CurrentUser.gplusId, 
+					  new AsyncCallback<UserSession>() {
+
+				  public void onSuccess(UserSession returnedUserSession) {
+					  userSession = returnedUserSession;
+					  
+				      if (session instanceof Lesson) {
+				    	  cardPresenter.go(display.getCardContainer());
+				      } else {
+				    	  quizPresenter.go(display.getCardContainer());
+				      }
+				      
+					  display.setSessionName("Session " + session.getSessionId());
+					  currentCardNumber = 0;
+					  gotoNextCard();
+				  }
+
+				  public void onFailure(Throwable caught) {
+					  Window.alert("unable to create user session");
+				  }
+				  
+			  });
 	      }
 	      
 	      public void onFailure(Throwable caught) {
@@ -128,8 +144,10 @@ public class SessionPresenter implements Presenter {
   private void recordKnowledge(Assessment knowledge) {
 	  //Send knowledge to the analytics service
 	  FlashCardResponse flashCardResponse = new FlashCardResponse();
+	  flashCardResponse.setGplusId(CurrentUser.gplusId);
 	  flashCardResponse.setCardId(session.getDeck().getCardIds().get(currentCardNumber));
 	  flashCardResponse.setSessionId(session.getSessionId());
+	  flashCardResponse.setUserSessionId(userSession.getUserSessionId());
 	  flashCardResponse.setAssessment(knowledge);
 	  AnalyticsEvent flashCardEvent = new AnalyticsEvent(flashCardResponse);
 	  eventBus.fireEvent(flashCardEvent);
@@ -139,7 +157,9 @@ public class SessionPresenter implements Presenter {
   }
   
   public void recordQuizResponse(QuizResponse quizResponse) {
+	  quizResponse.setGplusId(CurrentUser.gplusId);
 	  quizResponse.setSessionId(session.getSessionId());
+	  quizResponse.setUserSessionId(userSession.getUserSessionId());
 	  AnalyticsEvent quizEvent = new AnalyticsEvent(quizResponse);
 	  eventBus.fireEvent(quizEvent);
   }

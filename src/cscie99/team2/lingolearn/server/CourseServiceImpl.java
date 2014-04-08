@@ -1,15 +1,18 @@
 package cscie99.team2.lingolearn.server;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import cscie99.team2.lingolearn.client.CardService;
 import cscie99.team2.lingolearn.client.CourseService;
+import cscie99.team2.lingolearn.shared.UserSession;
 import cscie99.team2.lingolearn.server.datastore.CardDAO;
 import cscie99.team2.lingolearn.server.datastore.CourseDAO;
 import cscie99.team2.lingolearn.server.datastore.DeckDAO;
+import cscie99.team2.lingolearn.server.datastore.UserSessionDAO;
 import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.Deck;
@@ -24,10 +27,12 @@ import cscie99.team2.lingolearn.shared.error.DeckNotFoundException;
 public class CourseServiceImpl extends RemoteServiceServlet implements CourseService {
 	
 	private CourseDAO courseAccessor;
+	private UserSessionDAO userSessionAccessor;
 	
 	public CourseServiceImpl() {
 		new MockDataGenerator().generateMockData();
 		courseAccessor = CourseDAO.getInstance();
+		userSessionAccessor = UserSessionDAO.getInstance();
 	}
 	
 	public ArrayList<Course> getCoursesUserIsInstructing(User user) {
@@ -114,6 +119,16 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		// Put the course in the data store (after it has an id)
 		course = courseAccessor.storeCourse(course);
 		return course;
+	}
+
+	@Override
+	public UserSession createUserSession(Long sessionId, String gplusId) {
+		UserSession u = new UserSession();
+		u.setSessionId(sessionId);
+		u.setGplusId(gplusId);
+		u.setSessStart(new Date());
+		u = userSessionAccessor.storeUserSession(u);
+		return u;
 	}
 
 }

@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.Session;
 import cscie99.team2.lingolearn.shared.User;
+import cscie99.team2.lingolearn.shared.UserSession;
 
 public interface CourseServiceAsync {
   public void getCoursesUserIsInstructing(User user, AsyncCallback<ArrayList<Course>> callback);
@@ -15,5 +16,6 @@ public interface CourseServiceAsync {
   public void getSessionsForCourse(Long courseId, AsyncCallback<ArrayList<Session>> callback);
   public void getSessionById(Long sessionId, AsyncCallback<Session> callback);
   public void createCourse(Course course, AsyncCallback<Course> callback);
+  public void createUserSession(Long sessionId, String gplusId, AsyncCallback<UserSession> callback);
 }
 

@@ -25,7 +25,9 @@
     </div>
 
     <div class='panel panel-default'>
-      <div class='panel-heading'>Enrolled courses</div>
+      <div class='panel-heading'>Enrolled courses
+        <a class='btn btn-primary btn-xs pull-right' href='#enrollInCourse'>Enroll</a>
+      </div>
       <div class='panel-body'>
         <g:VerticalPanel ui:field='coursesAsInstructor'></g:VerticalPanel>
       </div>

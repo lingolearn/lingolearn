@@ -8,6 +8,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.Session;
 import cscie99.team2.lingolearn.shared.User;
+import cscie99.team2.lingolearn.shared.UserSession;
 
 @RemoteServiceRelativePath("courseService")
 public interface CourseService extends RemoteService {
@@ -17,4 +18,5 @@ public interface CourseService extends RemoteService {
 	public ArrayList<Session> getSessionsForCourse(Long courseId);
 	public Session getSessionById(Long sessionId);
 	public Course createCourse(Course course);
+	public UserSession createUserSession(Long sessionId, String gplusId);
 }
