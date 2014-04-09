@@ -11,12 +11,14 @@ import cscie99.team2.lingolearn.client.CourseService;
 import cscie99.team2.lingolearn.shared.UserSession;
 import cscie99.team2.lingolearn.server.datastore.CardDAO;
 import cscie99.team2.lingolearn.server.datastore.CourseDAO;
+import cscie99.team2.lingolearn.server.datastore.CourseRegistrationDAO;
 import cscie99.team2.lingolearn.server.datastore.DeckDAO;
 import cscie99.team2.lingolearn.server.datastore.LessonDAO;
 import cscie99.team2.lingolearn.server.datastore.QuizDAO;
 import cscie99.team2.lingolearn.server.datastore.UserSessionDAO;
 import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Course;
+import cscie99.team2.lingolearn.shared.CourseRegistration;
 import cscie99.team2.lingolearn.shared.Deck;
 import cscie99.team2.lingolearn.shared.Image;
 import cscie99.team2.lingolearn.shared.Lesson;
@@ -32,6 +34,7 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 	private LessonDAO lessonAccessor;
 	private QuizDAO quizAccessor;
 	private UserSessionDAO userSessionAccessor;
+	private CourseRegistrationDAO courseRegistrationAccessor;
 	
 	public CourseServiceImpl() {
 		new MockDataGenerator().generateMockData();
@@ -39,16 +42,19 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		lessonAccessor = LessonDAO.getInstance();
 		quizAccessor = QuizDAO.getInstance();
 		userSessionAccessor = UserSessionDAO.getInstance();
+		courseRegistrationAccessor = CourseRegistrationDAO.getInstance();
 	}
 	
-	public ArrayList<Course> getCoursesUserIsInstructing(User user) {
+	public ArrayList<Course> getCoursesUserIsInstructing(String gplusId) {
 		List<Course> rawList;
 		ArrayList<Course> list = new ArrayList<Course>();
 		
 		//Temporarily populate with all
 		rawList = courseAccessor.getAllCourses();
-		for (int i=0;(i < 5) && (i < rawList.size());i++) {
-			list.add(rawList.get(i));
+		if (rawList != null) {
+			for (int i=0;(i < 5) && (i < rawList.size());i++) {
+				list.add(rawList.get(i));
+			}
 		}
 		
 		return list;
@@ -56,18 +62,35 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 	}
 	
 	
-	public ArrayList<Course> getCoursesUserIsEnrolledIn(User user) {
+	public ArrayList<Course> getCoursesUserIsEnrolledIn(String gplusId) {
+		List<CourseRegistration> rawList;
+		ArrayList<Course> list = new ArrayList<Course>();
+		
+		rawList = courseRegistrationAccessor.getCourseRegistrationByUserId(gplusId);
+		if (rawList != null) {
+			for (int i=0;i < rawList.size();i++) {
+				list.add(courseAccessor.getCourseById(rawList.get(i).getCourseId()));
+			}
+		}
+		
+		return list;
+		
+	}
+
+	
+	public ArrayList<Course> getAllAvailableCourses(String gplusId) {
 		List<Course> rawList;
 		ArrayList<Course> list = new ArrayList<Course>();
 		
 		//Temporarily populate with all
 		rawList = courseAccessor.getAllCourses();
-		for (int i=0;(i < 5) && (i < rawList.size());i++) {
-			list.add(rawList.get(i));
+		if (rawList != null) {
+			for (int i=0;i < rawList.size();i++) {
+				list.add(rawList.get(i));
+			}
 		}
 		
 		return list;
-		
 	}
 
 
@@ -128,6 +151,15 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		u.setSessStart(new Date());
 		u = userSessionAccessor.storeUserSession(u);
 		return u;
+	}
+	
+	public Boolean enrollInCourse(Long courseId, String gplusId) {
+		Boolean b = true;
+		CourseRegistration cr = new CourseRegistration();
+		cr.setCourseId(courseId);
+		cr.setGplusId(gplusId);
+		courseRegistrationAccessor.storeCourseRegistration(cr);
+		return b;
 	}
 
 }

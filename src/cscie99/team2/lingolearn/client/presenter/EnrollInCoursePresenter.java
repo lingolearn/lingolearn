@@ -4,6 +4,7 @@ package cscie99.team2.lingolearn.client.presenter;
 import cscie99.team2.lingolearn.client.AnalyticsService;
 import cscie99.team2.lingolearn.client.AnalyticsServiceAsync;
 import cscie99.team2.lingolearn.client.CourseServiceAsync;
+import cscie99.team2.lingolearn.client.CurrentUser;
 import cscie99.team2.lingolearn.client.event.ViewCardEvent;
 import cscie99.team2.lingolearn.client.view.CourseView;
 import cscie99.team2.lingolearn.client.view.EnrollInCourseView;
@@ -46,17 +47,17 @@ public class EnrollInCoursePresenter implements Presenter {
 		@Override
 		public void onClick(ClickEvent event) {
 			// TODO Auto-generated method stub
-			Course c = display.getSelectedCourse();
-			courseService.createCourse(c, new AsyncCallback<Course>() {
+			final Course c = display.getSelectedCourse();
+			courseService.enrollInCourse(c.getCourseId(),CurrentUser.gplusId, new AsyncCallback<Boolean>() {
 
 				@Override
 				public void onFailure(Throwable caught) {
-					Window.alert("Trouble creating the course");
+					Window.alert("Trouble enrolling in the course");
 				}
 
 				@Override
-				public void onSuccess(Course result) {
-					Window.Location.assign("/app.html?courseId=" + result.getCourseId() + "#course");
+				public void onSuccess(Boolean success) {
+					Window.Location.assign("/app.html?courseId=" + c.getCourseId() + "#course");
 				}
 				
 			});
@@ -72,7 +73,19 @@ public class EnrollInCoursePresenter implements Presenter {
   }
   
   private void addAvailableCoursesToList() {
-	  
+	  courseService.getAllAvailableCourses(CurrentUser.gplusId, new AsyncCallback<ArrayList<Course>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Trouble enrolling in the course");
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Course> courses) {
+				display.setCourseList(courses);
+			}
+			
+		});
   }
   
 

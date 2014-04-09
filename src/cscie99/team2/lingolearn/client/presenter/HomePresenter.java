@@ -2,6 +2,7 @@ package cscie99.team2.lingolearn.client.presenter;
 
 
 import cscie99.team2.lingolearn.client.CourseServiceAsync;
+import cscie99.team2.lingolearn.client.CurrentUser;
 import cscie99.team2.lingolearn.client.UserServiceAsync;
 import cscie99.team2.lingolearn.client.event.ViewCardEvent;
 import cscie99.team2.lingolearn.client.view.HomeView;
@@ -66,7 +67,7 @@ public class HomePresenter implements Presenter {
 		  }
 	  });
 	  
-	  courseService.getCoursesUserIsInstructing(new User(),  new AsyncCallback<ArrayList<Course>>() {
+	  courseService.getCoursesUserIsInstructing(CurrentUser.gplusId,  new AsyncCallback<ArrayList<Course>>() {
 		  public void onSuccess(ArrayList<Course> courses) {
 			  for (int i=0;i<courses.size();i++) {
 				  Course course = courses.get(i);
@@ -79,7 +80,7 @@ public class HomePresenter implements Presenter {
 	      }
 	  });
 	  
-	  courseService.getCoursesUserIsEnrolledIn(new User(),  new AsyncCallback<ArrayList<Course>>() {
+	  courseService.getCoursesUserIsEnrolledIn(CurrentUser.gplusId,  new AsyncCallback<ArrayList<Course>>() {
 		  public void onSuccess(ArrayList<Course> courses) {
 			  for (int i=0;i<courses.size();i++) {
 				  Course course = courses.get(i);

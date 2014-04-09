@@ -32,6 +32,7 @@ public class EnrollInCourseView extends Composite {
 
   @UiField ListBox courseList;
   @UiField Button enrollButton;
+  private List<Course> listOfCourses;
   
   public EnrollInCourseView() {
 	  initWidget(binder.createAndBindUi(this));
@@ -42,12 +43,16 @@ public class EnrollInCourseView extends Composite {
   }
   
   public Course getSelectedCourse() {
-	  Course c = null;
+	  int idx = courseList.getSelectedIndex();
+	  Course c = listOfCourses.get(idx);
 	  return c;
   }
   
   public void setCourseList(List<Course> courses) {
-	  //TODO
+	  listOfCourses = courses;
+	  for (int i=0;i<courses.size();i++) {
+		  courseList.addItem(courses.get(i).getCourseName());
+	  }
   }
   
 }

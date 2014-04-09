@@ -20,7 +20,7 @@
       	<a class='btn btn-primary btn-xs pull-right' href='#newCourse'>New</a>
       </div>
       <div class='panel-body'>
-        <g:VerticalPanel ui:field='coursesAsStudent'></g:VerticalPanel>
+        <g:VerticalPanel ui:field='coursesAsInstructor'></g:VerticalPanel>
       </div>
     </div>
 
@@ -29,7 +29,7 @@
         <a class='btn btn-primary btn-xs pull-right' href='#enrollInCourse'>Enroll</a>
       </div>
       <div class='panel-body'>
-        <g:VerticalPanel ui:field='coursesAsInstructor'></g:VerticalPanel>
+        <g:VerticalPanel ui:field='coursesAsStudent'></g:VerticalPanel>
       </div>
     </div>
 

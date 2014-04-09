@@ -104,7 +104,7 @@ public class CoursePresenter implements Presenter {
 	      }
 	      
 	      public void onFailure(Throwable caught) {
-	        Window.alert("Error fetching course assignments");
+	         //Window.alert("Error fetching course assignments");
 	      }
 	  });
 	  
