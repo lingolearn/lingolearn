@@ -48,7 +48,7 @@ public class EnrollInCoursePresenter implements Presenter {
 		public void onClick(ClickEvent event) {
 			// TODO Auto-generated method stub
 			final Course c = display.getSelectedCourse();
-			courseService.enrollInCourse(c.getCourseId(),CurrentUser.gplusId, new AsyncCallback<Boolean>() {
+			courseService.enrollInCourse(c.getCourseId(), CurrentUser.gplusId, new AsyncCallback<Boolean>() {
 
 				@Override
 				public void onFailure(Throwable caught) {

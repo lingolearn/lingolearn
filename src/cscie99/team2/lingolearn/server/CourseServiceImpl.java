@@ -160,6 +160,7 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		CourseRegistration cr = new CourseRegistration();
 		cr.setCourseId(courseId);
 		cr.setGplusId(gplusId);
+		System.out.println(gplusId);
 		courseRegistrationAccessor.storeCourseRegistration(cr);
 		return b;
 	}

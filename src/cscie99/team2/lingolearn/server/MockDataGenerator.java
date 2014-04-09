@@ -51,7 +51,10 @@ public class MockDataGenerator {
 	 * 
 	 * @return A deck of cards that have not been stored in the DAO.
 	 */
-	public Deck getConfuserDeck() {
+	private Deck getConfuserDeck() {
+		CardDAO cardAccessor = CardDAO.getInstance();
+		DeckDAO deckAccessor = DeckDAO.getInstance();
+		
 		// Prepare the deck
 		Deck deck = new Deck();
 		deck.setLangauge("ja-jp");
@@ -64,7 +67,21 @@ public class MockDataGenerator {
 			card.setKatakana(cardData[ndx][2]);
 			card.setTranslation(cardData[ndx][3]);
 			card.setNativeLanguage("en-us");
+			
+			try {
+				card = cardAccessor.storeCard(card);
+			} catch (CardNotFoundException myCardNotFoundException) {
+				// Duplicate card
+				System.err.println(myCardNotFoundException.getMsg() + " for " + myCardNotFoundException.getSearchParam());
+			}		
+			
 			deck.add(card);
+			
+			try {
+				deckAccessor.storeDeck(deck);
+			} catch (Exception e) {
+				
+			}
 		}
 		// Return the built deck
 		return deck;
@@ -191,8 +208,13 @@ public class MockDataGenerator {
 		q.setDeck(d1);
 		q.setCourseId(course2.getCourseId());
 		
+		Quiz q2 = new Quiz();
+		q2.setDeck(getConfuserDeck());
+		q2.setCourseId(course2.getCourseId());
+		
 		//store quizzes in data store
 		QuizDAO quizAccessor = QuizDAO.getInstance();
 		quizAccessor.storeQuiz(q);
+		quizAccessor.storeQuiz(q2);
 	}
 }

@@ -43,7 +43,10 @@ public class Deck implements Serializable {
 		}
 	}
 	
-	public Deck() {}
+	public Deck() {
+		this.cards = new HashMap<Long, Card>();
+		this.cardIds = new ArrayList<Long>();
+	}
 	
 	/**
 	 * Add the card indicated to the deck. If it already exists then this 

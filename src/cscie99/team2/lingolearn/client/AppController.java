@@ -274,10 +274,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
   private void getGoogleSession(){
 	  userService.getSessionGoogleIds(new AsyncCallback<GoogleIdPackage>(){
 		  public void onSuccess(GoogleIdPackage gpack) {
-			  CurrentUser.gplusId = gpack.getGplusId();
-			  if( gpack.isValid() )
+			  if( gpack.isValid() ) {
 				  attemptLogin( gpack );
-			  else{
+			  } else {
 				  openView(false);
 			  }
 		  }
@@ -298,6 +297,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
    * 
    */
   private void attemptLogin( GoogleIdPackage gpack ){
+	  CurrentUser.gplusId = gpack.getGplusId();
 	  userService.loginUser(gpack.getGmail(), new AsyncCallback<Boolean>(){
 		  public void onSuccess( Boolean loggedIn ){
 			  if( loggedIn ){

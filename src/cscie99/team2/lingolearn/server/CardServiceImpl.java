@@ -134,7 +134,7 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 		List<String> confuserStrings = null;
 		Confuser confuser = new Confuser();
 		try {
-			confuserStrings = confuser.getConfusers(card, CharacterType.Hiragana, 3);
+			confuserStrings = confuser.getConfusers(card, CharacterType.Kanji, 3);
 		} catch (ConfuserException e) {
 			e.printStackTrace();
 		}
