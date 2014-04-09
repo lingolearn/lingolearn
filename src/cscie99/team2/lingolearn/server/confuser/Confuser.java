@@ -33,7 +33,8 @@ public class Confuser {
 	 * 
 	 * @param card The card to get the confusers for.
 	 * @param type The focus of the confusers.
-	 * @param count The number that should be returned.
+	 * @param count The number that should be returned, if -1 is provided then
+	 * all results are returned without processing.
 	 * @return A list of string zero to the requested count of confusers.
 	 */
 	public List<String> getConfusers(Card card, CharacterType type, int count) throws ConfuserException {
@@ -56,6 +57,10 @@ public class Confuser {
 					break;
 				default:
 					throw new ConfuserException("An invalid type, " + type + " was provided.");
+			}
+			// Should we return everything?
+			if (count == -1) {
+				return results;
 			}
 			// Check to make sure all of the results are appropriate
 			for (int ndx = 0; ndx < results.size(); ndx++) {
@@ -369,8 +374,9 @@ public class Confuser {
 	}
 	
 	/**
+	 * Read the kanji families for confusers from the resource file.
 	 * 
-	 * @return
+	 * @return The confuser families as a list of strings.
 	 */
 	private List<String> readConfusers() throws ConfuserException, IOException {
 		// Open the black list for this language and check to see if it exists
