@@ -95,19 +95,19 @@ public class MockDataGenerator {
 		MockDataGenerator.dataHasBeenGenerated = true;
 		
 		Card tc1 = new Card();
-		tc1.setKanji("k1");
-		tc1.setHiragana("h1");
-		tc1.setKatakana("kt1");
-		tc1.setTranslation("card1");
+		tc1.setKanji("");
+		tc1.setHiragana("");
+		tc1.setKatakana("エレベーター");
+		tc1.setTranslation("Elevator");
 		tc1.setNativeLanguage("us-en");
 		tc1.setDesc("TestDeck");
 
 		// same kanji as in tc1
 		Card tc2 = new Card();
-		tc2.setKanji("k1");
-		tc2.setHiragana("h2");
-		tc2.setKatakana("kt2");
-		tc2.setTranslation("carte2");
+		tc2.setKanji("居る");
+		tc2.setHiragana("いる");
+		tc2.setKatakana("");
+		tc2.setTranslation("To be");
 		tc2.setNativeLanguage("ca-fr");
 		tc2.setDesc("TestDeck");
 
@@ -121,10 +121,10 @@ public class MockDataGenerator {
 		mySound.setSoundUri(soundUri);
 
 		Card tc3 = new Card();
-		tc3.setKanji("k3");
-		tc3.setHiragana("h3");
-		tc3.setKatakana("kt3");
-		tc3.setTranslation("card3");
+		tc3.setKanji("貸す");
+		tc3.setHiragana("かす");
+		tc3.setKatakana("");
+		tc3.setTranslation("To lend");
 		tc3.setNativeLanguage("us-en");
 		tc3.setDesc("MultiMediaDeck");
 		tc3.setImage(myImage);
@@ -168,8 +168,9 @@ public class MockDataGenerator {
 		d2.setNativeLangauge("en-us");
 		d2.setCardIds(new ArrayList<Long>());
 		d2.setCards(new HashMap<Long, Card>());
-		d2.add(c1);
-		d2.add(c2);
+		d2.add(tc1);
+		d2.add(tc2);
+		d2.add(tc3);
 
 		// Store decks in the local In-memory datastore
 		DeckDAO deckAccessor = DeckDAO.getInstance();

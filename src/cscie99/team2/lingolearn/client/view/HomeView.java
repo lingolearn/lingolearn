@@ -29,6 +29,9 @@ public class HomeView extends Composite {
   
   public HomeView() {
 	  initWidget(binder.createAndBindUi(this));
+	  
+	  //Hide sample card view
+	  sampleCardButton.setVisible(false);
   }
   
   public HasClickHandlers getSampleCardButton() {

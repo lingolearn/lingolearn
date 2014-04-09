@@ -134,7 +134,11 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 		List<String> confuserStrings = null;
 		Confuser confuser = new Confuser();
 		try {
-			confuserStrings = confuser.getConfusers(card, CharacterType.Kanji, 3);
+			if (card.getKatakana().equals("")) {
+				confuserStrings = confuser.getConfusers(card, CharacterType.Kanji, 3);
+			} else {
+				confuserStrings = confuser.getConfusers(card, CharacterType.Katakana, 3);
+			}
 		} catch (ConfuserException e) {
 			e.printStackTrace();
 		}

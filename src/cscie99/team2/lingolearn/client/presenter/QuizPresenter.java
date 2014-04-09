@@ -106,22 +106,26 @@ public class QuizPresenter implements Presenter {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			display.addAnswer("bs answer");
-			display.addAnswer("not the right one");
-			display.addAnswer("also wrong");
+			display.addAnswer("failed confuser 1");
+			display.addAnswer("failed confuser 2");
+			display.addAnswer("failed confuser 3");
 		}
 		
 		@Override
 		public void onSuccess(List<String> result) {
-			if (result.size() < 3) {
-				//The confuser code did not do what we asked
-				display.addAnswer("mock confuser 1");
-				display.addAnswer("mock confuser 2");
-				display.addAnswer("mock confuser 3");
-			} else {
+			int count = 0;
+			if (result != null) {
 				for (int i=0;i<result.size();i++) {
-					display.addAnswer(result.get(i));
+					count++;
+					if (currentCard.getKatakana().equals("")) {
+						display.addAnswer(result.get(i) + currentCard.getHiragana());
+					} else {
+						display.addAnswer(result.get(i));
+					}
 				}
+			}
+			for (int i=count;i<3;i++) {
+				display.addAnswer("mock confuser " + i);
 			}
 		}
 		  
