@@ -12,30 +12,30 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
 import cscie99.team2.lingolearn.shared.Deck;
-import cscie99.team2.lingolearn.shared.Test;
+import cscie99.team2.lingolearn.shared.CourseTest;
 
 
 /**
  * @author YPolyanskyy
  *
- * This class represents Proxy for Tes
+ * This class represents Proxy for CourseTest
  */
-@Entity (name="Objectifyabletest")
+@Entity (name="ObjectifyableCourseTest")
 @Index
-public class ObjectifyableTest extends ObjectifyableSession implements Serializable {
+public class ObjectifyableCourseTest extends ObjectifyableSession implements Serializable {
 
 	private static final long serialVersionUID = 6856444795214987148L;
 
 	private int 	timeLimit;		// Time limit (minutes) allowed to take this test
 	private Float	grade;			// Resulting grade (percent value) for obtained during this session
 
-	public ObjectifyableTest() {};
+	public ObjectifyableCourseTest() {};
 	
 	/**
 	 * This method creates Objectifyable Proxy from real object
 	 * @param t		Test object
 	 */
-	public ObjectifyableTest (Test t) {
+	public ObjectifyableCourseTest (CourseTest t) {
 		this.sessId = t.getSessionId();
 		this.courseId = t.getCourseId();
 		this.timeLimit = t.getTimeLimit();
@@ -50,8 +50,8 @@ public class ObjectifyableTest extends ObjectifyableSession implements Serializa
 		}
 	}
 
-	public Test getTest() {
-		Test t = new Test();
+	public CourseTest getTest() {
+		CourseTest t = new CourseTest();
 		t.setSessionId(this.sessId);
 		t.setCourseId(this.courseId);
 		t.setTimeLimit(this.timeLimit);

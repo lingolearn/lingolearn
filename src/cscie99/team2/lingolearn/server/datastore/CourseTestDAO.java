@@ -6,20 +6,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import cscie99.team2.lingolearn.server.datastore.ObjectifyableTest;
-import cscie99.team2.lingolearn.shared.Test;
+import cscie99.team2.lingolearn.server.datastore.ObjectifyableCourseTest;
+import cscie99.team2.lingolearn.shared.CourseTest;
 
-public class TestDAO {
+public class CourseTestDAO {
 
 	/**
 	 * SingletonHolder is loaded on the first execution of Singleton.getInstance() 
 	 * or the first access to SingletonHolder.INSTANCE, not before.
 	 */
 	private static class TestDAOHolder { 
-		public static final TestDAO INSTANCE = new TestDAO();
+		public static final CourseTestDAO INSTANCE = new CourseTestDAO();
 	}
 
-	public static TestDAO getInstance() {
+	public static CourseTestDAO getInstance() {
 		return TestDAOHolder.INSTANCE;
 	}   
 	
@@ -28,11 +28,11 @@ public class TestDAO {
 	 * @param course Test to be stored in the datastore
 	 * @return stored Test for diagnostic purpose
 	 */
-	public Test storeTest(Test test) {
-		ObjectifyableTest oTest = new ObjectifyableTest(test); 
+	public CourseTest storeTest(CourseTest test) {
+		ObjectifyableCourseTest oTest = new ObjectifyableCourseTest(test); 
 		ofy().save().entity(oTest).now();
-		ObjectifyableTest fetched = ofy().load().entity(oTest).now();
-		Test rtest = fetched.getTest();
+		ObjectifyableCourseTest fetched = ofy().load().entity(oTest).now();
+		CourseTest rtest = fetched.getTest();
 		return rtest;
 	}
 	
@@ -41,22 +41,22 @@ public class TestDAO {
 	 * @param sessId sessId
 	 * @return Test stored with the sessId or null if not found
 	 */
-	public Test getTestById(Long sessId) {
+	public CourseTest getTestById(Long sessId) {
 		if (sessId == null) {
 			return null;
 		}
-		ObjectifyableTest oTest = ofy().load().type(ObjectifyableTest.class).id(sessId).now();
+		ObjectifyableCourseTest oTest = ofy().load().type(ObjectifyableCourseTest.class).id(sessId).now();
 		if (oTest != null) {
-			Test test = oTest.getTest();
+			CourseTest test = oTest.getTest();
 			return test;
 		}
 		return null;
 	}
 	
-	public List<Test> getAllTestsByCourseId(Long courseId) {
-		List<ObjectifyableTest> oTests = ofy().load().type(ObjectifyableTest.class).filter("courseId", courseId).list();
-		Iterator<ObjectifyableTest> it = oTests.iterator();
-		List<Test> tests = new ArrayList<>();
+	public List<CourseTest> getAllTestsByCourseId(Long courseId) {
+		List<ObjectifyableCourseTest> oTests = ofy().load().type(ObjectifyableCourseTest.class).filter("courseId", courseId).list();
+		Iterator<ObjectifyableCourseTest> it = oTests.iterator();
+		List<CourseTest> tests = new ArrayList<>();
 		while (it.hasNext()) {
 			tests.add(it.next().getTest());
 		}
@@ -68,11 +68,11 @@ public class TestDAO {
 	}
 	
 	
-	public List<Test> getAllTests() {
-		List<ObjectifyableTest> oTests = ofy().load().type(ObjectifyableTest.class).list();
+	public List<CourseTest> getAllTests() {
+		List<ObjectifyableCourseTest> oTests = ofy().load().type(ObjectifyableCourseTest.class).list();
 
-		Iterator<ObjectifyableTest> it = oTests.iterator();
-		List<Test> tests = new ArrayList<>();
+		Iterator<ObjectifyableCourseTest> it = oTests.iterator();
+		List<CourseTest> tests = new ArrayList<>();
 		while (it.hasNext()) {
 			tests.add(it.next().getTest());
 		}
@@ -90,7 +90,7 @@ public class TestDAO {
 	 */
 	public void deleteTestById(Long sessId) {
 		if (sessId != null) {
-			ofy().delete().type(ObjectifyableTest.class).id(sessId).now();
+			ofy().delete().type(ObjectifyableCourseTest.class).id(sessId).now();
 		}
 	}
 }

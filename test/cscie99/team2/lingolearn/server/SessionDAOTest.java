@@ -16,8 +16,10 @@ import static org.junit.Assert.*;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
+import cscie99.team2.lingolearn.server.datastore.CourseTestDAO;
 import cscie99.team2.lingolearn.server.datastore.LessonDAO;
 import cscie99.team2.lingolearn.server.datastore.QuizDAO;
+import cscie99.team2.lingolearn.shared.CourseTest;
 import cscie99.team2.lingolearn.shared.Deck;
 import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.Quiz;
@@ -61,7 +63,9 @@ public class SessionDAOTest {
 		Lesson l3 = new Lesson(113L, d1, 103L);
 		Quiz q1 = new Quiz(114L, d1, 104L, "learn");
 		Quiz q2 = new Quiz(115L, d1, 104L, "learn");
-		//Test t1 = new Test(116L, d1, 105L, 30, null);
+		CourseTest t1 = new CourseTest(116L, d1, 105L, 30, null);
+		CourseTest t2 = new CourseTest(117L, d2, 106L, 60, null);
+		
 
 		// Store them in the local In-memory datastore
 		LessonDAO lessonAccessor = LessonDAO.getInstance();
@@ -72,6 +76,10 @@ public class SessionDAOTest {
 		QuizDAO quizAccessor = QuizDAO.getInstance();
 		quizAccessor.storeQuiz(q1);
 		quizAccessor.storeQuiz(q2);
+		
+		CourseTestDAO courseTestAccessor = CourseTestDAO.getInstance();
+		courseTestAccessor.storeTest(t1);
+		courseTestAccessor.storeTest(t2);
 	}
 
 	@After
@@ -97,6 +105,24 @@ public class SessionDAOTest {
 		}
 	}
 
+	@Test
+	/**
+	 * Test CourseTest retrieval by "testCourseId" 
+	 */
+	public void testGetCourseTestById() {
+		CourseTestDAO courseTestAccessor = CourseTestDAO.getInstance();
+		CourseTest courseTest = null;
+		Long result = null;
+
+		courseTest =  courseTestAccessor.getTestById(117L);
+		if (courseTest == null) {
+			assertTrue(false);
+		} else {
+			result = courseTest.getSessionId();
+			assertTrue("Retrieval CourseTest by id failed: expected 117, but obtained: " + result, result == 117L);
+		}
+	}
+	
 	@Test
 	/**
 	 * Test Quiz retrieval by "quizId" 
@@ -125,6 +151,21 @@ public class SessionDAOTest {
 		if (lList != null) {
 			// The list should contain 1 Lesson objects
 			assertTrue("Retrieval of the all Lessons list failed: expected " + size + " Lesson(s), but obtained: " + lList.size(), lList.size() == size);
+		} else {
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testGetCourseTestsByCourseId() {
+		CourseTestDAO courseTestAccessor = CourseTestDAO.getInstance();		
+		List<CourseTest> ctList = null;
+		int size = 1;
+
+		ctList = courseTestAccessor.getAllTestsByCourseId(106L);
+		if (ctList != null) {
+			// The list should contain 1 CourseTest object
+			assertTrue("Retrieval of the all CourseTests list failed: expected " + size + " CourseTest(s), but obtained: " + ctList.size(), ctList.size() == size);
 		} else {
 			assertTrue(false);
 		}
@@ -161,6 +202,21 @@ public class SessionDAOTest {
 	}
 	
 	@Test
+	public void testGetAllCourseTests() {
+		CourseTestDAO courseTestAccessor = CourseTestDAO.getInstance();	
+		List<CourseTest> ctList = null;
+		int size = 2;
+
+		ctList = courseTestAccessor.getAllTests();
+		if (ctList != null) {
+			// The list should contain 2 CourseTest objects
+			assertTrue("Retrieval of the all CourseTest list failed: expected " + size + " CourseTest(s), but obtained: " + ctList.size(), ctList.size() == size);
+		} else {
+			assertTrue(false);
+		}
+	}
+	
+	@Test
 	public void testGetAllQuizes() {
 		QuizDAO quizAccessor = QuizDAO.getInstance();
 		List<Quiz> qList = null;
@@ -187,6 +243,24 @@ public class SessionDAOTest {
 		// Retrieve non-existing Lesson with lessonId = 111
 		lesson = lessonAccessor.getLessonById(111L);
 		if (lesson != null) {
+			assertTrue(false);
+		} else {
+			assertTrue(true);
+		}
+	}
+	
+	@Test
+	/**
+	 * Test delete CourseTest by courseTestId
+	 */
+	public void testDeleteCourseTestById() {
+		CourseTestDAO courseTestAccessor = CourseTestDAO.getInstance();
+		CourseTest courseTest = null;
+		// Delete CourseTest with courseTestId = 116
+		courseTestAccessor.deleteTestById(116L);
+		// Retrieve non-existing CourseTest with courseTestId = 116
+		courseTest = courseTestAccessor.getTestById(116L);
+		if (courseTest != null) {
 			assertTrue(false);
 		} else {
 			assertTrue(true);
