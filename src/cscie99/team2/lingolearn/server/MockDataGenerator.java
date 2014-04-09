@@ -21,6 +21,55 @@ public class MockDataGenerator {
 	
 	private static boolean dataHasBeenGenerated = false;
 	
+	// The following is a list of card data that generates at least three
+	// confusers when run. This data is in the following format:
+	// [kanji], [hiragana], [katakana], [translation]
+	private String[][] cardData = new String[][] {
+		// Autumn
+		{ "秋", "あき", "", "Autumn" },
+		// Five
+		{ "五つ", "いつつ", "", "Five" },
+		// Five
+		{ "五", "ご", "", "Five" },
+		// To be, usually written as hiragana
+		{ "居る", "いる", "", "To be" },
+		// To lend
+		{ "貸す", "かす", "", "To lend" },
+		// Apartment
+		{ "", "", "アパート", "Apartment" },
+		// Elevator
+		{ "", "", "エレベーター", "Elevator" },
+		// Cup
+		{ "", "", "カップ", "Cup" },
+		// Camera
+		{ "", "", "カメラ", "Camera" }
+	};
+	
+	/**
+	 * Get a deck of cards that contain ones that have been validated against
+	 * the confuser algorithm to ensure that results are returned by it.
+	 * 
+	 * @return A deck of cards that have not been stored in the DAO.
+	 */
+	public Deck getConfuserDeck() {
+		// Prepare the deck
+		Deck deck = new Deck();
+		deck.setLangauge("ja-jp");
+		deck.setNativeLangauge("en-us");
+		// Add the cards to the deck
+		for (int ndx = 0; ndx < cardData.length; ndx++) {
+			Card card = new Card();
+			card.setKanji(cardData[ndx][0]);
+			card.setHiragana(cardData[ndx][1]);
+			card.setKatakana(cardData[ndx][2]);
+			card.setTranslation(cardData[ndx][3]);
+			card.setNativeLanguage("en-us");
+			deck.add(card);
+		}
+		// Return the built deck
+		return deck;
+	}
+	
 	public void generateMockData() {
 		
 		if (MockDataGenerator.dataHasBeenGenerated) {
@@ -63,8 +112,7 @@ public class MockDataGenerator {
 		tc3.setDesc("MultiMediaDeck");
 		tc3.setImage(myImage);
 		tc3.setSound(mySound);
-		
-		
+				
 		Card c1 = new Card();
 		c1.setKanji("岡");
 		c1.setTranslation("card 1 translation");
@@ -72,8 +120,6 @@ public class MockDataGenerator {
 		c2.setKanji("字");
 		c2.setTranslation("card 2 translation");
 		
-
-
 		// Store cards in the local In-memory datastore
 		CardDAO cardAccessor = CardDAO.getInstance();
 		try {
@@ -85,8 +131,7 @@ public class MockDataGenerator {
 		} catch (CardNotFoundException myCardNotFoundException) {
 			// Duplicate card
 			System.err.println(myCardNotFoundException.getMsg() + " for " + myCardNotFoundException.getSearchParam());
-		}
-		
+		}		
 
 		// Create 2 decks
 		Deck d1 = new Deck();
@@ -117,18 +162,14 @@ public class MockDataGenerator {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-		
+				
 		Course course1;
 		course1 = new Course();
 		course1.setName("Best course eva!");
 		Course course2;
 		course2 = new Course();
 		course2.setName("Difficult course");
-		
-		
-		
+				
 		//store courses in data store
 		CourseDAO courseAccessor = CourseDAO.getInstance();
 		try {
@@ -137,8 +178,7 @@ public class MockDataGenerator {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+				
 		Lesson l = new Lesson();
 		l.setDeck(d2);
 		l.setCourseId(course1.getCourseId());
@@ -154,10 +194,5 @@ public class MockDataGenerator {
 		//store quizzes in data store
 		QuizDAO quizAccessor = QuizDAO.getInstance();
 		quizAccessor.storeQuiz(q);
-		
 	}
-	
-	
-	
-
 }
