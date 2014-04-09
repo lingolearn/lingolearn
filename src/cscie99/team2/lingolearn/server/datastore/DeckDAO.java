@@ -2,6 +2,11 @@ package cscie99.team2.lingolearn.server.datastore;
 
 import static cscie99.team2.lingolearn.server.datastore.OfyService.ofy;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.Deck;
 import cscie99.team2.lingolearn.shared.error.DeckNotFoundException;
 
@@ -55,6 +60,21 @@ public class DeckDAO {
 	 */
 	public void deleteDeckById(Long deckId) {
 		ofy().delete().type(ObjectifyableDeck.class).id(deckId).now();
+	}
+
+	
+	public List<Deck> getAllDecks() {
+		List<ObjectifyableDeck> oDecks = ofy().load().type(ObjectifyableDeck.class).list();
+		Iterator<ObjectifyableDeck> it = oDecks.iterator();
+		List<Deck> decks = new ArrayList<>();
+		while (it.hasNext()) {
+			decks.add(it.next().getDeck());
+		}
+		if (decks.size() == 0) {
+			return null;
+		} else {
+			return decks;
+		}
 	}
 
 }

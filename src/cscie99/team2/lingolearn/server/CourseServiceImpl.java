@@ -35,6 +35,7 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 	private QuizDAO quizAccessor;
 	private UserSessionDAO userSessionAccessor;
 	private CourseRegistrationDAO courseRegistrationAccessor;
+	private DeckDAO deckAccessor;
 	
 	public CourseServiceImpl() {
 		new MockDataGenerator().generateMockData();
@@ -43,6 +44,7 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		quizAccessor = QuizDAO.getInstance();
 		userSessionAccessor = UserSessionDAO.getInstance();
 		courseRegistrationAccessor = CourseRegistrationDAO.getInstance();
+		deckAccessor = DeckDAO.getInstance();
 	}
 	
 	public ArrayList<Course> getCoursesUserIsInstructing(String gplusId) {
@@ -160,6 +162,36 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		cr.setGplusId(gplusId);
 		courseRegistrationAccessor.storeCourseRegistration(cr);
 		return b;
+	}
+	
+	public Lesson createLesson(Long courseId, Long deckId) {
+		Lesson l = new Lesson();
+		l.setCourseId(courseId);
+		try {
+			l.setDeck(deckAccessor.getDeckById(deckId));
+		} catch (DeckNotFoundException e) {
+			e.printStackTrace();
+		}
+		l = lessonAccessor.storeLesson(l);
+		return l;
+	}
+	
+	public Quiz createQuiz(Long courseId, Long deckId) {
+		Quiz q = new Quiz();
+		q.setCourseId(courseId);
+		try {
+			q.setDeck(deckAccessor.getDeckById(deckId));
+		} catch (DeckNotFoundException e) {
+			e.printStackTrace();
+		}
+		q = quizAccessor.storeQuiz(q);
+		return q;
+	}
+	
+	public List<Deck> getAllDecks() {
+		List<Deck> decks;
+		decks = deckAccessor.getAllDecks();
+		return decks;
 	}
 
 }

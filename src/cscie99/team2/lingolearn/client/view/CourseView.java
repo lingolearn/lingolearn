@@ -29,6 +29,7 @@ public class CourseView extends Composite {
   @UiField Element courseTitle;
   @UiField VerticalPanel assignments;
   @UiField VerticalPanel analytics;
+  @UiField Element addAssignmentLink;
   
   public CourseView() {
 	  initWidget(binder.createAndBindUi(this));
@@ -37,6 +38,8 @@ public class CourseView extends Composite {
 
   public void setCourseData(Course course) {
 	  this.courseTitle.setInnerHTML(course.getName());
+	  String addLink = "app.html?courseId=" + course.getCourseId() + "#addAssignment";
+	  this.addAssignmentLink.setAttribute("href", addLink);
   }
   
   public void setAssignmentList(ArrayList<Session> sessions) {

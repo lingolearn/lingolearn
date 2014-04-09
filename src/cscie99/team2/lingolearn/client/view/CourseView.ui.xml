@@ -12,7 +12,9 @@
     <h2 ui:field='courseTitle'></h2>
 
     <div class='panel panel-default'>
-      <div class='panel-heading'>Assignments</div>
+      <div class='panel-heading'>Assignments
+      	<a class='btn btn-primary btn-xs pull-right' ui:field='addAssignmentLink'>Add</a>
+      </div>
       <div class='panel-body'>
           <g:VerticalPanel ui:field='assignments'></g:VerticalPanel>
       </div>
