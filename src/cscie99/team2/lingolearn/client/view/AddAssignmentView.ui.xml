@@ -13,10 +13,15 @@
     <div class='panel panel-default'>
       <div class='panel-heading'>Available decks</div>
       <div class='panel-body'>
-      	<g:ListBox ui:field='deckList'></g:ListBox>
+      	<form class="form-inline" role="form">
+      		<div class='form-group'>
+      			<g:ListBox ui:field='deckList' styleName='form-control'></g:ListBox>
+     		</div>
+     		
+      		<g:Button ui:field='createLessonButton' styleName='btn btn-primary'>Create lesson assignment</g:Button>
+      		<g:Button ui:field='createQuizButton' styleName='btn btn-primary'>Create quiz assignment</g:Button>
+     	</form>
       </div>
-      <g:Button ui:field='createLessonButton'>Create lesson assignment</g:Button>
-      <g:Button ui:field='createQuizButton'>Create quiz assignment</g:Button>
     </div>
 
   </g:HTMLPanel>

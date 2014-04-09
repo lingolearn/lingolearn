@@ -13,9 +13,13 @@
     <div class='panel panel-default'>
       <div class='panel-heading'>Available courses</div>
       <div class='panel-body'>
-      	<g:ListBox ui:field='courseList'></g:ListBox>
+      	<form class="form-inline" role="form">
+	      	<div class='form-group'>
+	      		<g:ListBox ui:field='courseList' styleName='form-control'></g:ListBox>
+	      	</div>
+	      	<g:Button ui:field='enrollButton' styleName='btn btn-primary'>Enroll</g:Button>
+	  	</form>
       </div>
-      <g:Button ui:field='enrollButton'>Enroll</g:Button>
     </div>
 
   </g:HTMLPanel>

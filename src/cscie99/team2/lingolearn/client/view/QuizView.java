@@ -141,7 +141,10 @@ public class QuizView extends Composite {
 	  overlay_timer.schedule(1000);
 	  forefront_timer.schedule(1350);
 	    
-	  // TODO: switch to next quiz right away
+	  // TODO: remove code below and instead switch to next quiz right away
+	  for (RadioButton element : answerNodes) {
+		  element.setEnabled(false);
+	  }
   }
   
   public void showIncorrect() {
