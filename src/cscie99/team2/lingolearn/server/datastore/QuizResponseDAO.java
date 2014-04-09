@@ -41,6 +41,9 @@ public class QuizResponseDAO {
 	 * @return QuizResponse stored with the qRespId or null if not found
 	 */
 	public QuizResponse getQuizResponseById(Long qRespId) {
+		if (qRespId == null) {
+			return null;
+		}
 		ObjectifyableQuizResponse oQuizResponse = ofy().load().type(ObjectifyableQuizResponse.class).id(qRespId).now();
 		if (oQuizResponse != null) {
 			QuizResponse qResp = oQuizResponse.getQuizResponse();
@@ -92,6 +95,8 @@ public class QuizResponseDAO {
 	 * @param cardId
 	 */
 	public void deleteQuizResponseById(Long qRespId) {
-		ofy().delete().type(ObjectifyableQuizResponse.class).id(qRespId).now();
+		if (qRespId != null) {
+			ofy().delete().type(ObjectifyableQuizResponse.class).id(qRespId).now();
+		}
 	}
 }

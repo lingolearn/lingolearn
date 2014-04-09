@@ -43,6 +43,9 @@ public class UserDAO {
 	 * @return User stored with the userId or null if not found
 	 */
 	public User getUserById(String uId) {
+		if (uId.isEmpty() || uId == null) {
+			return null;
+		}
 		ObjectifyableUser oUser = ofy().load().type(ObjectifyableUser.class).id(uId).now();
 		if (oUser != null) {
 			User user = oUser.getUser();
@@ -200,9 +203,11 @@ public class UserDAO {
 	
 	/**
 	 * Deletes the User with the specified uId from the datastore
-	 * @param cardId
+	 * @param uId
 	 */
 	public void deleteUserById(String uId) {
-		ofy().delete().type(ObjectifyableUser.class).id(uId).now();
+		if (uId.isEmpty() || uId == null) {} else {
+			ofy().delete().type(ObjectifyableUser.class).id(uId).now();
+		}
 	}
 }

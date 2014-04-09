@@ -42,6 +42,9 @@ public class LessonDAO {
 	 * @return Lesson stored with the courseId or null if not found
 	 */
 	public Lesson getLessonById(Long sessId) {
+		if (sessId == null) {
+			return null;
+		}
 		ObjectifyableLesson oLesson = ofy().load().type(ObjectifyableLesson.class).id(sessId).now();
 		if (oLesson != null) {
 			Lesson lesson = oLesson.getLesson();
@@ -86,6 +89,8 @@ public class LessonDAO {
 	 * @param sessId
 	 */
 	public void deleteLessonById(Long sessId) {
-		ofy().delete().type(ObjectifyableLesson.class).id(sessId).now();
+		if (sessId != null) {
+			ofy().delete().type(ObjectifyableLesson.class).id(sessId).now();
+		}
 	}
 }

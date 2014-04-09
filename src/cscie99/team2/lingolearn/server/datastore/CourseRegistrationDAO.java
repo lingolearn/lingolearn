@@ -81,6 +81,9 @@ public class CourseRegistrationDAO {
 	 * @return CourseRegistration with the specified courseRegId or null if not found
 	 */
 	public CourseRegistration getCourseRegistrationById(Long id) {
+		if (id == null) {
+			return null;
+		}
 		ObjectifyableCourseRegistration oCR = ofy().load().type(ObjectifyableCourseRegistration.class).id(id).now();
 		if (oCR==null)
 			return null;
@@ -177,6 +180,8 @@ public class CourseRegistrationDAO {
 	 * @param courseRegId
 	 */
 	public void deleteCourseRegistrationById(Long courseRegId) {
-		ofy().delete().type(ObjectifyableCourseRegistration.class).id(courseRegId).now();
+		if (courseRegId != null) {
+			ofy().delete().type(ObjectifyableCourseRegistration.class).id(courseRegId).now();
+		}
 	}
 }

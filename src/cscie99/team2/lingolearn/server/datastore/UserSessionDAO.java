@@ -41,6 +41,9 @@ public class UserSessionDAO {
 	 * @return UserSession stored with the userSessionId or null if not found
 	 */
 	public UserSession getUserSessionById(Long userSessionId) {
+		if (userSessionId == null) {
+			return null;
+		}
 		ObjectifyableUserSession oUserSession = ofy().load().type(ObjectifyableUserSession.class).id(userSessionId).now();
 		if (oUserSession != null) {
 			UserSession uSess = oUserSession.getUserSession();
@@ -107,9 +110,11 @@ public class UserSessionDAO {
 	
 	/**
 	 * Deletes the UserSession with the specified sessionId from the datastore
-	 * @param cardId
+	 * @param sessionId
 	 */
 	public void deleteUserSessionById(Long sessionId) {
-		ofy().delete().type(ObjectifyableUserSession.class).id(sessionId).now();
+		if (sessionId != null) {
+			ofy().delete().type(ObjectifyableUserSession.class).id(sessionId).now();
+		}
 	}
 }

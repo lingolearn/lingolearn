@@ -45,6 +45,9 @@ public class DeckDAO {
 	 * @throws DeckNotFoundException if the requested deck can not be found
 	 */
 	public Deck getDeckById(Long id) throws DeckNotFoundException {
+		if (id == null) {
+			throw new DeckNotFoundException("Deck was not found in the datastore", "id", null);
+		}
 		ObjectifyableDeck oDeck = ofy().load().type(ObjectifyableDeck.class).id(id).now();
 		if (oDeck==null)
 			throw new DeckNotFoundException("Deck was not found in the datastore", "id", id.toString());
@@ -59,7 +62,9 @@ public class DeckDAO {
 	 * @param cardId
 	 */
 	public void deleteDeckById(Long deckId) {
-		ofy().delete().type(ObjectifyableDeck.class).id(deckId).now();
+		if (deckId != null) {
+			ofy().delete().type(ObjectifyableDeck.class).id(deckId).now();
+		}
 	}
 
 	

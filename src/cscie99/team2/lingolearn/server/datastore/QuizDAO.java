@@ -43,6 +43,9 @@ public class QuizDAO {
 	 * @return Quiz stored with the courseId or null if not found
 	 */
 	public Quiz getQuizById(Long sessId) {
+		if (sessId == null) {
+			return null;
+		}
 		ObjectifyableQuiz oQuiz = ofy().load().type(ObjectifyableQuiz.class).id(sessId).now();
 		if (oQuiz != null) {
 			Quiz quiz = oQuiz.getQuiz();
@@ -87,6 +90,8 @@ public class QuizDAO {
 	 * @param sessId
 	 */
 	public void deleteQuizById(Long sessId) {
-		ofy().delete().type(ObjectifyableQuiz.class).id(sessId).now();
+		if (sessId != null) {
+			ofy().delete().type(ObjectifyableQuiz.class).id(sessId).now();
+		}
 	}
 }

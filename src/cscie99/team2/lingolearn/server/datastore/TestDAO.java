@@ -42,6 +42,9 @@ public class TestDAO {
 	 * @return Test stored with the sessId or null if not found
 	 */
 	public Test getTestById(Long sessId) {
+		if (sessId == null) {
+			return null;
+		}
 		ObjectifyableTest oTest = ofy().load().type(ObjectifyableTest.class).id(sessId).now();
 		if (oTest != null) {
 			Test test = oTest.getTest();
@@ -86,6 +89,8 @@ public class TestDAO {
 	 * @param sessId
 	 */
 	public void deleteTestById(Long sessId) {
-		ofy().delete().type(ObjectifyableTest.class).id(sessId).now();
+		if (sessId != null) {
+			ofy().delete().type(ObjectifyableTest.class).id(sessId).now();
+		}
 	}
 }

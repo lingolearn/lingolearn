@@ -83,6 +83,9 @@ public class CardDAO {
 	 * @return Card stored with the cardId
 	 */
 	public Card getCardById(Long cardId) {
+		if (cardId == null) {
+			return null;
+		}
 		ObjectifyableCard oCard = ofy().load().type(ObjectifyableCard.class).id(cardId).now();
 		if (oCard != null) {
 			Card card = oCard.getCard();
@@ -234,6 +237,8 @@ public class CardDAO {
 	 * @param cardId
 	 */
 	public void deleteCardById(Long cardId) {
-		ofy().delete().type(ObjectifyableCard.class).id(cardId).now();
+		if (cardId != null) {
+			ofy().delete().type(ObjectifyableCard.class).id(cardId).now();
+		}
 	}
 }

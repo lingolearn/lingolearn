@@ -46,6 +46,9 @@ public class CourseDAO {
 	 * @return Course stored with the courseId or null if not found
 	 */
 	public Course getCourseById(Long courseId) {
+		if (courseId == null) {
+			return null;
+		}
 		ObjectifyableCourse oCourse = ofy().load().type(ObjectifyableCourse.class).id(courseId).now();
 		if (oCourse != null) {
 			Course course = oCourse.getCourse();
@@ -105,6 +108,8 @@ public class CourseDAO {
 	 * @param courseId
 	 */
 	public void deleteCourseById(Long courseId) {
-		ofy().delete().type(ObjectifyableCourse.class).id(courseId).now();
+		if (courseId != null) {
+			ofy().delete().type(ObjectifyableCourse.class).id(courseId).now();
+		}
 	}
 }

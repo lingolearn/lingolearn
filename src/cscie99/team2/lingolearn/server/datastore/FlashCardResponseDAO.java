@@ -41,6 +41,9 @@ public class FlashCardResponseDAO {
 	 * @return FlashCardResponse stored with the qRespId or null if not found
 	 */
 	public FlashCardResponse getFlashCardResponseById(Long fcRespId) {
+		if (fcRespId == null) {
+			return null;
+		}
 		ObjectifyableFlashCardResponse oFlashCardResponse = ofy().load().type(ObjectifyableFlashCardResponse.class).id(fcRespId).now();
 		if (oFlashCardResponse != null) {
 			FlashCardResponse qResp = oFlashCardResponse.getFlashCardResponse();
@@ -91,6 +94,8 @@ public class FlashCardResponseDAO {
 	 * @param cardId
 	 */
 	public void deleteFlashCardResponseById(Long fcRespId) {
-		ofy().delete().type(ObjectifyableFlashCardResponse.class).id(fcRespId).now();
+		if (fcRespId != null) {
+			ofy().delete().type(ObjectifyableFlashCardResponse.class).id(fcRespId).now();
+		}
 	}
 }
