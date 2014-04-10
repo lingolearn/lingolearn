@@ -65,7 +65,11 @@ public class CardView extends Composite {
 	  
 	  //add card data to DOM nodes
 	  HTML tb1 = new HTML();
-	  tb1.setText(card.getKanji() + card.getHiragana() + card.getKatakana());
+	  if (card.getKatakana().equals("")) {
+		  tb1.setText(card.getKanji() + "  --  " + card.getHiragana());  
+	  } else {
+		  tb1.setText(card.getKatakana());
+	  }
 	  this.kanji.add(tb1);
 	  
 	  HTML tb2 = new HTML();

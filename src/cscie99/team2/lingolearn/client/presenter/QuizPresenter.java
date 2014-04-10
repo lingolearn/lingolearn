@@ -93,10 +93,10 @@ public class QuizPresenter implements Presenter {
   private void populateQuizInfo(Card card) {
 	  currentCard = card;
 	  this.currentCorrectAnswer = card.getKanji();
-	  if (card.getHiragana() != null) {
-		  this.currentCorrectAnswer += " " + card.getHiragana();
+	  if (!card.getHiragana().equals("")) {
+		  this.currentCorrectAnswer += "  --  " + card.getHiragana();
 	  }
-	  if (card.getKatakana() != null) {
+	  if (!card.getKatakana().equals("")) {
 		  this.currentCorrectAnswer += " " + card.getKatakana();
 	  }
 	  display.clearQuiz();
@@ -118,7 +118,7 @@ public class QuizPresenter implements Presenter {
 				for (int i=0;i<result.size();i++) {
 					count++;
 					if (currentCard.getKatakana().equals("")) {
-						display.addAnswer(result.get(i) + currentCard.getHiragana());
+						display.addAnswer(result.get(i) + "  --  " + currentCard.getHiragana());
 					} else {
 						display.addAnswer(result.get(i));
 					}
