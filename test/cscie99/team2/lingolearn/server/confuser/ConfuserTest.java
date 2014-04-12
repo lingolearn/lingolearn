@@ -28,6 +28,14 @@ public class ConfuserTest {
 	}
 
 	/**
+	 * Test to make sure vowels are elongated correctly for hiragana words.
+	 */
+	@Test
+	public void hiraganaVowelElongationTest() {
+		fail("Not implimented");
+	}
+	
+	/**
 	 * Test to make sure that we can extend kanji with valid hiragana.
 	 */
 	@Test
@@ -111,14 +119,13 @@ public class ConfuserTest {
 	}
 
 	/**
-	 * Test to make sure vowels are elongated correctly for hiragana and
-	 * katakana words.
+	 * Test to make sure vowels are elongated correctly for katakana words.
 	 */
 	@Test
-	public void vowelElongationTest() {
+	public void katkanaVowelElongationTest() {
 		// Test to make sure コンピュータ (computer) is manipulated correctly
 		String[] expected = new String[] { "コーンピュータ", "コンピューター", "コンピュタ" };
-		List<String> results = confuser.getVowelManiuplation("コンピュータ");	
+		List<String> results = confuser.getKatakanaManiuplation("コンピュータ");	
 		assertEquals(expected.length, results.size());
 		for (String phrase : expected) {
 			assertEquals(true, results.contains(phrase));
@@ -126,7 +133,15 @@ public class ConfuserTest {
 		
 		// Test to make sure プロジェクト (project) is being manipulated correctly
 		expected = new String[] { "プーロジェクト", "プロージェクト", "プロジェークト", "プロジェクート", "プロジェクトー" };
-		results = confuser.getVowelManiuplation("プロジェクト");	
+		results = confuser.getKatakanaManiuplation("プロジェクト");	
+		assertEquals(expected.length, results.size());
+		for (String phrase : expected) {
+			assertEquals(true, results.contains(phrase));
+		}
+		
+		// Test to make sure エレベーター (elevator) is manipulated correctly
+		expected = new String[] { "エーレベーター", "エレーベーター", "エレベター", "エレベータ" };
+		results = confuser.getKatakanaManiuplation("エレベーター");
 		assertEquals(expected.length, results.size());
 		for (String phrase : expected) {
 			assertEquals(true, results.contains(phrase));

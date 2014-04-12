@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import cscie99.team2.lingolearn.shared.Card;
@@ -25,6 +28,20 @@ public class Confuser {
 	
 	// The language code we are working with
 	private final static String CONFUSER_LANGUAGE = "jp";
+	
+	// The following dictionary is has the vowels mapped to the hiragana 
+	// that they can elongate, since this shouldn't change we want to 
+	// make sure it is an immutable object.
+	private final static Map<String, String> vowelCombinations;
+	static {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("あ", "かさたなはまやらわ");
+		map.put("い", "きしちにひみり");
+		map.put("う", "くすつぬふむゆる");
+		map.put("え", "けせてねへめれ");
+		map.put("お", "こそとのほもよろを");
+		vowelCombinations = Collections.unmodifiableMap(map);
+	};
 	
 	/**
 	 * Get a random list of confusers of given type limited to the count 
@@ -45,11 +62,12 @@ public class Confuser {
 				case Hiragana:
 					results.addAll(getNManipulation(card.getHiragana()));
 					results.addAll(getSmallTsuManiuplation(card.getHiragana()));
+					results.addAll(getHiraganaManipulation(card.getHiragana()));
 					break;
 				case Katakana:
 					results.addAll(getNManipulation(card.getKatakana()));
 					results.addAll(getSmallTsuManiuplation(card.getKatakana()));
-					results.addAll(getVowelManiuplation(card.getKatakana()));
+					results.addAll(getKatakanaManiuplation(card.getKatakana()));
 					break;
 				case Kanji:
 					results.addAll(getKanjiBoundries(card));
@@ -81,7 +99,103 @@ public class Confuser {
 			throw new ConfuserException("There was an error while reading the blacklist.", ex);
 		}
 	}
-		
+
+	/**
+	 * Add vowel elongation to the provided phrase.  This algorithm attempts to
+	 * either add or remove a single character on a single pass through the 
+	 * entire phrase.
+	 * 
+	 * @param phrase The phrase to be manipulated.
+	 * @return A list of valid manipulations of the provided phrase.
+	 */
+	public List<String> getHiraganaManipulation(String phrase) {
+		// The following are the parameters for the manipulation
+		char n = 'ん';
+		String invalidFollowers = "ゃゅょ";
+		// Start by iterating through each of the characters in the phrase
+		List<String> phrases = new ArrayList<String>();
+		for (int ndx = 0; ndx < phrase.length(); ndx++) {
+			char ch = phrase.charAt(ndx);
+			// Press on if we can't insert after this character
+			if (ch == n || invalidFollowers.contains(String.valueOf(ch))) {
+				continue;
+			}
+			// Check to see if we shouldn't extend this character
+			if (ndx != (phrase.length() - 1)) {
+				char next = phrase.charAt(ndx + 1);
+				if (invalidFollowers.contains(String.valueOf(next))) {
+					continue;
+				}
+			}
+			// Iterate through the vowel combinations to find the character
+			// to use for the replacement
+			for (String replacement : vowelCombinations.keySet()) {
+				if (vowelCombinations.get(replacement).contains(String.valueOf(ch))) {
+					// Make sure we insert at the correct location
+					if (ndx == 0) {
+						phrases.add(String.valueOf(ch) + replacement + phrase.substring(1));
+					} else if (ndx == (phrase.length() - 1)) {
+						phrases.add(phrase + replacement);
+					} else {
+						String foo = phrase.substring(0, ndx + 1) + replacement + phrase.substring(ndx + 1);
+						phrases.add(foo);
+					}
+					// Skip the remaining work
+					break;
+				}
+			}
+		}
+		return phrases;
+	}
+	
+	/**
+	 * Add or remove vowel elongation characters (ー) from the provided phrase. 
+	 * This algorithm attempts to either add or remove a single character on a
+	 * single pass through the entire phrase.
+	 * 
+	 * @param phrase The phrase to be manipulated.
+	 * @return A list of valid manipulations of the provided phrase.
+	 */
+	public List<String> getKatakanaManiuplation(String phrase) {
+		// The following are the parameters for the manipulation
+		char choonpu = 'ー';
+		char n = 'ン'; 
+		char xtsu = 'っ';
+		String invalidFollowers = "ャュョェ";
+		// Start scanning through the phrase for relevant matches and either
+		// add or remove the choopu as required
+		List<String> phrases = new ArrayList<String>();
+		for (int ndx = 0; ndx < phrase.length(); ndx++) {
+			char ch = phrase.charAt(ndx);
+			// Press on if we can't insert after this character
+			if (ch == n || ch == xtsu) {
+				continue;
+			}
+			// Check to make sure the next character is not an extension
+			if (ndx != (phrase.length() - 1)) {
+				char next = phrase.charAt(ndx + 1);
+				if (next == choonpu || invalidFollowers.contains(String.valueOf(next))) {
+					continue;
+				}
+			}
+			// Are we doing a delete?
+			if (ch == choonpu) {
+				phrases.add(phrase.substring(0, ndx) + phrase.substring(ndx + 1));
+				continue;
+			}
+			// We must be performing an insert instead
+			if (ndx == 0) {
+				phrases.add(String.valueOf(ch) + choonpu + phrase.substring(1));
+			} else if (ndx == (phrase.length() - 1)) {
+				phrases.add(phrase + choonpu);
+			} else {
+				String foo = phrase.substring(0, ndx + 1) + choonpu + phrase.substring(ndx + 1);
+				phrases.add(foo);
+			}
+		}
+		return phrases;
+	}
+	
 	/**
 	 * Get a list of kanji phrases that have the hiragana extended off the kanji
 	 * where appropriate.
@@ -325,54 +439,7 @@ public class Confuser {
 		}
 		return phrases;
 	}
-	
-	/**
-	 * Add or remove vowel elongation characters (ー) from the provided phrase. 
-	 * This algorithm attempts to either add or remove a single character on a
-	 * single pass through the entire phrase.
-	 * 
-	 * @param phrase The phrase to be manipulated.
-	 * @return A list of valid manipulations of the provided phrase.
-	 */
-	public List<String> getVowelManiuplation(String phrase) {
-		// The following are the parameters for the manipulation
-		char choonpu = 'ー';
-		char n = 'ン';
-		String invalidFollowers = "ャュョェ";
-		// Start scanning through the phrase for relevant matches and either
-		// add or remove the choopu as required
-		List<String> phrases = new ArrayList<String>();
-		for (int ndx = 0; ndx < phrase.length(); ndx++) {
-			char ch = phrase.charAt(ndx);
-			// Press on if we can't replace this character
-			if (ch == n) {
-				continue;
-			}
-			// Check to make sure the next character is not an extension
-			if (ndx != (phrase.length() - 1)) {
-				char next = phrase.charAt(ndx + 1);
-				if (next == choonpu || invalidFollowers.contains(String.valueOf(next))) {
-					continue;
-				}
-			}
-			// Are we doing a delete?
-			if (ch == choonpu) {
-				phrases.add(phrase.substring(0, ndx) + phrase.substring(ndx + 1));
-				continue;
-			}
-			// We must be performing an insert instead
-			if (ndx == 0) {
-				phrases.add(String.valueOf(ch) + choonpu + phrase.substring(1));
-			} else if (ndx == (phrase.length() - 1)) {
-				phrases.add(phrase + choonpu);
-			} else {
-				String foo = phrase.substring(0, ndx + 1) + choonpu + phrase.substring(ndx + 1);
-				phrases.add(foo);
-			}
-		}
-		return phrases;
-	}
-	
+		
 	/**
 	 * Read the kanji families for confusers from the resource file.
 	 * 
