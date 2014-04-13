@@ -136,7 +136,10 @@
     		data: params,
     		success: function(data){
     			if( data ){
-    				window.location.replace("/#home");
+    				var referrer = document.referrer;
+    				console.log( referrer );
+    				//window.location.replace("/app.html");
+    				window.location.replace("http://127.0.0.1:8888/app.html?gwt.codesvr=127.0.0.1:9997");
     			}else{
     				$(".response-message p").html("Please use the controls to login to google.");
     			}

@@ -12,7 +12,7 @@ public interface UserService extends RemoteService {
 
 	public Boolean isUserLoggedIn();
 
-	public Boolean loginUser( String gmail );
+	public User loginUser( String gmail );
 	
 	public Boolean logoutUser( User user );
 	

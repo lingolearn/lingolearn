@@ -47,7 +47,7 @@ public class UserServiceImpl  extends RemoteServiceServlet implements UserServic
 	 * @return Boolean - true if the user was successfully
 	 * logged into this session, false otherwise.
 	 */
-	public Boolean loginUser( String gmail ){
+	public User loginUser( String gmail ){
 		
 		//TODO:: add exception handling, e.g. db error
 		UserDAO udao = UserDAO.getInstance();
@@ -56,11 +56,11 @@ public class UserServiceImpl  extends RemoteServiceServlet implements UserServic
 		if( loggedInUser != null ){
 			HttpSession session = this.getThreadLocalRequest().getSession();
 			session.setAttribute(USER_SESSION_KEY, loggedInUser);
-			return true;
+			return loggedInUser;
 		}
 		
 		
-		return false;
+		return null;
 	}
 	
 	/**

@@ -1,5 +1,7 @@
 package cscie99.team2.lingolearn.client;
 
+import javax.servlet.http.HttpSession;
+
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -47,6 +49,8 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
   private final StorageServiceAsync storageService;
   private HasWidgets container;
   private boolean userAuthenticated;
+
+  private User currentUser;
   
   public AppController(UserServiceAsync userService, CourseServiceAsync courseService,
 		  CardServiceAsync cardService, AnalyticsServiceAsync analyticsService,
@@ -148,7 +152,17 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
   }
   
   public void onValueChange(ValueChangeEvent<String> event) {
-    String token = event.getValue();
+  	if( !userAuthenticated ){
+  		authenticateCurrentUser(event);
+  	}else{
+  		loadPresentationView(event);
+  		userAuthenticated = false;
+  	}
+  	
+  } 
+  
+  private void loadPresentationView(ValueChangeEvent<String> event){
+   String token = event.getValue();
     
     if (token != null) {
       Presenter presenter = null;
@@ -161,7 +175,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     	  break;
       case "home":
     	  presenter = new HomePresenter(userService, courseService, 
-    			  eventBus, new HomeView());
+    			  currentUser, eventBus, new HomeView());
     	  break;
       case "course":
     	  presenter = new CoursePresenter(courseService, analyticsService, 
@@ -202,7 +216,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
         presenter.go(container);
       }
     }
-  } 
+  }
   
   private void doViewCard() {
 	    History.newItem("viewCard");
@@ -212,7 +226,13 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
   public void go(final HasWidgets container) {
     this.container = container;
     
-    authenticateUser();
+    //authenticateUser();
+    if ("".equals(History.getToken())) {
+      History.newItem("home");
+		}
+		else {
+		      History.fireCurrentHistoryState();
+		}
   }
   
   /*
@@ -223,18 +243,33 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
    */
   private void openView( boolean isAuthenticated ){
 
-	  if( isAuthenticated ){
 		  if ("".equals(History.getToken())) {
 		        History.newItem("home");
 		  }
 		  else {
 		        History.fireCurrentHistoryState();
 		  }
-	  }
-	  else {
-		  AppController.redirectUser("/login.html");
-	  }
+
   }
+  
+  private void authenticateCurrentUser(final ValueChangeEvent<String> event){
+  	userService.getCurrentUser( new AsyncCallback<User>(){
+  		public void onSuccess(User user){
+  			if( user != null ){
+  				currentUser = user;
+  				loadPresentationView(event);
+  			}else{
+  				getGoogleSession();
+  			}
+  		}
+  		
+  		public void onFailure(Throwable caught){
+  			
+  		}
+  	});
+  }
+  
+  
   
   /*
    * Check to see that a user is logged into this session.
@@ -277,12 +312,12 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			  if( gpack.isValid() ) {
 				  attemptLogin( gpack );
 			  } else {
-				  openView(false);
+			  	AppController.redirectUser("/login.html");
 			  }
 		  }
 		      
 		  public void onFailure(Throwable caught) {
-		        Window.alert("Error fetching card.");
+		        Window.alert("Error getting google id information.");
 		  }
 	  
 	  });
@@ -298,17 +333,24 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
    */
   private void attemptLogin( GoogleIdPackage gpack ){
 	  CurrentUser.gplusId = gpack.getGplusId();
-	  userService.loginUser(gpack.getGmail(), new AsyncCallback<Boolean>(){
-		  public void onSuccess( Boolean loggedIn ){
-			  if( loggedIn ){
-				  openView(true);
+	  userService.loginUser(gpack.getGmail(), new AsyncCallback<User>(){
+		  public void onSuccess( User user ){
+		  	userAuthenticated = true;
+			  if( user != null ){
+			  	currentUser = user;
+			  	if ("".equals(History.getToken())) {
+		        History.newItem("home");
+				  }
+				  else {
+				        History.fireCurrentHistoryState();
+				  }
 			  }else{
 				  History.newItem("register");
 			  }
 		  }
 		  
 		  public void onFailure( Throwable caught ){
-			  AppController.redirectUser("/error.html");
+			  AppController.redirectUser("Error logging in user.");
 		  }
 	  });
   }  

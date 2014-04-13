@@ -3,10 +3,13 @@ package cscie99.team2.lingolearn.server.datastore;
 import static cscie99.team2.lingolearn.server.datastore.OfyService.ofy;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import com.googlecode.objectify.Ref;
+import com.googlecode.objectify.cmd.Query;
 
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.User;
@@ -108,6 +111,33 @@ public class CourseDAO {
 		} else {
 			return courses;
 		}
+	}
+	
+	public List<Course> getAvailableCourses(User student){
+		//List<ObjectifyableCourse> returendCourses = 
+		Query<ObjectifyableCourse> query = ofy().load().type(ObjectifyableCourse.class);
+		List<ObjectifyableUser> enrolledStudents = 
+													new ArrayList<ObjectifyableUser>();
+		ObjectifyableUser storedStudent = new ObjectifyableUser( student );
+		enrolledStudents.add( storedStudent );
+
+		query = query.filter("instructor =", student);
+		query = query.filter("students in", enrolledStudents);
+		List<ObjectifyableCourse> unAddableCourses = query.list();
+		Set<ObjectifyableCourse> unAddableSet = 
+							new HashSet<ObjectifyableCourse>(unAddableCourses);
+		List<ObjectifyableCourse> allCourses = 
+								ofy().load().type(ObjectifyableCourse.class).list();
+		List<Course> availableCourses = new ArrayList<Course>();
+		for( ObjectifyableCourse oc : allCourses ){
+			if( unAddableSet.contains(oc) ){
+				System.out.println("unaddable course: " + oc.courseName);
+			}else{
+				availableCourses.add( oc.getCourse() );
+			}
+		}
+		
+		return availableCourses;
 	}
 	
 	/**

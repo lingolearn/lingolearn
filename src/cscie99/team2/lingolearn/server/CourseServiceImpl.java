@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import cscie99.team2.lingolearn.client.CardService;
@@ -15,6 +17,7 @@ import cscie99.team2.lingolearn.server.datastore.CourseRegistrationDAO;
 import cscie99.team2.lingolearn.server.datastore.DeckDAO;
 import cscie99.team2.lingolearn.server.datastore.LessonDAO;
 import cscie99.team2.lingolearn.server.datastore.QuizDAO;
+import cscie99.team2.lingolearn.server.datastore.UserDAO;
 import cscie99.team2.lingolearn.server.datastore.UserSessionDAO;
 import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Course;
@@ -84,6 +87,7 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		List<Course> rawList;
 		ArrayList<Course> list = new ArrayList<Course>();
 		
+		/*
 		//Temporarily populate with all
 		rawList = courseAccessor.getAllCourses();
 		if (rawList != null) {
@@ -93,6 +97,15 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		}
 		
 		return list;
+		*/
+		HttpSession session = this.getThreadLocalRequest().getSession();
+		Object sessionUser = session.getAttribute(UserServiceImpl.USER_SESSION_KEY);
+		if( sessionUser == null )
+			return new ArrayList<Course>();
+		
+		User student = (User)sessionUser;
+		return (ArrayList<Course>) courseAccessor.getAvailableCourses(student);
+		//ArrayList<Course> availableCourses = 
 	}
 
 

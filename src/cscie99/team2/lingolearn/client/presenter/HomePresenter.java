@@ -32,11 +32,19 @@ public class HomePresenter implements Presenter {
   private User profiledUser;
   
   public HomePresenter(UserServiceAsync userService, 
-		  CourseServiceAsync courseService, HandlerManager eventBus, HomeView display) {
+		  CourseServiceAsync courseService,
+		  User currentUser,
+		  HandlerManager eventBus, 
+		  HomeView display) {
+  	
+  	if( currentUser == null )
+  		throw new IllegalArgumentException("No User is currently logged in.");
+  	
 	  this.userService = userService;
-      this.courseService = courseService;
+    this.courseService = courseService;
 	  this.eventBus = eventBus;
-      this.display = display;
+    this.display = display;
+    this.profiledUser = currentUser;  
   }
   
   public void bind() {
@@ -65,25 +73,13 @@ public class HomePresenter implements Presenter {
   		
   	}else{
   	
-  		getCurrentUserProfile();
+  		populateUserProfile();
 
   	}
   }
   
   private void getCurrentUserProfile(){
-	  userService.getCurrentUser(new AsyncCallback<User>() {
-		  public void onSuccess(User user) {
-			  if ( user != null && (user instanceof User) ) {
-				  profiledUser = user;
-				  populateUserProfile();
-			  }else{
-			  	Window.alert("Error getting current user");
-			  }
-		  }
-		  public void onFailure(Throwable caught) {
-			  Window.alert("Error getting current user");
-		  }
-	  });
+	  populateUserProfile();
   }
   
   private void getUserProfileById( Long uid ){

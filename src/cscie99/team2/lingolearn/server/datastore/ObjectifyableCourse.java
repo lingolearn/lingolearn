@@ -15,6 +15,7 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Load;
 
 import cscie99.team2.lingolearn.shared.Course;
+import cscie99.team2.lingolearn.shared.User;
 
 /**
  * This class represents Proxy for Course 
@@ -25,8 +26,8 @@ public class ObjectifyableCourse implements Serializable {
 	private static final long serialVersionUID = -4995077387409263724L;
 	
 	@Id private Long   courseId;		// Unique course Id
-	@Index private String courseDesc;	// Course description
-	@Index private String courseName;	// Course name
+	@Index String courseDesc;	// Course description
+	@Index String courseName;	// Course name
 	Date 	       courseStart,			// Course start date
 				   courseEnd;			// Course end date
 	
@@ -35,7 +36,9 @@ public class ObjectifyableCourse implements Serializable {
 	@Load
 	List<Ref<ObjectifyableUser>> students;
 	
-	public ObjectifyableCourse() {};
+	public ObjectifyableCourse() {
+		this.students = new ArrayList<Ref<ObjectifyableUser>>();
+	};
 	
 	/**
 	 * This method constructor creates Objectifyable Course from real object
@@ -62,6 +65,13 @@ public class ObjectifyableCourse implements Serializable {
 		c.setCourseName(this.courseName);
 		c.setCourseStart(this.courseStart);
 		c.setCourseEnd(this.courseEnd);
+		c.setInstructor(this.instructor.get().getUser());
+		
+		for( Ref<ObjectifyableUser> storedStudent : this.students ){
+				User student = storedStudent.get().getUser();
+				c.addStudent(student);
+		}
+		
 		return c;
 	}
 	

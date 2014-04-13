@@ -9,7 +9,7 @@ public interface UserServiceAsync {
 
 	public void isUserLoggedIn( AsyncCallback<Boolean> callback );
 	
-	public void loginUser( String gmail, AsyncCallback<Boolean> callback );
+	public void loginUser( String gmail, AsyncCallback<User> callback );
 	
 	public void logoutUser( User user, AsyncCallback<Boolean> callback );
 	
