@@ -15,6 +15,10 @@ public interface UserServiceAsync {
 	
 	public void registerUser( User user, AsyncCallback<User> callback );
 	
+	public void getUserByUid( Long uid, AsyncCallback<User> callback );
+	
+	public void getUserByGplusId( String gplusId, AsyncCallback<User> callback );
+	
 	/* Get the user who is currently logged into this session */
 	public void getCurrentUser( AsyncCallback<User> callback );
 	

@@ -17,6 +17,7 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 4690764038062275542L;
 
+	Long userId;
 	String gplusId;					// id from google +
 			
 	String gmail;
@@ -30,16 +31,22 @@ public class User implements Serializable {
 	Date userRegistrationTime;
 	
 	public User(){
-		this( null, null, null, null, null, null );
+		this( null, null, null, null, null, null, null );
 	}
 	
-	public User( String gplusId, String gmail, String fname,
+	public User(  String gplusId, String gmail, String fname,
+							String lname, Gender gender, Language nativ ){
+		this( null, gplusId, gmail, fname, lname, gender, nativ );
+	}
+	
+	public User( Long userId, String gplusId, String gmail, String fname,
 							String lname, Gender gender, Language nativ ){
 		
 		this.languages = new HashSet<Language>();
 		this.textbooks = new HashSet<Textbook>();
 		this.outsideCourses = new HashSet<OutsideCourse>();
 		
+		this.userId = userId;
 		this.gplusId = gplusId;
 		this.gmail = gmail;
 		this.firstName = fname;
@@ -70,6 +77,14 @@ public class User implements Serializable {
 		return languages.add(language);
 	}
 	
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
 	public String getGplusId() {
 		return gplusId;
 	}

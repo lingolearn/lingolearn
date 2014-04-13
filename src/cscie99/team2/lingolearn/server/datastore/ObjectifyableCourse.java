@@ -4,11 +4,15 @@
 package cscie99.team2.lingolearn.server.datastore;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Load;
 
 import cscie99.team2.lingolearn.shared.Course;
 
@@ -26,6 +30,11 @@ public class ObjectifyableCourse implements Serializable {
 	Date 	       courseStart,			// Course start date
 				   courseEnd;			// Course end date
 	
+	@Load
+	Ref<ObjectifyableUser> instructor;
+	@Load
+	List<Ref<ObjectifyableUser>> students;
+	
 	public ObjectifyableCourse() {};
 	
 	/**
@@ -33,6 +42,8 @@ public class ObjectifyableCourse implements Serializable {
 	 * @param course		Course object
 	 */
 	public ObjectifyableCourse (Course course) {
+		//this.instructor = new ObjectifyableUser( course.getInstructor() );
+		this.students = new ArrayList<Ref<ObjectifyableUser>>();
 		this.courseId = course.getCourseId();
 		this.courseDesc = course.getCourseDesc();
 		this.courseName = course.getCourseName();
@@ -53,5 +64,6 @@ public class ObjectifyableCourse implements Serializable {
 		c.setCourseEnd(this.courseEnd);
 		return c;
 	}
+	
 	
 }

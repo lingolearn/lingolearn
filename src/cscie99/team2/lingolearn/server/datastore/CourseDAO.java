@@ -6,11 +6,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import cscie99.team2.lingolearn.server.datastore.ObjectifyableCourse;
-import cscie99.team2.lingolearn.shared.Card;
+import com.googlecode.objectify.Ref;
+
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.User;
-import cscie99.team2.lingolearn.shared.error.CardNotFoundException;
 
 public class CourseDAO {
 
@@ -33,10 +32,18 @@ public class CourseDAO {
 	 * @return stored Course for diagnostic purpose
 	 */
 	public Course storeCourse( Course course ) {
-		ObjectifyableCourse oCourse = new ObjectifyableCourse(course); 
+		ObjectifyableCourse oCourse = new ObjectifyableCourse(course);
+		Long instructorId = course.getInstructor().getUserId();
+		ObjectifyableUser storedInstructor = ofy().
+				load().type(ObjectifyableUser.class).id(instructorId).now();
+		oCourse.instructor = Ref.create(storedInstructor);
+		for( User student : course.getStudents() ){
+			Ref<ObjectifyableUser> studentRef = Ref.create( new ObjectifyableUser(student) );
+			oCourse.students.add( studentRef );
+		}
 		ofy().save().entity(oCourse).now();
-		ObjectifyableCourse fetched = ofy().load().entity(oCourse).now();
-		course = fetched.getCourse();
+		//ObjectifyableCourse fetched = ofy().load().entity(oCourse).now();
+		course = oCourse.getCourse();
 		return course;
 	}
 	

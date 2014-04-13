@@ -115,8 +115,8 @@ public class MetricsCalculator {
 	}
 	
 	public User getUserById (String gplusId) {
-		if (uAccessor.getUserById(gplusId) != null) {
-			return uAccessor.getUserById(gplusId);
+		if (uAccessor.getUserByGplusId(gplusId) != null) {
+			return uAccessor.getUserByGplusId(gplusId);
 		}
 		else {
 			return null;

@@ -37,16 +37,28 @@ public class UserDAO {
 		return stored;	
 	}
 	
-	/**
-	 * Obtains User by UserId
-	 * @param uId userId
-	 * @return User stored with the userId or null if not found
-	 */
-	public User getUserById(String uId) {
-		if (uId.isEmpty() || uId == null) {
+	public User getUserById( Long uid ){
+		if (uid < 1 || uid == null) {
 			return null;
 		}
-		ObjectifyableUser oUser = ofy().load().type(ObjectifyableUser.class).id(uId).now();
+		ObjectifyableUser oUser = ofy().load().type(ObjectifyableUser.class).id(uid).now();
+		if (oUser != null) {
+			User user = oUser.getUser();
+			return user;
+			}
+		return null;
+	}
+	
+	/**
+	 * Obtains User by UserId
+	 * @param gplus userId
+	 * @return User stored with the userId or null if not found
+	 */
+	public User getUserByGplusId(String gplus) {
+		if (gplus.isEmpty() || gplus == null) {
+			return null;
+		}
+		ObjectifyableUser oUser = ofy().load().type(ObjectifyableUser.class).id(gplus).now();
 		if (oUser != null) {
 			User user = oUser.getUser();
 			return user;
@@ -201,13 +213,19 @@ public class UserDAO {
 		}
 	}
 	
+	public void deleteUserByUid( Long uid ){
+		if( uid > 1 && uid != null )
+			ofy().delete().type(ObjectifyableUser.class).id(uid).now();
+	}
+	
 	/**
 	 * Deletes the User with the specified uId from the datastore
-	 * @param uId
+	 * @param gplus
 	 */
-	public void deleteUserById(String uId) {
-		if (uId.isEmpty() || uId == null) {} else {
-			ofy().delete().type(ObjectifyableUser.class).id(uId).now();
+	public void deleteUserByGplusId(String gplus) {
+		if (gplus.isEmpty() || gplus == null) {} else {
+			ofy().delete().type(ObjectifyableUser.class).id(gplus).now();
 		}
 	}
+	
 }

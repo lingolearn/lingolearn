@@ -92,6 +92,19 @@ public class UserServiceImpl  extends RemoteServiceServlet implements UserServic
 		return registered;
 	}
 	
+	public User getUserByUid( Long uid ){
+		UserDAO udao = UserDAO.getInstance();
+		User user = udao.getUserById(uid);
+		return user;
+	}
+	
+	public User getUserByGplusId( String gplusId ){
+		UserDAO udao = UserDAO.getInstance();
+		User found = udao.getUserByGplusId( gplusId );
+		
+		return found;
+	}
+	
 	/**
 	 *  Get the user who is currently logged into this session
 	 *  

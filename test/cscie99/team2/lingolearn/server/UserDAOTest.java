@@ -91,7 +91,7 @@ public class UserDAOTest {
 		User u = null;
 		String result = null;
 
-		u = userAccessor.getUserById("googleID");
+		u = userAccessor.getUserByGplusId("googleID");
 		if (u == null) {
 			assertTrue(false);
 		} else {
@@ -255,9 +255,9 @@ public class UserDAOTest {
 			UserDAO userAccessor = UserDAO.getInstance();
 			User u = null;
 		  // Delete User with uId googleID
-		  userAccessor.deleteUserById("googleID");
+		  userAccessor.deleteUserByGplusId("googleID");
 		  // Retrieve non-existing card with uId 101 yahooID
-		  u = userAccessor.getUserById("yahooID");
+		  u = userAccessor.getUserByGplusId("yahooID");
 		  if (u != null) {
 			  assertTrue(false);
 		  }

@@ -15,7 +15,7 @@
       <div class='panel-body'>
       	<g:FormPanel styleName='form-horizontal'>
       		<g:FlowPanel>
-      		
+
 			    <g:FlowPanel styleName='form-group'>
 		        	<g:Label text="Name" styleName='col-sm-4'/>
 			    	<g:FlowPanel styleName='col-sm-8'><g:TextBox ui:field='courseName' styleName='form-control' /></g:FlowPanel>

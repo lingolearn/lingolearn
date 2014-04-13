@@ -168,7 +168,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     			  eventBus, new CourseView());
     	  break;
       case "newCourse":
-    	  presenter = new NewCoursePresenter(courseService, 
+    	  presenter = new NewCoursePresenter(courseService, userService,
     			  eventBus, new NewCourseView());
     	  break;
       case "enrollInCourse":

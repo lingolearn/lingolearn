@@ -22,7 +22,8 @@ public class ObjectifyableUser implements Serializable {
 
 	private static final long serialVersionUID = 4690764038062275542L;
 
-	@Id String gplusId;					// id from google +		
+	@Id Long userId;
+	@Index String gplusId;					// id from google +		
 	@Index String gmail;
 	String firstName;					// not indexed, no search by this field
 	String lastName;					// not indexed, no search by this field
@@ -44,6 +45,7 @@ public class ObjectifyableUser implements Serializable {
 	 * @param user		User object
 	 */
 	public ObjectifyableUser( User user ){
+		this.userId = user.getUserId();
 		this.gplusId = user.getGplusId();
 		this.gmail = user.getGmail();
 		this.firstName = user.getFirstName();
@@ -71,6 +73,7 @@ public class ObjectifyableUser implements Serializable {
 	 */
 	public User getUser() {
 		User u = new User ();
+		u.setUserId(this.userId);
 		u.setGplusId(this.gplusId);
 		u.setGmail(this.gmail);
 		u.setFirstName(this.firstName);

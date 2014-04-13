@@ -148,7 +148,7 @@ public class CourseRegistrationDAO {
 			UserDAO userAccessor = UserDAO.getInstance();
 			Iterator<CourseRegistration> it = cReg.iterator();
 			while (it.hasNext()) {
-				u = userAccessor.getUserById(it.next().getGplusId());
+				u = userAccessor.getUserByGplusId(it.next().getGplusId());
 				if(u != null) {
 					userList.add(u);
 				}

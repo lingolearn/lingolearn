@@ -42,7 +42,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	public Map<String, String> getBiographicalData(String gplusId) {
 		Map<String, String> data = new HashMap<String, String>();
 		
-		User u = uAccessor.getUserById(gplusId);
+		User u = uAccessor.getUserByGplusId(gplusId);
 		String languageString = "";
 		String textbookString = "";
 		String outsideCourseString = "";

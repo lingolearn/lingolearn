@@ -18,6 +18,10 @@ public interface UserService extends RemoteService {
 	
 	public User registerUser( User u );
 	
+	public User getUserByUid( Long uid );
+	
+	public User getUserByGplusId( String gplusId );
+	
 	/* Get the user who is currently logged into this session */
 	public User getCurrentUser();
 	
