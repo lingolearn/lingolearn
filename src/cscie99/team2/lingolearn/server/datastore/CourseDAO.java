@@ -47,6 +47,9 @@ public class CourseDAO {
 		ofy().save().entity(oCourse).now();
 		//ObjectifyableCourse fetched = ofy().load().entity(oCourse).now();
 		course = oCourse.getCourse();
+		ObjectifyableUser retreivedInstructor = oCourse.instructor.get();
+		User instructor = retreivedInstructor.getUser();
+		course.setInstructor(instructor);
 		return course;
 	}
 	
@@ -121,23 +124,40 @@ public class CourseDAO {
 		ObjectifyableUser storedStudent = new ObjectifyableUser( student );
 		enrolledStudents.add( storedStudent );
 
-		query = query.filter("instructor =", student);
-		query = query.filter("students in", enrolledStudents);
+		query = query.filter("instructor", storedStudent);
+		//query = query.filter("students in", enrolledStudents);
 		List<ObjectifyableCourse> unAddableCourses = query.list();
 		Set<ObjectifyableCourse> unAddableSet = 
 							new HashSet<ObjectifyableCourse>(unAddableCourses);
 		List<ObjectifyableCourse> allCourses = 
 								ofy().load().type(ObjectifyableCourse.class).list();
+		
+		
 		List<Course> availableCourses = new ArrayList<Course>();
 		for( ObjectifyableCourse oc : allCourses ){
+			/*
 			if( unAddableSet.contains(oc) ){
 				System.out.println("unaddable course: " + oc.courseName);
 			}else{
+				ObjectifyableUser objectifiedInstructor = oc.instructor.get();
+				User instructorUser = objectifiedInstructor.getUser();
+				Course course = oc.getCourse();
+				course.setInstructor(instructorUser);
 				availableCourses.add( oc.getCourse() );
 			}
+			*/
+			if( oc.instructor == null )
+				continue;
+			
+			ObjectifyableUser objectifiedInstructor = oc.instructor.get();
+			User instructorUser = objectifiedInstructor.getUser();
+			Course course = oc.getCourse();
+			course.setInstructor(instructorUser);
+			availableCourses.add( oc.getCourse() );
 		}
 		
 		return availableCourses;
+		
 	}
 	
 	/**
