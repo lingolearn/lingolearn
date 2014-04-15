@@ -7,16 +7,16 @@
   	<div class='panel panel-default'>
   		<div class='panel-heading'>Import Cards and Decks</div>
   		<div class='panel-body'>
-		  	<g:FormPanel ui:field='form' styleName='form-horizontal'>
+		  	<g:FormPanel ui:field='form'>
 			    <g:FlowPanel>
 			    
 			    	<g:FlowPanel styleName='form-group'>
 			    		<g:FileUpload ui:field="fileUpload"></g:FileUpload>
-      					<g:Button ui:field="uploadButton">Submit</g:Button>
-			    		
 			    	</g:FlowPanel>
 			    	
-
+			    	<g:FlowPanel styleName='form-group'>
+      					<g:Button ui:field="uploadButton" styleName='btn btn-primary'>Submit</g:Button>
+			   		</g:FlowPanel>
 		   		
 		   		</g:FlowPanel>
 		   	</g:FormPanel>
