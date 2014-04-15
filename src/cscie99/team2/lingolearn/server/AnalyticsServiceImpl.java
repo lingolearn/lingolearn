@@ -59,7 +59,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		}
 		
 		
-		data.put("id", gplusId);
+		data.put("id", u.getUserId().toString());
 		data.put("firstName", u.getFirstName());
 		data.put("lastName", u.getLastName());
 		data.put("gmail", u.getGmail());
