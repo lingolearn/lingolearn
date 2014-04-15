@@ -35,21 +35,13 @@ public class CourseDAO {
 	 * @return stored Course for diagnostic purpose
 	 */
 	public Course storeCourse( Course course ) {
+		
 		ObjectifyableCourse oCourse = new ObjectifyableCourse(course);
-		Long instructorId = course.getInstructor().getUserId();
-		ObjectifyableUser storedInstructor = ofy().
-				load().type(ObjectifyableUser.class).id(instructorId).now();
-		oCourse.instructor = Ref.create(storedInstructor);
-		for( User student : course.getStudents() ){
-			Ref<ObjectifyableUser> studentRef = Ref.create( new ObjectifyableUser(student) );
-			oCourse.students.add( studentRef );
-		}
+		
 		ofy().save().entity(oCourse).now();
-		//ObjectifyableCourse fetched = ofy().load().entity(oCourse).now();
+		
 		course = oCourse.getCourse();
-		ObjectifyableUser retreivedInstructor = oCourse.instructor.get();
-		User instructor = retreivedInstructor.getUser();
-		course.setInstructor(instructor);
+		
 		return course;
 	}
 	
@@ -116,43 +108,24 @@ public class CourseDAO {
 		}
 	}
 	
+	/**
+	 * Return all the courses available for a user to enroll in.
+	 * @param student the user wishing to enroll
+	 * @return A list of courses for which the student is elligable to enroll in.
+	 * 
+	 * @note this is stubbed!  It now returns all courses.
+	 */
 	public List<Course> getAvailableCourses(User student){
-		//List<ObjectifyableCourse> returendCourses = 
-		Query<ObjectifyableCourse> query = ofy().load().type(ObjectifyableCourse.class);
-		List<ObjectifyableUser> enrolledStudents = 
-													new ArrayList<ObjectifyableUser>();
-		ObjectifyableUser storedStudent = new ObjectifyableUser( student );
-		enrolledStudents.add( storedStudent );
 
-		query = query.filter("instructor", storedStudent);
-		//query = query.filter("students in", enrolledStudents);
-		List<ObjectifyableCourse> unAddableCourses = query.list();
-		Set<ObjectifyableCourse> unAddableSet = 
-							new HashSet<ObjectifyableCourse>(unAddableCourses);
 		List<ObjectifyableCourse> allCourses = 
-								ofy().load().type(ObjectifyableCourse.class).list();
-		
-		
+				ofy().load().type(ObjectifyableCourse.class).list();
 		List<Course> availableCourses = new ArrayList<Course>();
+		
 		for( ObjectifyableCourse oc : allCourses ){
-			/*
-			if( unAddableSet.contains(oc) ){
-				System.out.println("unaddable course: " + oc.courseName);
-			}else{
-				ObjectifyableUser objectifiedInstructor = oc.instructor.get();
-				User instructorUser = objectifiedInstructor.getUser();
-				Course course = oc.getCourse();
-				course.setInstructor(instructorUser);
-				availableCourses.add( oc.getCourse() );
-			}
-			*/
+			
 			if( oc.instructor == null )
 				continue;
 			
-			ObjectifyableUser objectifiedInstructor = oc.instructor.get();
-			User instructorUser = objectifiedInstructor.getUser();
-			Course course = oc.getCourse();
-			course.setInstructor(instructorUser);
 			availableCourses.add( oc.getCourse() );
 		}
 		
@@ -169,4 +142,5 @@ public class CourseDAO {
 			ofy().delete().type(ObjectifyableCourse.class).id(courseId).now();
 		}
 	}
+	
 }

@@ -25,7 +25,7 @@ public class ObjectifyableCourse implements Serializable {
 
 	private static final long serialVersionUID = -4995077387409263724L;
 	
-	@Id private Long   courseId;		// Unique course Id
+	@Id Long   courseId;		// Unique course Id
 	@Index String courseDesc;	// Course description
 	@Index String courseName;	// Course name
 	Date 	       courseStart,			// Course start date
@@ -45,8 +45,16 @@ public class ObjectifyableCourse implements Serializable {
 	 * @param course		Course object
 	 */
 	public ObjectifyableCourse (Course course) {
-		//this.instructor = new ObjectifyableUser( course.getInstructor() );
+		ObjectifyableUser instructor = 
+							new ObjectifyableUser(course.getInstructor());
+		this.instructor = Ref.create(instructor); 
 		this.students = new ArrayList<Ref<ObjectifyableUser>>();
+		for( User student : course.getStudents() ){
+			ObjectifyableUser storableStudent = new ObjectifyableUser(student);
+			Ref<ObjectifyableUser> studentRef = Ref.create(storableStudent);
+			this.students.add(studentRef);
+		}
+		
 		this.courseId = course.getCourseId();
 		this.courseDesc = course.getCourseDesc();
 		this.courseName = course.getCourseName();
@@ -65,10 +73,14 @@ public class ObjectifyableCourse implements Serializable {
 		c.setCourseName(this.courseName);
 		c.setCourseStart(this.courseStart);
 		c.setCourseEnd(this.courseEnd);
+		ObjectifyableUser storedInstructor = this.instructor.get();
+		User instructor = storedInstructor.getUser();
+		c.setInstructor(instructor);
 		//c.setInstructor(this.instructor.get().getUser());
 		
-		for( Ref<ObjectifyableUser> storedStudent : this.students ){
-				User student = storedStudent.get().getUser();
+		for( Ref<ObjectifyableUser> studentRef : this.students ){
+				ObjectifyableUser storedStudent = studentRef.get();
+				User student = storedStudent.getUser();
 				c.addStudent(student);
 		}
 		

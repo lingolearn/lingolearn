@@ -8,13 +8,18 @@ import cscie99.team2.lingolearn.server.datastore.CourseDAO;
 import cscie99.team2.lingolearn.server.datastore.DeckDAO;
 import cscie99.team2.lingolearn.server.datastore.LessonDAO;
 import cscie99.team2.lingolearn.server.datastore.QuizDAO;
+import cscie99.team2.lingolearn.server.datastore.UserDAO;
 import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.Deck;
+import cscie99.team2.lingolearn.shared.Gender;
 import cscie99.team2.lingolearn.shared.Image;
+import cscie99.team2.lingolearn.shared.Language;
+import cscie99.team2.lingolearn.shared.LanguageTypes;
 import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.Quiz;
 import cscie99.team2.lingolearn.shared.Sound;
+import cscie99.team2.lingolearn.shared.User;
 import cscie99.team2.lingolearn.shared.error.CardNotFoundException;
 
 public class MockDataGenerator {
@@ -26,23 +31,23 @@ public class MockDataGenerator {
 	// [kanji], [hiragana], [katakana], [translation]
 	private String[][] cardData = new String[][] {
 		// Autumn
-		{ "秋", "あき", "", "Autumn" },
+		{ "ç§‹", "ã�‚ã��", "", "Autumn" },
 		// Five
-		{ "五つ", "いつつ", "", "Five" },
+		{ "äº”ã�¤", "ã�„ã�¤ã�¤", "", "Five" },
 		// Five
-		{ "五", "ご", "", "Five" },
+		{ "äº”", "ã�”", "", "Five" },
 		// To be, usually written as hiragana
-		{ "居る", "いる", "", "To be" },
+		{ "å±…ã‚‹", "ã�„ã‚‹", "", "To be" },
 		// To lend
-		{ "貸す", "かす", "", "To lend" },
+		{ "è²¸ã�™", "ã�‹ã�™", "", "To lend" },
 		// Apartment
-		{ "", "", "アパート", "Apartment" },
+		{ "", "", "ã‚¢ãƒ‘ãƒ¼ãƒˆ", "Apartment" },
 		// Elevator
-		{ "", "", "エレベーター", "Elevator" },
+		{ "", "", "ã‚¨ãƒ¬ãƒ™ãƒ¼ã‚¿ãƒ¼", "Elevator" },
 		// Cup
-		{ "", "", "カップ", "Cup" },
+		{ "", "", "ã‚«ãƒƒãƒ—", "Cup" },
 		// Camera
-		{ "", "", "カメラ", "Camera" }
+		{ "", "", "ã‚«ãƒ¡ãƒ©", "Camera" }
 	};
 	
 	/**
@@ -92,20 +97,37 @@ public class MockDataGenerator {
 		if (MockDataGenerator.dataHasBeenGenerated) {
 			return;
 		}
+		
+		/** Added 4/14/2014 by Jeff to make sure all courses have instructors */
+		String courseGmail = "cscie99.2014.team2@gmail.com";
+		UserDAO userAccessor = UserDAO.getInstance();
+		User courseUser = userAccessor.getUserByGmail(courseGmail);
+		if( courseUser == null ){
+			//String courseGmail = "cscie99.2014.team2@gmail.com";
+			String gplusId = "113018707842127503948";
+			String firstName = "cscie99";
+			String lastName = "team2";
+			Language nativ = new Language( LanguageTypes.English.toString() );
+			courseUser = new User(gplusId, courseGmail, firstName,
+										lastName, Gender.Male, nativ);
+			userAccessor.storeUser(courseUser);
+		}
+		/** End added ****************************************************/	
+		
 		MockDataGenerator.dataHasBeenGenerated = true;
 		
 		Card tc1 = new Card();
 		tc1.setKanji("");
 		tc1.setHiragana("");
-		tc1.setKatakana("エレベーター");
+		tc1.setKatakana("ã‚¨ãƒ¬ãƒ™ãƒ¼ã‚¿ãƒ¼");
 		tc1.setTranslation("Elevator");
 		tc1.setNativeLanguage("us-en");
 		tc1.setDesc("TestDeck");
 
 		// same kanji as in tc1
 		Card tc2 = new Card();
-		tc2.setKanji("居る");
-		tc2.setHiragana("いる");
+		tc2.setKanji("å±…ã‚‹");
+		tc2.setHiragana("ã�„ã‚‹");
 		tc2.setKatakana("");
 		tc2.setTranslation("To be");
 		tc2.setNativeLanguage("ca-fr");
@@ -121,8 +143,8 @@ public class MockDataGenerator {
 		mySound.setSoundUri(soundUri);
 
 		Card tc3 = new Card();
-		tc3.setKanji("貸す");
-		tc3.setHiragana("かす");
+		tc3.setKanji("è²¸ã�™");
+		tc3.setHiragana("ã�‹ã�™");
 		tc3.setKatakana("");
 		tc3.setTranslation("To lend");
 		tc3.setNativeLanguage("us-en");
@@ -131,10 +153,10 @@ public class MockDataGenerator {
 		tc3.setSound(mySound);
 				
 		Card c1 = new Card();
-		c1.setKanji("岡");
+		c1.setKanji("å²¡");
 		c1.setTranslation("card 1 translation");
 		Card c2 = new Card();
-		c2.setKanji("字");
+		c2.setKanji("å­—");
 		c2.setTranslation("card 2 translation");
 		
 		// Store cards in the local In-memory datastore
@@ -184,10 +206,11 @@ public class MockDataGenerator {
 		Course course1;
 		course1 = new Course();
 		course1.setName("Best course eva!");
+		course1.setInstructor(courseUser);
 		Course course2;
 		course2 = new Course();
 		course2.setName("Difficult course");
-				
+		course2.setInstructor(courseUser);
 		//store courses in data store
 		CourseDAO courseAccessor = CourseDAO.getInstance();
 		try {
