@@ -131,74 +131,16 @@ public class Confuser {
 			}
 			// Test to make sure if this is a vowel we can double
 			if (vowelCombinations.keySet().contains(ch) && next != ch) {
-					phrases.add(insertCharacter(phrase, ndx, ch, ch));
+					phrases.add(insertCharacter(phrase, ndx, ch));
 					continue;
 			}
 			// Iterate through the vowel combinations to find the character
 			// to use for the replacement
 			for (char replacement : vowelCombinations.keySet()) {
 				if (vowelCombinations.get(replacement).contains(String.valueOf(ch))) {
-					phrases.add(insertCharacter(phrase, ndx, ch, replacement));
+					phrases.add(insertCharacter(phrase, ndx, replacement));
 					break;
 				}
-			}
-		}
-		return phrases;
-	}
-	
-	// Make sure we insert at the correct location
-	private String insertCharacter(String phrase, int ndx, char ch, char replacement) {
-		if (ndx == 0) {
-			return String.valueOf(ch) + replacement + phrase.substring(1);
-		} else if (ndx == (phrase.length() - 1)) {
-			return phrase + replacement;
-		}
-		return phrase.substring(0, ndx + 1) + replacement + phrase.substring(ndx + 1);
-	}
-	
-	/**
-	 * Add or remove vowel elongation characters (ー) from the provided phrase. 
-	 * This algorithm attempts to either add or remove a single character on a
-	 * single pass through the entire phrase.
-	 * 
-	 * @param phrase The phrase to be manipulated.
-	 * @return A list of valid manipulations of the provided phrase.
-	 */
-	public List<String> getKatakanaManiuplation(String phrase) {
-		// The following are the parameters for the manipulation
-		char choonpu = 'ー';
-		char n = 'ン'; 
-		char xtsu = 'っ';
-		String invalidFollowers = "ャュョェ";
-		// Start scanning through the phrase for relevant matches and either
-		// add or remove the choopu as required
-		List<String> phrases = new ArrayList<String>();
-		for (int ndx = 0; ndx < phrase.length(); ndx++) {
-			char ch = phrase.charAt(ndx);
-			// Press on if we can't insert after this character
-			if (ch == n || ch == xtsu) {
-				continue;
-			}
-			// Check to make sure the next character is not an extension
-			if (ndx != (phrase.length() - 1)) {
-				char next = phrase.charAt(ndx + 1);
-				if (next == choonpu || invalidFollowers.contains(String.valueOf(next))) {
-					continue;
-				}
-			}
-			// Are we doing a delete?
-			if (ch == choonpu) {
-				phrases.add(phrase.substring(0, ndx) + phrase.substring(ndx + 1));
-				continue;
-			}
-			// We must be performing an insert instead
-			if (ndx == 0) {
-				phrases.add(String.valueOf(ch) + choonpu + phrase.substring(1));
-			} else if (ndx == (phrase.length() - 1)) {
-				phrases.add(phrase + choonpu);
-			} else {
-				String foo = phrase.substring(0, ndx + 1) + choonpu + phrase.substring(ndx + 1);
-				phrases.add(foo);
 			}
 		}
 		return phrases;
@@ -296,7 +238,7 @@ public class Confuser {
 		// Return the results
 		return phrases;
 	}
-
+	
 	/**
 	 * Get a list of kanji phrases that are similar to the one that has been
 	 * provided. In the event that no kanji confusers for the given card then
@@ -328,6 +270,47 @@ public class Confuser {
 		return phrases;		
 	}
 		
+	/**
+	 * Add or remove vowel elongation characters (ー) from the provided phrase. 
+	 * This algorithm attempts to either add or remove a single character on a
+	 * single pass through the entire phrase.
+	 * 
+	 * @param phrase The phrase to be manipulated.
+	 * @return A list of valid manipulations of the provided phrase.
+	 */
+	public List<String> getKatakanaManiuplation(String phrase) {
+		// The following are the parameters for the manipulation
+		char choonpu = 'ー';
+		char n = 'ン'; 
+		char xtsu = 'っ';
+		String invalidFollowers = "ャュョェ";
+		// Start scanning through the phrase for relevant matches and either
+		// add or remove the choopu as required
+		List<String> phrases = new ArrayList<String>();
+		for (int ndx = 0; ndx < phrase.length(); ndx++) {
+			char ch = phrase.charAt(ndx);
+			// Press on if we can't insert after this character
+			if (ch == n || ch == xtsu) {
+				continue;
+			}
+			// Check to make sure the next character is not an extension
+			if (ndx != (phrase.length() - 1)) {
+				char next = phrase.charAt(ndx + 1);
+				if (next == choonpu || invalidFollowers.contains(String.valueOf(next))) {
+					continue;
+				}
+			}
+			// Are we doing a delete?
+			if (ch == choonpu) {
+				phrases.add(phrase.substring(0, ndx) + phrase.substring(ndx + 1));
+				continue;
+			}
+			// We must be performing an insert instead
+			phrases.add(insertCharacter(phrase, ndx, choonpu));
+		}
+		return phrases;
+	}
+	
 	/**
 	 * Manipulate the phrase provided to add or remove n characters (ん, ン) as
 	 * appropriate.
@@ -438,16 +421,30 @@ public class Confuser {
 					continue;
 				}
 				// Make sure the phrase is built correctly
-				if (ndx == 0) {
-					phrases.add(String.valueOf(phrase.charAt(0)) + xtsu + phrase.substring(1));
-				} else {
-					phrases.add(phrase.substring(0, ndx) + xtsu + phrase.substring(ndx));
-				}
+				phrases.add(insertCharacter(phrase, ndx, xtsu));
 			}
 		}
 		return phrases;
 	}
 		
+	/**
+	 * Insert the replacement character provided at the index indicated correctly.
+	 * 
+	 * @param phrase The phrase to be manipulated.
+	 * @param ndx The index to make the insert at, this is treated as ndx + 1 for the
+	 * actual insert operation.
+	 * @param addition The character to use for the insertion.
+	 * @return The original string with the indicated character inserted.
+	 */
+	private String insertCharacter(String phrase, int ndx, char addition) {
+		if (ndx == 0) {
+			return String.valueOf(phrase.charAt(0)) + addition + phrase.substring(1);
+		} else if (ndx == (phrase.length() - 1)) {
+			return phrase + addition;
+		}
+		return phrase.substring(0, ndx + 1) + addition + phrase.substring(ndx + 1);
+	}
+	
 	/**
 	 * Read the kanji families for confusers from the resource file.
 	 * 
