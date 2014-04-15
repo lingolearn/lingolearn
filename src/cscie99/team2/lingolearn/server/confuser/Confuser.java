@@ -32,14 +32,14 @@ public class Confuser {
 	// The following dictionary is has the vowels mapped to the hiragana 
 	// that they can elongate, since this shouldn't change we want to 
 	// make sure it is an immutable object.
-	private final static Map<String, String> vowelCombinations;
+	private final static Map<Character, String> vowelCombinations;
 	static {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("あ", "かさたなはまやらわ");
-		map.put("い", "きしちにひみり");
-		map.put("う", "くすつぬふむゆる");
-		map.put("え", "けせてねへめれ");
-		map.put("お", "こそとのほもよろを");
+		Map<Character, String> map = new HashMap<Character, String>();
+		map.put('あ', "かさたなはまやらわ");
+		map.put('い', "きしちにひみり");
+		map.put('う', "くすつぬふむゆる");
+		map.put('え', "けせてねへめれ");
+		map.put('お', "こそとのほもよろを");
 		vowelCombinations = Collections.unmodifiableMap(map);
 	};
 	
@@ -120,32 +120,40 @@ public class Confuser {
 			if (ch == n || invalidFollowers.contains(String.valueOf(ch))) {
 				continue;
 			}
-			// Check to see if we shouldn't extend this character
+			// Get the next character in the phrase
+			char next = '\0';
 			if (ndx != (phrase.length() - 1)) {
-				char next = phrase.charAt(ndx + 1);
-				if (invalidFollowers.contains(String.valueOf(next))) {
+				next = phrase.charAt(ndx + 1);
+			}
+			// Check to see if we shouldn't extend this character
+			if (invalidFollowers.contains(String.valueOf(next))) {
+				continue;
+			}
+			// Test to make sure if this is a vowel we can double
+			if (vowelCombinations.keySet().contains(ch) && next != ch) {
+					phrases.add(insertCharacter(phrase, ndx, ch, ch));
 					continue;
-				}
 			}
 			// Iterate through the vowel combinations to find the character
 			// to use for the replacement
-			for (String replacement : vowelCombinations.keySet()) {
+			for (char replacement : vowelCombinations.keySet()) {
 				if (vowelCombinations.get(replacement).contains(String.valueOf(ch))) {
-					// Make sure we insert at the correct location
-					if (ndx == 0) {
-						phrases.add(String.valueOf(ch) + replacement + phrase.substring(1));
-					} else if (ndx == (phrase.length() - 1)) {
-						phrases.add(phrase + replacement);
-					} else {
-						String foo = phrase.substring(0, ndx + 1) + replacement + phrase.substring(ndx + 1);
-						phrases.add(foo);
-					}
-					// Skip the remaining work
+					phrases.add(insertCharacter(phrase, ndx, ch, replacement));
 					break;
 				}
 			}
 		}
 		return phrases;
+	}
+	
+	// Make sure we insert at the correct location
+	private String insertCharacter(String phrase, int ndx, char ch, char replacement) {
+		if (ndx == 0) {
+			return String.valueOf(ch) + replacement + phrase.substring(1);
+		} else if (ndx == (phrase.length() - 1)) {
+			return phrase + replacement;
+		}
+		return phrase.substring(0, ndx + 1) + replacement + phrase.substring(ndx + 1);
 	}
 	
 	/**

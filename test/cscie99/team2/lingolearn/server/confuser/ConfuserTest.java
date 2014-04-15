@@ -32,7 +32,32 @@ public class ConfuserTest {
 	 */
 	@Test
 	public void hiraganaVowelElongationTest() {
+		// Test to make sure え (picture) is extended correctly into ええ (yes)
+		List<String> results = confuser.getHiraganaManipulation("え");
+		assertEquals(1, results.size());
+		assertEquals("ええ", results.get(0));
+		
+		// Test to make sure おばさん (aunt) is extended correctly
 		fail("Not implimented");
+		
+		// Test to make sure おばあさん (grandmother) is extended correctly
+		
+		// Test to make sure おじさん (uncle) is extended correctly
+		
+		// Test to make sure おじいさん (grandfather) is extended correctly
+		
+		// Test to make sure ゆき (snow) is extended correctly
+		
+		// Test to make sure ゆうき (courage) is extended correctly
+		
+		// Test to make sure とる (take) is extended correctly
+		
+		// Test to make sure とおる (pass) is extended correctly
+		
+		// Test to make sure ここ (here) is extended correctly
+		
+		// Test to make sure こうこう (high school) is extended correctly
+		
 	}
 	
 	/**
@@ -122,7 +147,7 @@ public class ConfuserTest {
 	 * Test to make sure vowels are elongated correctly for katakana words.
 	 */
 	@Test
-	public void katkanaVowelElongationTest() {
+	public void katakanaVowelElongationTest() {
 		// Test to make sure コンピュータ (computer) is manipulated correctly
 		String[] expected = new String[] { "コーンピュータ", "コンピューター", "コンピュタ" };
 		List<String> results = confuser.getKatakanaManiuplation("コンピュータ");	
