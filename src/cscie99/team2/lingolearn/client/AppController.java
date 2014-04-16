@@ -1,7 +1,5 @@
 package cscie99.team2.lingolearn.client;
 
-import javax.servlet.http.HttpSession;
-
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;

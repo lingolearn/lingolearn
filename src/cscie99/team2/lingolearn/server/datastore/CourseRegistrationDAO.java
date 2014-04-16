@@ -6,14 +6,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import cscie99.team2.lingolearn.server.datastore.ObjectifyableCourse;
-import cscie99.team2.lingolearn.shared.Card;
-import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.CourseRegistration;
-import cscie99.team2.lingolearn.shared.Deck;
 import cscie99.team2.lingolearn.shared.User;
-import cscie99.team2.lingolearn.shared.error.CardNotFoundException;
-import cscie99.team2.lingolearn.shared.error.DeckNotFoundException;
 
 public class CourseRegistrationDAO {
 

@@ -3,7 +3,6 @@ package cscie99.team2.lingolearn.server;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.api.server.spi.response.ConflictException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import cscie99.team2.lingolearn.client.CardService;
@@ -11,8 +10,6 @@ import cscie99.team2.lingolearn.server.confuser.CharacterType;
 import cscie99.team2.lingolearn.server.confuser.Confuser;
 import cscie99.team2.lingolearn.server.datastore.CardDAO;
 import cscie99.team2.lingolearn.shared.Card;
-import cscie99.team2.lingolearn.shared.Image;
-import cscie99.team2.lingolearn.shared.Sound;
 import cscie99.team2.lingolearn.shared.error.CardNotFoundException;
 import cscie99.team2.lingolearn.shared.error.ConfuserException;
 

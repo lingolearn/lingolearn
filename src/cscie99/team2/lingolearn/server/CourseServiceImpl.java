@@ -8,22 +8,17 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import cscie99.team2.lingolearn.client.CardService;
 import cscie99.team2.lingolearn.client.CourseService;
 import cscie99.team2.lingolearn.shared.UserSession;
-import cscie99.team2.lingolearn.server.datastore.CardDAO;
 import cscie99.team2.lingolearn.server.datastore.CourseDAO;
 import cscie99.team2.lingolearn.server.datastore.CourseRegistrationDAO;
 import cscie99.team2.lingolearn.server.datastore.DeckDAO;
 import cscie99.team2.lingolearn.server.datastore.LessonDAO;
 import cscie99.team2.lingolearn.server.datastore.QuizDAO;
-import cscie99.team2.lingolearn.server.datastore.UserDAO;
 import cscie99.team2.lingolearn.server.datastore.UserSessionDAO;
-import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.CourseRegistration;
 import cscie99.team2.lingolearn.shared.Deck;
-import cscie99.team2.lingolearn.shared.Image;
 import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.Quiz;
 import cscie99.team2.lingolearn.shared.Session;

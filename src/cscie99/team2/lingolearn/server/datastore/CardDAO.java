@@ -8,7 +8,6 @@ import java.util.List;
 
 import cscie99.team2.lingolearn.server.datastore.ObjectifyableCard;
 import cscie99.team2.lingolearn.shared.Card;
-import cscie99.team2.lingolearn.shared.User;
 import cscie99.team2.lingolearn.shared.error.CardNotFoundException;
 
 public class CardDAO {

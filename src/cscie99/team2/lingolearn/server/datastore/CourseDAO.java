@@ -3,14 +3,8 @@ package cscie99.team2.lingolearn.server.datastore;
 import static cscie99.team2.lingolearn.server.datastore.OfyService.ofy;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-
-import com.googlecode.objectify.Ref;
-import com.googlecode.objectify.cmd.Query;
-
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.User;
 

@@ -1,45 +1,26 @@
 package cscie99.team2.lingolearn.client.presenter;
 
 
-import cscie99.team2.lingolearn.client.AnalyticsService;
-import cscie99.team2.lingolearn.client.AnalyticsServiceAsync;
-import cscie99.team2.lingolearn.client.CardService;
 import cscie99.team2.lingolearn.client.CardServiceAsync;
 import cscie99.team2.lingolearn.client.CourseServiceAsync;
 import cscie99.team2.lingolearn.client.CurrentUser;
 import cscie99.team2.lingolearn.client.event.AnalyticsEvent;
-import cscie99.team2.lingolearn.client.event.FlippedCardEvent;
-import cscie99.team2.lingolearn.client.event.FlippedCardEventHandler;
-import cscie99.team2.lingolearn.client.event.ViewCardEvent;
-import cscie99.team2.lingolearn.client.event.ViewCardEventHandler;
 import cscie99.team2.lingolearn.client.view.CardView;
-import cscie99.team2.lingolearn.client.view.CourseView;
 import cscie99.team2.lingolearn.client.view.QuizView;
 import cscie99.team2.lingolearn.client.view.SessionView;
 import cscie99.team2.lingolearn.shared.Assessment;
-import cscie99.team2.lingolearn.shared.Card;
-import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
 import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.QuizResponse;
 import cscie99.team2.lingolearn.shared.Session;
-import cscie99.team2.lingolearn.shared.User;
 import cscie99.team2.lingolearn.shared.UserSession;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Widget;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public class SessionPresenter implements Presenter {  
 
