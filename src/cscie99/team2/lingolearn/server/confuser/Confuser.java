@@ -35,11 +35,11 @@ public class Confuser {
 	private final static Map<Character, String> vowelCombinations;
 	static {
 		Map<Character, String> map = new HashMap<Character, String>();
-		map.put('あ', "かさたなはまやらわ");
-		map.put('い', "きしちにひみり");
-		map.put('う', "くすつぬふむゆる");
-		map.put('え', "けせてねへめれ");
-		map.put('お', "こそとのほもよろを");
+		map.put('あ', "かさたなはまやらわがざだばぱ");
+		map.put('い', "きしちにひみりぎじびぴ");
+		map.put('う', "くすつぬふむゆるぐずぶぷ");
+		map.put('え', "けせてねへめれげぜでべぺ");
+		map.put('お', "こそとのほもよろをごぞどぼぽ");
 		vowelCombinations = Collections.unmodifiableMap(map);
 	};
 	

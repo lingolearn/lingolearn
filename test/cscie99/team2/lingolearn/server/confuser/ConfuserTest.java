@@ -38,9 +38,15 @@ public class ConfuserTest {
 		assertEquals("ええ", results.get(0));
 		
 		// Test to make sure おばさん (aunt) is extended correctly
-		fail("Not implimented");
+		String expected[] = new String[] { "おおばさん", "おばあさん", "おばさあん" };
+		results = confuser.getHiraganaManipulation("おばさん");
+		assertEquals(expected.length, results.size());
+		for (String phrase : expected) {
+			assertEquals(true, results.contains(phrase));
+		}
 		
 		// Test to make sure おばあさん (grandmother) is extended correctly
+		fail("Not implemented");
 		
 		// Test to make sure おじさん (uncle) is extended correctly
 		
