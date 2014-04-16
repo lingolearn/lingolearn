@@ -31,23 +31,23 @@ public class MockDataGenerator {
 	// [kanji], [hiragana], [katakana], [translation]
 	private String[][] cardData = new String[][] {
 		// Autumn
-		{ "ç§‹", "ã�‚ã��", "", "Autumn" },
+		{ "秋", "あき", "", "Autumn" },
 		// Five
-		{ "äº”ã�¤", "ã�„ã�¤ã�¤", "", "Five" },
+		{ "五つ", "いつつ", "", "Five" },
 		// Five
-		{ "äº”", "ã�”", "", "Five" },
+		{ "五", "ご", "", "Five" },
 		// To be, usually written as hiragana
-		{ "å±…ã‚‹", "ã�„ã‚‹", "", "To be" },
+		{ "居る", "いる", "", "To be" },
 		// To lend
-		{ "è²¸ã�™", "ã�‹ã�™", "", "To lend" },
+		{ "貸す", "かす", "", "To lend" },
 		// Apartment
-		{ "", "", "ã‚¢ãƒ‘ãƒ¼ãƒˆ", "Apartment" },
+		{ "", "", "アパート", "Apartment" },
 		// Elevator
-		{ "", "", "ã‚¨ãƒ¬ãƒ™ãƒ¼ã‚¿ãƒ¼", "Elevator" },
+		{ "", "", "エレベーター", "Elevator" },
 		// Cup
-		{ "", "", "ã‚«ãƒƒãƒ—", "Cup" },
+		{ "", "", "カップ", "Cup" },
 		// Camera
-		{ "", "", "ã‚«ãƒ¡ãƒ©", "Camera" }
+		{ "", "", "カメラ", "Camera" }
 	};
 	
 	/**
