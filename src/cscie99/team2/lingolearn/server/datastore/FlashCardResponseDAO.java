@@ -3,6 +3,7 @@ package cscie99.team2.lingolearn.server.datastore;
 import static cscie99.team2.lingolearn.server.datastore.OfyService.ofy;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -77,6 +78,57 @@ public class FlashCardResponseDAO {
 	 */
 	public List<FlashCardResponse> getAllFlashCardResponses() {
 		List<ObjectifyableFlashCardResponse> oFlashCardResponses = ofy().load().type(ObjectifyableFlashCardResponse.class).list();
+		Iterator<ObjectifyableFlashCardResponse> it = oFlashCardResponses.iterator();
+		List<FlashCardResponse> qResps = new ArrayList<>();
+		while (it.hasNext()) {
+			qResps.add(it.next().getFlashCardResponse());
+		}
+		if (qResps.size() == 0) {
+			return null;
+		} else {
+			return qResps;
+		}
+	}
+	
+	public List<FlashCardResponse> getAllFlashCardResponsesBefore(Date date) {
+		if (date == null || !(date instanceof Date)) {
+			return null;
+		}
+		List<ObjectifyableFlashCardResponse> oFlashCardResponses = ofy().load().type(ObjectifyableFlashCardResponse.class).filter("answerTimeRec <", date).list();
+		Iterator<ObjectifyableFlashCardResponse> it = oFlashCardResponses.iterator();
+		List<FlashCardResponse> qResps = new ArrayList<>();
+		while (it.hasNext()) {
+			qResps.add(it.next().getFlashCardResponse());
+		}
+		if (qResps.size() == 0) {
+			return null;
+		} else {
+			return qResps;
+		}
+	}
+	
+	public List<FlashCardResponse> getAllFlashCardResponsesOn(Date date) {
+		if (date == null || !(date instanceof Date)) {
+			return null;
+		}
+		List<ObjectifyableFlashCardResponse> oFlashCardResponses = ofy().load().type(ObjectifyableFlashCardResponse.class).filter("answerTimeRec =", date).list();
+		Iterator<ObjectifyableFlashCardResponse> it = oFlashCardResponses.iterator();
+		List<FlashCardResponse> qResps = new ArrayList<>();
+		while (it.hasNext()) {
+			qResps.add(it.next().getFlashCardResponse());
+		}
+		if (qResps.size() == 0) {
+			return null;
+		} else {
+			return qResps;
+		}
+	}
+	
+	public List<FlashCardResponse> getAllFlashCardResponsesAfter(Date date) {
+		if (date == null || !(date instanceof Date)) {
+			return null;
+		}
+		List<ObjectifyableFlashCardResponse> oFlashCardResponses = ofy().load().type(ObjectifyableFlashCardResponse.class).filter("answerTimeRec >", date).list();
 		Iterator<ObjectifyableFlashCardResponse> it = oFlashCardResponses.iterator();
 		List<FlashCardResponse> qResps = new ArrayList<>();
 		while (it.hasNext()) {

@@ -3,6 +3,7 @@ package cscie99.team2.lingolearn.server.datastore;
 import static cscie99.team2.lingolearn.server.datastore.OfyService.ofy;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -78,6 +79,48 @@ public class QuizResponseDAO {
 	 */
 	public List<QuizResponse> getAllQuizResponses() {
 		List<ObjectifyableQuizResponse> oQuizResponses = ofy().load().type(ObjectifyableQuizResponse.class).list();
+		Iterator<ObjectifyableQuizResponse> it = oQuizResponses.iterator();
+		List<QuizResponse> qResps = new ArrayList<>();
+		while (it.hasNext()) {
+			qResps.add(it.next().getQuizResponse());
+		}
+		if (qResps.size() == 0) {
+			return null;
+		} else {
+			return qResps;
+		}
+	}
+	
+	public List<QuizResponse> getAllQuizResponsesBefore(Date date) {
+		List<ObjectifyableQuizResponse> oQuizResponses = ofy().load().type(ObjectifyableQuizResponse.class).filter("answerTimeRec <", date).list();
+		Iterator<ObjectifyableQuizResponse> it = oQuizResponses.iterator();
+		List<QuizResponse> qResps = new ArrayList<>();
+		while (it.hasNext()) {
+			qResps.add(it.next().getQuizResponse());
+		}
+		if (qResps.size() == 0) {
+			return null;
+		} else {
+			return qResps;
+		}
+	}
+	
+	public List<QuizResponse> getAllQuizResponsesOn(Date date) {
+		List<ObjectifyableQuizResponse> oQuizResponses = ofy().load().type(ObjectifyableQuizResponse.class).filter("answerTimeRec =", date).list();
+		Iterator<ObjectifyableQuizResponse> it = oQuizResponses.iterator();
+		List<QuizResponse> qResps = new ArrayList<>();
+		while (it.hasNext()) {
+			qResps.add(it.next().getQuizResponse());
+		}
+		if (qResps.size() == 0) {
+			return null;
+		} else {
+			return qResps;
+		}
+	}
+	
+	public List<QuizResponse> getAllQuizResponsesAfter(Date date) {
+		List<ObjectifyableQuizResponse> oQuizResponses = ofy().load().type(ObjectifyableQuizResponse.class).filter("answerTimeRec >", date).list();
 		Iterator<ObjectifyableQuizResponse> it = oQuizResponses.iterator();
 		List<QuizResponse> qResps = new ArrayList<>();
 		while (it.hasNext()) {

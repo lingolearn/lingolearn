@@ -4,6 +4,7 @@
 package cscie99.team2.lingolearn.server.datastore;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -37,6 +38,7 @@ public class ObjectifyableFlashCardResponse implements Serializable {
 	@Unindex private boolean isDropped;		// Holds status if the user dropped this card
 	@Unindex private float	timeToAnswer; 	// Time, user spent answering this question
 	@Unindex private Assessment assessment;	// The user's assessment of the flashcard.
+	private Date	answerTimeRec;			// Date when the answer was obtained
 	
 	public ObjectifyableFlashCardResponse() {}
 	
@@ -56,6 +58,7 @@ public class ObjectifyableFlashCardResponse implements Serializable {
 		this.isDropped = fcResp.isDropped();
 		this.timeToAnswer = fcResp.getTimeToAnswer();
 		this.assessment = fcResp.getAssessment();
+		this.answerTimeRec = fcResp.getAnswerTimeRec();
 	}
 	
 	/**
@@ -75,6 +78,7 @@ public class ObjectifyableFlashCardResponse implements Serializable {
 		fcResp.setDropped(this.isDropped);
 		fcResp.setTimeToAnswer(this.timeToAnswer);
 		fcResp.setAssessment(this.assessment);
+		fcResp.setAnswerTimeRec(this.answerTimeRec);
 		return fcResp;
 	}
 }

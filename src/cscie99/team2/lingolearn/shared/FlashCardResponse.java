@@ -4,6 +4,7 @@
 package cscie99.team2.lingolearn.shared;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class FlashCardResponse implements Serializable {
 
@@ -20,6 +21,7 @@ public class FlashCardResponse implements Serializable {
 	private boolean isDropped;		// Holds status if the user dropped this card
 	private float	timeToAnswer; 	// Time, user spent answering this question
 	private Assessment assessment;	// The user's assessment of the flashcard.
+	private Date	answerTimeRec;	// Date when the answer was obtained
 
 	public FlashCardResponse() {};
 	
@@ -54,6 +56,24 @@ public class FlashCardResponse implements Serializable {
 		this.assessment = assessment;
 	}
 	
+	public FlashCardResponse(Long fcRespId, Long userSessionId, Long sessionId,
+			Long cardId, String gplusId, String confuserType,
+			int sessionCardNo, int responseNo, boolean isDropped,
+			float timeToAnswer, Assessment assessment, Date answerTimeRec) {
+		super();
+		this.fcRespId = fcRespId;
+		this.userSessionId = userSessionId;
+		this.sessionId = sessionId;
+		this.cardId = cardId;
+		this.gplusId = gplusId;
+		this.confuserType = confuserType;
+		this.sessionCardNo = sessionCardNo;
+		this.responseNo = responseNo;
+		this.isDropped = isDropped;
+		this.timeToAnswer = timeToAnswer;
+		this.assessment = assessment;
+		this.answerTimeRec = answerTimeRec;
+	}
 	public Long getSessionId() {
 		return sessionId;
 	}
@@ -140,5 +160,13 @@ public class FlashCardResponse implements Serializable {
 
 	public void setUserSessionId(Long userSessionId) {
 		this.userSessionId = userSessionId;
+	}
+
+	public Date getAnswerTimeRec() {
+		return answerTimeRec;
+	}
+
+	public void setAnswerTimeRec(Date answerTimeRec) {
+		this.answerTimeRec = answerTimeRec;
 	}
 }

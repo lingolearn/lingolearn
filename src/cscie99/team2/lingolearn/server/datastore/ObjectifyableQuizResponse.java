@@ -4,6 +4,7 @@
 package cscie99.team2.lingolearn.server.datastore;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -33,6 +34,8 @@ public class ObjectifyableQuizResponse implements Serializable {
 	@Unindex	private boolean isCorrect;	// Holds status if the user's provided answer was correct
 	@Unindex	private boolean	isChanged;	// Holds status if the user was not sure and changed answer one or more times 
 	@Unindex private float	timeToAnswer; 	// Time, user spent answering this question
+	private Date	answerTimeRec;			// Date when the answer was obtained
+	
 	
 	public ObjectifyableQuizResponse() {}
 	
@@ -50,6 +53,7 @@ public class ObjectifyableQuizResponse implements Serializable {
 		this.isCorrect = qResp.isCorrect();
 		this.isChanged = qResp.isChanged();
 		this.timeToAnswer = qResp.getTimeToAnswer();
+		this.answerTimeRec = qResp.getAnswerTimeRec();
 	}
 	
 	/**
@@ -67,6 +71,7 @@ public class ObjectifyableQuizResponse implements Serializable {
 		qResp.setCorrect(this.isCorrect);
 		qResp.setChanged(this.isChanged);
 		qResp.setTimeToAnswer(this.timeToAnswer);
+		qResp.setAnswerTimeRec(this.answerTimeRec);
 		return qResp;
 	}
 }

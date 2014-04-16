@@ -4,6 +4,7 @@
 package cscie99.team2.lingolearn.shared;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author YPolyanskyy
@@ -11,7 +12,6 @@ import java.io.Serializable;
  * This class contains statistics regarding user's interaction with the flashcard
  */
 public class QuizResponse implements Serializable {
-
 
 	private static final long serialVersionUID = 3269082972556822708L;
 
@@ -24,6 +24,7 @@ public class QuizResponse implements Serializable {
 	private boolean isCorrect,		// Holds status if the user's provided answer was correct
 					isChanged;		// Holds status if the user was not sure and changed answer one or more times 
 	private float	timeToAnswer; 	// Time, user spent answering this question
+	private Date	answerTimeRec;	// Date when the answer was obtained		
 	
 	public QuizResponse () {};
 	
@@ -52,6 +53,24 @@ public class QuizResponse implements Serializable {
 		this.isChanged = isChanged;
 		this.timeToAnswer = timeToAnswer;
 	}
+	
+	public QuizResponse(Long qRespId, Long userSessionId, Long sessionId,
+			Long cardId, String gplusId, String confuserType,
+			boolean isCorrect, boolean isChanged, float timeToAnswer,
+			Date answerTimeRec) {
+		super();
+		this.qRespId = qRespId;
+		this.userSessionId = userSessionId;
+		this.sessionId = sessionId;
+		this.cardId = cardId;
+		this.gplusId = gplusId;
+		this.confuserType = confuserType;
+		this.isCorrect = isCorrect;
+		this.isChanged = isChanged;
+		this.timeToAnswer = timeToAnswer;
+		this.answerTimeRec = answerTimeRec;
+	}
+
 	public Long getSessionId() {
 		return sessionId;
 	}
@@ -109,6 +128,14 @@ public class QuizResponse implements Serializable {
 
 	public void setUserSessionId(Long userSessionId) {
 		this.userSessionId = userSessionId;
+	}
+
+	public Date getAnswerTimeRec() {
+		return answerTimeRec;
+	}
+
+	public void setAnswerTimeRec(Date answerTimeRec) {
+		this.answerTimeRec = answerTimeRec;
 	}
 	
 
