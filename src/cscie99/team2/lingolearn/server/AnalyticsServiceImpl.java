@@ -1,6 +1,7 @@
 package cscie99.team2.lingolearn.server;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,8 +9,11 @@ import java.util.Map;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import cscie99.team2.lingolearn.client.AnalyticsService;
+import cscie99.team2.lingolearn.server.datastore.CardDAO;
+import cscie99.team2.lingolearn.server.datastore.CourseDAO;
 import cscie99.team2.lingolearn.server.datastore.CourseRegistrationDAO;
 import cscie99.team2.lingolearn.server.datastore.FlashCardResponseDAO;
+import cscie99.team2.lingolearn.server.datastore.LessonDAO;
 import cscie99.team2.lingolearn.server.datastore.QuizResponseDAO;
 import cscie99.team2.lingolearn.server.datastore.UserDAO;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
@@ -25,6 +29,9 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	CourseRegistrationDAO crAccessor;
 	QuizResponseDAO qRespAccessor;
 	FlashCardResponseDAO fcRespAccessor;
+	CardDAO cAccessor;
+	CourseDAO courseAccessor;
+	LessonDAO lAccessor;
 	MetricsCalculator mc;
 	
 	
@@ -33,6 +40,9 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		crAccessor = CourseRegistrationDAO.getInstance();
 		qRespAccessor = QuizResponseDAO.getInstance();
 		fcRespAccessor = FlashCardResponseDAO.getInstance();
+		cAccessor = CardDAO.getInstance();
+		courseAccessor = CourseDAO.getInstance();
+		lAccessor = LessonDAO.getInstance();
 		mc = new MetricsCalculator();
 	}
 
@@ -267,5 +277,157 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 			fcRespAccessor.deleteFlashCardResponseById(sessionId);
 		}
 	}
+	
+	public String generateFlashCardResponseDownload(Long courseId, Date startDate, Date endDate) {
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("UserID,Gender,NativeLanguage,NumberOfLanguages,NumberOfTextbooks,NumberOfOutsideCourses,"
+				+ "Languages,Textbooks,OutsideCourses,CourseID,ResponseTimestamp,"
+				+ "QuestionSequence,Kanji,Hiragana,Katakana,Translation,UserAssessment");
+		sb.append("\n");
+		
+		List<FlashCardResponse> fcResps = fcRespAccessor.getAllFlashCardResponses();
+		List<FlashCardResponse> queriedList1 = new ArrayList<FlashCardResponse>();
+		List<FlashCardResponse> queriedList2 = new ArrayList<FlashCardResponse>();
+		List<FlashCardResponse> queriedList3 = new ArrayList<FlashCardResponse>();
+		
+		if (courseId != null) {
+			for (FlashCardResponse fcr: fcResps) {
+				if (lAccessor.getLessonById(fcr.getSessionId()).getCourseId() == courseId) {
+					queriedList1.add(fcr);
+				}
+			}
+		}
+		else {
+			queriedList1 = fcResps;
+		}
+		
+		
+		if (startDate != null) {
+			for (FlashCardResponse fcr: queriedList1) {
+				if (startDate.compareTo(fcr.getAnswerTimeRec()) < 0) {
+					queriedList2.add(fcr);
+				}
+			}
+		}
+		else {
+			queriedList2 = queriedList1;
+		}
+		
+		if (endDate != null) {
+			for (FlashCardResponse fcr: queriedList2) {
+				if (endDate.compareTo(fcr.getAnswerTimeRec()) >= 0) {
+					queriedList3.add(fcr);
+				}
+			}
+		}
+		else {
+			queriedList3 = queriedList2;
+		}
+		
+		for (FlashCardResponse fcr: queriedList3) {
+			User u = uAccessor.getUserByGplusId(fcr.getGplusId());
+			Map<String, String> bioData = this.getBiographicalData(u.getGplusId());
+			sb.append(u.getUserId().toString() + ",");
+			sb.append(bioData.get("gender") + ",");
+			sb.append(bioData.get("nativeLanguage") + ",");
+			sb.append(bioData.get("noLanguages") + ",");
+			sb.append(bioData.get("noTextbooks") + ",");
+			sb.append(bioData.get("noOutsideCourses") + ",");
+			sb.append(bioData.get("languages") + ",");
+			sb.append(bioData.get("textbooks") + ",");
+			sb.append(bioData.get("outsideCourses") + ",");
+			sb.append(lAccessor.getLessonById(fcr.getSessionId()).getCourseId().toString() + ",");
+			sb.append(fcr.getAnswerTimeRec().toString() + ",");
+			//put sequence here
+			sb.append(cAccessor.getCardById(fcr.getCardId()).getKanji() + ",");
+			sb.append(cAccessor.getCardById(fcr.getCardId()).getHiragana() + ",");
+			sb.append(cAccessor.getCardById(fcr.getCardId()).getKatakana() + ",");
+			sb.append(cAccessor.getCardById(fcr.getCardId()).getTranslation() + ",");
+			sb.append(fcr.getAssessment().toString() + "\n");						
+		}
+		return sb.toString();		
+	}
+	
+	public String generateQuizResponseDownload(Long courseId, Date startDate, Date endDate) {
+	
+		StringBuilder sb = new StringBuilder();
+		sb.append("UserID,Gender,NativeLanguage,NumberOfLanguages,NumberOfTextbooks,NumberOfOutsideCourses,"
+				+ "Languages,Textbooks,OutsideCourses,CourseID,ResponseTimestamp,"
+				+ "QuestionSequence,Kanji,Hiragana,Katakana,Translation,"
+				+ "ConfuserUsed,WrongChoice1,WrongChoice2,WrongChoice3,IsCorrect");
+		sb.append("\n");
+		
+		List<QuizResponse> qResps = qRespAccessor.getAllQuizResponses();
+		List<QuizResponse> queriedList1 = new ArrayList<QuizResponse>();
+		List<QuizResponse> queriedList2 = new ArrayList<QuizResponse>();
+		List<QuizResponse> queriedList3 = new ArrayList<QuizResponse>();
+		
+		if (courseId != null) {
+			for (QuizResponse qr: qResps) {
+				if (lAccessor.getLessonById(qr.getSessionId()).getCourseId() == courseId) {
+					queriedList1.add(qr);
+				}
+			}
+		}
+		else {
+			queriedList1 = qResps;
+		}
+		
+		
+		if (startDate != null) {
+			for (QuizResponse qr: queriedList1) {
+				if (startDate.compareTo(qr.getAnswerTimeRec()) < 0) {
+					queriedList2.add(qr);
+				}
+			}
+		}
+		else {
+			queriedList2 = queriedList1;
+		}
+		
+		if (endDate != null) {
+			for (QuizResponse qr: queriedList2) {
+				if (endDate.compareTo(qr.getAnswerTimeRec()) >= 0) {
+					queriedList3.add(qr);
+				}
+			}
+		}
+		else {
+			queriedList3 = queriedList2;
+		}
+		
+		for (QuizResponse qr: queriedList3) {
+			User u = uAccessor.getUserByGplusId(qr.getGplusId());
+			Map<String, String> bioData = this.getBiographicalData(u.getGplusId());
+			sb.append(u.getUserId().toString() + ",");
+			sb.append(bioData.get("gender") + ",");
+			sb.append(bioData.get("nativeLanguage") + ",");
+			sb.append(bioData.get("noLanguages") + ",");
+			sb.append(bioData.get("noTextbooks") + ",");
+			sb.append(bioData.get("noOutsideCourses") + ",");
+			sb.append(bioData.get("languages") + ",");
+			sb.append(bioData.get("textbooks") + ",");
+			sb.append(bioData.get("outsideCourses") + ",");
+			sb.append(lAccessor.getLessonById(qr.getSessionId()).getCourseId().toString() + ",");
+			sb.append(qr.getAnswerTimeRec().toString() + ",");
+			//put sequence here
+			sb.append(cAccessor.getCardById(qr.getCardId()).getKanji() + ",");
+			sb.append(cAccessor.getCardById(qr.getCardId()).getHiragana() + ",");
+			sb.append(cAccessor.getCardById(qr.getCardId()).getKatakana() + ",");
+			sb.append(cAccessor.getCardById(qr.getCardId()).getTranslation() + ",");
+			//this isn't currently being stored
+			sb.append(qr.getConfuserType() + ",");
+			//enter wrongchoice1here
+			//enter wrongchoice2here
+			//enter wrongchoice3here
+			sb.append(String.valueOf(qr.isCorrect()) + "\n");
+		}
+		
+		return sb.toString();
+	}
+	
+	
+	
 
 }
