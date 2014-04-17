@@ -1,17 +1,20 @@
 package cscie99.team2.lingolearn.client.presenter;
 
 
-import cscie99.team2.lingolearn.client.CourseServiceAsync;
-import cscie99.team2.lingolearn.client.CurrentUser;
-import cscie99.team2.lingolearn.client.view.EnrollInCourseView;
-import cscie99.team2.lingolearn.shared.Course;
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
-import java.util.ArrayList;
+
+import cscie99.team2.lingolearn.client.CourseServiceAsync;
+import cscie99.team2.lingolearn.client.CurrentUser;
+import cscie99.team2.lingolearn.client.view.EnrollInCourseView;
+import cscie99.team2.lingolearn.shared.Course;
+import cscie99.team2.lingolearn.shared.User;
 
 public class EnrollInCoursePresenter implements Presenter {  
 
@@ -19,11 +22,15 @@ public class EnrollInCoursePresenter implements Presenter {
   private final EnrollInCourseView display;
   private final CourseServiceAsync courseService;
   
-  public EnrollInCoursePresenter(CourseServiceAsync courseService, HandlerManager eventBus, 
+  private User currentUser;
+  
+  public EnrollInCoursePresenter(CourseServiceAsync courseService, User user,
+  		HandlerManager eventBus, 
 		  EnrollInCourseView display) {
       this.courseService = courseService;
 	  this.eventBus = eventBus;
       this.display = display;
+      this.currentUser = user;
   }
   
   public void bind() {
@@ -32,7 +39,7 @@ public class EnrollInCoursePresenter implements Presenter {
 		public void onClick(ClickEvent event) {
 			// TODO Auto-generated method stub
 			final Course c = display.getSelectedCourse();
-			courseService.enrollInCourse(c.getCourseId(), CurrentUser.gplusId, new AsyncCallback<Boolean>() {
+			courseService.enrollInCourse( c, currentUser, new AsyncCallback<Boolean>() {
 
 				@Override
 				public void onFailure(Throwable caught) {

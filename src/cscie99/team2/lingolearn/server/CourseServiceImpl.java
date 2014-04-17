@@ -163,6 +163,15 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		return u;
 	}
 	
+	public Boolean enrollInCourse( Course course, User user ){
+		CourseDAO courseAccessor = CourseDAO.getInstance();
+		course.addStudent(user);
+		courseAccessor.storeCourse(course);
+		
+		return true;
+		
+	}
+	
 	public Boolean enrollInCourse(Long courseId, String gplusId) {
 		Boolean b = true;
 		CourseRegistration cr = new CourseRegistration();

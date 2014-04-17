@@ -127,6 +127,10 @@ public class CourseDAO {
 		
 	}
 	
+	public List<Course> getStudentCourseList(User student){
+		return new ArrayList<Course>();
+	}
+	
 	/**
 	 * Deletes the course with the specified CourseId from the datastore
 	 * @param courseId

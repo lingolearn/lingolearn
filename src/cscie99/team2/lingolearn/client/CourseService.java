@@ -11,6 +11,7 @@ import cscie99.team2.lingolearn.shared.Deck;
 import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.Quiz;
 import cscie99.team2.lingolearn.shared.Session;
+import cscie99.team2.lingolearn.shared.User;
 import cscie99.team2.lingolearn.shared.UserSession;
 
 @RemoteServiceRelativePath("courseService")
@@ -23,6 +24,7 @@ public interface CourseService extends RemoteService {
 	public Session getSessionById(Long sessionId);
 	public Course createCourse(Course course);
 	public UserSession createUserSession(Long sessionId, String gplusId);
+	public Boolean enrollInCourse(Course course, User student);
 	public Boolean enrollInCourse(Long courseId, String gplusId);
 	public Lesson createLesson(Long courseId, Long deckId);
 	public Quiz createQuiz(Long courseId, Long deckId);

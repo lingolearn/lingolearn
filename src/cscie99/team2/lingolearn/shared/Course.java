@@ -6,6 +6,7 @@ package cscie99.team2.lingolearn.shared;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -50,7 +51,9 @@ public class Course implements Serializable {
 	}
 	
 	public void addStudent( User student ){
-		students.add(student);
+		HashSet<User> studentSet = new HashSet<User>(this.students);
+		if( !studentSet.contains(student) ) 
+			students.add(student);
 	}
 	
 	public void setName(String name) {
