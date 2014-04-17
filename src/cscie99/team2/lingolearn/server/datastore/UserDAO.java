@@ -58,7 +58,8 @@ public class UserDAO {
 		if (gplus.isEmpty() || gplus == null) {
 			return null;
 		}
-		ObjectifyableUser oUser = ofy().load().type(ObjectifyableUser.class).id(gplus).now();
+		ObjectifyableUser oUser = ofy().load().type(ObjectifyableUser.class).
+											filter("gplusId", gplus).first().now();
 		if (oUser != null) {
 			User user = oUser.getUser();
 			return user;
