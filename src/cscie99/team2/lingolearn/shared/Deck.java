@@ -19,7 +19,7 @@ public class Deck implements Serializable {
 	
 	// The map of cards that are part of this deck
 	private HashMap<Long, Card> cards;
-
+	
 	// The ids of the cards that are part of this deck
 	private List<Long> cardIds;
 		

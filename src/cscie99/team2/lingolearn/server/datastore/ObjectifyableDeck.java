@@ -2,15 +2,18 @@ package cscie99.team2.lingolearn.server.datastore;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
 import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Deck;
+import cscie99.team2.lingolearn.shared.error.CardNotFoundException;
 
 /**
  * This class represents Proxy for Deck
@@ -22,6 +25,7 @@ public class ObjectifyableDeck implements Serializable {
 	
 	@Id private Long id;						  // The unique id of the deck
 	//@Serialize private HashMap<Long, Card> cards; // The map of cards that are part of this deck
+	private List<Ref<ObjectifyableCard>> cards;
 	private List<Long> cardIds;					  // The ids of the cards that are part of this deck
 	private String language; 					  // The language of this deck
 	private String nativeLangauge; 				  // The native language of the translations
@@ -39,6 +43,17 @@ public class ObjectifyableDeck implements Serializable {
 		this.cardIds = deck.getCardIds();
 		this.language = deck.getLangauge();
 		this.nativeLangauge = deck.getLangauge();
+		this.cards = new ArrayList<Ref<ObjectifyableCard>>();
+		for( Long cardId : this.cardIds ){
+			try{
+			Card card = deck.getCard(cardId);
+			ObjectifyableCard storableCard = new ObjectifyableCard(card);
+			Ref<ObjectifyableCard> cardRef = Ref.create(storableCard);
+			this.cards.add(cardRef);
+			}catch(CardNotFoundException cnf ){
+				continue;
+			}
+		}
 	}
 	
 	
