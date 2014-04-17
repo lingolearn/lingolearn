@@ -48,9 +48,9 @@ public class CourseView extends Composite {
   	String name = course.getInstructor().getFirstName() + " "
   				+ course.getInstructor().getLastName();
   	this.instructor.setInnerHTML( name );
-  	//String instructorLink = "/?profile=" + 
-  	//						course.getInstructor().getUserId() + "#home";
-  	//this.instructor.setAttribute("href", instructorLink);
+  	String instructorLink = "/?profile=" + 
+  							course.getInstructor().getUserId() + "#profile";
+  	this.instructor.setAttribute("href", instructorLink);
   	
   	this.courseDesc.setId(course.getCourseDesc());
   }

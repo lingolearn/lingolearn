@@ -23,6 +23,7 @@ import cscie99.team2.lingolearn.client.presenter.Presenter;
 import cscie99.team2.lingolearn.client.presenter.RegistrationPresenter;
 import cscie99.team2.lingolearn.client.presenter.ResearchPresenter;
 import cscie99.team2.lingolearn.client.presenter.SessionPresenter;
+import cscie99.team2.lingolearn.client.presenter.UserProfilePresenter;
 import cscie99.team2.lingolearn.client.view.AddAssignmentView;
 import cscie99.team2.lingolearn.client.view.AppRegisterView;
 import cscie99.team2.lingolearn.client.view.CardView;
@@ -33,6 +34,7 @@ import cscie99.team2.lingolearn.client.view.ImportView;
 import cscie99.team2.lingolearn.client.view.NewCourseView;
 import cscie99.team2.lingolearn.client.view.ResearchView;
 import cscie99.team2.lingolearn.client.view.SessionView;
+import cscie99.team2.lingolearn.client.view.UserProfileView;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
 import cscie99.team2.lingolearn.shared.GoogleIdPackage;
 import cscie99.team2.lingolearn.shared.QuizResponse;
@@ -175,6 +177,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     	  presenter = new HomePresenter(userService, courseService, 
     			  currentUser, eventBus, new HomeView());
     	  break;
+      case "profile":
+      	presenter = new UserProfilePresenter(userService, currentUser,
+      			eventBus, new UserProfileView() );
+      	break;
       case "course":
     	  presenter = new CoursePresenter(courseService, analyticsService, 
     			  eventBus, new CourseView());
