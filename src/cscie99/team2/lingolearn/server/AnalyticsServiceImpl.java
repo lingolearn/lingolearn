@@ -74,7 +74,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		data.put("lastName", u.getLastName());
 		data.put("gmail", u.getGmail());
 		data.put("gender", u.getGender().toString());
-		data.put("nativeLanguage", u.getNativeLanguage().toString());
+		data.put("nativeLanguage", u.getNativeLanguage().getLangName());
 		data.put("noLanguages", Integer.toString(u.getLanguages().size()));
 		data.put("noTextbooks", Integer.toString(u.getTextbooks().size()));
 		data.put("noOutsideCourses", Integer.toString(u.getOutsideCourses().size()));
