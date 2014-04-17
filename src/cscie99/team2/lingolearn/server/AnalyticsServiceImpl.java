@@ -108,53 +108,41 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	/**
 	 * Gets a list of all student id's enrolled in a specific course 
 	 */
-	public List<String> getUsersInCourse(Long courseId) {
+	public List<User> getUsersInCourse(Long courseId) {
 		
 		List<User> users = new ArrayList<User>();
 		if (crAccessor.getUserCourseId(courseId) != null) {
-			users = crAccessor.getUserCourseId(courseId);
+			users = courseAccessor.getCourseById(courseId).getStudents();
 		}
-		List<String> students = new ArrayList<String>();
+
 				
-		if (users != null) {
-			for (User u: users) {
-				students.add(u.getGplusId());
-			}
-		}
-				
-		return students;
+		return users;
 	}
 	
 	/**
 	 * Gets a list of all students in the system.
 	 */
-	public List<String> getAllStudents() {
-		List<String> students = new ArrayList<String>();
+	public List<User> getAllStudents() {
 		List<User> users = new ArrayList<User>();
 		
 		if (uAccessor.getAllUsers() != null) {
 			users = uAccessor.getAllUsers();
 		}
 		
-		if (users != null) {
-			for (User u: users) {
-				students.add(u.getGplusId());
-			}
-		}
 		
-		return students;
+		return users;
 	}
 
 	/**
 	 * Pulls all biographical data for students in a particular course
 	 */
 	public Map<String, Map<String, String>> getCourseBiographicalData(Long courseId) {
-		List<String> students = getUsersInCourse(courseId);
+		List<User> students = getUsersInCourse(courseId);
 		Map<String, Map<String, String>> data = new HashMap<String, Map<String, String>>();
 		
-		for (String s: students) {
-			Map<String, String> bioData = getBiographicalData (s);
-			data.put(s, bioData);
+		for (User s: students) {
+			Map<String, String> bioData = getBiographicalData (s.getGplusId());
+			data.put(s.getUserId().toString(), bioData);
 		}
 		
 		return data;
@@ -164,12 +152,12 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	 *  Pulls all metrics data for students in a particular course.
 	 */
 	public Map<String, Map<String, Float>> getCourseMetricsData(Long courseId) {
-		List<String> students = getUsersInCourse(courseId);
+		List<User> students = getUsersInCourse(courseId);
 		Map<String, Map<String, Float>> data = new HashMap<String, Map<String, Float>>();
 		
-		for (String s: students) {
-			Map<String, Float> metricsData = getMetricsData (s);
-			data.put(s, metricsData);
+		for (User s: students) {
+			Map<String, Float> metricsData = getMetricsData (s.getGplusId());
+			data.put(s.getUserId().toString(), metricsData);
 		}
 		
 		return data;
@@ -181,11 +169,11 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	public Map<String, Map<String, String>> getAllBiographicalData() {
 		Map<String, Map<String, String>> data = new HashMap<String, Map<String, String>>();
 		
-		List<String> students = getAllStudents();
+		List<User> students = getAllStudents();
 		
-		for (String s: students) {
-			Map<String, String> bioData = getBiographicalData (s);
-			data.put(s, bioData);
+		for (User s: students) {
+			Map<String, String> bioData = this.getBiographicalData(s.getGplusId());
+			data.put(s.getUserId().toString(), bioData);
 		}
 		
 		return data;
@@ -197,11 +185,11 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	public Map<String, Map<String, Float>> getAllMetricsData() {
 		Map<String, Map<String, Float>> data = new HashMap<String, Map<String, Float>>();
 		
-		List<String> students = getAllStudents();
+		List<User> students = getAllStudents();
 		
-		for (String s: students) {
-			Map<String, Float> metricsData = getMetricsData (s);
-			data.put(s, metricsData);
+		for (User s: students) {
+			Map<String, Float> metricsData = getMetricsData (s.getGplusId());
+			data.put(s.getUserId().toString(), metricsData);
 		}
 		
 		return data;
@@ -216,11 +204,11 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 				+ "DropRate,AverageSessionTime,RepetitionsPerWeek,PercentNoClue,PercentSortaKnewIt,PercentDefinitelyKnewIt");
 		sb.append("\n");
 		
-		List<String> allStudents = this.getAllStudents();
-		for (String s: allStudents) {
-			Map<String, String> bioData = this.getBiographicalData(s);
-			Map<String, Float> metricsData = this.getMetricsData(s);
-			sb.append(s + ",");
+		List<User> allStudents = this.getAllStudents();
+		for (User s: allStudents) {
+			Map<String, String> bioData = this.getBiographicalData(s.getGplusId());
+			Map<String, Float> metricsData = this.getMetricsData(s.getGplusId());
+			sb.append(s.getUserId() + ",");
 			sb.append(bioData.get("gmail") + ",");
 			sb.append(bioData.get("gender") + ",");
 			sb.append(bioData.get("nativeLanguage") + ",");

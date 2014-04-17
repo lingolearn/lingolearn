@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
 import cscie99.team2.lingolearn.shared.QuizResponse;
+import cscie99.team2.lingolearn.shared.User;
 
 public interface AnalyticsServiceAsync {
 
@@ -16,7 +17,7 @@ public interface AnalyticsServiceAsync {
 	void getMetricsData(String gplusId,
 			AsyncCallback<Map<String, Float>> callback);
 
-	void getUsersInCourse(Long courseId, AsyncCallback<List<String>> callback);
+	void getUsersInCourse(Long courseId, AsyncCallback<List<User>> callback);
 
 	void getCourseBiographicalData(Long courseId,
 			AsyncCallback<Map<String, Map<String, String>>> callback);
@@ -30,7 +31,7 @@ public interface AnalyticsServiceAsync {
 	void getAllMetricsData(
 			AsyncCallback<Map<String, Map<String, Float>>> callback);
 
-	void getAllStudents(AsyncCallback<List<String>> callback);
+	void getAllStudents(AsyncCallback<List<User>> callback);
 
 	void storeFlashCardResponse(FlashCardResponse fcResp,
 			AsyncCallback<FlashCardResponse> callback);

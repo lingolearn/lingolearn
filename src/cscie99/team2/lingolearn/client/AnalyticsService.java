@@ -8,6 +8,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
 import cscie99.team2.lingolearn.shared.QuizResponse;
+import cscie99.team2.lingolearn.shared.User;
 
 @RemoteServiceRelativePath("analyticsService")
 public interface AnalyticsService extends RemoteService{
@@ -15,8 +16,8 @@ public interface AnalyticsService extends RemoteService{
 	public Map<String, String> getBiographicalData (String gplusId);
 	public Map<String, Float> getMetricsData (String gplusId);
 	
-	public List<String> getUsersInCourse (Long courseId);
-	public List<String> getAllStudents();
+	public List<User> getUsersInCourse (Long courseId);
+	public List<User> getAllStudents();
 	
 	public Map<String, Map<String, String>> getCourseBiographicalData(Long courseId);
 	public Map<String, Map<String, Float>> getCourseMetricsData(Long courseId);
