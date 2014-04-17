@@ -127,8 +127,20 @@ public class CourseDAO {
 		
 	}
 	
-	public List<Course> getStudentCourseList(User student){
-		return new ArrayList<Course>();
+	public List<Course> getStudentEnrolledCourses(User student){
+		ObjectifyableUser storableStudent = new ObjectifyableUser(student);
+		ArrayList<ObjectifyableUser> studentsFilter = 
+						new ArrayList<ObjectifyableUser>();
+		studentsFilter.add(storableStudent);
+		List<ObjectifyableCourse> storedCourses 
+						= ofy().load().type(ObjectifyableCourse.class)
+							.filter("students", storableStudent).list();
+		List<Course> enrolledCourses = new ArrayList<Course>();
+		for( ObjectifyableCourse storedCourse : storedCourses ){
+			Course course = storedCourse.getCourse();
+			enrolledCourses.add(course);
+		}
+		return enrolledCourses;
 	}
 	
 	/**

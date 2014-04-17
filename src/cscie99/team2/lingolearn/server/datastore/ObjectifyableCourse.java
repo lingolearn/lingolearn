@@ -31,8 +31,11 @@ public class ObjectifyableCourse implements Serializable {
 	Date 	       courseStart,			// Course start date
 				   courseEnd;			// Course end date
 	
+	@Index
 	@Load
 	Ref<ObjectifyableUser> instructor;
+	
+	@Index
 	@Load
 	List<Ref<ObjectifyableUser>> students;
 	

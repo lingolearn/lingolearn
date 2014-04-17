@@ -15,6 +15,7 @@ import cscie99.team2.lingolearn.server.datastore.CourseRegistrationDAO;
 import cscie99.team2.lingolearn.server.datastore.DeckDAO;
 import cscie99.team2.lingolearn.server.datastore.LessonDAO;
 import cscie99.team2.lingolearn.server.datastore.QuizDAO;
+import cscie99.team2.lingolearn.server.datastore.UserDAO;
 import cscie99.team2.lingolearn.server.datastore.UserSessionDAO;
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.CourseRegistration;
@@ -63,6 +64,8 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 	
 	
 	public ArrayList<Course> getCoursesUserIsEnrolledIn(String gplusId) {
+		
+		/*
 		List<CourseRegistration> rawList;
 		ArrayList<Course> list = new ArrayList<Course>();
 		
@@ -74,7 +77,13 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		}
 		
 		return list;
+		*/
 		
+		User student = UserDAO.getInstance().getUserByGplusId(gplusId);
+		ArrayList<Course> enrolledCourses = (ArrayList<Course>)
+				courseAccessor.getStudentEnrolledCourses(student);
+		
+		return enrolledCourses;
 	}
 
 	
