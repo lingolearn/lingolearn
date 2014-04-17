@@ -28,6 +28,20 @@ public class ConfuserTest {
 	}
 
 	/**
+	 * This helper function checks to ensure that the results provided
+	 * match the expected results.
+	 * 
+	 * @param results The results from the test.
+	 * @param expected The referecne set of expected results.
+	 */
+	private void checkResults(List<String> results, String[] expected) {
+		assertEquals(expected.length, results.size());
+		for (String phrase : expected) {
+			assertEquals(true, results.contains(phrase));
+		}
+	}
+	
+	/**
 	 * Test to make sure vowels are elongated correctly for hiragana words.
 	 */
 	@Test
@@ -39,31 +53,19 @@ public class ConfuserTest {
 		
 		// Test to make sure おばさん (aunt) is extended correctly
 		String expected[] = new String[] { "おおばさん", "おばあさん", "おばさあん" };
-		results = confuser.getHiraganaManipulation("おばさん");
-		assertEquals(expected.length, results.size());
-		for (String phrase : expected) {
-			assertEquals(true, results.contains(phrase));
-		}
+		checkResults(confuser.getHiraganaManipulation("おばさん"), expected);
 		
 		// Test to make sure おばあさん (grandmother) is extended correctly
-		fail("Not implemented");
+		expected = new String[] { "おおばあさん", "おばあさあん" };
+		checkResults(confuser.getHiraganaManipulation("おばあさん"), expected);
 		
 		// Test to make sure おじさん (uncle) is extended correctly
+		expected = new String[] { "おおじさん", "おじいさん", "おじさあん" };
+		checkResults(confuser.getHiraganaManipulation("おじさん"), expected);
 		
 		// Test to make sure おじいさん (grandfather) is extended correctly
-		
-		// Test to make sure ゆき (snow) is extended correctly
-		
-		// Test to make sure ゆうき (courage) is extended correctly
-		
-		// Test to make sure とる (take) is extended correctly
-		
-		// Test to make sure とおる (pass) is extended correctly
-		
-		// Test to make sure ここ (here) is extended correctly
-		
-		// Test to make sure こうこう (high school) is extended correctly
-		
+		expected = new String[] { "おおじいさん", "おじいさあん" };
+		checkResults(confuser.getHiraganaManipulation("おじいさん"), expected);
 	}
 	
 	/**
@@ -123,30 +125,18 @@ public class ConfuserTest {
 		// Test to make sure 介護 (nursing) is manipulated correctly, in this
 		// case, the first kanji will be replaced
 		String[] expected = new String[] { "价護", "堺護", "界護", "畍護", "疥護", "芥護"};
-		List<String> results = confuser.getKanjiSubsitution("介護");
-		assertEquals(expected.length, results.size());
-		for (String phrase : expected) {
-			assertEquals(true, results.contains(phrase));
-		}
+		checkResults(confuser.getKanjiSubsitution("介護"), expected);
 		
 		// Test to make sure 党議拘束 (compulsory adherence to a party decision; 
 		// restrictions on party debate) is manipulated correctly, in this case
 		// the second kanji will be replaced
 		expected = new String[] { "党儀拘束", "党嶬拘束", "党犠拘束", "党礒拘束", "党義拘束", "党艤拘束", "党蟻拘束"};
-		results = confuser.getKanjiSubsitution("党議拘束");
-		assertEquals(expected.length, results.size());
-		for (String phrase : expected) {
-			assertEquals(true, results.contains(phrase));
-		}
+		checkResults(confuser.getKanjiSubsitution("党議拘束"), expected);
 		
 		// Test to make sure 動詞 (verb) is manipulated correctly, in this case
 		// the last kanji will be replaced
 		expected = new String[] { "動伺", "動司", "動嗣", "動祠", "動笥", "動覗", "動飼"};
-		results = confuser.getKanjiSubsitution("動詞");
-		assertEquals(expected.length, results.size());
-		for (String phrase : expected) {
-			assertEquals(true, results.contains(phrase));
-		}
+		checkResults(confuser.getKanjiSubsitution("動詞"), expected);
 	}
 
 	/**
@@ -156,27 +146,15 @@ public class ConfuserTest {
 	public void katakanaVowelElongationTest() {
 		// Test to make sure コンピュータ (computer) is manipulated correctly
 		String[] expected = new String[] { "コーンピュータ", "コンピューター", "コンピュタ" };
-		List<String> results = confuser.getKatakanaManiuplation("コンピュータ");	
-		assertEquals(expected.length, results.size());
-		for (String phrase : expected) {
-			assertEquals(true, results.contains(phrase));
-		}
+		checkResults(confuser.getKatakanaManiuplation("コンピュータ"), expected);
 		
 		// Test to make sure プロジェクト (project) is being manipulated correctly
 		expected = new String[] { "プーロジェクト", "プロージェクト", "プロジェークト", "プロジェクート", "プロジェクトー" };
-		results = confuser.getKatakanaManiuplation("プロジェクト");	
-		assertEquals(expected.length, results.size());
-		for (String phrase : expected) {
-			assertEquals(true, results.contains(phrase));
-		}
+		checkResults(confuser.getKatakanaManiuplation("プロジェクト"), expected);
 		
 		// Test to make sure エレベーター (elevator) is manipulated correctly
 		expected = new String[] { "エーレベーター", "エレーベーター", "エレベター", "エレベータ" };
-		results = confuser.getKatakanaManiuplation("エレベーター");
-		assertEquals(expected.length, results.size());
-		for (String phrase : expected) {
-			assertEquals(true, results.contains(phrase));
-		}
+		checkResults(confuser.getKatakanaManiuplation("エレベーター"), expected);
 	}
 
 	/**

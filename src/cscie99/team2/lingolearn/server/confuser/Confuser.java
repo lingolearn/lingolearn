@@ -137,6 +137,14 @@ public class Confuser {
 			// Iterate through the vowel combinations to find the character
 			// to use for the replacement
 			for (char replacement : vowelCombinations.keySet()) {
+				// Check to see if a vowel has already been extended, if so
+				// we can skip the next character
+				if (next == replacement) {
+					ndx++;
+					break;
+				}
+				// Check to see if the current character makes for a valid 
+				// vowel to be extended
 				if (vowelCombinations.get(replacement).contains(String.valueOf(ch))) {
 					phrases.add(insertCharacter(phrase, ndx, replacement));
 					break;
