@@ -31,8 +31,8 @@ public class UserProfileView extends Composite {
   	
   	StringBuilder buf = new StringBuilder();
   	buf.append( getUserInfoElement("email ", user.getGmail()) );
-  	//buf.append( getUserInfoElement("Native Language ", 
-  	//		user.getNativeLanguage().getLangName()) ); 
+  	buf.append( getUserInfoElement("Native Language ", 
+  			user.getNativeLanguage().getLangName()) ); 
   	buf.append( getUserInfoElement( "Gender", 
   									user.getGender().toString()) );
   	
