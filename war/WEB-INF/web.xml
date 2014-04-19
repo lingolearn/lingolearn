@@ -37,6 +37,16 @@
   </servlet-mapping>
   
   <servlet>
+    <servlet-name>deckServlet</servlet-name>
+    <servlet-class>cscie99.team2.lingolearn.server.DeckServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>deckServlet</servlet-name>
+    <url-pattern>/lingolearn/deckService</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
     <servlet-name>courseServlet</servlet-name>
     <servlet-class>cscie99.team2.lingolearn.server.CourseServiceImpl</servlet-class>
   </servlet>

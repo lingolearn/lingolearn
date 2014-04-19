@@ -3,6 +3,8 @@
  */
 package cscie99.team2.lingolearn.server;
 
+import java.util.List;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import cscie99.team2.lingolearn.client.DeckService;
@@ -40,6 +42,11 @@ public class DeckServiceImpl extends RemoteServiceServlet implements DeckService
 		Deck d = null;
 		d = deckAccessor.storeDeck(deck);
 		return d;
+	}
+
+	@Override
+	public List<Deck> getAllDecks() {
+		return deckAccessor.getAllDecks();
 	}
 
 }

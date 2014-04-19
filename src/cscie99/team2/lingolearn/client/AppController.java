@@ -47,6 +47,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
   private final CourseServiceAsync courseService;
   private final AnalyticsServiceAsync analyticsService;
   private final StorageServiceAsync storageService;
+  private final DeckServiceAsync deckService;
   private HasWidgets container;
   private boolean userAuthenticated;
 
@@ -54,7 +55,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
   
   public AppController(UserServiceAsync userService, CourseServiceAsync courseService,
 		  CardServiceAsync cardService, AnalyticsServiceAsync analyticsService,
-		  StorageServiceAsync storageService,
+		  StorageServiceAsync storageService, DeckServiceAsync deckService,
 		  HandlerManager eventBus) {
 	  
     this.eventBus = eventBus;
@@ -63,6 +64,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     this.courseService = courseService;
     this.analyticsService = analyticsService;
     this.storageService = storageService;
+    this.deckService = deckService;
     
     this.userAuthenticated = false;
     bind();
@@ -210,13 +212,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     			  new ImportView());
     	  break;
       case "addAssignment":
-    	  presenter = new AddAssignmentPresenter(courseService, eventBus, 
+    	  presenter = new AddAssignmentPresenter(courseService, deckService, eventBus, 
     			  new AddAssignmentView());
     	  break;
       
       }
 
       if (presenter != null) {
+    	Notice.clearNotices();
         presenter.go(container);
       }
     }
