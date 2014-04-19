@@ -32,7 +32,7 @@ public class ConfuserTest {
 	 * match the expected results.
 	 * 
 	 * @param results The results from the test.
-	 * @param expected The referecne set of expected results.
+	 * @param expected The reference set of expected results.
 	 */
 	private void checkResults(List<String> results, String[] expected) {
 		assertEquals(expected.length, results.size());

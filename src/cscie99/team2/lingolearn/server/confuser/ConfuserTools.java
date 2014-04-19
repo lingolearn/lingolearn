@@ -88,7 +88,50 @@ public class ConfuserTools {
 		if (character >= 0x4E00 && character <= 0x9FAF) {
 			return CharacterType.Kanji;
 		}
+		
+		// TODO Add support for Arabic numbers since they are valid in phrases
+		
 		// Fall through to unknown
 		return CharacterType.Unknown;
+	}
+	
+	/**
+	 * Examine the characters in the phrase and return on the basis of what
+	 * type of phrase we are looking at.
+	 * 
+	 * @param phrase The phrase to be examined.
+	 * @return The type of phrase that was provided.
+	 */
+	public static PhraseType checkPhrase(String phrase) {
+		boolean hiragana = false;
+		boolean kanji = false;
+		boolean katakana = false;
+		for (int ndx = 0; ndx < phrase.length(); ndx++) {
+			switch (checkCharacter(phrase.charAt(ndx))) {
+				case Hiragana: hiragana = true;
+					break;
+				case Kanji: kanji = true;
+					break;
+				case Katakana: katakana = true;
+					break;
+				// If we don't know what the character type is, return now
+				case Unknown:
+					return PhraseType.Unknown;
+			}
+		}
+		// Hiragana phrases should only have hiragana
+		if (hiragana && !kanji && !katakana) {
+			return PhraseType.Hiragana;
+		}
+		// Katakana phrases should have only katakana
+		if (katakana && !kanji && !hiragana) {
+			return PhraseType.Katakana;
+		}
+		// Kanji phrases may mix kanji and hiragana
+		if (kanji && !katakana) {
+			return PhraseType.Kanji;
+		}
+		// Return mixed by default
+		return PhraseType.Mixed;
 	}
 }
