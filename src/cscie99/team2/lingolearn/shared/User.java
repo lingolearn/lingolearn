@@ -8,6 +8,7 @@ import java.util.Set;
 
 
 
+
 import cscie99.team2.lingolearn.shared.Gender;
 import cscie99.team2.lingolearn.shared.Language;
 
@@ -164,6 +165,43 @@ public class User implements Serializable {
 	public void setUserRegistrationTime(Date userRegistrationTime) {
 		this.userRegistrationTime = userRegistrationTime;
 	}
+	
+	
+	/**
+	 * HashCode method takes the gmail, gplusid, and userid into 
+	 * consideration.
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((gmail == null) ? 0 : gmail.hashCode());
+		result = prime * result + ((gplusId == null) ? 0 : gplusId.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		return result;
+	}
+
+	/**
+	 * Equals method to determine equality between two User objects.
+	 */
+	@Override
+	public boolean equals(Object other){
+		if( other == null )
+			return false;
+		
+		if( !(other instanceof User) )
+			return false;
+		
+		User otherUser = (User) other;
+		if( !otherUser.getUserId().equals(this.getUserId()) )
+			return false;
+		
+		if( !otherUser.getGmail().equals(this.getGmail()) )
+			return false;
+		
+		return true;
+	}
+	
 	
 	@Override
 	public String toString() {

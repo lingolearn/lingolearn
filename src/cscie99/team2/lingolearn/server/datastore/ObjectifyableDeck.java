@@ -10,6 +10,8 @@ import java.util.Map;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Load;
 
 import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Deck;
@@ -25,6 +27,8 @@ public class ObjectifyableDeck implements Serializable {
 	
 	@Id private Long id;						  // The unique id of the deck
 	//@Serialize private HashMap<Long, Card> cards; // The map of cards that are part of this deck
+	@Index
+	@Load
 	private List<Ref<ObjectifyableCard>> cards;
 	private List<Long> cardIds;					  // The ids of the cards that are part of this deck
 	private String language; 					  // The language of this deck
