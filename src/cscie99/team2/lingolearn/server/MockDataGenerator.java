@@ -203,16 +203,28 @@ public class MockDataGenerator {
 			e.printStackTrace();
 		}
 				
-		Course course1;
-		course1 = new Course();
-		course1.setName("Best course eva!");
-		course1.setInstructor(courseUser);
-		Course course2;
-		course2 = new Course();
-		course2.setName("Difficult course");
-		course2.setInstructor(courseUser);
-		//store courses in data store
+		
+		String name1 = "Best course eva!";
+		String name2 = "Difficult course";
+		
+		// only create dummy course1 if it doesn't exist
 		CourseDAO courseAccessor = CourseDAO.getInstance();
+		Course course1 = courseAccessor.getCourseByName(name1);
+		if( course1 == null ){
+			course1 = new Course();
+			course1.setName(name1);
+			course1.setInstructor(courseUser);
+		}
+	// only create dummy course1 if it doesn't exist
+		Course course2 = courseAccessor.getCourseByName(name2);
+		if( course2 == null ){
+			course2 = new Course();
+			course2.setName(name2);
+			course2.setInstructor(courseUser);
+		}
+		//store courses in data store
+
+		// if the courses exist this will just update them (with no changes)
 		try {
 			course1 = courseAccessor.storeCourse(course1);
 			course2 = courseAccessor.storeCourse(course2);

@@ -3,8 +3,11 @@ package cscie99.team2.lingolearn.server.datastore;
 import static cscie99.team2.lingolearn.server.datastore.OfyService.ofy;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.User;
 
@@ -102,31 +105,51 @@ public class CourseDAO {
 		}
 	}
 	
+	
+	
 	/**
 	 * Return all the courses available for a user to enroll in.
 	 * @param student the user wishing to enroll
-	 * @return A list of courses for which the student is elligable to enroll in.
+	 * @return A list of courses for which the student is 
+	 * 				ellegable to enroll in.  These are coureses that
+	 * the student is not enrolled in, and courses the user is not
+	 * instructing.
 	 * 
-	 * @note this is stubbed!  It now returns all courses.
 	 */
 	public List<Course> getAvailableCourses(User student){
-
-		List<ObjectifyableCourse> allCourses = 
-				ofy().load().type(ObjectifyableCourse.class).list();
-		List<Course> availableCourses = new ArrayList<Course>();
 		
-		for( ObjectifyableCourse oc : allCourses ){
+		ObjectifyableUser storableStudent = new ObjectifyableUser(student);
+		ArrayList<ObjectifyableUser> potentialStudents = 
+							new ArrayList<ObjectifyableUser>();
+		potentialStudents.add(storableStudent);
+		
+		// Note objectify / datastore does not support "not in" conditions
+		// so this needed some piecing together
+		List<ObjectifyableCourse> allCoursesNotInstructing = 
+				ofy().load().type(ObjectifyableCourse.class)
+												.filter("instructor !=", storableStudent).list();
+		List<Course> availableCourses = new ArrayList<Course>();
+		int size = allCoursesNotInstructing.size();
+		for( ObjectifyableCourse oc : allCoursesNotInstructing ){
 			
-			if( oc.instructor == null )
-				continue;
 			
-			availableCourses.add( oc.getCourse() );
+			Course availableCourse = oc.getCourse();
+			Set<User> courseStudents = 
+								new HashSet<User>(availableCourse.getStudents());
+			
+			if( !courseStudents.contains(student) )
+				availableCourses.add( oc.getCourse() );
 		}
 		
 		return availableCourses;
 		
 	}
 	
+	/**
+	 * Get the courses that a student is enrolled in.
+	 * @param student the student in question
+	 * @return a List of students that the specified student has enrolled in.
+	 */
 	public List<Course> getStudentEnrolledCourses(User student){
 		ObjectifyableUser storableStudent = new ObjectifyableUser(student);
 		ArrayList<ObjectifyableUser> studentsFilter = 
@@ -136,6 +159,7 @@ public class CourseDAO {
 						= ofy().load().type(ObjectifyableCourse.class)
 							.filter("students", storableStudent).list();
 		List<Course> enrolledCourses = new ArrayList<Course>();
+		
 		for( ObjectifyableCourse storedCourse : storedCourses ){
 			Course course = storedCourse.getCourse();
 			enrolledCourses.add(course);
