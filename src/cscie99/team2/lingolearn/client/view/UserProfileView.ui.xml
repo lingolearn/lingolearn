@@ -3,16 +3,9 @@
   xmlns:mail='urn:import:cscie99.team2.lingolearn.client.view'>
 
   <g:HTMLPanel>
-
-  	<div class='panel panel-default'>
-  		<div class='panel-heading'>
-  			<h3 ui:field="userName"></h3>
-  		</div>
-  		<div class='panel-body'>
-  			<div ui:field="userInfo"></div>
-  		</div>
-  		
-  	</div>
+  
+  	<h2 ui:field="userName"></h2>
+  	<g:HTMLPanel ui:field="userInfo"></g:HTMLPanel>
   	
   </g:HTMLPanel>
 </ui:UiBinder>
