@@ -5,6 +5,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -61,7 +62,6 @@ public class CardView extends Composite {
 	  
 	  //clear DOM nodes
 	  this.kanji.clear();
-	  this.translation.clear();
 	  
 	  //add card data to DOM nodes
 	  HTML tb1 = new HTML();
@@ -72,9 +72,19 @@ public class CardView extends Composite {
 	  }
 	  this.kanji.add(tb1);
 	  
-	  HTML tb2 = new HTML();
+	  final HTML tb2 = new HTML();
 	  tb2.setText(card.getTranslation());
-	  this.translation.add(tb2);
+	  
+	  // Update UI after a second so the user doesn't get a peek at
+	  // the answer during the animation
+	  Timer timer = new Timer() {
+	      public void run() {
+	    	  translation.clear();
+	    	  translation.add(tb2);
+	      }
+	  };
+	  
+	  timer.schedule(1000);
 	  
   }
   
