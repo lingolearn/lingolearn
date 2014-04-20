@@ -47,7 +47,7 @@ public class QuizPresenter implements Presenter {
     		  display.showNextButton();
     		  display.hideSubmitButton();
     	  } else {
-    		  display.showIncorrect();
+    		  display.showIncorrect(currentCorrectAnswer);
     		  display.showNextButton();
     		  display.hideSubmitButton();
     	  }

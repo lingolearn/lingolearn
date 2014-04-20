@@ -132,7 +132,7 @@ public class QuizView extends Composite {
 	  }
   }
   
-  public void showIncorrect() {
+  public void showIncorrect(String correctAnswer) {
 	  card.addStyleName("shake");
 	  
 	  Timer shake_timer = new Timer() {
@@ -143,11 +143,12 @@ public class QuizView extends Composite {
 	  
 	  shake_timer.schedule(700);
 	  
-	  // TODO: highlight correct response, currently hardcoded to second element
-	  answerNodes.get(1).addStyleName("text-success");
-	  
 	  for (RadioButton element : answerNodes) {
 		  element.setEnabled(false);
+		  if (element.getHTML().equals(correctAnswer)) {
+			  element.addStyleName("text-success");
+			  break;
+		  }
 	  }
 
   }
