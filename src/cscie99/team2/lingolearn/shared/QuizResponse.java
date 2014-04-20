@@ -41,6 +41,7 @@ public class QuizResponse implements Serializable {
 		this.isCorrect = isCorrect;
 		this.isChanged = isChanged;
 		this.timeToAnswer = timeToAnswer;
+		seq = "Japanese-->English";
 	}
 	
 	public QuizResponse(Long qRespId, Long userSessionId, Long sessionId, Long cardId, String gplusId, 

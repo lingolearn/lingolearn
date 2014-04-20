@@ -38,6 +38,7 @@ public class FlashCardResponse implements Serializable {
 		this.isDropped = isDropped;
 		this.timeToAnswer = timeToAnswer;
 		this.assessment = assessment;
+		seq = "Japanese-->English";
 	}
 
 	public FlashCardResponse(Long fcRespId, Long userSessionId, Long sessionId,
