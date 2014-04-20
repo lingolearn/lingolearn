@@ -29,7 +29,9 @@ public class QuizResponse implements Serializable {
 	private String	wrongAnswers;		// CSV list of wrong answers that were presented, for example [dog,bird,cow]
 	private String	seq;				// Sequence
 	
-	public QuizResponse () {};
+	public QuizResponse () {
+		this.answerTimeRec = new Date();
+	};
 	
 	public QuizResponse(Long sessionId, Long cardId, String gplusId, 
 			String confuserType, boolean isCorrect, boolean isChanged,

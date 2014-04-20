@@ -12,6 +12,8 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuizPresenter implements Presenter {  
@@ -21,6 +23,9 @@ public class QuizPresenter implements Presenter {
   private final QuizView display;
   private final SessionPresenter sessionPresenter;
   private Card currentCard;
+  private int currentNumConfusers;
+  private String currentConfuserType;  //TODO
+  private String currentWrongAnswers;
   private String currentCorrectAnswer;
   
   public QuizPresenter(CardServiceAsync cardService, HandlerManager eventBus, 
@@ -29,6 +34,8 @@ public class QuizPresenter implements Presenter {
     this.eventBus = eventBus;
     this.display = display;
     this.sessionPresenter = sessionPresenter;
+    currentNumConfusers = 0;
+    currentConfuserType = "";
   }
   
   public QuizView getDisplay() {
@@ -56,6 +63,8 @@ public class QuizPresenter implements Presenter {
     	  QuizResponse quizResponse = new QuizResponse();
     	  quizResponse.setCardId(currentCard.getId());
     	  quizResponse.setCorrect(wasCorrect);
+    	  quizResponse.setNumConfusersUsed(currentNumConfusers);
+    	  quizResponse.setWrongAnswers(currentWrongAnswers);
     	  sessionPresenter.recordQuizResponse(quizResponse);
       }
     });
@@ -97,26 +106,42 @@ public class QuizPresenter implements Presenter {
 
 		@Override
 		public void onFailure(Throwable caught) {
+			currentNumConfusers = 0;
 			display.addAnswer("failed confuser 1");
 			display.addAnswer("failed confuser 2");
 			display.addAnswer("failed confuser 3");
+			currentWrongAnswers = "failed confuser 1,failed confuser 2,failed confuser 3";
 		}
 		
 		@Override
 		public void onSuccess(List<String> result) {
 			int count = 0;
+			ArrayList<String> wrongAnswerList = new ArrayList<String>();
+			String wrongAns;
 			if (result != null) {
 				for (int i=0;i<result.size();i++) {
 					count++;
 					if (currentCard.getKatakana().equals("")) {
-						display.addAnswer(result.get(i) + "  —  " + currentCard.getHiragana());
+						wrongAns = result.get(i) + "  —  " + currentCard.getHiragana();
 					} else {
-						display.addAnswer(result.get(i));
+						wrongAns = result.get(i);
 					}
+					wrongAnswerList.add(wrongAns);
+					display.addAnswer(wrongAns);
 				}
 			}
+			currentNumConfusers = count;
 			for (int i=count;i<3;i++) {
 				display.addAnswer("mock confuser " + i);
+				wrongAnswerList.add("mock confuser " + i);
+			}
+			
+			currentWrongAnswers = "";
+			for (int i=0;i<wrongAnswerList.size();i++) {
+				currentWrongAnswers += wrongAnswerList.get(i);
+				if (i != (wrongAnswerList.size()-1)) {
+					currentWrongAnswers += ",";
+				}
 			}
 		}
 		  
