@@ -39,6 +39,7 @@ public class ObjectifyableFlashCardResponse implements Serializable {
 	@Unindex private float	timeToAnswer; 	// Time, user spent answering this question
 	@Unindex private Assessment assessment;	// The user's assessment of the flashcard.
 	private Date	answerTimeRec;			// Date when the answer was obtained
+	@Unindex private String	seq;				// Sequence
 	
 	public ObjectifyableFlashCardResponse() {}
 	
@@ -59,6 +60,7 @@ public class ObjectifyableFlashCardResponse implements Serializable {
 		this.timeToAnswer = fcResp.getTimeToAnswer();
 		this.assessment = fcResp.getAssessment();
 		this.answerTimeRec = fcResp.getAnswerTimeRec();
+		this.seq = fcResp.getSeq();
 	}
 	
 	/**
@@ -79,6 +81,7 @@ public class ObjectifyableFlashCardResponse implements Serializable {
 		fcResp.setTimeToAnswer(this.timeToAnswer);
 		fcResp.setAssessment(this.assessment);
 		fcResp.setAnswerTimeRec(this.answerTimeRec);
+		fcResp.setSeq(this.seq);
 		return fcResp;
 	}
 }

@@ -27,6 +27,7 @@ public class QuizResponse implements Serializable {
 	private Date	answerTimeRec;		// Date when the answer was obtained
 	private int 	numConfusersUsed;	// Number of confuser's used [0,1,2,3]
 	private String	wrongAnswers;		// CSV list of wrong answers that were presented, for example [dog,bird,cow]
+	private String	seq;				// Sequence
 	
 	public QuizResponse () {};
 	
@@ -89,6 +90,26 @@ public class QuizResponse implements Serializable {
 		this.answerTimeRec = answerTimeRec;
 		this.numConfusersUsed = numConfusersUsed;
 		this.wrongAnswers = wrongAnswers;
+	}
+	
+	public QuizResponse(Long qRespId, Long userSessionId, Long sessionId,
+			Long cardId, String gplusId, String confuserType,
+			boolean isCorrect, boolean isChanged, float timeToAnswer,
+			Date answerTimeRec, int numConfusersUsed, String wrongAnswers,
+			String seq) {
+		this.qRespId = qRespId;
+		this.userSessionId = userSessionId;
+		this.sessionId = sessionId;
+		this.cardId = cardId;
+		this.gplusId = gplusId;
+		this.confuserType = confuserType;
+		this.isCorrect = isCorrect;
+		this.isChanged = isChanged;
+		this.timeToAnswer = timeToAnswer;
+		this.answerTimeRec = answerTimeRec;
+		this.numConfusersUsed = numConfusersUsed;
+		this.wrongAnswers = wrongAnswers;
+		this.seq = seq;
 	}
 	
 	public Long getSessionId() {
@@ -172,6 +193,14 @@ public class QuizResponse implements Serializable {
 
 	public void setWrongAnswers(String wrongAnswers) {
 		this.wrongAnswers = wrongAnswers;
+	}
+
+	public String getSeq() {
+		return seq;
+	}
+
+	public void setSeq(String seq) {
+		this.seq = seq;
 	}
 	
 
