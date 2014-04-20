@@ -54,7 +54,7 @@ public class FlashCardResponseDAOTest {
 
 		// Create and store 3 test FlashCardResponse objects
 		FlashCardResponse fcr1 = new FlashCardResponse(111L, 111L, 111L, 101L, "gplusId",
-				"difficultConfuser", 3, 3, false, 2.5f, Assessment.SORTAKNEWIT, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z" ).parse("2014-04-15 20:27:30 EST"));
+				"difficultConfuser", 3, 3, false, 2.5f, Assessment.SORTAKNEWIT, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z" ).parse("2014-04-15 20:27:30 EST"), "Sequence");
 		FlashCardResponse fcr2 = new FlashCardResponse(112L, 111L, 112L, 102L, "gplusId",
 				"difficultConfuser", 2, 2, false, 12.5f, Assessment.DEFINITELYKNEWIT, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z" ).parse("2014-04-15 20:28:30 EST"));
 		FlashCardResponse fcr3 = new FlashCardResponse(113L, 112L, 113L, 102L, "gplusId2",

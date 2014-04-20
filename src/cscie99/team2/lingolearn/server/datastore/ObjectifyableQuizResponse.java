@@ -37,7 +37,7 @@ public class ObjectifyableQuizResponse implements Serializable {
 	private Date	answerTimeRec;				// Date when the answer was obtained
 	@Unindex private int 	numConfusersUsed;	// Number of confuser's used [0,1,2,3]
 	@Unindex private String	wrongAnswers;		// CSV list of wrong answers that were presented, for example [dog,bird,cow]
-	
+	@Unindex private String	seq;				// Sequence
 	
 	public ObjectifyableQuizResponse() {}
 	
@@ -58,6 +58,7 @@ public class ObjectifyableQuizResponse implements Serializable {
 		this.answerTimeRec = qResp.getAnswerTimeRec();
 		this.numConfusersUsed = qResp.getNumConfusersUsed();
 		this.wrongAnswers = qResp.getWrongAnswers();
+		this.seq = qResp.getSeq();
 	}
 	
 	/**
@@ -78,6 +79,7 @@ public class ObjectifyableQuizResponse implements Serializable {
 		qResp.setAnswerTimeRec(this.answerTimeRec);
 		qResp.setNumConfusersUsed(this.numConfusersUsed);
 		qResp.setWrongAnswers(this.wrongAnswers);
+		qResp.setSeq(this.seq);
 		return qResp;
 	}
 }
