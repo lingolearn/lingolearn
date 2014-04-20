@@ -17,8 +17,10 @@ import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 import cscie99.team2.lingolearn.client.presenter.ImportPresenter;
+import cscie99.team2.lingolearn.server.datastore.DeckDAO;
 import cscie99.team2.lingolearn.server.tools.CardFileLoader;
 import cscie99.team2.lingolearn.shared.Card;
+import cscie99.team2.lingolearn.shared.Deck;
 import cscie99.team2.lingolearn.shared.error.FileLoadException;
 
 /**
@@ -35,10 +37,17 @@ public class CsvBlobstoreServlet extends HttpServlet {
 
   private BlobstoreService blobstoreService = BlobstoreServiceFactory
       .getBlobstoreService();
+  
+  private DeckDAO deckAccessor = DeckDAO.getInstance();
 	
 		@Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
+			
+			String deckIdString = req.getParameter("deckId");
+			
+			resp.setContentType("text/html");
+			resp.getWriter().println(deckIdString);
 		
 		}
 		
@@ -61,6 +70,14 @@ public class CsvBlobstoreServlet extends HttpServlet {
 	      CardFileLoader cardLoader = new CardFileLoader();
 	      List<Card> importedCards = cardLoader.loadCards(reader);
 	      Iterator<Card> cardItr = importedCards.iterator();
+	      
+	      Deck deck = new Deck();
+	      while (cardItr.hasNext()) {
+	    	  deck.add(cardItr.next());
+	      }
+	      deck = deckAccessor.storeDeck(deck);
+	      
+	      resp.sendRedirect("/import?deckId=" + deck.getId());
 
     	}catch(FileLoadException fle ){
     		fle.printStackTrace();
