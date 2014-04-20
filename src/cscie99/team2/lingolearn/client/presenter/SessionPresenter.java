@@ -13,6 +13,7 @@ import cscie99.team2.lingolearn.shared.FlashCardResponse;
 import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.QuizResponse;
 import cscie99.team2.lingolearn.shared.Session;
+import cscie99.team2.lingolearn.shared.User;
 import cscie99.team2.lingolearn.shared.UserSession;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -31,14 +32,16 @@ public class SessionPresenter implements Presenter {
   private final QuizPresenter quizPresenter;
   private Session session;
   private UserSession userSession;
+  private User currentUser;
   private int currentCardNumber;
   
   public SessionPresenter(CourseServiceAsync courseService, 
-		  CardServiceAsync cardService, HandlerManager eventBus, 
+		  CardServiceAsync cardService, User currentUser, HandlerManager eventBus, 
 		  SessionView display) {
       this.courseService = courseService;
       this.cardPresenter = new CardPresenter(cardService, eventBus, new CardView());
       this.quizPresenter = new QuizPresenter(cardService, eventBus, new QuizView(), this);
+      this.currentUser = currentUser;
 	  this.eventBus = eventBus;
       this.display = display;
   }
@@ -125,7 +128,7 @@ public class SessionPresenter implements Presenter {
   private void recordKnowledge(Assessment knowledge) {
 	  //Send knowledge to the analytics service
 	  FlashCardResponse flashCardResponse = new FlashCardResponse();
-	  flashCardResponse.setGplusId(CurrentUser.gplusId);
+	  flashCardResponse.setGplusId(currentUser.getGplusId());
 	  flashCardResponse.setCardId(session.getDeck().getCardIds().get(currentCardNumber));
 	  flashCardResponse.setSessionId(session.getSessionId());
 	  flashCardResponse.setUserSessionId(userSession.getUserSessionId());
@@ -138,7 +141,7 @@ public class SessionPresenter implements Presenter {
   }
   
   public void recordQuizResponse(QuizResponse quizResponse) {
-	  quizResponse.setGplusId(CurrentUser.gplusId);
+	  quizResponse.setGplusId(currentUser.getGplusId());
 	  quizResponse.setSessionId(session.getSessionId());
 	  quizResponse.setUserSessionId(userSession.getUserSessionId());
 	  AnalyticsEvent quizEvent = new AnalyticsEvent(quizResponse);

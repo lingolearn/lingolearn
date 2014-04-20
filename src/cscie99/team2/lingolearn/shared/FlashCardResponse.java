@@ -24,7 +24,9 @@ public class FlashCardResponse implements Serializable {
 	private Date	answerTimeRec;	// Date when the answer was obtained
 	private String	seq;			// Sequence
 
-	public FlashCardResponse() {};
+	public FlashCardResponse() {
+		this.answerTimeRec = new Date();
+	};
 	
 	public FlashCardResponse(Long sessionId, Long cardId, String gplusId, 
 			String confuserType, int sessionCardNo, int responseNo,
