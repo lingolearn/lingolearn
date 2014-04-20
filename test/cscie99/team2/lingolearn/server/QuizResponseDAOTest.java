@@ -53,7 +53,7 @@ public class QuizResponseDAOTest {
 
 		// Create and store 3 test QuizResponse objects
 		QuizResponse qr1 = new QuizResponse(111L, 111L, 111L, 101L, "gplusId",
-				"difficultConfuser", false, false, 2.5f, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z" ).parse("2014-04-15 20:27:30 EST"),3,"dog,bird,cow");
+				"difficultConfuser", false, false, 2.5f, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z" ).parse("2014-04-15 20:27:30 EST"),3,"dog,bird,cow", "Sequence");
 		QuizResponse qr2 = new QuizResponse(112L, 111L, 112L, 102L, "gplusId",
 				"simpleConfuser", true, false, 1.5f, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z" ).parse("2014-04-15 20:28:30 EST"));
 		QuizResponse qr3 = new QuizResponse(113L, 112L, 113L, 103L, "gplusId2",
