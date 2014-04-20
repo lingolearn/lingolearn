@@ -10,19 +10,10 @@
 
   <g:HTMLPanel>
     <h2 ui:field='courseTitle'></h2>
+    <h5><strong>Instructor:</strong> <a ui:field='instructor'></a></h5>
+    
+    <p ui:field='courseDesc' class="lead">...</p>
 		
-		<div class='panel panel-default'>
-			<div class='panel-heading'>Course Information
-      	
-      </div>
-      <div class='panel-body'>
-          
-          	<span class='instructor'>Instructor</span>
-          	<a ui:field='instructor'></a>
-          	<p ui:field='courseDesc'></p>
-          
-      </div>
-		</div>
     <div class='panel panel-default'>
       <div class='panel-heading'>Assignments
       	<a class='btn btn-primary btn-xs pull-right' ui:field='addAssignmentLink'>Add</a>
