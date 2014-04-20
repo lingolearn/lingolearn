@@ -25,6 +25,10 @@ import cscie99.team2.lingolearn.shared.User;
 
 public class AnalyticsServiceImpl extends RemoteServiceServlet implements AnalyticsService{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	UserDAO uAccessor;
 	CourseRegistrationDAO crAccessor;
 	QuizResponseDAO qRespAccessor;

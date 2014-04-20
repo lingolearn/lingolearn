@@ -12,7 +12,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
-import cscie99.team2.lingolearn.client.Notice;
 import cscie99.team2.lingolearn.shared.Course;
 
 public class EnrollInCourseView extends Composite {

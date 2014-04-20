@@ -85,7 +85,7 @@ public class QuizPresenter implements Presenter {
 	  currentCard = card;
 	  this.currentCorrectAnswer = card.getKanji();
 	  if (!card.getHiragana().equals("")) {
-		  this.currentCorrectAnswer += "  --  " + card.getHiragana();
+		  this.currentCorrectAnswer += "  —  " + card.getHiragana();
 	  }
 	  if (!card.getKatakana().equals("")) {
 		  this.currentCorrectAnswer += " " + card.getKatakana();
