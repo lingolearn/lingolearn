@@ -148,7 +148,7 @@ public class SessionPresenter implements Presenter {
 	  eventBus.fireEvent(quizEvent);
   }
   
-  private void gotoNextCard() {
+  public void gotoNextCard() {
 	  if (session instanceof Lesson) {
 		  cardPresenter.setCardData(session.getDeck().getCardIds().get(currentCardNumber));
 	  } else {

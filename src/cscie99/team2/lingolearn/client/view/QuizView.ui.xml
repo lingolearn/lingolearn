@@ -19,7 +19,7 @@
 			    
 			    <g:FlowPanel>
 			    	<g:Button ui:field='submitButton' styleName='btn btn-primary btn-lg'>Submit</g:Button>
-			    	<g:Button ui:field='nextButton' styleName='btn btn-primary btn-lg'>Next</g:Button>
+			    	<g:Button ui:field='nextButton' styleName='btn btn-default btn-lg'>Next</g:Button>
 			    </g:FlowPanel>
 			    <g:FlowPanel ui:field='responseArea'> </g:FlowPanel>
 	    

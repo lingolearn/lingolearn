@@ -48,22 +48,16 @@ public class QuizView extends Composite {
   
   public void showSubmitButton() {
 	  submitButton.setVisible(true);
+	  nextButton.setVisible(false);
   }
-  
-  public void hideSubmitButton() {
-	  submitButton.setVisible(false);
-  }
-  
+
   public HasClickHandlers getSubmitButton() {
 	  return submitButton;
   }
   
   public void showNextButton() {
+	  submitButton.setVisible(false);
 	  nextButton.setVisible(true);
-  }
-  
-  public void hideNextButton() {
-	  nextButton.setVisible(false);
   }
   
   public HasClickHandlers getNextButton() {
@@ -74,7 +68,6 @@ public class QuizView extends Composite {
 	  clearResponseArea();
 	  disableSubmitButton();
 	  showSubmitButton();
-	  hideNextButton();
 	  stemContainer.clear();
 	  answerContainer.clear();
 	  answerNodes = new ArrayList<RadioButton>();
@@ -125,11 +118,6 @@ public class QuizView extends Composite {
 	  
 	  overlay_timer.schedule(1000);
 	  forefront_timer.schedule(1350);
-	    
-	  // TODO: remove code below and instead switch to next quiz right away
-	  for (RadioButton element : answerNodes) {
-		  element.setEnabled(false);
-	  }
   }
   
   public void showIncorrect(String correctAnswer) {
@@ -145,12 +133,11 @@ public class QuizView extends Composite {
 	  
 	  for (RadioButton element : answerNodes) {
 		  element.setEnabled(false);
-		  if (element.getHTML().equals(correctAnswer)) {
+		  if (element.getHTML().equals(correctAnswer))
 			  element.addStyleName("text-success");
-			  break;
-		  }
 	  }
-
+	  
+	  showNextButton();
   }
   
   public String getSelectedAnswer() {

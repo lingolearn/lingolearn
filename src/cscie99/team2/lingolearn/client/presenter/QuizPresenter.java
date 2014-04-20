@@ -51,12 +51,9 @@ public class QuizPresenter implements Presenter {
     	  //Check answer and emit event saying user has submitted
     	  if (wasCorrect) {
     		  display.showCorrect();
-    		  display.showNextButton();
-    		  display.hideSubmitButton();
+    		  sessionPresenter.gotoNextCard();
     	  } else {
     		  display.showIncorrect(currentCorrectAnswer);
-    		  display.showNextButton();
-    		  display.hideSubmitButton();
     	  }
     	  
     	  //Send knowledge to the analytics service
