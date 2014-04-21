@@ -19,6 +19,9 @@ public class ConfuserTools {
 	// The extension for the files
 	private final static String BLACKLIST_EXTENSION = ".blacklist";
 	
+	// The following the valid punctuation characters for Japanese
+	private final static String JAPANESE_PUNCTUATION = "｛｝（）［］【】、，…‥。・〽「」『』　〜：！？";
+	
 	/**
 	 * Check to see if the supplied string is on the blacklist.
 	 * 
@@ -88,9 +91,14 @@ public class ConfuserTools {
 		if (character >= 0x4E00 && character <= 0x9FAF) {
 			return CharacterType.Kanji;
 		}
-		
-		// TODO Add support for Arabic numbers since they are valid in phrases
-		
+		// Check to see if this is a punctuation character
+		if (JAPANESE_PUNCTUATION.contains(String.valueOf(character))) {
+			return CharacterType.Punctuation;
+		}
+		// Check to see if this is an Arabic number
+		if (Character.isDigit(character)) {
+			return CharacterType.Number;
+		}
 		// Fall through to unknown
 		return CharacterType.Unknown;
 	}
@@ -113,6 +121,11 @@ public class ConfuserTools {
 				case Kanji: kanji = true;
 					break;
 				case Katakana: katakana = true;
+					break;
+				// Just press on for punctuation and numbers since it can 
+				// appear in any valid string
+				case Punctuation:
+				case Number:
 					break;
 				// If we don't know what the character type is, return now
 				case Unknown:

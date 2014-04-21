@@ -27,10 +27,21 @@ public class ConfuserToolsTest {
 	 */
 	@Test
 	public void testCheckCharacter() throws ConfuserException {
-		// Check to make sure unknowns work by checking against basic ASCII
+		final char punctuation = '。';
+		
+		// Check to make sure unknowns work by checking against basic ASCII and
+		// acting accordingly when we are in the number range versus the rest 
+		// of the range since Arabic numbers are used in Japanese
 		for (char ndx = 0x021; ndx < 0x007E; ndx++) {
-			assertEquals(CharacterType.Unknown, ConfuserTools.checkCharacter(Character.valueOf(ndx)));
+			char ch = Character.valueOf(ndx);
+			if (Character.isDigit(ch)) {
+				assertEquals(CharacterType.Number, ConfuserTools.checkCharacter(ch));
+			} else {
+				assertEquals(CharacterType.Unknown, ConfuserTools.checkCharacter(ch));
+			}
 		}
+		// Check to make sure the punctuation is detected correctly
+		assertEquals(CharacterType.Punctuation, ConfuserTools.checkCharacter(punctuation));
 		// Check to make sure Hiragana pass
 		for (char ndx = 0x3041; ndx < 0x3096; ndx++) {
 			assertEquals(CharacterType.Hiragana, ConfuserTools.checkCharacter(Character.valueOf(ndx)));
@@ -44,5 +55,23 @@ public class ConfuserToolsTest {
 		for (char ndx = 0x4E00; ndx < 0x9FAF; ndx++) {
 			assertEquals(CharacterType.Kanji, ConfuserTools.checkCharacter(Character.valueOf(ndx)));
 		}
+	}
+	
+	/**
+	 * Check to make sure the phrase types are being detected correctly.
+	 */
+	@Test
+	public void testPhrasetype() {
+		// Test to make sure さようなら  (Goodbye) is detected correctly
+		assertEquals(PhraseType.Hiragana, ConfuserTools.checkPhrase("さようなら"));
+		
+		// Test to make sure お元気ですか (How are you?) is detected correctly
+		assertEquals(PhraseType.Kanji, ConfuserTools.checkPhrase("お元気ですか"));
+		
+		//Test to make sure コンピュータ (computer) is detected correctly
+		assertEquals(PhraseType.Katakana, ConfuserTools.checkPhrase("コンピュータ"));
+		
+		// Test to make sure 私の名前はエルビスです (My Name is Elvis) is detected correctly
+		assertEquals(PhraseType.Mixed, ConfuserTools.checkPhrase("私の名前はエルビスです"));
 	}
 }

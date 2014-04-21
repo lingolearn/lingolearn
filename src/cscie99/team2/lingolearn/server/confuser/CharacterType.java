@@ -7,5 +7,7 @@ public enum CharacterType {
 	Unknown,
 	Hiragana,
 	Katakana,
-	Kanji
+	Kanji,
+	Number,
+	Punctuation
 }
