@@ -111,6 +111,13 @@ public class ConfuserTest {
 		card.setHiragana("べんきょうする");
 		results = confuser.getKanjiBoundries(card);
 		assertEquals(0, results.size());
+		
+		// Test to make sure 朝御飯 (breakfast) is not extended
+		card = new Card();
+		card.setKanji("朝御飯");
+		card.setHiragana("あさごはん");
+		results = confuser.getKanjiBoundries(card);
+		assertEquals(0, results.size());
 	}
 	
 	/**

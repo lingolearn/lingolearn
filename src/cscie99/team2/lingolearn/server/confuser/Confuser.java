@@ -182,6 +182,7 @@ public class Confuser {
 		// First, iterate through the string and break it down into sub strings
 		// based upon where it transitions from hiragana to kanji
 		String kanji = card.getKanji();
+		boolean hiraganaFound = false;
 		for (int ndx = 0; ndx < kanji.length(); ndx++) {
 			// Store the character
 			char ch = kanji.charAt(ndx);
@@ -195,15 +196,21 @@ public class Confuser {
 				offset = ndx;
 				phrase = new StringBuilder(String.valueOf(ch));
 			}
-			// Update the previous character type
+			// Update the previous character type and the flag
+			hiraganaFound = (type == CharacterType.Hiragana) ? true : hiraganaFound;
 			previous = type;
 		}
-		// Store any remaining phrase information
+		// Store any remaining phrase information or exit if we didn't find any
+		// hiragana that we can use to do the extension
+		List<String> phrases = new ArrayList<String>();
+		if (!hiraganaFound) {
+			return phrases;
+		}
 		kanjiOrder.add(phrase.toString());
 		kanjiOffset.add(offset);
 		
+		
 		// Iterate through kana and use that to build out substrings
-		List<String> phrases = new ArrayList<String>();
 		for (int ndx = 0; ndx < kanjiOrder.size(); ndx++) {
 			// Note the items in this pairing
 			String kana = kanjiOrder.get(ndx);
@@ -215,8 +222,6 @@ public class Confuser {
 			// Get the hiragana for this substring
 			char ch = kana.charAt(kana.length() - 1);
 			String hiragana = card.getHiragana();
-			// TODO Make sure we can find the character, this may happen in some
-			// TODO cases where a kanji is confused for a hiragana
 			if (hiragana.indexOf(ch, offset) == -1) {
 				throw new ConfuserException("Error finding boundry for " + kanji);
 			}
