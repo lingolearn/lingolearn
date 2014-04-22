@@ -101,7 +101,7 @@ public class MockDataGenerator {
 		/** Added 4/14/2014 by Jeff to make sure all courses have instructors */
 		String courseGmail = "cscie99.2014.team2@gmail.com";
 		UserDAO userAccessor = UserDAO.getInstance();
-		User courseUser = userAccessor.getUserByGmail(courseGmail);
+		User courseUser = userAccessor.getCourseUser();
 		if( courseUser == null ){
 			//String courseGmail = "cscie99.2014.team2@gmail.com";
 			String gplusId = "113018707842127503948";

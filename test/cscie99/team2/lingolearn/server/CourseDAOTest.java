@@ -3,6 +3,8 @@
  */
 package cscie99.team2.lingolearn.server;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.Date;
 import java.util.List;
 
@@ -12,13 +14,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 import cscie99.team2.lingolearn.server.datastore.CourseDAO;
+import cscie99.team2.lingolearn.server.datastore.UserDAO;
 import cscie99.team2.lingolearn.shared.Course;
+import cscie99.team2.lingolearn.shared.User;
 
 /**
  * @author YPolyanskyy
@@ -49,13 +51,19 @@ public class CourseDAOTest {
 	public void setUp() throws Exception {
 		helper.setUp();
 
+		UserDAO userAccessor = UserDAO.getInstance();
+		User courseUser = userAccessor.getCourseUser();
+		
 		// Create and store 3 test Course objects
 		Course c1 = new Course (11111L, "Best JP course ever", "JP101",
-				new Date(), new Date()); 
+				new Date(), new Date());
+		c1.setInstructor(courseUser);
 		Course c2 = new Course (22222L, "Best JP level2 course ever", "JP102",
 				new Date(), new Date()); 
+		c2.setInstructor(courseUser);
 		Course c3 = new Course (33333L, "Best JP level3 course ever", "JP103",
 				new Date(), new Date()); 
+		c3.setInstructor(courseUser);
 		
 		// Store them in the local In-memory datastore
 		CourseDAO  courseAccessor = CourseDAO.getInstance();

@@ -7,10 +7,19 @@ import java.util.Iterator;
 import java.util.List;
 
 import cscie99.team2.lingolearn.shared.Gender;
+import cscie99.team2.lingolearn.shared.Language;
+import cscie99.team2.lingolearn.shared.LanguageTypes;
 import cscie99.team2.lingolearn.shared.User;
 
 public class UserDAO {
 
+	private static final String COURSE_GMAIL = "cscie99.2014.team2@gmail.com";
+	private static final String COURSE_GPLUS = "113018707842127503948";
+	private static final String COURSE_FNAME = "cscie99";
+	private static final String COURSE_LNAME = "team2";
+	private static final Language COURSE_LANG = 
+										new Language( LanguageTypes.English.toString() );
+	
 	private static UserDAO instance;
 	
 	private UserDAO(){
@@ -22,6 +31,17 @@ public class UserDAO {
 			instance = new UserDAO();
 		
 		return instance;
+	}
+	
+	public User getCourseUser(){
+		User courseUser = getUserByGmail(COURSE_GMAIL);
+		if( courseUser == null ){
+			courseUser = new User(COURSE_GPLUS, COURSE_GMAIL, COURSE_FNAME,
+											COURSE_LNAME, Gender.Male, COURSE_LANG );
+			courseUser = this.storeUser( courseUser );
+		}
+		
+		return courseUser;
 	}
 	
 	/**
