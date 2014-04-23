@@ -118,6 +118,13 @@ public class ConfuserTest {
 		card.setHiragana("あさごはん");
 		results = confuser.getKanjiBoundries(card);
 		assertEquals(0, results.size());
+		
+		// Test to make sure お菓子 (sweets, candy) is not extended
+		card = new Card();
+		card.setKanji("お菓子");
+		card.setHiragana("おかし");
+		results = confuser.getKanjiBoundries(card);
+		assertEquals(0, results.size());
 	}
 	
 	/**
