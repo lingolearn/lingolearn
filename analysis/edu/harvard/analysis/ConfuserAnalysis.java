@@ -79,14 +79,15 @@ public class ConfuserAnalysis {
 			}
 			if (!card.getHiragana().isEmpty()) {
 				results = confuser.getNManipulation(card.getHiragana());
+				results.addAll(confuser.getHiraganaManipulation(card.getHiragana()));
 				results.addAll(confuser.getSmallTsuManiuplation(card.getHiragana()));
 				hiragana++;
 				hiraganaConfusers.add(results.size());
 			}
 			if (!card.getKatakana().isEmpty()) {
 				results = confuser.getNManipulation(card.getKatakana());
-				results.addAll(confuser.getSmallTsuManiuplation(card.getKatakana()));
 				results.addAll(confuser.getKatakanaManiuplation(card.getKatakana()));
+				results.addAll(confuser.getSmallTsuManiuplation(card.getKatakana()));
 				katakana++;
 				katakanaConfusers.add(results.size());
 			}
