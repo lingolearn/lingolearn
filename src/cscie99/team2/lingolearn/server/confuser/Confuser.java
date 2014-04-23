@@ -209,6 +209,13 @@ public class Confuser {
 		kanjiOrder.add(phrase.toString());
 		kanjiOffset.add(offset);
 		
+		System.out.println(phrase.toString());
+		for (int rar : kanjiOffset) {
+			System.out.println(rar);
+		}
+		for (String blah : kanjiOrder) {
+			System.out.println(blah);
+		}
 		
 		// Iterate through kana and use that to build out substrings
 		for (int ndx = 0; ndx < kanjiOrder.size(); ndx++) {
@@ -222,8 +229,12 @@ public class Confuser {
 			// Get the hiragana for this substring
 			char ch = kana.charAt(kana.length() - 1);
 			String hiragana = card.getHiragana();
+			// In the event that a phrase starts with a hiragana and ends with
+			// kanji (e.g. お菓子  - sweets, candy) we can't easily find a
+			// boundary so we should just press on through the rest of the 
+			// phrase since we mith come to something else
 			if (hiragana.indexOf(ch, offset) == -1) {
-				throw new ConfuserException("Error finding boundry for " + kanji);
+				continue;
 			}
 			hiragana = hiragana.substring(kanjiOffset.get(ndx), hiragana.indexOf(ch, offset) + 1);
 			// Press on if we don't have at least two characters to work with
