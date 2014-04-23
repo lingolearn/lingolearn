@@ -40,6 +40,4 @@ public interface AnalyticsServiceAsync {
 			AsyncCallback<QuizResponse> callback);
 
 	void generateCsvAllData(AsyncCallback<String> callback);
-
-
 }

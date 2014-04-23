@@ -1,6 +1,3 @@
-/**
- * CSCIE99 TEAM 2
- */
 package cscie99.team2.lingolearn.server;
 
 import java.util.List;
@@ -13,14 +10,13 @@ import cscie99.team2.lingolearn.shared.Deck;
 import cscie99.team2.lingolearn.shared.error.DeckNotFoundException;
 
 /**
- * 
  *
  */
 @SuppressWarnings("serial")
 public class DeckServiceImpl extends RemoteServiceServlet implements DeckService {
 
 	private static final boolean Retrivining = false;
-	DeckDAO deckAccessor = DeckDAO.getInstance();
+	private DeckDAO deckAccessor = DeckDAO.getInstance();
 
 	public void deleteDeckById(Long deckId) {
 		deckAccessor.deleteDeckById(deckId);
@@ -48,5 +44,4 @@ public class DeckServiceImpl extends RemoteServiceServlet implements DeckService
 	public List<Deck> getAllDecks() {
 		return deckAccessor.getAllDecks();
 	}
-
 }

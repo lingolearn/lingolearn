@@ -1,6 +1,3 @@
-/**
- * CSCIE99 TEAM 2
- */
 package cscie99.team2.lingolearn.client;
 
 import java.util.List;

@@ -64,21 +64,6 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 	
 	
 	public ArrayList<Course> getCoursesUserIsEnrolledIn(String gplusId) {
-		
-		/*
-		List<CourseRegistration> rawList;
-		ArrayList<Course> list = new ArrayList<Course>();
-		
-		rawList = courseRegistrationAccessor.getCourseRegistrationByUserId(gplusId);
-		if (rawList != null) {
-			for (int i=0;i < rawList.size();i++) {
-				list.add(courseAccessor.getCourseById(rawList.get(i).getCourseId()));
-			}
-		}
-		
-		return list;
-		*/
-		
 		User student = UserDAO.getInstance().getUserByGplusId(gplusId);
 		ArrayList<Course> enrolledCourses = (ArrayList<Course>)
 				courseAccessor.getStudentEnrolledCourses(student);
@@ -90,18 +75,7 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 	public ArrayList<Course> getAllAvailableCourses(String gplusId) {
 		List<Course> rawList;
 		ArrayList<Course> list = new ArrayList<Course>();
-		
-		/*
-		//Temporarily populate with all
-		rawList = courseAccessor.getAllCourses();
-		if (rawList != null) {
-			for (int i=0;i < rawList.size();i++) {
-				list.add(rawList.get(i));
-			}
-		}
-		
-		return list;
-		*/
+
 		HttpSession session = this.getThreadLocalRequest().getSession();
 		Object sessionUser = session.getAttribute(UserServiceImpl.USER_SESSION_KEY);
 		if( sessionUser == null )
@@ -109,7 +83,6 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		
 		User student = (User)sessionUser;
 		return (ArrayList<Course>) courseAccessor.getAvailableCourses(student);
-		//ArrayList<Course> availableCourses = 
 	}
 
 
@@ -122,7 +95,7 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 
 	@Override
 	public ArrayList<Session> getSessionsForCourse(Long courseId) {
-		//TEMPORARY MOCK
+		// TODO TEMPORARY MOCK
 		new MockDataGenerator().generateMockData();
 		
 		ArrayList<Session> sAll = new ArrayList<Session>();

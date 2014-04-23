@@ -1,6 +1,5 @@
 package cscie99.team2.lingolearn.client.event;
 
-
 import com.google.gwt.event.shared.GwtEvent;
 
 import cscie99.team2.lingolearn.shared.FlashCardResponse;

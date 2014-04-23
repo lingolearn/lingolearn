@@ -5,6 +5,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("storageService")
 public interface StorageService extends RemoteService {
-
 	public String getBlobstoreUploadUri();
 }

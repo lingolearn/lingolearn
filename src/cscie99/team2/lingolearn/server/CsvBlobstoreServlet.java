@@ -26,61 +26,51 @@ import cscie99.team2.lingolearn.shared.error.FileLoadException;
 /**
  * CsvBlobstoreServlet.java
  * 
- * This servlet is used to parse imported files, and store their contained
- * data in the blobstore.  Each row is meant to represent an entity (e.g. Card)
- * 
- * @author Jeff Rabe
- *
+ * This servlet is used to parse imported files, and store their contained data
+ * in the blobstore. Each row is meant to represent an entity (e.g. Card)
  */
 @SuppressWarnings("serial")
 public class CsvBlobstoreServlet extends HttpServlet {
 
-  private BlobstoreService blobstoreService = BlobstoreServiceFactory
-      .getBlobstoreService();
-  
-  private DeckDAO deckAccessor = DeckDAO.getInstance();
-	
-		@Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
-			
-			String deckIdString = req.getParameter("deckId");
-			
-			resp.setContentType("text/html");
-			resp.getWriter().println(deckIdString);
-		
-		}
-		
-		/**
-		 * The post handler is used as a callback to parse the CSV file(s) 
-		 * provided by the import form / view.  
-		 */
-		//TODO: Add robust exception handling in catch block
-    @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp)
-              throws IOException {
-    	
-    	try{
-	    	
-	      Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
-	      BlobKey blobKey = blobs.get(ImportPresenter.CSV_UPLOAD_NAME).get(0);
-	      BlobstoreInputStream is = new BlobstoreInputStream(blobKey);
-	      
-	      BufferedReader reader = new BufferedReader( new InputStreamReader(is) );
-	      CardFileLoader cardLoader = new CardFileLoader();
-	      List<Card> importedCards = cardLoader.loadCards(reader);
-	      Iterator<Card> cardItr = importedCards.iterator();
-	      
-	      Deck deck = new Deck();
-	      while (cardItr.hasNext()) {
-	    	  deck.add(cardItr.next());
-	      }
-	      deck = deckAccessor.storeDeck(deck);
-	      
-	      resp.sendRedirect("/import?deckId=" + deck.getId());
+	private BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+	private DeckDAO deckAccessor = DeckDAO.getInstance();
 
-    	}catch(FileLoadException fle ){
-    		fle.printStackTrace();
-    	}
-    }
+	@Override
+	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
+		String deckIdString = req.getParameter("deckId");
+		resp.setContentType("text/html");
+		resp.getWriter().println(deckIdString);
+	}
+
+	/**
+	 * The post handler is used as a callback to parse the CSV file(s) provided
+	 * by the import form / view.
+	 */
+	// TODO: Add robust exception handling in catch block
+	@Override
+	public void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
+		try {
+			Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
+			BlobKey blobKey = blobs.get(ImportPresenter.CSV_UPLOAD_NAME).get(0);
+			BlobstoreInputStream is = new BlobstoreInputStream(blobKey);
+
+			BufferedReader reader = new BufferedReader(
+					new InputStreamReader(is));
+			CardFileLoader cardLoader = new CardFileLoader();
+			List<Card> importedCards = cardLoader.loadCards(reader);
+			Iterator<Card> cardItr = importedCards.iterator();
+
+			Deck deck = new Deck();
+			while (cardItr.hasNext()) {
+				deck.add(cardItr.next());
+			}
+			deck = deckAccessor.storeDeck(deck);
+
+			resp.sendRedirect("/import?deckId=" + deck.getId());
+		} catch (FileLoadException fle) {
+			fle.printStackTrace();
+		}
+	}
 }

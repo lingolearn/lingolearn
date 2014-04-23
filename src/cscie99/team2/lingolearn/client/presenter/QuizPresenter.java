@@ -1,6 +1,5 @@
 package cscie99.team2.lingolearn.client.presenter;
 
-
 import cscie99.team2.lingolearn.client.CardServiceAsync;
 import cscie99.team2.lingolearn.client.view.QuizView;
 import cscie99.team2.lingolearn.shared.Card;

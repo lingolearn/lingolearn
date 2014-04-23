@@ -29,6 +29,4 @@ public interface AnalyticsService extends RemoteService{
 	public QuizResponse storeQuizResponse(QuizResponse qResp);
 	
 	public String generateCsvAllData();
-	
-
 }

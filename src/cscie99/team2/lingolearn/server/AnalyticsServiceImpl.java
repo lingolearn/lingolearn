@@ -29,14 +29,14 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	UserDAO uAccessor;
-	CourseRegistrationDAO crAccessor;
-	QuizResponseDAO qRespAccessor;
-	FlashCardResponseDAO fcRespAccessor;
-	CardDAO cAccessor;
-	CourseDAO courseAccessor;
-	LessonDAO lAccessor;
-	MetricsCalculator mc;
+	private UserDAO uAccessor;
+	private CourseRegistrationDAO crAccessor;
+	private QuizResponseDAO qRespAccessor;
+	private FlashCardResponseDAO fcRespAccessor;
+	private CardDAO cAccessor;
+	private CourseDAO courseAccessor;
+	private LessonDAO lAccessor;
+	private MetricsCalculator mc;
 	
 	
 	public AnalyticsServiceImpl() {
@@ -113,13 +113,10 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	 * Gets a list of all student id's enrolled in a specific course 
 	 */
 	public List<User> getUsersInCourse(Long courseId) {
-		
 		List<User> users = new ArrayList<User>();
 		if (crAccessor.getUserCourseId(courseId) != null) {
 			users = courseAccessor.getCourseById(courseId).getStudents();
 		}
-
-				
 		return users;
 	}
 	
@@ -128,12 +125,9 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	 */
 	public List<User> getAllStudents() {
 		List<User> users = new ArrayList<User>();
-		
 		if (uAccessor.getAllUsers() != null) {
 			users = uAccessor.getAllUsers();
 		}
-		
-		
 		return users;
 	}
 
@@ -233,8 +227,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 			sb.append(metricsData.get("percentSortaKnewIt") + ",");
 			sb.append(metricsData.get("percentDefinitelyKnewIt") + "\n");
 		}
-		
-		
+				
 		return sb.toString();
 	}
 	
@@ -253,7 +246,6 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		if (qRespAccessor.getQuizResponseById(sessionId) != null) {
 			qRespAccessor.deleteQuizResponseById(sessionId);
 		}
-		
 	}
 	
 	/**
@@ -416,8 +408,4 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		
 		return sb.toString();
 	}
-	
-	
-	
-
 }

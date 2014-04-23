@@ -7,8 +7,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 public class Notice {
 	/**
-	 * @param message	message to be displayed
-	 * @param type	one of success, info, warning or danger
+	 * Show the notice to the user based upon the parameters provided.
+	 * 
+	 * @param message Message to be displayed
+	 * @param type One of success, info, warning or danger.
 	 */
 	public static void showNotice(String message, String type) {
 		FlowPanel alert = new FlowPanel();
@@ -23,8 +25,10 @@ public class Notice {
 		RootPanel.get("alerts").add(alert);
 	}
 	
+	/**
+	 * Clear any notices that are currently displayed.
+	 */
 	public static void clearNotices() {
 		RootPanel.get("alerts").clear(true);
 	}
-
 }

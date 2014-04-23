@@ -1,6 +1,5 @@
 package cscie99.team2.lingolearn.client.presenter;
 
-
 import cscie99.team2.lingolearn.client.AnalyticsServiceAsync;
 import cscie99.team2.lingolearn.client.view.ResearchView;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -41,22 +40,22 @@ public class ResearchPresenter implements Presenter {
     container.add(display.asWidget());
   }
   
-  public void downloadAllData() {
-	  if (allCsvDataUri.equals("")) {
-		  analyticsService.generateCsvAllData(new AsyncCallback<String>() {
-		      public void onSuccess(String csvdata) {
-		    	  allCsvDataUri = "data:text/csv;charset=utf-8,";
-		    	  allCsvDataUri += csvdata;
-		    	  display.setDownloadAllButtonText("Save");
-		      }
-		      
-		      public void onFailure(Throwable caught) {
-		        Window.alert("Error fetching card.");
-		      }
-		    });
-	  } else {
-		  Window.open(URL.encode(allCsvDataUri), "", "");
-	  }
-  }
+	public void downloadAllData() {
+		if (!allCsvDataUri.equals("")) {
+			Window.open(URL.encode(allCsvDataUri), "", "");
+			return;
+		}
+		analyticsService.generateCsvAllData(new AsyncCallback<String>() {
+			public void onSuccess(String csvdata) {
+				allCsvDataUri = "data:text/csv;charset=utf-8,";
+				allCsvDataUri += csvdata;
+				display.setDownloadAllButtonText("Save");
+			}
+
+			public void onFailure(Throwable caught) {
+				Window.alert("Error fetching card.");
+			}
+		});
+	}
 
 }

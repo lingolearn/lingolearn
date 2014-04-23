@@ -29,7 +29,5 @@ public class LingoLearn implements EntryPoint {
 	    
 	    //Go to home page
 	    appViewer.go(RootPanel.get("content"));
-	    
 	}
-
 }

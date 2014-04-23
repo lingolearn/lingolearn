@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.HasWidgets;
 
-import cscie99.team2.lingolearn.client.AppController;
 import cscie99.team2.lingolearn.client.Notice;
 import cscie99.team2.lingolearn.client.StorageServiceAsync;
 import cscie99.team2.lingolearn.client.UserServiceAsync;
@@ -23,12 +22,8 @@ import cscie99.team2.lingolearn.client.view.ImportView;
  * Each CSV is uploaded to the blobstore, and then parsed with
  * a servlet so that each entity can be persisted with objectify
  * to the datastore.
- * 
- * @author Jeff Rabe
- *
  */
 public class ImportPresenter implements Presenter {
-
 		public static final String CSV_UPLOAD_NAME = "csv_blob_upload";
 	
 	  private final UserServiceAsync userService;		/* Not sure if needed */
