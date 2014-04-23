@@ -27,77 +27,46 @@ public class MetricsCalculator {
 		uAccessor = UserDAO.getInstance();
 	}
 	
-
 	/**
 	 * Returns all flashcard response data
 	 */
 	public List<FlashCardResponse> getAllFlashCardResponses() {
-		if (fcRespAccessor.getAllFlashCardResponses() != null) {
-			return fcRespAccessor.getAllFlashCardResponses();
-		}
-		else {
-			return null;
-		}
+		return fcRespAccessor.getAllFlashCardResponses();
 	}
 
 	/**
 	 * Returns flashcard response data for a particular user
 	 */
 	public List<FlashCardResponse> getAllFlashCardResponsesByUser(String gplusId) {
-		if (fcRespAccessor.getAllFlashCardResponsesByUser(gplusId) != null) {
-			return fcRespAccessor.getAllFlashCardResponsesByUser(gplusId);
-		}
-		else {
-			return null;
-		}
+		return fcRespAccessor.getAllFlashCardResponsesByUser(gplusId);
 	}
 
 	/**
 	 * Returns flashcard response data for a sessions
 	 */
 	public FlashCardResponse getFlashCardResponseById(Long sessionId) {
-		if (fcRespAccessor.getFlashCardResponseById(sessionId) != null) {
-			return fcRespAccessor.getFlashCardResponseById(sessionId);
-		}
-		else {
-			return null;
-		}
+		return fcRespAccessor.getFlashCardResponseById(sessionId);
 	}
 
 	/**
 	 * Returns all QuizResponse objects.
 	 */
 	public List<QuizResponse> getAllQuizResponses() {
-		if (qRespAccessor.getAllQuizResponses() != null) {
-			return qRespAccessor.getAllQuizResponses();
-		}
-		else {
-			return null;
-		}
+		return qRespAccessor.getAllQuizResponses();
 	}
 
 	/**
 	 * Returns all QuizResponse objects for a particular user.
 	 */
 	public List<QuizResponse> getAllQuizResponsesByUser(String gplusId) {
-		if (qRespAccessor.getAllQuizResponsesByUser(gplusId) != null) {
-			return qRespAccessor.getAllQuizResponsesByUser(gplusId);
-		}
-		else {
-			return null;
-		}
+		return qRespAccessor.getAllQuizResponsesByUser(gplusId);
 	}
 
 	/**
 	 * Returns all QuizResponse objects for a particular session.
 	 */
 	public QuizResponse getQuizResponseById(Long sessionId) {
-		if (qRespAccessor.getQuizResponseById(sessionId) != null) {
-			return qRespAccessor.getQuizResponseById(sessionId);
-		}
-		else {
-			return null;
-		}
+		return qRespAccessor.getQuizResponseById(sessionId);
 	}
 		
 	/**
@@ -106,21 +75,11 @@ public class MetricsCalculator {
 	 * @return
 	 */
 	public List<UserSession> getAllUserSessionsByUser(String gplusId) {
-		if (usAccessor.getAllUserSessionsByUser(gplusId) != null) {
-			return usAccessor.getAllUserSessionsByUser(gplusId);
-		}
-		else {
-			return null;
-		}
+		return usAccessor.getAllUserSessionsByUser(gplusId);
 	}
 	
 	public User getUserById (String gplusId) {
-		if (uAccessor.getUserByGplusId(gplusId) != null) {
-			return uAccessor.getUserByGplusId(gplusId);
-		}
-		else {
-			return null;
-		}
+		return uAccessor.getUserByGplusId(gplusId);
 	}
 	
 	public float calculatePercentNoClue(String gplusId) {		
@@ -128,21 +87,14 @@ public class MetricsCalculator {
 		int flashCardsSeen = 0;
 		
 		List<FlashCardResponse> fcResps = this.getAllFlashCardResponsesByUser(gplusId);
-		
-		if (fcResps != null) {
-			for (FlashCardResponse fcr: fcResps) {
-				flashCardsSeen++;
-				if (fcr.getAssessment() == Assessment.NOCLUE) {
-					noClues++;
-				}
-
-			}
-		
-			return ((float)noClues/(float)flashCardsSeen);
-		}
-		else {
+		if (fcResps == null) {
 			return 0.0f;
 		}
+		for (FlashCardResponse fcr: fcResps) {
+			flashCardsSeen++;
+			noClues += (fcr.getAssessment() == Assessment.NOCLUE) ? 1 : 0;
+		}
+		return ((float)noClues/(float)flashCardsSeen);
 	}
 	
 	public float calculatePercentSortaKnewIt(String gplusId) {		
@@ -150,19 +102,14 @@ public class MetricsCalculator {
 		int flashCardsSeen = 0;
 		
 		List<FlashCardResponse> fcResps = this.getAllFlashCardResponsesByUser(gplusId);
-		if (fcResps != null) {
-			for (FlashCardResponse fcr: fcResps) {
-				flashCardsSeen++;
-				if (fcr.getAssessment() == Assessment.SORTAKNEWIT) {
-					sortaKnewIt++;
-				}
-
-			}		
-			return ((float)sortaKnewIt/(float)flashCardsSeen);
-		}
-		else {
+		if (fcResps == null) {
 			return 0.0f;
 		}
+		for (FlashCardResponse fcr: fcResps) {
+			flashCardsSeen++;
+			sortaKnewIt += (fcr.getAssessment() == Assessment.SORTAKNEWIT) ? 1 : 0;
+		}		
+		return ((float)sortaKnewIt/(float)flashCardsSeen);
 	}
 	
 	public float calculatePercentDefinitelyKnewIt(String gplusId) {		
@@ -171,19 +118,14 @@ public class MetricsCalculator {
 		
 		List<FlashCardResponse> fcResps = this.getAllFlashCardResponsesByUser(gplusId);
 		
-		if (fcResps != null) {
-			for (FlashCardResponse fcr: fcResps) {
-				flashCardsSeen++;
-				if (fcr.getAssessment() == Assessment.DEFINITELYKNEWIT) {
-					definitelyKnewIt++;
-				}
-
-			}		
-		return ((float)definitelyKnewIt/(float)flashCardsSeen);
-		}
-		else {
+		if (fcResps == null) {
 			return 0.0f;
 		}
+		for (FlashCardResponse fcr: fcResps) {
+			flashCardsSeen++;
+			definitelyKnewIt += (fcr.getAssessment() == Assessment.DEFINITELYKNEWIT) ? 1 : 0;
+		}		
+		return ((float)definitelyKnewIt/(float)flashCardsSeen);
 	}
 
 	public float calculateRecallRate(String gplusId) {
@@ -192,42 +134,32 @@ public class MetricsCalculator {
 		
 		List<QuizResponse> qResps = this.getAllQuizResponsesByUser(gplusId);
 		
-		if (qResps != null) {
-			for (QuizResponse qr: qResps) {
-				questionsSeen++;
-				if (qr.isCorrect()) {
-					correctQuizAnswers++;
-				}			
-			}
-
-			return ((float)correctQuizAnswers/(float)questionsSeen);
-		}
-		else {
+		if (qResps == null) {
 			return 0.0f;
 		}
-		
+		for (QuizResponse qr: qResps) {
+			questionsSeen++;
+			correctQuizAnswers += (qr.isCorrect()) ? 1 : 0;
+		}
+		return ((float)correctQuizAnswers/(float)questionsSeen);
 	}
 	
 	public float calculateAvgQuizReactionTime(String gplusId) {
-		
 		float totalQuizTimeToAnswer = 0.0f;
 		int questionsSeen = 0;
 		
 		List<QuizResponse> qResps = this.getAllQuizResponsesByUser(gplusId);
 		
-		if (qResps != null) {
-			if (!qResps.isEmpty()) {
-				for (QuizResponse qr: qResps) {
-					questionsSeen++;
-					totalQuizTimeToAnswer = totalQuizTimeToAnswer + qr.getTimeToAnswer();
-				}
-			}
-			return (totalQuizTimeToAnswer/(float)questionsSeen);
-		}
-		else {
+		if (qResps == null) {
 			return 0.0f;
 		}
-		
+		if (!qResps.isEmpty()) {
+			for (QuizResponse qr: qResps) {
+				questionsSeen++;
+				totalQuizTimeToAnswer = totalQuizTimeToAnswer + qr.getTimeToAnswer();
+			}
+		}
+		return (totalQuizTimeToAnswer/(float)questionsSeen);
 	}
 	
 	public float calculateAvgFlashCardReactionTime(String gplusId) {
@@ -236,16 +168,14 @@ public class MetricsCalculator {
 		
 		List<FlashCardResponse> fcResps = this.getAllFlashCardResponsesByUser(gplusId);
 		
-		if (fcResps != null) {
-			for (FlashCardResponse fcr: fcResps) {
-				cardsSeen++;
-				totalFlashCardTimeToAnswer = totalFlashCardTimeToAnswer + fcr.getTimeToAnswer();
-			}
-			return (totalFlashCardTimeToAnswer/(float)cardsSeen);
-		}
-		else {
+		if (fcResps == null) {
 			return 0.0f;
 		}
+		for (FlashCardResponse fcr: fcResps) {
+			cardsSeen++;
+			totalFlashCardTimeToAnswer = totalFlashCardTimeToAnswer + fcr.getTimeToAnswer();
+		}
+		return (totalFlashCardTimeToAnswer/(float)cardsSeen);
 	}
 	
 	public float calculateIndecisionRate(String gplusId) {
@@ -254,20 +184,14 @@ public class MetricsCalculator {
 		
 		List<QuizResponse> qResps = this.getAllQuizResponsesByUser(gplusId);
 		
-		if (qResps != null) {
-			for (QuizResponse qr: qResps) {
-				questionsSeen++;
-				if (qr.isChanged()) {
-					changedAnswers++;
-				}			
-			}
-		
-			return ((float)changedAnswers/(float)questionsSeen);
-		}
-		else {
+		if (qResps == null) {
 			return 0.0f;
 		}
-		
+		for (QuizResponse qr: qResps) {
+			questionsSeen++;
+			changedAnswers += (qr.isChanged()) ? 1 : 0;
+		}
+		return ((float)changedAnswers/(float)questionsSeen);
 	}
 	
 	public float calculateDropRate(String gplusId) {
@@ -276,20 +200,14 @@ public class MetricsCalculator {
 		
 		List<FlashCardResponse> fcResps = this.getAllFlashCardResponsesByUser(gplusId);
 		
-		if (fcResps != null) {
-			for (FlashCardResponse fcr: fcResps) {
-				cardsSeen++;
-				if (fcr.isDropped()) {
-					droppedCards++;
-				}			
-			}
-			
-			return ((float)droppedCards/(float)cardsSeen);
-		}
-		else {
+		if (fcResps == null) {
 			return 0.0f;
 		}
-		
+		for (FlashCardResponse fcr: fcResps) {
+			cardsSeen++;
+			droppedCards += (fcr.isDropped()) ? 1 : 0;
+		}
+		return ((float)droppedCards/(float)cardsSeen);
 	}
 	
 	public float calculateAverageSessionTime(String gplusId) {
@@ -298,38 +216,27 @@ public class MetricsCalculator {
 		
 		List<UserSession> usResps = this.getAllUserSessionsByUser(gplusId);
 		
-		if (usResps != null) {
-			for (UserSession us: usResps) {
-				noSessions++;
-				float length = (float)(us.getSessEnd().getTime() - us.getSessStart().getTime());
-				totalSessionTime = totalSessionTime + length;
-			}
-		
-			return (totalSessionTime/(float)noSessions);
-		}
-		else {
+		if (usResps == null) {
 			return 0.0f;
 		}
-		
-		
+		for (UserSession us: usResps) {
+			noSessions++;
+			float length = (float)(us.getSessEnd().getTime() - us.getSessStart().getTime());
+			totalSessionTime = totalSessionTime + length;
+		}
+		return (totalSessionTime/(float)noSessions);		
 	}
 	
 	public float calculateRepetitionsPerWeek(String gplusId) {
 		User u = this.getUserById(gplusId);
 		List<UserSession> usResps = this.getAllUserSessionsByUser(gplusId);
 		
-		if (usResps != null) {
-			int noSessions = usResps.size();
-			Date today = new Date();
-			long timeSinceRegistration = (today.getTime() - u.getUserRegistrationTime().getTime());
-				
-			return ((float)noSessions/ (timeSinceRegistration/604800000));
-		}
-		else {
+		if (usResps == null) {
 			return 0.0f;
 		}
-		
+		int noSessions = usResps.size();
+		Date today = new Date();
+		long timeSinceRegistration = (today.getTime() - u.getUserRegistrationTime().getTime());
+		return ((float)noSessions/ (timeSinceRegistration/604800000));
 	}
-
-
 }
