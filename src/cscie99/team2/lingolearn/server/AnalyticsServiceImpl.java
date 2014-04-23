@@ -93,18 +93,17 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	 * Pulls the metrics data on a particular user
 	 */
 	public Map<String, Float> getMetricsData (String gplusId) {
-		Map<String, Float> data = new HashMap<String, Float>();
-			
+		Map<String, Float> data = new HashMap<String, Float>();	
 	 	data.put("recallRate", mc.calculateRecallRate(gplusId));
-	 	data.put("avgQuizReactionTime", mc.calculateAvgQuizReactionTime(gplusId));
-	 	data.put("avgFlashCardReactionTime", mc.calculateAvgFlashCardReactionTime(gplusId));
-	 	data.put("indecisionRate", mc.calculateIndecisionRate(gplusId));
-	 	data.put("dropRate", mc.calculateDropRate(gplusId));
-	 	data.put("averageSessionTime", mc.calculateAverageSessionTime(gplusId));
-	 	data.put("repetitionsPerWeek", mc.calculateRepetitionsPerWeek(gplusId));
-	 	data.put("percentNoClue", mc.calculatePercentNoClue(gplusId));
-	 	data.put("percentSortaKnewIt", mc.calculatePercentSortaKnewIt(gplusId));
-	 	data.put("percentDefinitelyKnewIt", mc.calculatePercentDefinitelyKnewIt(gplusId));
+	 	//data.put("avgQuizReactionTime", mc.calculateAvgQuizReactionTime(gplusId));
+	 	//data.put("avgFlashCardReactionTime", mc.calculateAvgFlashCardReactionTime(gplusId));
+	 	//data.put("indecisionRate", mc.calculateIndecisionRate(gplusId));
+	 	//data.put("dropRate", mc.calculateDropRate(gplusId));
+	 	//data.put("averageSessionTime", mc.calculateAverageSessionTime(gplusId));
+	 	//data.put("repetitionsPerWeek", mc.calculateRepetitionsPerWeek(gplusId));
+	 	data.put("noClue", mc.calculatePercentNoClue(gplusId));
+	 	data.put("sortaKnewIt", mc.calculatePercentSortaKnewIt(gplusId));
+	 	data.put("definitelyKnewIt", mc.calculatePercentDefinitelyKnewIt(gplusId));
 	 	
 	 	return data;
 	}
@@ -198,8 +197,9 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("StudentID,GMail,Gender,NativeLanguage,NumberOfLanguages,NumberOfTextbooks,NumberOfOutsideCourses,"
-				+ "Languages,Textbooks,OutsideCourses,RecallRate,AverageQuizReactionTime,AverageFlashCardReactionTime,IndecisionRate,"
-				+ "DropRate,AverageSessionTime,RepetitionsPerWeek,PercentNoClue,PercentSortaKnewIt,PercentDefinitelyKnewIt");
+				+ "Languages,Textbooks,OutsideCourses,RecallRate,"
+				//+ "AverageQuizReactionTime,AverageFlashCardReactionTime,IndecisionRate,DropRate,AverageSessionTime,RepetitionsPerWeek,"
+				+ "PercentNoClue,PercentSortaKnewIt,PercentDefinitelyKnewIt");
 		sb.append("\n");
 		
 		List<User> allStudents = this.getAllStudents();
@@ -217,15 +217,15 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 			sb.append(bioData.get("textbooks") + ",");
 			sb.append(bioData.get("outsideCourses") + ",");
 			sb.append(metricsData.get("recallRate") + ",");
-			sb.append(metricsData.get("avgQuizReactionTime") + ",");
-			sb.append(metricsData.get("avgFlashCardReactionTime") + ",");
-			sb.append(metricsData.get("indecisionRate") + ",");
-			sb.append(metricsData.get("dropRate") + ",");
-			sb.append(metricsData.get("averageSessionTime") + ",");
-			sb.append(metricsData.get("repetitionsPerWeek") + ",");
-			sb.append(metricsData.get("percentNoClue") + ",");
-			sb.append(metricsData.get("percentSortaKnewIt") + ",");
-			sb.append(metricsData.get("percentDefinitelyKnewIt") + "\n");
+			//sb.append(metricsData.get("avgQuizReactionTime") + ",");
+			//sb.append(metricsData.get("avgFlashCardReactionTime") + ",");
+			//sb.append(metricsData.get("indecisionRate") + ",");
+			//sb.append(metricsData.get("dropRate") + ",");
+			//sb.append(metricsData.get("averageSessionTime") + ",");
+			//sb.append(metricsData.get("repetitionsPerWeek") + ",");
+			sb.append(metricsData.get("noClue") + ",");
+			sb.append(metricsData.get("sortaKnewIt") + ",");
+			sb.append(metricsData.get("definitelyKnewIt") + "\n");
 		}
 				
 		return sb.toString();

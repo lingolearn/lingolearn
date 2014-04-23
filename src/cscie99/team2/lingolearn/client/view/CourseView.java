@@ -70,7 +70,25 @@ public class CourseView extends Composite {
   
   public void addStatisticToDisplay(String name, String value) {
 	  InlineHTML text = new InlineHTML();
-	  text.setHTML(name + ":  " + value);
+	  text.setHTML(value + "\t");
+	  analytics.add(text);
+  }
+  
+  
+  public void addStatisticsTable(String tableText) {
+	  InlineHTML text = new InlineHTML();
+	  text.setHTML("<style>"
+	  		+ "table.stats table, table.stats th,table.stats td"
+	  		+ "{border:1.5px solid black;"
+	  		+ "text-align:center;"
+	  		+ "padding:10px;"
+	  		+ "border-collapse:collapse}"
+	  		+ "table.stats th"
+	  		+ "{background-color:#2062B8;"
+	  		+ "color:white}"
+	  		+ "table.stats table"
+	  		+ "{width:100%}"
+	  		+ "</style>" + tableText);
 	  analytics.add(text);
   }
   

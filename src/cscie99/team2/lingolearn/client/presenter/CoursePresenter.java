@@ -6,10 +6,12 @@ import cscie99.team2.lingolearn.client.CourseServiceAsync;
 import cscie99.team2.lingolearn.client.view.CourseView;
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.Session;
+
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,16 +82,40 @@ public class CoursePresenter implements Presenter {
 	  analyticsService.getCourseMetricsData(this.course.getCourseId(), 
 			  new AsyncCallback<Map<String, Map<String, Float>>>() {
 		  public void onSuccess(Map<String, Map<String, Float>> data) {
+			  String tableText = ("<table class = \"stats\"> <tr>"
+		    	  		+ "<th>User ID</th><th>Flash Card \"No Clue\"%</th><th>Flash Card \"Sorta Knew It\"%</th><th>Flash Card \"Definitely Knew It\"%"
+		    	  		+ "</th><th>Quiz Recall Rate</th></tr>");
 			  for (Entry<String, Map<String, Float>> entry : data.entrySet()) {
 				    String studentName = entry.getKey();
 				    Map<String, Float> studentData = entry.getValue();
 				    Map<String, Float> conglomerateData = new HashMap<String, Float>();
+				    String noClue = "";
+			    	String sortaKnewIt = "";
+			    	String definitelyKnewIt = "";
+			    	String recallRate = "";
+			    	
 				    for (Entry<String, Float> statEntry : studentData.entrySet()) {
 				    	String statName = statEntry.getKey();
-				    	Float statValue = statEntry.getValue();
-				    	display.addStatisticToDisplay(statName, statValue.toString());
+				    	Double statValue = (double)Math.round(statEntry.getValue() * 1000) / 10;
+				    	
+				    	if (statName.equals("noClue")) {
+				    		noClue = statValue.toString() + "%";
+				    	}
+				    	if (statName.equals("sortaKnewIt")) {
+				    		sortaKnewIt = statValue.toString() + "%";
+				    	}
+				    	if (statName.equals("definitelyKnewIt")) {
+				    		definitelyKnewIt = statValue.toString() + "%";
+				    	}
+				    	if (statName.equals("recallRate")) {
+				    		recallRate = statValue.toString() + "%";
+				    	}
+				    	
 				    }
+				    tableText += ("<tr><td>" + studentName + "</td><td>" + noClue + "</td><td>" + sortaKnewIt + "</td><td>" + definitelyKnewIt 
+							  +"</td><td>" + recallRate + "</td></tr>");
 			  }
+			  display.addStatisticsTable(tableText + "</table>");
 	      }
 	      
 	      public void onFailure(Throwable caught) {
