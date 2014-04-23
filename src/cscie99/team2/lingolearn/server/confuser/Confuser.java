@@ -208,7 +208,7 @@ public class Confuser {
 		}
 		kanjiOrder.add(phrase.toString());
 		kanjiOffset.add(offset);
-		
+
 		// Iterate through kana and use that to build out substrings
 		for (int ndx = 0; ndx < kanjiOrder.size(); ndx++) {
 			// Note the items in this pairing
