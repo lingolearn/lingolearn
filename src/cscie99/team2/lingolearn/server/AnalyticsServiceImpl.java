@@ -113,7 +113,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	 */
 	public List<User> getUsersInCourse(Long courseId) {
 		List<User> users = new ArrayList<User>();
-		if (crAccessor.getUserCourseId(courseId) != null) {
+		if (courseAccessor.getCourseById(courseId).getStudents() != null) {
 			users = courseAccessor.getCourseById(courseId).getStudents();
 		}
 		return users;
