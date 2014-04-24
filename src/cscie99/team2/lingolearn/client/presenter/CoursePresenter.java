@@ -13,7 +13,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -82,40 +81,29 @@ public class CoursePresenter implements Presenter {
 	  analyticsService.getCourseMetricsData(this.course.getCourseId(), 
 			  new AsyncCallback<Map<String, Map<String, Float>>>() {
 		  public void onSuccess(Map<String, Map<String, Float>> data) {
-			  String tableText = ("<table class = \"stats\"> <tr>"
-		    	  		+ "<th>User ID</th><th>Flash Card \"No Clue\"%</th><th>Flash Card \"Sorta Knew It\"%</th><th>Flash Card \"Definitely Knew It\"%"
-		    	  		+ "</th><th>Quiz Recall Rate</th></tr>");
+
+			  // TODO: lots of tricky nested data structures here, can probably be simpfilied
 			  for (Entry<String, Map<String, Float>> entry : data.entrySet()) {
 				    String studentName = entry.getKey();
 				    Map<String, Float> studentData = entry.getValue();
-				    Map<String, Float> conglomerateData = new HashMap<String, Float>();
-				    String noClue = "";
-			    	String sortaKnewIt = "";
-			    	String definitelyKnewIt = "";
-			    	String recallRate = "";
 			    	
+			    	ArrayList<String> row = new ArrayList<String>();
+			    	row.add(studentName);
 				    for (Entry<String, Float> statEntry : studentData.entrySet()) {
 				    	String statName = statEntry.getKey();
 				    	Double statValue = (double)Math.round(statEntry.getValue() * 1000) / 10;
 				    	
-				    	if (statName.equals("noClue")) {
-				    		noClue = statValue.toString() + "%";
-				    	}
-				    	if (statName.equals("sortaKnewIt")) {
-				    		sortaKnewIt = statValue.toString() + "%";
-				    	}
-				    	if (statName.equals("definitelyKnewIt")) {
-				    		definitelyKnewIt = statValue.toString() + "%";
-				    	}
-				    	if (statName.equals("recallRate")) {
-				    		recallRate = statValue.toString() + "%";
-				    	}
-				    	
+				    	if (statName.equals("noClue"))
+				    		row.add(statValue.toString() + "%");
+				    	if (statName.equals("sortaKnewIt"))
+				    		row.add(statValue.toString() + "%");
+				    	if (statName.equals("definitelyKnewIt"))
+				    		row.add(statValue.toString() + "%");
+				    	if (statName.equals("recallRate"))
+				    		row.add(statValue.toString() + "%");
 				    }
-				    tableText += ("<tr><td>" + studentName + "</td><td>" + noClue + "</td><td>" + sortaKnewIt + "</td><td>" + definitelyKnewIt 
-							  +"</td><td>" + recallRate + "</td></tr>");
+				    display.addStatisticsRow(row);
 			  }
-			  display.addStatisticsTable(tableText + "</table>");
 	      }
 	      
 	      public void onFailure(Throwable caught) {

@@ -26,7 +26,19 @@
     <div class='panel panel-default'>
       <div class='panel-heading'>Analytics</div>
       <div class='panel-body'>
-        <g:VerticalPanel ui:field='analytics'></g:VerticalPanel>
+        <table class="table table-striped" ui:field='analytics'>
+        	<thead>
+        		<tr>
+	        		<th>User ID</th>
+	        		<th>No Clue</th>
+	        		<th>Sorta Knew It</th>
+	        		<th>Definitely Knew It</th>
+	        		<th>Quiz Recall Rate</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+        	</tbody>
+        </table>
       </div>
     </div>
 

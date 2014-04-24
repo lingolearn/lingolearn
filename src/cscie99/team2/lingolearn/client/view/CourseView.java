@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.TableElement;
+import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
@@ -25,14 +27,13 @@ public class CourseView extends Composite {
   @UiField Element instructor;
   @UiField Element courseDesc;
   @UiField VerticalPanel assignments;
-  @UiField VerticalPanel analytics;
   @UiField Element addAssignmentLink;
+  @UiField TableElement analytics;
   
   public CourseView() {
 	  initWidget(binder.createAndBindUi(this));
   }
   
-
   public void setCourseData(Course course) {
 	  this.courseTitle.setInnerHTML(course.getName());
 	  String addLink = "app.html?courseId=" + course.getCourseId() + "#addAssignment";
@@ -68,28 +69,12 @@ public class CourseView extends Composite {
 	  }	  
   }
   
-  public void addStatisticToDisplay(String name, String value) {
-	  InlineHTML text = new InlineHTML();
-	  text.setHTML(value + "\t");
-	  analytics.add(text);
-  }
-  
-  
-  public void addStatisticsTable(String tableText) {
-	  InlineHTML text = new InlineHTML();
-	  text.setHTML("<style>"
-	  		+ "table.stats table, table.stats th,table.stats td"
-	  		+ "{border:1.5px solid black;"
-	  		+ "text-align:center;"
-	  		+ "padding:10px;"
-	  		+ "border-collapse:collapse}"
-	  		+ "table.stats th"
-	  		+ "{background-color:#2062B8;"
-	  		+ "color:white}"
-	  		+ "table.stats table"
-	  		+ "{width:100%}"
-	  		+ "</style>" + tableText);
-	  analytics.add(text);
+  public void addStatisticsRow(ArrayList<String> data) {
+	  TableRowElement row = analytics.insertRow(-1);
+	  
+	  for (String element : data)
+		  row.insertCell(-1).setInnerText(element);
+	  
   }
   
   public Widget asWidget() {
