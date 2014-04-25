@@ -14,18 +14,13 @@ import cscie99.team2.lingolearn.client.StorageService;
  * @note - this functionality could be moved to another service, but
  * right now it makes sense to modularize it in case more media upload
  * support is added.
- * 
- * @author Jeff Rabe
- *
  */
 public class StorageServiceImpl extends RemoteServiceServlet implements StorageService {
-
 	private static final long serialVersionUID = 7582065582927014952L;
 	public static final String UPLOAD_SUCCESS_PATH = "/import";
 	
-	public String getBlobstoreUploadUri(){
+	public String getBlobstoreUploadUri() {
 		BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 		return blobstoreService.createUploadUrl(UPLOAD_SUCCESS_PATH);
-				
 	}
 }

@@ -14,7 +14,6 @@ public class CourseRegistrationDAO {
 	/**
 	 * SingletonHolder is loaded on the first execution of Singleton.getInstance() 
 	 * or the first access to SingletonHolder.INSTANCE, not before.
-	 * *****
 	 */
 	private static class CourseRegistrationDAOHolder { 
 		public static final CourseRegistrationDAO INSTANCE = new CourseRegistrationDAO();
@@ -37,9 +36,8 @@ public class CourseRegistrationDAO {
 			ObjectifyableCourseRegistration fetched = ofy().load().entity(oCourseRegistration).now();
 			courseRegistration = fetched.getCourseRegistration();
 			return courseRegistration;
-		} else {
-			return existingCourseRegistration;
 		}
+		return existingCourseRegistration;
 	}
 	
 	/**
@@ -55,18 +53,16 @@ public class CourseRegistrationDAO {
 		if (allCourseRegistration == null) {
 			// Not found
 			return null;
-		} else {
-			Iterator<CourseRegistration> it = allCourseRegistration.iterator();
-			while (it.hasNext()) {
-				CourseRegistration currCR = it.next();	
-				if ((currCR.getCourseId().toString()+ currCR.getGplusId())
-						.equalsIgnoreCase(courseReg.getCourseId().toString()+ courseReg.getGplusId())) {
-					return currCR;
-				} 
-			}
-			// Not found
-			return null;
+		} 
+		Iterator<CourseRegistration> it = allCourseRegistration.iterator();
+		while (it.hasNext()) {
+			CourseRegistration currCR = it.next();	
+			if ((currCR.getCourseId().toString()+ currCR.getGplusId())
+					.equalsIgnoreCase(courseReg.getCourseId().toString()+ courseReg.getGplusId())) {
+				return currCR;
+			} 
 		}
+		return null;
 	}
 	
 	/**
@@ -79,12 +75,7 @@ public class CourseRegistrationDAO {
 			return null;
 		}
 		ObjectifyableCourseRegistration oCR = ofy().load().type(ObjectifyableCourseRegistration.class).id(id).now();
-		if (oCR==null)
-			return null;
-		else {
-			CourseRegistration cReg = oCR.getCourseRegistration();
-			return cReg;
-		}
+		return (oCR==null) ? null : oCR.getCourseRegistration();
 	}
 	
 	/**
@@ -99,11 +90,7 @@ public class CourseRegistrationDAO {
 		while (it.hasNext()) {
 			cReg.add(it.next().getCourseRegistration());
 		}
-		if (cReg.size() == 0) {
-			return null;
-		} else {
-			return cReg;
-		}		
+		return (cReg.size() == 0) ? null : cReg;		
 	}
 	
 	/**
@@ -118,11 +105,7 @@ public class CourseRegistrationDAO {
 		while (it.hasNext()) {
 			cReg.add(it.next().getCourseRegistration());
 		}
-		if (cReg.size() == 0) {
-			return null;
-		} else {
-			return cReg;
-		}		
+		return (cReg.size() == 0) ? null : cReg;		
 	}
 	
 	/**
@@ -135,20 +118,19 @@ public class CourseRegistrationDAO {
 		List<CourseRegistration> cReg = getCourseRegistrationByCourseId(courseId);
 		if (cReg == null) {
 			return null;
-		} else {
-			// Retrieve Users with the userId in the course registration List
-			List<User> userList = new ArrayList<>();
-			User u;
-			UserDAO userAccessor = UserDAO.getInstance();
-			Iterator<CourseRegistration> it = cReg.iterator();
-			while (it.hasNext()) {
-				u = userAccessor.getUserByGplusId(it.next().getGplusId());
-				if(u != null) {
-					userList.add(u);
-				}
-			}
-			return userList;
 		}
+		// Retrieve Users with the userId in the course registration List
+		List<User> userList = new ArrayList<>();
+		User u;
+		UserDAO userAccessor = UserDAO.getInstance();
+		Iterator<CourseRegistration> it = cReg.iterator();
+		while (it.hasNext()) {
+			u = userAccessor.getUserByGplusId(it.next().getGplusId());
+			if(u != null) {
+				userList.add(u);
+			}
+		}
+		return userList;
 	}
 	
 	/**
@@ -161,11 +143,7 @@ public class CourseRegistrationDAO {
 		while (it.hasNext()) {
 			courseRegistrations.add(it.next().getCourseRegistration());
 		}
-		if (courseRegistrations.size() == 0) {
-			return null;
-		} else {
-			return courseRegistrations;
-		}
+		return (courseRegistrations.size() == 0) ? null : courseRegistrations;
 	}
 	
 	

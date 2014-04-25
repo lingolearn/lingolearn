@@ -23,21 +23,18 @@ public class UserServiceImpl  extends RemoteServiceServlet implements UserServic
 	 * @return Boolean - true if a user is currently logged in,
 	 * false otherwise.
 	 */
-	public Boolean isUserLoggedIn(){
+	public Boolean isUserLoggedIn() {
 		HttpSession session = this.getThreadLocalRequest().getSession();
 		Object sessionUser = session.getAttribute(USER_SESSION_KEY);
-		if( sessionUser == null )
+		if (sessionUser == null) {
 			return false;
-		
-		if( !(sessionUser instanceof User) )
+		}
+		if (!(sessionUser instanceof User)) {
 			return false;
-		
+		}
+		// Return true if the email address is not empty
 		User loggedInUser = (User) sessionUser;
-		if( loggedInUser.getGmail().equals("") )
-			return false;
-		
-		return true;
-		
+		return !(loggedInUser.getGmail().equals(""));
 	}
 	
 	/**
@@ -48,18 +45,14 @@ public class UserServiceImpl  extends RemoteServiceServlet implements UserServic
 	 * logged into this session, false otherwise.
 	 */
 	public User loginUser( String gmail ){
-		
-		//TODO:: add exception handling, e.g. db error
+		// TODO:: add exception handling, e.g. db error
 		UserDAO udao = UserDAO.getInstance();
 		User loggedInUser = udao.getUserByGmail(gmail);
-		
-		if( loggedInUser != null ){
+		if (loggedInUser != null) {
 			HttpSession session = this.getThreadLocalRequest().getSession();
 			session.setAttribute(USER_SESSION_KEY, loggedInUser);
 			return loggedInUser;
 		}
-		
-		
 		return null;
 	}
 	
@@ -71,15 +64,13 @@ public class UserServiceImpl  extends RemoteServiceServlet implements UserServic
 	 * out, false otherwise.
 	 */
 	public Boolean logoutUser( User user ){
-		try{
+		try {
 			HttpSession session = this.getThreadLocalRequest().getSession();
 			session.setAttribute(USER_SESSION_KEY, null);
 			return true;
-		}catch(Exception e ){
+		} catch(Exception e){
 			return false;
 		}
-		
-		
 	}
 	
 	public User registerUser( User u ){
@@ -88,7 +79,6 @@ public class UserServiceImpl  extends RemoteServiceServlet implements UserServic
 		User registered = udao.storeUser(u);
 		HttpSession session = this.getThreadLocalRequest().getSession();
 		session.setAttribute(USER_SESSION_KEY, registered);
-		
 		return registered;
 	}
 	
@@ -101,7 +91,6 @@ public class UserServiceImpl  extends RemoteServiceServlet implements UserServic
 	public User getUserByGplusId( String gplusId ){
 		UserDAO udao = UserDAO.getInstance();
 		User found = udao.getUserByGplusId( gplusId );
-		
 		return found;
 	}
 	
@@ -112,22 +101,20 @@ public class UserServiceImpl  extends RemoteServiceServlet implements UserServic
 	 * session.
 	 */
 	public User getCurrentUser(){
-		
 		//TODO this should throw an exception
-		if( !isUserLoggedIn() )
+		if (!isUserLoggedIn()) {
 			return null;
-		
+		}
 		HttpSession session = this.getThreadLocalRequest().getSession();
 		Object sessionUser = session.getAttribute(USER_SESSION_KEY);
-		
 		//TODO this should throw an exception
-		if( sessionUser == null )
+		if (sessionUser == null) {
 			return null;
-		
+		}
 		//TODO this should throw an exception
-		if( !(sessionUser instanceof User) )
+		if (!(sessionUser instanceof User)) {
 			return null;
-		
+		}
 		User currentUser = (User) sessionUser;
 		return currentUser;
 	}
@@ -143,12 +130,10 @@ public class UserServiceImpl  extends RemoteServiceServlet implements UserServic
 	public String getSessionGmail(){
 		HttpSession session = this.getThreadLocalRequest().getSession();
 		Object sessionGmail = session.getAttribute(GMAIL_SESSION_KEY);
-		if( !(sessionGmail instanceof String ) )
+		if (!(sessionGmail instanceof String)) {
 			return "";
-		
-		String gmailAddress = (String) sessionGmail;
-		
-		return gmailAddress;
+		}
+		return (String) sessionGmail;
 	}
 	
 	/**
@@ -158,20 +143,15 @@ public class UserServiceImpl  extends RemoteServiceServlet implements UserServic
 	public String getSessionGplusId(){
 		HttpSession session = this.getThreadLocalRequest().getSession();
 		Object sessionGid = session.getAttribute(GID_SESSION_KEY);
-		if( !(sessionGid instanceof String ) )
+		if (!(sessionGid instanceof String)) {
 			return "";
-		
-		String gplusId = (String) sessionGid;
-		
-		return gplusId;
+		}
+		return (String) sessionGid;
 	}
 	
 	public GoogleIdPackage getSessionGoogleIds(){
-		
 		String gmail = getSessionGmail();
 		String gplus = getSessionGplusId();
-		GoogleIdPackage gpack = new GoogleIdPackage( gmail, gplus );
-		
-		return gpack;
+		return new GoogleIdPackage(gmail, gplus);
 	}
 }

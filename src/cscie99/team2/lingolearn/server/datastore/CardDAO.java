@@ -15,7 +15,6 @@ public class CardDAO {
 	/**
 	 * SingletonHolder is loaded on the first execution of Singleton.getInstance() 
 	 * or the first access to SingletonHolder.INSTANCE, not before.
-	 * *****
 	 */
 	private static class CardDAOHolder { 
 		public static final CardDAO INSTANCE = new CardDAO();
@@ -37,11 +36,9 @@ public class CardDAO {
 			ObjectifyableCard oCard = new ObjectifyableCard(card); 
 			ofy().save().entity(oCard).now();
 			ObjectifyableCard fetched = ofy().load().entity(oCard).now();
-			card = fetched.getCard();
-		} else {
-			card = duplicateCard;
-		}
-		return card;
+			return fetched.getCard();
+		} 
+		return duplicateCard;
 	}
 	
 	/**
@@ -83,11 +80,7 @@ public class CardDAO {
 			return null;
 		}
 		ObjectifyableCard oCard = ofy().load().type(ObjectifyableCard.class).id(cardId).now();
-		if (oCard != null) {
-			Card card = oCard.getCard();
-			return card;
-			}
-		return null;
+		return (oCard != null) ? oCard.getCard() : null;
 	}
 	
 	/**
@@ -114,12 +107,10 @@ public class CardDAO {
 	 */
 	public Card getCardByHiragana(String hiragana) throws CardNotFoundException {
 		ObjectifyableCard oCard = ofy().load().type(ObjectifyableCard.class).filter("hiragana", hiragana).first().now();
-		if (oCard==null)
+		if (oCard==null) {
 			throw new CardNotFoundException("Card was not found in the datastore", "hiragana", hiragana);
-		else {
-			Card card = oCard.getCard();
-			return card;
 		}
+		return oCard.getCard();
 	}
 	
 	/**
@@ -130,12 +121,10 @@ public class CardDAO {
 	 */
 	public Card getCardByKatakana(String katakana) throws CardNotFoundException {
 		ObjectifyableCard oCard = ofy().load().type(ObjectifyableCard.class).filter("katakana", katakana).first().now();
-		if (oCard==null)
+		if (oCard==null) {
 			throw new CardNotFoundException("Card was not found in the datastore", "katakana", katakana);
-		else {
-			Card card = oCard.getCard();
-			return card;
 		}
+		return oCard.getCard();
 	}
 	
 	/**
@@ -146,12 +135,10 @@ public class CardDAO {
 	 */
 	public Card getCardByTranslation(String translation) throws CardNotFoundException {
 		ObjectifyableCard oCard = ofy().load().type(ObjectifyableCard.class).filter("translation", translation).first().now();
-		if (oCard==null)
+		if (oCard==null) {
 			throw new CardNotFoundException("Card was not found in the datastore", "translation", translation);
-		else {
-			Card card = oCard.getCard();
-			return card;
 		}
+		return oCard.getCard();
 	}
 	
 	/**
@@ -162,11 +149,10 @@ public class CardDAO {
 	 */
 	public Card getCardByDescription(String desc) throws CardNotFoundException {
 		ObjectifyableCard oCard = ofy().load().type(ObjectifyableCard.class).filter("description", desc).first().now();
-		if (oCard==null)
+		if (oCard==null) {
 			throw new CardNotFoundException("Card was not found in the datastore", "description", desc);
-		else {
-			Card card = oCard.getCard();
-			return card;}
+		}
+		return oCard.getCard();
 	}
 
 	/**
@@ -184,9 +170,8 @@ public class CardDAO {
 		}
 		if (cards.size() == 0) {
 			throw new CardNotFoundException("Cards were not found in the datastore", "kanji", kanji);
-		} else {
-			return cards;
-		}
+		} 
+		return cards;
 	}
 	
 	/**
@@ -204,9 +189,8 @@ public class CardDAO {
 		}
 		if (cards.size() == 0) {
 			throw new CardNotFoundException("Cards were not found in the datastore", "native language", lang);
-		} else {
-			return cards;
 		}
+		return cards;
 	}
 	
 	/**
@@ -223,9 +207,8 @@ public class CardDAO {
 		}
 		if (cards.size() == 0) {
 			throw new CardNotFoundException("No Cards were not found in the datastore");
-		} else {
-			return cards;
 		}
+		return cards;
 	}
 	
 	/**

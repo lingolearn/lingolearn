@@ -16,7 +16,6 @@ public class CourseDAO {
 	/**
 	 * SingletonHolder is loaded on the first execution of Singleton.getInstance() 
 	 * or the first access to SingletonHolder.INSTANCE, not before.
-	 * *****
 	 */
 	private static class CourseDAOHolder { 
 		public static final CourseDAO INSTANCE = new CourseDAO();
@@ -32,14 +31,9 @@ public class CourseDAO {
 	 * @return stored Course for diagnostic purpose
 	 */
 	public Course storeCourse( Course course ) {
-		
 		ObjectifyableCourse oCourse = new ObjectifyableCourse(course);
-		
 		ofy().save().entity(oCourse).now();
-		
-		course = oCourse.getCourse();
-		
-		return course;
+		return oCourse.getCourse();
 	}
 	
 	/**
@@ -52,11 +46,7 @@ public class CourseDAO {
 			return null;
 		}
 		ObjectifyableCourse oCourse = ofy().load().type(ObjectifyableCourse.class).id(courseId).now();
-		if (oCourse != null) {
-			Course course = oCourse.getCourse();
-			return course;
-		}
-		return null;
+		return (oCourse != null) ? oCourse.getCourse() : null;
 	}
 	
 	/**
@@ -66,11 +56,7 @@ public class CourseDAO {
 	 */
 	public Course getCourseByName(String courseName) {
 		ObjectifyableCourse oCourse = ofy().load().type(ObjectifyableCourse.class).filter("courseName", courseName).first().now();
-		if (oCourse != null) {
-			Course course = oCourse.getCourse();
-			return course;
-		}
-		return null;
+		return (oCourse != null) ? oCourse.getCourse() : null;
 	}
 	
 	/**
@@ -80,11 +66,7 @@ public class CourseDAO {
 	 */
 	public Course getCourseByDesc(String courseDesc) {
 		ObjectifyableCourse oCourse = ofy().load().type(ObjectifyableCourse.class).filter("courseDesc", courseDesc).first().now();
-		if (oCourse != null) {
-			Course course = oCourse.getCourse();
-			return course;
-		}
-		return null;
+		return (oCourse != null) ? oCourse.getCourse() : null;
 	}
 	
 	/**
@@ -98,15 +80,9 @@ public class CourseDAO {
 		while (it.hasNext()) {
 			courses.add(it.next().getCourse());
 		}
-		if (courses.size() == 0) {
-			return null;
-		} else {
-			return courses;
-		}
+		return (courses.size() == 0) ? null: courses;
 	}
-	
-	
-	
+		
 	/**
 	 * Return all the courses available for a user to enroll in.
 	 * @param student the user wishing to enroll
@@ -116,8 +92,7 @@ public class CourseDAO {
 	 * instructing.
 	 * 
 	 */
-	public List<Course> getAvailableCourses(User student){
-		
+	public List<Course> getAvailableCourses(User student) {
 		ObjectifyableUser storableStudent = new ObjectifyableUser(student);
 		ArrayList<ObjectifyableUser> potentialStudents = 
 							new ArrayList<ObjectifyableUser>();
@@ -129,20 +104,14 @@ public class CourseDAO {
 				ofy().load().type(ObjectifyableCourse.class)
 												.filter("instructor !=", storableStudent).list();
 		List<Course> availableCourses = new ArrayList<Course>();
-		int size = allCoursesNotInstructing.size();
-		for( ObjectifyableCourse oc : allCoursesNotInstructing ){
-			
-			
+		for (ObjectifyableCourse oc : allCoursesNotInstructing) {
 			Course availableCourse = oc.getCourse();
-			Set<User> courseStudents = 
-								new HashSet<User>(availableCourse.getStudents());
-			
-			if( !courseStudents.contains(student) )
-				availableCourses.add( oc.getCourse() );
+			Set<User> courseStudents = new HashSet<User>(availableCourse.getStudents());
+			if (!courseStudents.contains(student)) {
+				availableCourses.add(oc.getCourse());
+			}
 		}
-		
 		return availableCourses;
-		
 	}
 	
 	/**
@@ -159,7 +128,6 @@ public class CourseDAO {
 						= ofy().load().type(ObjectifyableCourse.class)
 							.filter("students", storableStudent).list();
 		List<Course> enrolledCourses = new ArrayList<Course>();
-		
 		for( ObjectifyableCourse storedCourse : storedCourses ){
 			Course course = storedCourse.getCourse();
 			enrolledCourses.add(course);
@@ -176,5 +144,4 @@ public class CourseDAO {
 			ofy().delete().type(ObjectifyableCourse.class).id(courseId).now();
 		}
 	}
-	
 }
