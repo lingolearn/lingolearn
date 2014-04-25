@@ -65,10 +65,7 @@ public class CardDAO {
 		Iterator<Card> it = cardList.iterator();
 		while (it.hasNext()) {
 			Card currCard = it.next();		
-			if ((currCard.getHiragana()+currCard.getKatakana()+currCard.getTranslation()+currCard.getDesc()+currCard.getNativeLanguage())
-					.equalsIgnoreCase			
-					((card.getHiragana()+card.getKatakana())+card.getTranslation()+card.getDesc()+card.getNativeLanguage())) 
-			{
+			if (currCard.equals(card)) {
 				return currCard;
 			}
 		}

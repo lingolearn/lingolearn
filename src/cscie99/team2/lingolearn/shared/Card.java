@@ -36,6 +36,31 @@ public class Card implements Serializable {
 		this.nativeLanguage = nativeLanguage;
 		this.desc = description;
 	}
+	
+	/**
+	 * Check to see if this card equals the object provided. For the purposes
+	 * of this application, this does not imply exactly equal but that the 
+	 * core language content is the same.
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		// Null always returns false
+		if (obj == null) {
+			return false;
+		}
+		// Make sure the object actually is a card
+		if (!(obj instanceof Card)) {
+			return false;
+		}
+		// See if they are equal
+		Card card = (Card)obj;
+		return (this.desc.equalsIgnoreCase(card.getDesc()) &&
+				this.hiragana.equalsIgnoreCase(card.getHiragana()) &&
+				this.kanji.equalsIgnoreCase(card.getKanji()) &&
+				this.katakana.equalsIgnoreCase(card.getKatakana()) &&
+				this.nativeLanguage.equalsIgnoreCase(card.getNativeLanguage()) &&
+				this.translation.equalsIgnoreCase(card.getTranslation()));
+	}
 
 
 	public Long getId() {
