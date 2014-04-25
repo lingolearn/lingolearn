@@ -54,12 +54,10 @@ public class Card implements Serializable {
 		}
 		// See if they are equal
 		Card card = (Card)obj;
-		return (this.desc.equalsIgnoreCase(card.getDesc()) &&
-				this.hiragana.equalsIgnoreCase(card.getHiragana()) &&
-				this.kanji.equalsIgnoreCase(card.getKanji()) &&
-				this.katakana.equalsIgnoreCase(card.getKatakana()) &&
-				this.nativeLanguage.equalsIgnoreCase(card.getNativeLanguage()) &&
-				this.translation.equalsIgnoreCase(card.getTranslation()));
+		return ((this.desc + this.hiragana + this.kanji + 
+				this.katakana + this.nativeLanguage + this.translation)
+				.equalsIgnoreCase(card.getDesc() + card.getHiragana() + card.getKanji() + 
+								  card.getKatakana() + card.getNativeLanguage() + card.getTranslation()));
 	}
 
 
