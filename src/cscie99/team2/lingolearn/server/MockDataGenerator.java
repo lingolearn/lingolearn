@@ -85,7 +85,7 @@ public class MockDataGenerator {
 			try {
 				deckAccessor.storeDeck(deck);
 			} catch (Exception e) {
-				
+				// TODO Explain why this is OK
 			}
 		}
 		// Return the built deck
@@ -93,12 +93,10 @@ public class MockDataGenerator {
 	}
 	
 	public void generateMockData() {
-		
 		if (MockDataGenerator.dataHasBeenGenerated) {
 			return;
 		}
 		
-		/** Added 4/14/2014 by Jeff to make sure all courses have instructors */
 		String courseGmail = "cscie99.2014.team2@gmail.com";
 		UserDAO userAccessor = UserDAO.getInstance();
 		User courseUser = userAccessor.getCourseUser();
@@ -111,23 +109,21 @@ public class MockDataGenerator {
 			courseUser = new User(gplusId, courseGmail, firstName,
 										lastName, Gender.Male, nativ);
 			userAccessor.storeUser(courseUser);
-		}
-		/** End added ****************************************************/	
-		
+		}		
 		MockDataGenerator.dataHasBeenGenerated = true;
 		
 		Card tc1 = new Card();
 		tc1.setKanji("");
 		tc1.setHiragana("");
-		tc1.setKatakana("ã‚¨ãƒ¬ãƒ™ãƒ¼ã‚¿ãƒ¼");
+		tc1.setKatakana("エレベーター");
 		tc1.setTranslation("Elevator");
 		tc1.setNativeLanguage("us-en");
 		tc1.setDesc("TestDeck");
 
 		// same kanji as in tc1
 		Card tc2 = new Card();
-		tc2.setKanji("å±…ã‚‹");
-		tc2.setHiragana("ã�„ã‚‹");
+		tc2.setKanji("居る");
+		tc2.setHiragana("いる");
 		tc2.setKatakana("");
 		tc2.setTranslation("To be");
 		tc2.setNativeLanguage("ca-fr");
@@ -143,8 +139,8 @@ public class MockDataGenerator {
 		mySound.setSoundUri(soundUri);
 
 		Card tc3 = new Card();
-		tc3.setKanji("è²¸ã�™");
-		tc3.setHiragana("ã�‹ã�™");
+		tc3.setKanji("貸す");
+		tc3.setHiragana("かす");
 		tc3.setKatakana("");
 		tc3.setTranslation("To lend");
 		tc3.setNativeLanguage("us-en");
@@ -153,10 +149,10 @@ public class MockDataGenerator {
 		tc3.setSound(mySound);
 				
 		Card c1 = new Card();
-		c1.setKanji("å²¡");
+		c1.setKanji("岡");
 		c1.setTranslation("card 1 translation");
 		Card c2 = new Card();
-		c2.setKanji("å­—");
+		c2.setKanji("字");
 		c2.setTranslation("card 2 translation");
 		
 		// Store cards in the local In-memory datastore
