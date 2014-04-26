@@ -32,6 +32,7 @@ public class ObjectifyableDeck implements Serializable {
 	private List<Long> cardIds;					  // The ids of the cards that are part of this deck
 	private String language; 					  // The language of this deck
 	private String nativeLangauge; 				  // The native language of the translations
+	private String desc;						  // Deck description
 	
 	
 	public ObjectifyableDeck() {}
@@ -46,6 +47,7 @@ public class ObjectifyableDeck implements Serializable {
 		this.cardIds = deck.getCardIds();
 		this.language = deck.getLangauge();
 		this.nativeLangauge = deck.getLangauge();
+		this.desc = deck.getDesc();
 		this.cards = new ArrayList<Ref<ObjectifyableCard>>();
 		for (Long cardId : this.cardIds) {
 			try {
@@ -70,6 +72,7 @@ public class ObjectifyableDeck implements Serializable {
 		deck.setCardIds(this.cardIds);
 		deck.setLangauge(this.language);
 		deck.setNativeLangauge(this.nativeLangauge);
+		deck.setDesc(this.desc);
 		// re-create hash map of Cards
 		Map<Long, Card> cards = new HashMap<Long, Card>();
 		if (cardIds != null) {

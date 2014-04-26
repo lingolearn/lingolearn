@@ -98,6 +98,7 @@ public class DeckDAOTest {
 
 		// Create 2 decks
 		Deck d1 = new Deck();
+		d1.setDesc("Test Deck #1");
 		Deck d2 = new Deck();
 
 		// Add 3 cards to the deck1

@@ -17,6 +17,9 @@ public class Deck implements Serializable {
 	// The unique id of the deck
 	private Long id;
 	
+	// Deck Description
+	private String desc;
+	
 	// The map of cards that are part of this deck
 	private HashMap<Long, Card> cards;
 	
@@ -38,6 +41,18 @@ public class Deck implements Serializable {
 		this.nativeLangauge = nativeLanguage;
 		this.cards = new HashMap<Long, Card>();
 		this.cardIds = new ArrayList<Long>();
+		for (Card card : cards) {
+			this.add(card);
+		}
+	}
+	
+	public Deck(Long id, List<Card> cards, String language, String nativeLanguage, String desc) {
+		this.id = id;
+		this.language = language;
+		this.nativeLangauge = nativeLanguage;
+		this.cards = new HashMap<Long, Card>();
+		this.cardIds = new ArrayList<Long>();
+		this.desc = desc;
 		for (Card card : cards) {
 			this.add(card);
 		}
@@ -159,5 +174,13 @@ public class Deck implements Serializable {
 
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 }
