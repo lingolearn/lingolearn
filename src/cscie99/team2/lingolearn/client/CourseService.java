@@ -19,6 +19,7 @@ public interface CourseService extends RemoteService {
 	public ArrayList<Course> getCoursesUserIsInstructing(String gplusId);
 	public ArrayList<Course> getCoursesUserIsEnrolledIn(String gplusId);
 	public ArrayList<Course> getAllAvailableCourses(String gplusId);
+	public ArrayList<Course> getAllCourses();
 	public Course getCourseById(Long courseId);
 	public ArrayList<Session> getSessionsForCourse(Long courseId);
 	public Session getSessionById(Long sessionId);

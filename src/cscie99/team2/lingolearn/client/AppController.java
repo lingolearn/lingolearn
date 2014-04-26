@@ -209,8 +209,8 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 						new AppRegisterView());
 				break;
 			case "research":
-				presenter = new ResearchPresenter(analyticsService, eventBus,
-						new ResearchView());
+				presenter = new ResearchPresenter(analyticsService, courseService,
+						eventBus, new ResearchView());
 				break;
 			case "import":
 				presenter = new ImportPresenter(userService, storageService,

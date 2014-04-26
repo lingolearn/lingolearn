@@ -17,6 +17,7 @@ public interface CourseServiceAsync {
   public void getCoursesUserIsInstructing(String gplusId, AsyncCallback<ArrayList<Course>> callback);
   public void getCoursesUserIsEnrolledIn(String gplusId, AsyncCallback<ArrayList<Course>> callback);
   public void getAllAvailableCourses(String gplusId, AsyncCallback<ArrayList<Course>> callback);
+  public void getAllCourses(AsyncCallback<ArrayList<Course>> callback);
   public void getCourseById(Long id, AsyncCallback<Course> callback);
   public void getSessionsForCourse(Long courseId, AsyncCallback<ArrayList<Session>> callback);
   public void getSessionById(Long sessionId, AsyncCallback<Session> callback);

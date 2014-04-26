@@ -84,6 +84,22 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		User student = (User)sessionUser;
 		return (ArrayList<Course>) courseAccessor.getAvailableCourses(student);
 	}
+	
+	public ArrayList<Course> getAllCourses() {
+		List<Course> rawList;
+		ArrayList<Course> list = new ArrayList<Course>();
+		
+		//Temporarily populate with all
+		rawList = courseAccessor.getAllCourses();
+		if (rawList != null) {
+			for (int i=0;i < rawList.size();i++) {
+				list.add(rawList.get(i));
+			}
+		}
+		
+		return list;
+	}
+	
 
 
 	@Override

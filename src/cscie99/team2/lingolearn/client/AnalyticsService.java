@@ -1,5 +1,6 @@
 package cscie99.team2.lingolearn.client;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -29,4 +30,6 @@ public interface AnalyticsService extends RemoteService{
 	public QuizResponse storeQuizResponse(QuizResponse qResp);
 	
 	public String generateCsvAllData();
+	public String generateFlashCardResponseDownload(Long courseId, Date startDate, Date endDate);
+	public String generateQuizResponseDownload(Long courseId, Date startDate, Date endDate);
 }

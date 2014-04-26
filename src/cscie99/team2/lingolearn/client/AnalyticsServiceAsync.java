@@ -1,5 +1,6 @@
 package cscie99.team2.lingolearn.client;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -40,4 +41,8 @@ public interface AnalyticsServiceAsync {
 			AsyncCallback<QuizResponse> callback);
 
 	void generateCsvAllData(AsyncCallback<String> callback);
+	void generateFlashCardResponseDownload(Long courseId, Date startDate, Date endDate, 
+			AsyncCallback<String> callback);
+	void generateQuizResponseDownload(Long courseId, Date startDate, Date endDate, 
+			AsyncCallback<String> callback);
 }
