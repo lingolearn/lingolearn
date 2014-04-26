@@ -3,16 +3,10 @@ package cscie99.team2.lingolearn.shared;
 import java.io.Serializable;
 
 /**
- * 
- * @author nichols
- *
  *This class represents a course outside of the system that a user has taken. This is required for biographical data.
- *
  */
 public class OutsideCourse implements Serializable {
 
-	//Test commit
-	
 	private static final long serialVersionUID = 7153828329464294076L;
 
 	private String outsideCourseID;

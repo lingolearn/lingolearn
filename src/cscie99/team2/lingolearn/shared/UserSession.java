@@ -1,11 +1,7 @@
-/**
- * CSCIE99 TEAM 2
- */
 package cscie99.team2.lingolearn.shared;
 
 import java.io.Serializable;
 import java.util.Date;
-
 
 /**
  * A user's Session with an assignment
@@ -34,30 +30,39 @@ public class UserSession implements Serializable {
 	public Date getSessStart() {
 		return sessStart;
 	}
+
 	public void setSessStart(Date sessStart) {
 		this.sessStart = sessStart;
 	}
+	
 	public Date getSessEnd() {
 		return sessEnd;
 	}
+	
 	public void setSessEnd(Date sessEnd) {
 		this.sessEnd = sessEnd;
 	}
+	
 	public Long getUserSessionId() {
 		return userSessionId;
 	}
+	
 	public void setUserSessionId(Long userSessionId) {
 		this.userSessionId = userSessionId;
 	}
+	
 	public Long getSessionId() {
 		return sessionId;
 	}
+	
 	public void setSessionId(Long sessionId) {
 		this.sessionId = sessionId;
 	}
+	
 	public String getGplusId() {
 		return gplusId;
 	}
+	
 	public void setGplusId(String gplusId) {
 		this.gplusId = gplusId;
 	}

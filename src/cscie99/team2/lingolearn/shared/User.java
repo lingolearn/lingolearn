@@ -12,8 +12,6 @@ import java.util.Set;
 import cscie99.team2.lingolearn.shared.Gender;
 import cscie99.team2.lingolearn.shared.Language;
 
-
-
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 4690764038062275542L;
@@ -58,8 +56,6 @@ public class User implements Serializable {
 		this.textbooks = new HashSet<Textbook>();
 		this.outsideCourses = new HashSet<OutsideCourse>();
 		this.userRegistrationTime = new Date();
-		
-		//addLanguage(nativ);
 	}
 	
 	public boolean addLanguage( Language lang ){
@@ -166,7 +162,6 @@ public class User implements Serializable {
 		this.userRegistrationTime = userRegistrationTime;
 	}
 	
-	
 	/**
 	 * HashCode method takes the gmail, gplusid, and userid into 
 	 * consideration.
@@ -186,22 +181,21 @@ public class User implements Serializable {
 	 */
 	@Override
 	public boolean equals(Object other){
-		if( other == null )
+		if (other == null) {
 			return false;
-		
-		if( !(other instanceof User) )
+		}
+		if (!(other instanceof User)) {
 			return false;
-		
+		}
 		User otherUser = (User) other;
-		if( !otherUser.getUserId().equals(this.getUserId()) )
+		if (!otherUser.getUserId().equals(this.getUserId())) {
 			return false;
-		
-		if( !otherUser.getGmail().equals(this.getGmail()) )
+		}
+		if (!otherUser.getGmail().equals(this.getGmail())) {
 			return false;
-		
+		}
 		return true;
-	}
-	
+	}	
 	
 	@Override
 	public String toString() {
@@ -221,9 +215,6 @@ public class User implements Serializable {
 		for (OutsideCourse oc: this.getOutsideCourses()) {
 			result += "     Other Courses  : " + oc.getInstitution() + "\n";
 		}
-		
-		return result;
-		
+		return result;	
 	}
-	
 }

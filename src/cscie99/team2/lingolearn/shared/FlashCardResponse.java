@@ -1,6 +1,3 @@
-/**
- * CSCIE99 TEAM 2
- */
 package cscie99.team2.lingolearn.shared;
 
 import java.io.Serializable;
@@ -98,7 +95,6 @@ public class FlashCardResponse implements Serializable {
 		this.answerTimeRec = answerTimeRec;
 		this.seq = seq;
 	}
-
 	
 	public Long getSessionId() {
 		return sessionId;

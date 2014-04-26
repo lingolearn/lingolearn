@@ -1,14 +1,9 @@
-/**
- * CSCIE99 TEAM 2
- */
 package cscie99.team2.lingolearn.shared;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author YPolyanskyy
- * 
  * This class contains statistics regarding user's interaction with the flashcard
  */
 public class QuizResponse implements Serializable {
@@ -118,42 +113,55 @@ public class QuizResponse implements Serializable {
 	public Long getSessionId() {
 		return sessionId;
 	}
+
 	public void setSessionId(Long sessionId) {
 		this.sessionId = sessionId;
 	}
+	
 	public String getGplusId() {
 		return gplusId;
 	}
+	
 	public void setGplusId(String gplusId) {
 		this.gplusId = gplusId;
 	}
+	
 	public Long getCardId() {
 		return cardId;
 	}
+	
 	public void setCardId(Long cardId) {
 		this.cardId = cardId;
 	}
+	
 	public String getConfuserType() {
 		return confuserType;
 	}
+	
 	public void setConfuserType(String confuserType) {
 		this.confuserType = confuserType;
 	}
+	
 	public boolean isCorrect() {
 		return isCorrect;
 	}
+	
 	public void setCorrect(boolean isCorrect) {
 		this.isCorrect = isCorrect;
 	}
+	
 	public boolean isChanged() {
 		return isChanged;
 	}
+	
 	public void setChanged(boolean isChanged) {
 		this.isChanged = isChanged;
 	}
+	
 	public float getTimeToAnswer() {
 		return timeToAnswer;
 	}
+	
 	public void setTimeToAnswer(float timeToAnswer) {
 		this.timeToAnswer = timeToAnswer;
 	}
@@ -205,6 +213,4 @@ public class QuizResponse implements Serializable {
 	public void setSeq(String seq) {
 		this.seq = seq;
 	}
-	
-
 }
