@@ -113,6 +113,24 @@ public class CourseDAO {
 		}
 		return availableCourses;
 	}
+		
+	/**
+	 * Return all the courses a user is instructing.
+	 * @param instructor the user wishing to enroll
+	 * @return A list of courses for which the user is instructing
+	 * 
+	 */
+	public List<Course> getCoursesUserIsInstructing(User instructor) {
+		ObjectifyableUser storableInstructor = new ObjectifyableUser(instructor);
+		List<ObjectifyableCourse> allCoursesInstructing = 
+				ofy().load().type(ObjectifyableCourse.class)
+												.filter("instructor ==", storableInstructor).list();
+		List<Course> courses = new ArrayList<Course>();
+		for (ObjectifyableCourse oc : allCoursesInstructing) {
+			courses.add(oc.getCourse());
+		}
+		return courses;
+	}
 	
 	/**
 	 * Get the courses that a student is enrolled in.

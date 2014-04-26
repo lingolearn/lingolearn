@@ -47,19 +47,10 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 	}
 	
 	public ArrayList<Course> getCoursesUserIsInstructing(String gplusId) {
-		List<Course> rawList;
-		ArrayList<Course> list = new ArrayList<Course>();
-		
-		//Temporarily populate with all
-		rawList = courseAccessor.getAllCourses();
-		if (rawList != null) {
-			for (int i=0;(i < 5) && (i < rawList.size());i++) {
-				list.add(rawList.get(i));
-			}
-		}
-		
-		return list;
-		
+		User instructor = UserDAO.getInstance().getUserByGplusId(gplusId);
+		ArrayList<Course> instructingCourses = (ArrayList<Course>)
+				courseAccessor.getCoursesUserIsInstructing(instructor);
+		return instructingCourses;
 	}
 	
 	
