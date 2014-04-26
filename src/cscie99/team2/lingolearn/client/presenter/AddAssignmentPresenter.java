@@ -39,6 +39,7 @@ public class AddAssignmentPresenter implements Presenter {
 			public void onClick(ClickEvent event) {
 				Deck selectedDeck = display.getSelectedDeck();
 				courseService.createQuiz(courseId, selectedDeck.getId(),
+						display.isUseConfuserSelected(),
 						new AsyncCallback<Quiz>() {
 							public void onFailure(Throwable caught) {
 								Notice.showNotice("Unable to create quiz.",

@@ -43,6 +43,10 @@ public class QuizPresenter implements Presenter {
 	  return this.display;
   }
   
+  public void setUseConfusers(Boolean useConfusers) {
+	  this.useConfusers = useConfusers;
+  }
+  
   public void bind() {
     
 	display.getSubmitButton().addClickHandler(new ClickHandler() {   

@@ -21,6 +21,9 @@
      		</div>
      		<div>
 	      		<g:Button ui:field='createLessonButton' styleName='btn btn-primary'>Create lesson assignment</g:Button>
+      		</div>
+      		<div>
+      		    <g:CheckBox ui:field='useConfuser' text="Use confuser?" />
 	      		<g:Button ui:field='createQuizButton' styleName='btn btn-primary'>Create quiz assignment</g:Button>
       		</div>
      	</form>

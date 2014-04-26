@@ -26,7 +26,7 @@ public interface CourseServiceAsync {
   public void enrollInCourse(Course course, User student, AsyncCallback<Boolean> callback);
   public void enrollInCourse(Long courseId, String gplusId, AsyncCallback<Boolean> callback);
   public void createLesson(Long courseId, Long deckId, AsyncCallback<Lesson> callback);
-  public void createQuiz(Long courseId, Long deckId, AsyncCallback<Quiz> callback);
+  public void createQuiz(Long courseId, Long deckId, Boolean useConfuser, AsyncCallback<Quiz> callback);
   public void getAllDecks(AsyncCallback<List<Deck>> callback);
 }
 

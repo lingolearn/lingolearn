@@ -64,9 +64,6 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 
 	
 	public ArrayList<Course> getAllAvailableCourses(String gplusId) {
-		List<Course> rawList;
-		ArrayList<Course> list = new ArrayList<Course>();
-
 		HttpSession session = this.getThreadLocalRequest().getSession();
 		Object sessionUser = session.getAttribute(UserServiceImpl.USER_SESSION_KEY);
 		if( sessionUser == null )
@@ -75,6 +72,7 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		User student = (User)sessionUser;
 		return (ArrayList<Course>) courseAccessor.getAvailableCourses(student);
 	}
+	
 	
 	public ArrayList<Course> getAllCourses() {
 		List<Course> rawList;
@@ -183,9 +181,14 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		return l;
 	}
 	
-	public Quiz createQuiz(Long courseId, Long deckId) {
+	public Quiz createQuiz(Long courseId, Long deckId, Boolean useConfuser) {
 		Quiz q = new Quiz();
 		q.setCourseId(courseId);
+		if (useConfuser) {
+			q.setMode("yes");
+		} else {
+			q.setMode("no");
+		}
 		try {
 			q.setDeck(deckAccessor.getDeckById(deckId));
 		} catch (DeckNotFoundException e) {

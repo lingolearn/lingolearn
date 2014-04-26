@@ -8,9 +8,11 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+
 import cscie99.team2.lingolearn.shared.Deck;
 
 public class AddAssignmentView extends Composite {
@@ -21,6 +23,7 @@ public class AddAssignmentView extends Composite {
   @UiField ListBox deckList;
   @UiField Button createQuizButton;
   @UiField Button createLessonButton;
+  @UiField CheckBox useConfuser;
   private List<Deck> listOfDecks;
   
   public AddAssignmentView() {
@@ -33,6 +36,10 @@ public class AddAssignmentView extends Composite {
   
   public HasClickHandlers getCreateLessonButton() {
 	  return createLessonButton;
+  }
+  
+  public Boolean isUseConfuserSelected() {
+	  return useConfuser.getValue();
   }
   
   public Deck getSelectedDeck() {

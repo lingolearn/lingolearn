@@ -14,6 +14,7 @@ import cscie99.team2.lingolearn.client.view.SessionView;
 import cscie99.team2.lingolearn.shared.Assessment;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
 import cscie99.team2.lingolearn.shared.Lesson;
+import cscie99.team2.lingolearn.shared.Quiz;
 import cscie99.team2.lingolearn.shared.QuizResponse;
 import cscie99.team2.lingolearn.shared.Session;
 import cscie99.team2.lingolearn.shared.User;
@@ -98,6 +99,15 @@ public class SessionPresenter implements Presenter {
 			  new AsyncCallback<Session>() {
 		  public void onSuccess(Session returnedSession) {
 			  session = returnedSession;
+			  
+			  if (session instanceof Quiz) {
+				  Quiz q = (Quiz) session;
+				  if (q.getMode().equals("yes")) {
+					  quizPresenter.setUseConfusers(true);
+				  } else {
+					  quizPresenter.setUseConfusers(false);
+				  }
+			  }
 
 			  courseService.createUserSession(session.getSessionId(), CurrentUser.gplusId, 
 					  new AsyncCallback<UserSession>() {
