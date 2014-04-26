@@ -132,4 +132,16 @@ public class Card implements Serializable {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}	
+	
+	public String getDisplayString() {
+		String res = "";
+		res += getKanji();
+		if (!getHiragana().equals("")) {
+		  res += "  —  " + getHiragana();
+		}
+		if (!getKatakana().equals("")) {
+		  res += " " + getKatakana();
+		}
+		return res;
+	}
 }

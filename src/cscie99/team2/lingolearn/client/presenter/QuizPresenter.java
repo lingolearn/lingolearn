@@ -26,6 +26,7 @@ public class QuizPresenter implements Presenter {
   private String currentConfuserType;  //TODO
   private String currentWrongAnswers;
   private String currentCorrectAnswer;
+  private boolean useConfusers;
   
   public QuizPresenter(CardServiceAsync cardService, HandlerManager eventBus, 
 		  QuizView display, SessionPresenter sessionPresenter) {
@@ -35,6 +36,7 @@ public class QuizPresenter implements Presenter {
     this.sessionPresenter = sessionPresenter;
     currentNumConfusers = 0;
     currentConfuserType = "";
+    useConfusers = true;
   }
   
   public QuizView getDisplay() {
@@ -73,11 +75,15 @@ public class QuizPresenter implements Presenter {
     container.add(display.asWidget());
   }
   
-  public void setCardData(Long cardId) {
+  public void setCardData(Long cardId, ArrayList<Long> otherOptionIds) {
 	  
-	  cardService.getCardById(cardId, new AsyncCallback<Card>() {
-	      public void onSuccess(Card card) {
-	          populateQuizInfo(card);
+	  ArrayList<Long> requestedIds = otherOptionIds;
+	  requestedIds.add(cardId);
+	  
+	  cardService.getCardsByIds(requestedIds, new AsyncCallback<ArrayList<Card>>() {
+	      public void onSuccess(ArrayList<Card> cards) {
+	    	  Card card = cards.remove(cards.size()-1);
+	    	  populateQuizInfo(card,cards);
 	      }
 	      
 	      public void onFailure(Throwable caught) {
@@ -86,63 +92,74 @@ public class QuizPresenter implements Presenter {
 	    });
   }
   
-  private void populateQuizInfo(Card card) {
+  private void populateQuizInfo(Card card, final ArrayList<Card> otherCards) {
 	  currentCard = card;
-	  this.currentCorrectAnswer = card.getKanji();
-	  if (!card.getHiragana().equals("")) {
-		  this.currentCorrectAnswer += "  —  " + card.getHiragana();
-	  }
-	  if (!card.getKatakana().equals("")) {
-		  this.currentCorrectAnswer += " " + card.getKatakana();
-	  }
+	  this.currentCorrectAnswer = card.getDisplayString();
 	  display.clearQuiz();
 	  display.addToStem(card.getTranslation());
 	  display.addAnswer(this.currentCorrectAnswer);
-	  cardService.getConfusersForCard(currentCard, new AsyncCallback<List<String>>() {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			currentNumConfusers = 0;
-			display.addAnswer("failed confuser 1");
-			display.addAnswer("failed confuser 2");
-			display.addAnswer("failed confuser 3");
-			currentWrongAnswers = "failed confuser 1,failed confuser 2,failed confuser 3";
-		}
-		
-		@Override
-		public void onSuccess(List<String> result) {
-			int count = 0;
-			ArrayList<String> wrongAnswerList = new ArrayList<String>();
-			String wrongAns;
-			if (result != null) {
-				for (int i=0;i<result.size();i++) {
-					count++;
-					if (currentCard.getKatakana().equals("")) {
-						wrongAns = result.get(i) + "  —  " + currentCard.getHiragana();
-					} else {
-						wrongAns = result.get(i);
-					}
-					wrongAnswerList.add(wrongAns);
-					display.addAnswer(wrongAns);
-				}
-			}
-			currentNumConfusers = count;
-			for (int i=count;i<3;i++) {
-				display.addAnswer("mock confuser " + i);
-				wrongAnswerList.add("mock confuser " + i);
+	  if (useConfusers) {
+		  cardService.getConfusersForCard(currentCard, new AsyncCallback<List<String>>() {
+	
+			@Override
+			public void onFailure(Throwable caught) {
+				useAsWrongAnswers(otherCards);
 			}
 			
-			currentWrongAnswers = "";
-			for (int i=0;i<wrongAnswerList.size();i++) {
-				currentWrongAnswers += wrongAnswerList.get(i);
-				if (i != (wrongAnswerList.size()-1)) {
-					currentWrongAnswers += ",";
+			@Override
+			public void onSuccess(List<String> result) {
+				int count = 0;
+				ArrayList<String> wrongAnswerList = new ArrayList<String>();
+				String wrongAns;
+				if (result != null) {
+					for (int i=0;i<result.size();i++) {
+						count++;
+						if (currentCard.getKatakana().equals("")) {
+							wrongAns = result.get(i) + "  —  " + currentCard.getHiragana();
+						} else {
+							wrongAns = result.get(i);
+						}
+						wrongAnswerList.add(wrongAns);
+						display.addAnswer(wrongAns);
+					}
 				}
+				currentNumConfusers = count;
+				for (int i=count;i<3;i++) {
+					if (otherCards.get(i) != null) {
+						display.addAnswer(otherCards.get(i).getDisplayString());
+						wrongAnswerList.add(otherCards.get(i).getDisplayString());
+					}
+				}
+				
+				currentWrongAnswers = "";
+				for (int i=0;i<wrongAnswerList.size();i++) {
+					currentWrongAnswers += wrongAnswerList.get(i);
+					if (i != (wrongAnswerList.size()-1)) {
+						currentWrongAnswers += ",";
+					}
+				}
+				
+				
 			}
-		}
-		  
-	  });
+			  
+		  });
+	  } else {
+		  useAsWrongAnswers(otherCards);
+	  }
 	  
+  }
+  
+  
+  private void useAsWrongAnswers(ArrayList<Card> otherCards) {
+	currentNumConfusers = 0;
+	currentWrongAnswers = "";
+	for (int i=0;i<otherCards.size();i++) {
+		display.addAnswer(otherCards.get(i).getDisplayString());
+		currentWrongAnswers += otherCards.get(i).getDisplayString();
+		if (i != (otherCards.size()-1)) {
+			currentWrongAnswers += ",";
+		}
+	}
   }
 
 }

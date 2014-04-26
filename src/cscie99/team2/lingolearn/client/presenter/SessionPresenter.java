@@ -1,6 +1,9 @@
 package cscie99.team2.lingolearn.client.presenter;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cscie99.team2.lingolearn.client.CardServiceAsync;
 import cscie99.team2.lingolearn.client.CourseServiceAsync;
 import cscie99.team2.lingolearn.client.CurrentUser;
@@ -19,6 +22,7 @@ import cscie99.team2.lingolearn.shared.UserSession;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -152,12 +156,35 @@ public class SessionPresenter implements Presenter {
 	  if (session instanceof Lesson) {
 		  cardPresenter.setCardData(session.getDeck().getCardIds().get(currentCardNumber));
 	  } else {
-		  quizPresenter.setCardData(session.getDeck().getCardIds().get(currentCardNumber));
+		  quizPresenter.setCardData(
+				  session.getDeck().getCardIds().get(currentCardNumber),
+				  selectThreeOtherCardsFromDeck());
 	  }
 	  currentCardNumber++;
 	  if (currentCardNumber >= session.getDeck().getCardIds().size()) {
 		  currentCardNumber = 0;
 	  }
+  }
+  
+  private ArrayList<Long> selectThreeOtherCardsFromDeck() {
+	  ArrayList<Long> selectedIds = new ArrayList<Long>();
+	  List<Long> allIds = session.getDeck().getCardIds();
+	  while ((selectedIds.size() < 3) && (selectedIds.size() != (allIds.size()-1))) {
+		  int idx = Random.nextInt(allIds.size());
+		  boolean isValid = true;
+		  for (int i=0;i<selectedIds.size();i++) {
+			  if (selectedIds.get(i) == allIds.get(idx)) {
+				  isValid = false;
+			  }
+		  }
+		  if (idx == currentCardNumber) {
+			  isValid = false;
+		  }
+		  if (isValid) {
+			  selectedIds.add(allIds.get(idx));
+		  }
+	  }
+	  return selectedIds;
   }
   
 

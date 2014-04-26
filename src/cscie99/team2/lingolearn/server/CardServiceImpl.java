@@ -27,6 +27,16 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 		c = cardAccessor.getCardById(cardId);
 		return c;
 	}
+	
+	public ArrayList<Card> getCardsByIds(ArrayList<Long> cardIds) {
+		ArrayList<Card> cards = new ArrayList<Card>();
+		if (cardIds != null) {
+			for (int i=0;i<cardIds.size();i++) {
+				cards.add(cardAccessor.getCardById(cardIds.get(i)));
+			}
+		}
+		return cards;
+	}
 
 	public Card storeCard(Card card) {
 		Card c = null;
