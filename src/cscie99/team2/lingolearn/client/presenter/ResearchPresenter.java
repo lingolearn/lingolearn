@@ -40,6 +40,7 @@ public class ResearchPresenter implements Presenter {
     
     display.disableSaveAllButton();
     display.disableSaveFlashCardResponsesButton();
+    display.disableSaveQuizResponsesButton();
   }
   
   public void bind() {

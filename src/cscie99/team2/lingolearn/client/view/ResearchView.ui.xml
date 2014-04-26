@@ -4,6 +4,7 @@
   xmlns:mail='urn:import:cscie99.team2.lingolearn.client.view'>
 
   <g:HTMLPanel>
+      
     <h2>Research</h2>
 
 	<div class='panel panel-default'>
@@ -19,19 +20,21 @@
       <div class='panel-body'>
       	<form class="form-inline" role="form">
 	      	<div class='form-group'>
-	      		<g:ListBox ui:field='courseList' styleName='form-control'></g:ListBox>
-	      		<dp:DateBox ui:field='startDate'></dp:DateBox>
-	      		<dp:DateBox ui:field='endDate'></dp:DateBox>
-	      	</div>
-	      	<div>
-	      	    Flash card: 
-		      	<g:Button ui:field='downloadFlashCardResponsesButton' styleName='btn btn-primary'>Download</g:Button>
-	  		    <g:Button ui:field='saveFlashCardResponsesButton' styleName='btn btn-primary'>Save</g:Button>
-  		    </div>
-	      	<div>
-	      	    Quiz: 
-		      	<g:Button ui:field='downloadQuizResponsesButton' styleName='btn btn-primary'>Download</g:Button>
-	  		    <g:Button ui:field='saveQuizResponsesButton' styleName='btn btn-primary'>Save</g:Button>
+		      	<div>
+		      		<g:ListBox ui:field='courseList' styleName='form-control'></g:ListBox>
+		      		<span>From:</span><dp:DateBox ui:field='startDate'></dp:DateBox>
+		      		<span>To:</span><dp:DateBox ui:field='endDate'></dp:DateBox>
+		      	</div>
+		      	<div>
+		      	    Flash card: 
+			      	<g:Button ui:field='downloadFlashCardResponsesButton' styleName='btn btn-primary'>Download</g:Button>
+		  		    <g:Button ui:field='saveFlashCardResponsesButton' styleName='btn btn-primary'>Save</g:Button>
+	  		    </div>
+		      	<div>
+		      	    Quiz: 
+			      	<g:Button ui:field='downloadQuizResponsesButton' styleName='btn btn-primary'>Download</g:Button>
+		  		    <g:Button ui:field='saveQuizResponsesButton' styleName='btn btn-primary'>Save</g:Button>
+	  		    </div>
   		    </div>
 	  	</form>
       </div>
