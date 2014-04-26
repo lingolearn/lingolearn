@@ -44,7 +44,7 @@ public class AddAssignmentView extends Composite {
   public void setDeckList(List<Deck> decks) {
 	  listOfDecks = decks;
 	  for (int i=0;i<decks.size();i++) {
-		  deckList.addItem(decks.get(i).getId().toString());
+		  deckList.addItem(decks.get(i).getDesc() + "(" + decks.get(i).getId().toString() + ")");
 	  }
   }
   

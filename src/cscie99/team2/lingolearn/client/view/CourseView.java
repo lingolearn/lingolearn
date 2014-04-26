@@ -63,7 +63,7 @@ public class CourseView extends Composite {
 		  }
 		  InlineHTML text = new InlineHTML();
 		  text.setHTML("<a href='app.html?sessionId=" + sessions.get(i).getSessionId() + 
-				  "#session'>" + type + " (Deck #" + 
+				  "#session'>" + type + " - " + sessions.get(i).getDeck().getDesc() + " (Deck #" + 
 				  sessions.get(i).getDeck().getId() + ")</a>");
 		  assignments.add(text);
 	  }	  

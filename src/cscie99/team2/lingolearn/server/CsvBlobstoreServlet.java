@@ -64,7 +64,10 @@ public class CsvBlobstoreServlet extends HttpServlet {
 
 			Deck deck = new Deck();
 			while (cardItr.hasNext()) {
-				deck.add(cardItr.next());
+				//TODO break cards into separate decks based on description?
+				Card c = cardItr.next();
+				deck.add(c);
+				deck.setDesc(c.getDesc());
 			}
 			deck = deckAccessor.storeDeck(deck);
 

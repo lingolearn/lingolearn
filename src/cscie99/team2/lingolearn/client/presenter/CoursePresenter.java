@@ -62,7 +62,6 @@ public class CoursePresenter implements Presenter {
   }
   
   private void populateUserCourseInfo() {
-	  //TODO: use UserService to get user info
 	  
 	  display.setCourseData(this.course);
 	  
