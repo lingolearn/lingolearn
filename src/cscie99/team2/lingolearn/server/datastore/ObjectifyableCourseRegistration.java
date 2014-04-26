@@ -8,11 +8,7 @@ import com.googlecode.objectify.annotation.Index;
 import cscie99.team2.lingolearn.shared.CourseRegistration;
 
 /**
- * 
- * @author nichols
- *
  * This class represents the registration that a student has made for a course.
- *
  */
 @Entity(name="ObjectifyableCourseRegistration")
 public class ObjectifyableCourseRegistration implements Serializable{

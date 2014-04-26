@@ -1,14 +1,8 @@
-/**
- * CSCIE99 TEAM 2
- */
 package cscie99.team2.lingolearn.shared;
 
 import java.io.Serializable;
 
-
 /**
- * @author YPolyanskyy
- * 
  * This class represents Session of the system. It defines common elements of all sessions.
  * Required for implementation of Lesson, Quiz, Test.
  */
@@ -27,13 +21,11 @@ public abstract class Session implements Serializable {
 		this.courseId = courseId;
 	}
 	
-	
 	/**
 	 * This method interacts with DeckMng to obtain the deck for this session
 	 * 
 	 * @return	Deck of the cards for this session
 	 */
-	
 	public Deck getDeck() {
 		return deck;
 	}

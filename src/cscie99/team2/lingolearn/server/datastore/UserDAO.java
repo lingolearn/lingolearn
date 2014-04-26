@@ -22,25 +22,22 @@ public class UserDAO {
 	
 	private static UserDAO instance;
 	
-	private UserDAO(){
-		
-	}
+	private UserDAO() {	}
 	
 	public static UserDAO getInstance(){
-		if( instance == null )
+		if (instance == null) {
 			instance = new UserDAO();
-		
+		}
 		return instance;
 	}
 	
-	public User getCourseUser(){
+	public User getCourseUser() {
 		User courseUser = getUserByGmail(COURSE_GMAIL);
-		if( courseUser == null ){
+		if (courseUser == null) {
 			courseUser = new User(COURSE_GPLUS, COURSE_GMAIL, COURSE_FNAME,
-											COURSE_LNAME, Gender.Male, COURSE_LANG );
-			courseUser = this.storeUser( courseUser );
+					COURSE_LNAME, Gender.Male, COURSE_LANG);
+			courseUser = this.storeUser(courseUser);
 		}
-		
 		return courseUser;
 	}
 	
@@ -50,11 +47,9 @@ public class UserDAO {
 	 * @return USer for diagnostic
 	 */
 	public User storeUser( User user ) {
-		
 		ObjectifyableUser userEntity = new ObjectifyableUser(user);
 		ofy().save().entity(userEntity).now();
-		User stored = userEntity.getUser();
-		return stored;	
+		return userEntity.getUser();	
 	}
 	
 	public User getUserById( Long uid ){
@@ -62,11 +57,7 @@ public class UserDAO {
 			return null;
 		}
 		ObjectifyableUser oUser = ofy().load().type(ObjectifyableUser.class).id(uid).now();
-		if (oUser != null) {
-			User user = oUser.getUser();
-			return user;
-			}
-		return null;
+		return (oUser != null) ? oUser.getUser() : null;
 	}
 	
 	/**
@@ -80,11 +71,7 @@ public class UserDAO {
 		}
 		ObjectifyableUser oUser = ofy().load().type(ObjectifyableUser.class).
 											filter("gplusId", gplus).first().now();
-		if (oUser != null) {
-			User user = oUser.getUser();
-			return user;
-			}
-		return null;
+		return (oUser != null) ? oUser.getUser() : null;
 	}
 	
 	
@@ -94,12 +81,8 @@ public class UserDAO {
 	 * @return user if datastore has it, null otherwise
 	 */
 	public User getUserByGmail( String gmail ){
-		User user = null;
 		ObjectifyableUser oUser = ofy().load().type(ObjectifyableUser.class).filter("gmail", gmail).first().now();
-		if (oUser != null) {
-			user = oUser.getUser();
-		}
-		return user;
+		return (oUser != null) ? oUser.getUser() : null;
 	}
 	
 	/**
@@ -114,11 +97,7 @@ public class UserDAO {
 		while (it.hasNext()) {
 			users.add(it.next().getUser());
 		}
-		if (users.size() == 0) {
-			return null;
-		} else {
-			return users;
-		}
+		return (users.size() == 0) ? null : users;
 	}
 	
 	/**
@@ -133,11 +112,7 @@ public class UserDAO {
 		while (it.hasNext()) {
 			users.add(it.next().getUser());
 		}
-		if (users.size() == 0) {
-			return null;
-		} else {
-			return users;
-		}
+		return (users.size() == 0) ? null : users;
 	}
 	
 	/**
@@ -152,11 +127,7 @@ public class UserDAO {
 		while (it.hasNext()) {
 			users.add(it.next().getUser());
 		}
-		if (users.size() == 0) {
-			return null;
-		} else {
-			return users;
-		}
+		return (users.size() == 0) ? null : users;
 	}
 	
 	/**
@@ -171,11 +142,7 @@ public class UserDAO {
 		while (it.hasNext()) {
 			users.add(it.next().getUser());
 		}
-		if (users.size() == 0) {
-			return null;
-		} else {
-			return users;
-		}
+		return (users.size() == 0) ? null : users;
 	}
 	
 	/**
@@ -190,11 +157,7 @@ public class UserDAO {
 		while (it.hasNext()) {
 			users.add(it.next().getUser());
 		}
-		if (users.size() == 0) {
-			return null;
-		} else {
-			return users;
-		}
+		return (users.size() == 0) ? null : users;
 	}
 	
 	/**
@@ -209,11 +172,7 @@ public class UserDAO {
 		while (it.hasNext()) {
 			users.add(it.next().getUser());
 		}
-		if (users.size() == 0) {
-			return null;
-		} else {
-			return users;
-		}
+		return (users.size() == 0) ? null : users;
 	}
 	
 	/**
@@ -227,11 +186,7 @@ public class UserDAO {
 		while (it.hasNext()) {
 			users.add(it.next().getUser());
 		}
-		if (users.size() == 0) {
-			return null;
-		} else {
-			return users;
-		}
+		return (users.size() == 0) ? null : users;
 	}
 	
 	public void deleteUserByUid( Long uid ){
@@ -248,5 +203,4 @@ public class UserDAO {
 			ofy().delete().type(ObjectifyableUser.class).id(gplus).now();
 		}
 	}
-	
 }

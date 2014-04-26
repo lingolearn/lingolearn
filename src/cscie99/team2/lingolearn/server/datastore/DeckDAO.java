@@ -33,8 +33,7 @@ public class DeckDAO {
 		ObjectifyableDeck oDeck = new ObjectifyableDeck(deck);
 		ofy().save().entity(oDeck).now();
 		ObjectifyableDeck fetched = ofy().load().entity(oDeck).now();
-		deck = fetched.getDeck();
-		return deck;	
+		return fetched.getDeck();	
 	}
 	
 	/**
@@ -48,12 +47,10 @@ public class DeckDAO {
 			throw new DeckNotFoundException("Deck was not found in the datastore", "id", null);
 		}
 		ObjectifyableDeck oDeck = ofy().load().type(ObjectifyableDeck.class).id(id).now();
-		if (oDeck==null)
+		if (oDeck==null) {
 			throw new DeckNotFoundException("Deck was not found in the datastore", "id", id.toString());
-		else {
-			Deck deck = oDeck.getDeck();
-			return deck;
 		}
+		return oDeck.getDeck();
 	}
 	
 	/**
@@ -74,11 +71,7 @@ public class DeckDAO {
 		while (it.hasNext()) {
 			decks.add(it.next().getDeck());
 		}
-		if (decks.size() == 0) {
-			return null;
-		} else {
-			return decks;
-		}
+		return (decks.size() == 0) ? null : decks;
 	}
 
 }

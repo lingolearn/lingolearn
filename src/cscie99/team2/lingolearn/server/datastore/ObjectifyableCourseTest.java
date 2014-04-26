@@ -14,10 +14,7 @@ import com.googlecode.objectify.annotation.Index;
 import cscie99.team2.lingolearn.shared.Deck;
 import cscie99.team2.lingolearn.shared.CourseTest;
 
-
 /**
- * @author YPolyanskyy
- *
  * This class represents Proxy for CourseTest
  */
 @Entity (name="ObjectifyableCourseTest")
@@ -40,13 +37,13 @@ public class ObjectifyableCourseTest extends ObjectifyableSession implements Ser
 		this.courseId = t.getCourseId();
 		this.timeLimit = t.getTimeLimit();
 		this.grade = t.getGrade();
+		this.deck = null;
+		
 		Deck deck = t.getDeck();
 		if (deck != null) { 
 			ObjectifyableDeck oDeck = new ObjectifyableDeck(deck);
 			ofy().save().entity(oDeck).now();
 			this.deck = Ref.create(oDeck);
-		} else {
-			this.deck = null;
 		}
 	}
 

@@ -32,8 +32,7 @@ public class FlashCardResponseDAO {
 		ObjectifyableFlashCardResponse oResp = new ObjectifyableFlashCardResponse(qResp);
 		ofy().save().entity(oResp).now();
 		ObjectifyableFlashCardResponse fetched = ofy().load().entity(oResp).now();
-		qResp = fetched.getFlashCardResponse();
-		return qResp;	
+		return fetched.getFlashCardResponse();	
 	}
 	
 	/**
@@ -46,11 +45,7 @@ public class FlashCardResponseDAO {
 			return null;
 		}
 		ObjectifyableFlashCardResponse oFlashCardResponse = ofy().load().type(ObjectifyableFlashCardResponse.class).id(fcRespId).now();
-		if (oFlashCardResponse != null) {
-			FlashCardResponse qResp = oFlashCardResponse.getFlashCardResponse();
-			return qResp;
-			}
-		return null;
+		return (oFlashCardResponse != null) ? oFlashCardResponse.getFlashCardResponse() : null;
 	}
 	
 	/**
@@ -65,11 +60,7 @@ public class FlashCardResponseDAO {
 		while (it.hasNext()) {
 			qResps.add(it.next().getFlashCardResponse());
 		}
-		if (qResps.size() == 0) {
-			return null;
-		} else {
-			return qResps;
-		}
+		return (qResps.size() == 0) ? null : qResps;
 	}
 	
 	/**
@@ -83,11 +74,7 @@ public class FlashCardResponseDAO {
 		while (it.hasNext()) {
 			qResps.add(it.next().getFlashCardResponse());
 		}
-		if (qResps.size() == 0) {
-			return null;
-		} else {
-			return qResps;
-		}
+		return (qResps.size() == 0) ? null : qResps;
 	}
 	
 	public List<FlashCardResponse> getAllFlashCardResponsesBefore(Date date) {
@@ -100,11 +87,7 @@ public class FlashCardResponseDAO {
 		while (it.hasNext()) {
 			qResps.add(it.next().getFlashCardResponse());
 		}
-		if (qResps.size() == 0) {
-			return null;
-		} else {
-			return qResps;
-		}
+		return (qResps.size() == 0) ? null : qResps;
 	}
 	
 	public List<FlashCardResponse> getAllFlashCardResponsesOn(Date date) {
@@ -117,11 +100,7 @@ public class FlashCardResponseDAO {
 		while (it.hasNext()) {
 			qResps.add(it.next().getFlashCardResponse());
 		}
-		if (qResps.size() == 0) {
-			return null;
-		} else {
-			return qResps;
-		}
+		return (qResps.size() == 0) ? null : qResps;
 	}
 	
 	public List<FlashCardResponse> getAllFlashCardResponsesAfter(Date date) {
@@ -134,11 +113,7 @@ public class FlashCardResponseDAO {
 		while (it.hasNext()) {
 			qResps.add(it.next().getFlashCardResponse());
 		}
-		if (qResps.size() == 0) {
-			return null;
-		} else {
-			return qResps;
-		}
+		return (qResps.size() == 0) ? null : qResps;
 	}
 	
 	/**

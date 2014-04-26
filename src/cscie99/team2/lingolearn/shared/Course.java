@@ -1,6 +1,3 @@
-/**
- * CSCIE99 TEAM 2
- */
 package cscie99.team2.lingolearn.shared;
 
 import java.io.Serializable;
@@ -10,10 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * @author YPolyanskyy
- * 
  * This class represents a study course created by users of the system.
- * 
  */
 public class Course implements Serializable {
 
@@ -52,8 +46,9 @@ public class Course implements Serializable {
 	
 	public void addStudent( User student ){
 		HashSet<User> studentSet = new HashSet<User>(this.students);
-		if( !studentSet.contains(student) ) 
+		if (!studentSet.contains(student)) { 
 			students.add(student);
+		}
 	}
 	
 	public void setName(String name) {
@@ -118,7 +113,5 @@ public class Course implements Serializable {
 
 	public void setStudents(List<User> students) {
 		this.students = students;
-	}
-	
-	
+	}	
 }

@@ -8,7 +8,6 @@ import com.googlecode.objectify.annotation.Index;
 import cscie99.team2.lingolearn.shared.Textbook;
 
 /**
- *
  * This class represents an Objectifyable version of a textbook a user has read.
  */
 @Embed

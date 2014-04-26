@@ -1,6 +1,5 @@
 package cscie99.team2.lingolearn.server.datastore;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,18 +47,17 @@ public class ObjectifyableDeck implements Serializable {
 		this.language = deck.getLangauge();
 		this.nativeLangauge = deck.getLangauge();
 		this.cards = new ArrayList<Ref<ObjectifyableCard>>();
-		for( Long cardId : this.cardIds ){
-			try{
-			Card card = deck.getCard(cardId);
-			ObjectifyableCard storableCard = new ObjectifyableCard(card);
-			Ref<ObjectifyableCard> cardRef = Ref.create(storableCard);
-			this.cards.add(cardRef);
-			}catch(CardNotFoundException cnf ){
+		for (Long cardId : this.cardIds) {
+			try {
+				Card card = deck.getCard(cardId);
+				ObjectifyableCard storableCard = new ObjectifyableCard(card);
+				Ref<ObjectifyableCard> cardRef = Ref.create(storableCard);
+				this.cards.add(cardRef);
+			} catch (CardNotFoundException cnf) {
 				continue;
 			}
 		}
 	}
-	
 	
 	/**
 	 * This method reconstructs real object from Objectifyable Proxy
@@ -85,6 +83,5 @@ public class ObjectifyableDeck implements Serializable {
 		}
 		return deck;
 	}
-	
 }
 

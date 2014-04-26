@@ -15,8 +15,6 @@ import cscie99.team2.lingolearn.shared.OutsideCourse;
 import cscie99.team2.lingolearn.shared.Textbook;
 import cscie99.team2.lingolearn.shared.User;
 
-
-
 @Entity(name="ObjectifyableUser")
 public class ObjectifyableUser implements Serializable {
 
@@ -92,6 +90,4 @@ public class ObjectifyableUser implements Serializable {
 		u.setUserRegistrationTime(this.userRegistrationTime);
 		return u;
 	}
-	
-	
 }

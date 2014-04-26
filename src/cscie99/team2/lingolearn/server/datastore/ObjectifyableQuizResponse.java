@@ -1,6 +1,3 @@
-/**
- * CSCIE99 TEAM 2
- */
 package cscie99.team2.lingolearn.server.datastore;
 
 import java.io.Serializable;
@@ -13,10 +10,7 @@ import com.googlecode.objectify.annotation.Unindex;
 
 import cscie99.team2.lingolearn.shared.QuizResponse;
 
-
 /**
- * @author YPolyanskyy
- * 
  * This class represents Proxy for QuizResponse
  */
 @Entity(name="ObjectifyableQuizResponse")

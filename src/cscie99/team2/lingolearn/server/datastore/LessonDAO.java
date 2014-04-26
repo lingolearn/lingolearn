@@ -32,8 +32,7 @@ public class LessonDAO {
 		ObjectifyableLesson oLesson = new ObjectifyableLesson(lesson); 
 		ofy().save().entity(oLesson).now();
 		ObjectifyableLesson fetched = ofy().load().entity(oLesson).now();
-		Lesson rlesson = fetched.getLesson();
-		return rlesson;
+		return fetched.getLesson();
 	}
 	
 	/**
@@ -46,11 +45,7 @@ public class LessonDAO {
 			return null;
 		}
 		ObjectifyableLesson oLesson = ofy().load().type(ObjectifyableLesson.class).id(sessId).now();
-		if (oLesson != null) {
-			Lesson lesson = oLesson.getLesson();
-			return lesson;
-		}
-		return null;
+		return (oLesson != null) ? oLesson.getLesson() : null;
 	}
 	
 	public List<Lesson> getAllLessonsByCourseId(Long courseId) {
@@ -60,11 +55,7 @@ public class LessonDAO {
 		while (it.hasNext()) {
 			lessons.add(it.next().getLesson());
 		}
-		if (lessons.size() == 0) {
-			return null;
-		} else {
-			return lessons;
-		}
+		return (lessons.size() == 0) ? null : lessons;
 	}
 	
 	
@@ -76,11 +67,7 @@ public class LessonDAO {
 		while (it.hasNext()) {
 			lessons.add(it.next().getLesson());
 		}
-		if (lessons.size() == 0) {
-			return null;
-		} else {
-			return lessons;
-		}
+		return (lessons.size() == 0) ? null : lessons;
 	}
 	
 	

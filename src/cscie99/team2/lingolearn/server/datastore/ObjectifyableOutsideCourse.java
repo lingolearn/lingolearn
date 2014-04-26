@@ -8,10 +8,8 @@ import com.googlecode.objectify.annotation.Index;
 import cscie99.team2.lingolearn.shared.OutsideCourse;
 
 /**
- *
  * This class represents an Objectifyable version of a course outside of the system that a user has taken.
  * This is required for biographical data.
- *
  */
 @Embed
 @Index

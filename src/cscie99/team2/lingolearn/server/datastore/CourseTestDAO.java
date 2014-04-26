@@ -32,8 +32,7 @@ public class CourseTestDAO {
 		ObjectifyableCourseTest oTest = new ObjectifyableCourseTest(test); 
 		ofy().save().entity(oTest).now();
 		ObjectifyableCourseTest fetched = ofy().load().entity(oTest).now();
-		CourseTest rtest = fetched.getTest();
-		return rtest;
+		return fetched.getTest();
 	}
 	
 	/**
@@ -46,11 +45,7 @@ public class CourseTestDAO {
 			return null;
 		}
 		ObjectifyableCourseTest oTest = ofy().load().type(ObjectifyableCourseTest.class).id(sessId).now();
-		if (oTest != null) {
-			CourseTest test = oTest.getTest();
-			return test;
-		}
-		return null;
+		return (oTest != null) ? oTest.getTest() : null;
 	}
 	
 	public List<CourseTest> getAllTestsByCourseId(Long courseId) {
@@ -60,11 +55,7 @@ public class CourseTestDAO {
 		while (it.hasNext()) {
 			tests.add(it.next().getTest());
 		}
-		if (tests.size() == 0) {
-			return null;
-		} else {
-			return tests;
-		}
+		return (tests.size() == 0) ? null : tests;
 	}
 	
 	
@@ -76,11 +67,7 @@ public class CourseTestDAO {
 		while (it.hasNext()) {
 			tests.add(it.next().getTest());
 		}
-		if (tests.size() == 0) {
-			return null;
-		} else {
-			return tests;
-		}
+		return (tests.size() == 0) ? null : tests;
 	}
 	
 	

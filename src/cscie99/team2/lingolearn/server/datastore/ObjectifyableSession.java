@@ -1,6 +1,3 @@
-/**
- * CSCIE99 TEAM 2
- */
 package cscie99.team2.lingolearn.server.datastore;
 
 import java.io.Serializable;
@@ -11,8 +8,6 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Load;
 
 /**
- * @author YPolyanskyy
- * 
  *  This class represents Proxy for Session
  */
 public class ObjectifyableSession implements Serializable {
@@ -23,5 +18,4 @@ public class ObjectifyableSession implements Serializable {
 	@Load Ref<ObjectifyableDeck> deck;	// Deck associated with this session
 	
 	public ObjectifyableSession() {};
-	
 }

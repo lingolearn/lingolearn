@@ -3,11 +3,7 @@ package cscie99.team2.lingolearn.shared;
 import java.io.Serializable;
 
 /**
- * 
- * @author nichols
- *
  * This class represents the registration that a student has made for a course.
- *
  */
 public class CourseRegistration implements Serializable{
 
@@ -48,5 +44,4 @@ public class CourseRegistration implements Serializable{
 	public void setCourseId(Long courseId) {
 		this.courseId = courseId;
 	};
-	
 }

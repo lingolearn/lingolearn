@@ -9,9 +9,7 @@ import java.util.List;
 import cscie99.team2.lingolearn.server.datastore.ObjectifyableQuiz;
 import cscie99.team2.lingolearn.shared.Quiz;
 
-
 public class QuizDAO {
-
 	/**
 	 * SingletonHolder is loaded on the first execution of Singleton.getInstance() 
 	 * or the first access to SingletonHolder.INSTANCE, not before.
@@ -33,8 +31,7 @@ public class QuizDAO {
 		ObjectifyableQuiz oQuiz = new ObjectifyableQuiz(quiz); 
 		ofy().save().entity(oQuiz).now();
 		ObjectifyableQuiz fetched = ofy().load().entity(oQuiz).now();
-		Quiz rquiz = fetched.getQuiz();
-		return rquiz;
+		return fetched.getQuiz();
 	}
 	
 	/**
@@ -47,11 +44,7 @@ public class QuizDAO {
 			return null;
 		}
 		ObjectifyableQuiz oQuiz = ofy().load().type(ObjectifyableQuiz.class).id(sessId).now();
-		if (oQuiz != null) {
-			Quiz quiz = oQuiz.getQuiz();
-			return quiz;
-		}
-		return null;
+		return (oQuiz != null) ? oQuiz.getQuiz() : null;
 	}
 	
 	public List<Quiz> getAllQuizsByCourseId(Long courseId) {
@@ -61,11 +54,7 @@ public class QuizDAO {
 		while (it.hasNext()) {
 			quizes.add(it.next().getQuiz());
 		}
-		if (quizes.size() == 0) {
-			return null;
-		} else {
-			return quizes;
-		}
+		return (quizes.size() == 0) ? null : quizes;
 	}
 	
 	
@@ -77,11 +66,7 @@ public class QuizDAO {
 		while (it.hasNext()) {
 			quizes.add(it.next().getQuiz());
 		}
-		if (quizes.size() == 0) {
-			return null;
-		} else {
-			return quizes;
-		}
+		return (quizes.size() == 0) ? null : quizes;
 	}
 	
 	

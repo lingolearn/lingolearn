@@ -10,7 +10,6 @@ import java.util.List;
 import cscie99.team2.lingolearn.shared.QuizResponse;
 
 public class QuizResponseDAO {
-
 	/**
 	 * SingletonHolder is loaded on the first execution of Singleton.getInstance() 
 	 * or the first access to SingletonHolder.INSTANCE, not before.
@@ -32,8 +31,7 @@ public class QuizResponseDAO {
 		ObjectifyableQuizResponse oQResp = new ObjectifyableQuizResponse(qResp);
 		ofy().save().entity(oQResp).now();
 		ObjectifyableQuizResponse fetched = ofy().load().entity(oQResp).now();
-		qResp = fetched.getQuizResponse();
-		return qResp;	
+		return fetched.getQuizResponse();	
 	}
 	
 	/**
@@ -46,11 +44,7 @@ public class QuizResponseDAO {
 			return null;
 		}
 		ObjectifyableQuizResponse oQuizResponse = ofy().load().type(ObjectifyableQuizResponse.class).id(qRespId).now();
-		if (oQuizResponse != null) {
-			QuizResponse qResp = oQuizResponse.getQuizResponse();
-			return qResp;
-			}
-		return null;
+		return (oQuizResponse != null) ? oQuizResponse.getQuizResponse() : null;
 	}
 	
 	/**
@@ -65,11 +59,7 @@ public class QuizResponseDAO {
 		while (it.hasNext()) {
 			qResps.add(it.next().getQuizResponse());
 		}
-		if (qResps.size() == 0) {
-			return null;
-		} else {
-			return qResps;
-		}
+		return (qResps.size() == 0) ? null : qResps;
 	}
 		
 	
@@ -84,11 +74,7 @@ public class QuizResponseDAO {
 		while (it.hasNext()) {
 			qResps.add(it.next().getQuizResponse());
 		}
-		if (qResps.size() == 0) {
-			return null;
-		} else {
-			return qResps;
-		}
+		return (qResps.size() == 0) ? null : qResps;
 	}
 	
 	public List<QuizResponse> getAllQuizResponsesBefore(Date date) {
@@ -98,11 +84,7 @@ public class QuizResponseDAO {
 		while (it.hasNext()) {
 			qResps.add(it.next().getQuizResponse());
 		}
-		if (qResps.size() == 0) {
-			return null;
-		} else {
-			return qResps;
-		}
+		return (qResps.size() == 0) ? null : qResps;
 	}
 	
 	public List<QuizResponse> getAllQuizResponsesOn(Date date) {
@@ -112,11 +94,7 @@ public class QuizResponseDAO {
 		while (it.hasNext()) {
 			qResps.add(it.next().getQuizResponse());
 		}
-		if (qResps.size() == 0) {
-			return null;
-		} else {
-			return qResps;
-		}
+		return (qResps.size() == 0) ? null : qResps;
 	}
 	
 	public List<QuizResponse> getAllQuizResponsesAfter(Date date) {
@@ -126,11 +104,7 @@ public class QuizResponseDAO {
 		while (it.hasNext()) {
 			qResps.add(it.next().getQuizResponse());
 		}
-		if (qResps.size() == 0) {
-			return null;
-		} else {
-			return qResps;
-		}
+		return (qResps.size() == 0) ? null : qResps;
 	}
 	
 	/**
