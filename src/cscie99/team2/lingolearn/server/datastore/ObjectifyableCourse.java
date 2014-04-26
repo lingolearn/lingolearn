@@ -79,7 +79,6 @@ public class ObjectifyableCourse implements Serializable {
 		ObjectifyableUser storedInstructor = this.instructor.get();
 		User instructor = storedInstructor.getUser();
 		c.setInstructor(instructor);
-		//c.setInstructor(this.instructor.get().getUser());
 		
 		for( Ref<ObjectifyableUser> studentRef : this.students ){
 				ObjectifyableUser storedStudent = studentRef.get();

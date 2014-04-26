@@ -1,6 +1,3 @@
-/**
- * CSCIE99 TEAM 2
- */
 package cscie99.team2.lingolearn.server.datastore;
 
 import static cscie99.team2.lingolearn.server.datastore.OfyService.ofy;
@@ -16,8 +13,6 @@ import cscie99.team2.lingolearn.shared.Quiz;
 
 
 /**
- * @author YPolyanskyy
- *
  * This class represents Proxy for Quiz
  */
 @Entity (name="ObjectifyableQuiz")
@@ -38,13 +33,13 @@ public class ObjectifyableQuiz extends ObjectifyableSession implements Serializa
 		this.sessId = q.getSessionId();
 		this.courseId = q.getCourseId();
 		this.mode = q.getMode();
+		this.deck = null;
+		
 		Deck deck = q.getDeck();
 		if (deck != null) { 
 			ObjectifyableDeck oDeck = new ObjectifyableDeck(deck);
 			ofy().save().entity(oDeck).now();
 			this.deck = Ref.create(oDeck);
-		} else {
-			this.deck = null;
 		}
 	}
 

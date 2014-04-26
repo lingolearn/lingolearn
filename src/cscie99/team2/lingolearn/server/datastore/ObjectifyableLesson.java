@@ -1,6 +1,3 @@
-/**
- * CSCIE99 TEAM 2
- */
 package cscie99.team2.lingolearn.server.datastore;
 
 import static cscie99.team2.lingolearn.server.datastore.OfyService.ofy;
@@ -14,11 +11,7 @@ import com.googlecode.objectify.annotation.Index;
 import cscie99.team2.lingolearn.shared.Deck;
 import cscie99.team2.lingolearn.shared.Lesson;
 
-
-
 /**
- * @author YPolyanskyy
- *
  * This class represents Proxy for Lesson
  */
 @Entity(name="ObjectifyableLesson")
@@ -36,13 +29,13 @@ public class ObjectifyableLesson extends ObjectifyableSession implements Seriali
 	public ObjectifyableLesson (Lesson l) {
 		this.sessId = l.getSessionId();
 		this.courseId = l.getCourseId();
+		this.deck = null;
+		
 		Deck deck = l.getDeck();
 		if (deck != null) { 
 			ObjectifyableDeck oDeck = new ObjectifyableDeck(deck);
 			ofy().save().entity(oDeck).now();
 			this.deck = Ref.create(oDeck);
-		} else {
-			this.deck = null;
 		}
 	}
 

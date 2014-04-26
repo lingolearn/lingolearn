@@ -1,6 +1,3 @@
-/**
- * CSCIE99 TEAM 2
- */
 package cscie99.team2.lingolearn.server.datastore;
 
 import java.io.Serializable;
@@ -14,10 +11,7 @@ import com.googlecode.objectify.annotation.Unindex;
 import cscie99.team2.lingolearn.shared.Assessment;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
 
-
 /**
- * @author YPolyanskyy
- * 
  * This class represents Proxy for FlashCardResponse
  */
 @Entity(name="ObjectifyableFlashCardResponse")
@@ -31,7 +25,6 @@ public class ObjectifyableFlashCardResponse implements Serializable {
 	private Long 	sessionId;				// Session id / Assignment Id
 	private Long	cardId;					// Id of the card, shown to the user
 	private String	gplusId,				// The user's google ID	
-
 					confuserType;			// The type of confuser that was used
 	@Unindex private int sessionCardNo;		// The nth time the user has seen that card during the session
 	@Unindex private int responseNo;		// The nth time the user has guessed during that card viewing

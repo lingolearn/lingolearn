@@ -1,8 +1,4 @@
-/**
- * CSCIE99 TEAM 2
- */
 package cscie99.team2.lingolearn.server.datastore;
-
 
 import java.io.Serializable;
 
@@ -13,12 +9,6 @@ import com.googlecode.objectify.annotation.Serialize;
 import cscie99.team2.lingolearn.shared.Image;
 
 /**
- * CSCIE99 TEAM 2
- */
-
-/**
- * @author YPolyanskyy
- *
  * This class represents Image, corresponding to the individual card.
  */
 @Entity(name="ObjectifyableImage")
@@ -42,5 +32,4 @@ public class ObjectifyableImage implements Serializable {
 		img.setImageUri(this.imageUri);
 		return img;
 	}
-	
 }

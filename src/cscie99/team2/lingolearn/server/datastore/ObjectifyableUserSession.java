@@ -1,6 +1,3 @@
-/**
- * CSCIE99 TEAM 2
- */
 package cscie99.team2.lingolearn.server.datastore;
 
 import java.io.Serializable;
@@ -38,7 +35,7 @@ public class ObjectifyableUserSession implements Serializable {
 		this.gplusId = uSession.getGplusId();
 		this.sessStart = uSession.getSessStart();
 		this.sessEnd = uSession.getSessEnd();
-	};
+	}
 	
 	/**
 	 * This method reconstructs real object from Objectifyable Proxy

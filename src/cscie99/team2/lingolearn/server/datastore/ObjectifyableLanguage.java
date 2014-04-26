@@ -1,6 +1,3 @@
-/**
- * CSCIE99 TEAM 2
- */
 package cscie99.team2.lingolearn.server.datastore;
 
 import java.io.Serializable;
@@ -43,5 +40,4 @@ public class ObjectifyableLanguage implements Serializable {
 		lang.setLangName(this.langName);
 		return lang;
 	}
-	
 }

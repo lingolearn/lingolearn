@@ -31,8 +31,7 @@ public class UserSessionDAO {
 		ObjectifyableUserSession oUSess = new ObjectifyableUserSession(uSess);
 		ofy().save().entity(oUSess).now();
 		ObjectifyableUserSession fetched = ofy().load().entity(oUSess).now();
-		uSess = fetched.getUserSession();
-		return uSess;	
+		return fetched.getUserSession();	
 	}
 	
 	/**
@@ -45,11 +44,7 @@ public class UserSessionDAO {
 			return null;
 		}
 		ObjectifyableUserSession oUserSession = ofy().load().type(ObjectifyableUserSession.class).id(userSessionId).now();
-		if (oUserSession != null) {
-			UserSession uSess = oUserSession.getUserSession();
-			return uSess;
-			}
-		return null;
+		return (oUserSession != null) ? oUserSession.getUserSession() : null;
 	}
 	
 	/**
@@ -64,11 +59,7 @@ public class UserSessionDAO {
 		while (it.hasNext()) {
 			uSesss.add(it.next().getUserSession());
 		}
-		if (uSesss.size() == 0) {
-			return null;
-		} else {
-			return uSesss;
-		}
+		return (uSesss.size() == 0) ? null : uSesss;
 	}
 	
 	/**
@@ -83,11 +74,7 @@ public class UserSessionDAO {
 		while (it.hasNext()) {
 			uSesss.add(it.next().getUserSession());
 		}
-		if (uSesss.size() == 0) {
-			return null;
-		} else {
-			return uSesss;
-		}
+		return (uSesss.size() == 0) ? null : uSesss;
 	}
 	
 	/**
@@ -101,11 +88,7 @@ public class UserSessionDAO {
 		while (it.hasNext()) {
 			uSesss.add(it.next().getUserSession());
 		}
-		if (uSesss.size() == 0) {
-			return null;
-		} else {
-			return uSesss;
-		}
+		return (uSesss.size() == 0) ? null : uSesss;
 	}
 	
 	/**
