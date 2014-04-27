@@ -50,4 +50,11 @@ public class BasicRandomization extends SpacedRepetition {
 		shuffledDeck = deck.getCardIds();
 		Collections.shuffle(shuffledDeck);
 	}
+
+	/**
+	 * Overridden method, since basic randomization does not need this 
+	 * information, it is silently dropped.
+	 */
+	@Override
+	public void SetResult(Card card, boolean correct) { }
 }

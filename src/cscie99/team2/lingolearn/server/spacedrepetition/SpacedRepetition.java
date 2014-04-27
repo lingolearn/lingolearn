@@ -32,6 +32,15 @@ public abstract class SpacedRepetition {
 	}
 	
 	/**
+	 * Set the result supplied by the user for the card indicated.
+	 * 
+	 * @param card The card to set the response for.
+	 * @param correct True if the user was correct or knew the card, false 
+	 * otherwise.
+	 */
+	public abstract void SetResult(Card card, boolean correct);
+	
+	/**
 	 * Shuffle the deck of cards. 
 	 */
 	public abstract void ShuffleDeck() throws SpacedRepetitionException;
