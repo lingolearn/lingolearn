@@ -5,7 +5,6 @@ import java.util.Date;
 
 import cscie99.team2.lingolearn.client.AnalyticsServiceAsync;
 import cscie99.team2.lingolearn.client.CourseServiceAsync;
-import cscie99.team2.lingolearn.client.CurrentUser;
 import cscie99.team2.lingolearn.client.Notice;
 import cscie99.team2.lingolearn.client.view.ResearchView;
 import cscie99.team2.lingolearn.shared.Course;
@@ -37,10 +36,6 @@ public class ResearchPresenter implements Presenter {
     this.allCsvDataUri = "";
     this.flashCardCsvDataUri = "";
     this.quizCsvDataUri = "";
-    
-    display.disableSaveAllButton();
-    display.disableSaveFlashCardResponsesButton();
-    display.disableSaveQuizResponsesButton();
   }
   
   public void bind() {
@@ -120,7 +115,7 @@ public class ResearchPresenter implements Presenter {
 			public void onSuccess(String csvdata) {
 				allCsvDataUri = "data:text/csv;charset=utf-8,";
 				allCsvDataUri += csvdata;
-				display.enableSaveAllButton();
+				display.enableSaveAll();
 			}
 
 			public void onFailure(Throwable caught) {
@@ -140,12 +135,12 @@ public class ResearchPresenter implements Presenter {
 	public void downloadFlashCardResponseData(Long courseId) {
 		Date startDate = display.getStartDate();
 		Date endDate = display.getEndDate();
-		display.disableSaveFlashCardResponsesButton();
+		display.disableSaveFlashCardResponses();
 		analyticsService.generateFlashCardResponseDownload(courseId, startDate, endDate, new AsyncCallback<String>() {
 			public void onSuccess(String csvdata) {
 				flashCardCsvDataUri = "data:text/csv;charset=utf-8,";
 				flashCardCsvDataUri += csvdata;
-				display.enableSaveFlashCardResponsesButton();
+				display.enableSaveFlashCardResponses();
 			}
 
 			public void onFailure(Throwable caught) {
@@ -153,7 +148,6 @@ public class ResearchPresenter implements Presenter {
 			}
 		});
 	}
-	
 
 	private void saveFlashCardResponsesData() {
 		if (!flashCardCsvDataUri.equals("")) {
@@ -162,17 +156,15 @@ public class ResearchPresenter implements Presenter {
 		}
 	}
 	
-	
-	
 	public void downloadQuizResponseData(Long courseId) {
 		Date startDate = display.getStartDate();
 		Date endDate = display.getEndDate();
-		display.disableSaveQuizResponsesButton();
+		display.disableSaveQuizResponses();
 		analyticsService.generateQuizResponseDownload(courseId, startDate, endDate, new AsyncCallback<String>() {
 			public void onSuccess(String csvdata) {
 				quizCsvDataUri = "data:text/csv;charset=utf-8,";
 				quizCsvDataUri += csvdata;
-				display.enableSaveFlashCardResponsesButton();
+				display.enableSaveFlashCardResponses();
 			}
 
 			public void onFailure(Throwable caught) {
@@ -180,7 +172,6 @@ public class ResearchPresenter implements Presenter {
 			}
 		});
 	}
-	
 
 	private void saveQuizResponsesData() {
 		if (!quizCsvDataUri.equals("")) {
@@ -188,7 +179,4 @@ public class ResearchPresenter implements Presenter {
 			return;
 		}
 	}
-	
-	
-
 }

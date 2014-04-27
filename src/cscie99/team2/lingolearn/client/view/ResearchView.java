@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
-import com.google.gwt.user.datepicker.client.DatePicker;
 
 import cscie99.team2.lingolearn.shared.Course;
 
@@ -45,15 +44,10 @@ public class ResearchView extends Composite {
 	  return saveAllButton;
   }
   
-  public void enableSaveAllButton() {
-	  saveAllButton.setEnabled(true);
+  public void enableSaveAll() {
+	  downloadAllButton.setEnabled(false);
+	  saveAllButton.addStyleName("fadeInLeft");
   }
-  
-  public void disableSaveAllButton() {
-	  saveAllButton.setEnabled(false);
-  }
-  
-
   
   public HasClickHandlers getDownloadFlashCardResponsesButton() {
 	  return downloadFlashCardResponsesButton;
@@ -63,15 +57,15 @@ public class ResearchView extends Composite {
 	  return saveFlashCardResponsesButton;
   }
   
-  public void enableSaveFlashCardResponsesButton() {
-	  saveFlashCardResponsesButton.setEnabled(true);
-  }
+  public void enableSaveFlashCardResponses() {
+	  downloadFlashCardResponsesButton.setEnabled(false);
+	  saveFlashCardResponsesButton.addStyleName("fadeInLeft");
+  }  
   
-  public void disableSaveFlashCardResponsesButton() {
-	  saveFlashCardResponsesButton.setEnabled(false);
+  public void disableSaveFlashCardResponses() {
+	  downloadFlashCardResponsesButton.setEnabled(true);
+	  saveFlashCardResponsesButton.removeStyleName("fadeInLeft");
   }
-  
-
 
   public HasClickHandlers getDownloadQuizResponsesButton() {
 	  return downloadQuizResponsesButton;
@@ -81,16 +75,15 @@ public class ResearchView extends Composite {
 	  return saveQuizResponsesButton;
   }
   
-  public void enableSaveQuizResponsesButton() {
-	  saveQuizResponsesButton.setEnabled(true);
+  public void enableSaveQuizResponses() {
+	  downloadQuizResponsesButton.setEnabled(false);
+	  saveQuizResponsesButton.addStyleName("fadeInLeft");
+  }  
+  
+  public void disableSaveQuizResponses() {
+	  downloadQuizResponsesButton.setEnabled(true);
+	  saveQuizResponsesButton.removeStyleName("fadeInLeft");
   }
-  
-  public void disableSaveQuizResponsesButton() {
-	  saveQuizResponsesButton.setEnabled(false);
-  }
-  
-  
-  
   
   public Course getSelectedCourse() {
 	  int idx = courseList.getSelectedIndex();
