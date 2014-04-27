@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -36,8 +38,19 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 	private CourseRegistrationDAO courseRegistrationAccessor;
 	private DeckDAO deckAccessor;
 	
-	public CourseServiceImpl() {
-		new MockDataGenerator().generateMockData();
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		
+		//Ensure some standard amount of data exists. My (jarrod's) understanding is that 
+		// the init method here will be run once when the web app starts. The data generator
+		// then must decide whether to add data or not, based upon whether the data 
+		// already exists in the data store. The servlet context is used to help provide 
+		// the location of the resources (tsv files) within the /war/ folder.
+		// Example was taken from:
+		//    http://stackoverflow.com/questions/4340653/file-path-to-resource-in-our-war-web-inf-folder
+		new MockDataGenerator(config.getServletContext());
+		
 		courseAccessor = CourseDAO.getInstance();
 		lessonAccessor = LessonDAO.getInstance();
 		quizAccessor = QuizDAO.getInstance();
@@ -100,8 +113,6 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 
 	@Override
 	public ArrayList<Session> getSessionsForCourse(Long courseId) {
-		// TODO TEMPORARY MOCK
-		new MockDataGenerator().generateMockData();
 		
 		ArrayList<Session> sAll = new ArrayList<Session>();
 		

@@ -82,7 +82,8 @@ public class CardFileLoader {
 					continue;
 				}
 				// Parse the tokens from the line that was read
-				String[] tokens = data.trim().split(delimiter);
+				//String[] tokens = data.trim().split(delimiter);
+				String[] tokens = data.split(delimiter);
 				if (tokens.length != NUM_FIELDS) {
 					throw new FileLoadException("Error parsing the contents of the file.", lineNumber);
 				}

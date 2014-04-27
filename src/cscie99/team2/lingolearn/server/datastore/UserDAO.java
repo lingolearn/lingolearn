@@ -32,13 +32,24 @@ public class UserDAO {
 	}
 	
 	public User getCourseUser() {
-		User courseUser = getUserByGmail(COURSE_GMAIL);
-		if (courseUser == null) {
+		User courseUser;
+		if (hasCourseUserBeenAdded()) {
+			courseUser = getUserByGmail(COURSE_GMAIL);
+		} else {
 			courseUser = new User(COURSE_GPLUS, COURSE_GMAIL, COURSE_FNAME,
 					COURSE_LNAME, Gender.Male, COURSE_LANG);
 			courseUser = this.storeUser(courseUser);
 		}
 		return courseUser;
+	}
+	
+	public boolean hasCourseUserBeenAdded() {
+		boolean beenAdded = false; 
+		User courseUser = getUserByGmail(COURSE_GMAIL);
+		if (courseUser != null) {
+			beenAdded = true;
+		}
+		return beenAdded;
 	}
 	
 	/**
