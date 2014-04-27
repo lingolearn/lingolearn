@@ -49,12 +49,6 @@ public class HomePresenter implements Presenter {
   
   public void bind() {
     
-	display.getSampleCardButton().addClickHandler(new ClickHandler() {   
-      public void onClick(ClickEvent event) {
-        eventBus.fireEvent(new ViewCardEvent());
-      }
-    });
-    
   }
   
   public void go(final HasWidgets container) {

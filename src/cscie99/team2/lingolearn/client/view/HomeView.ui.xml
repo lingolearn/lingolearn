@@ -33,12 +33,6 @@
       </div>
     </div>
 
-    <g:Button ui:field='sampleCardButton' styleName="btn btn-primary">View sample card</g:Button>
-    
-    <div>
-    	<a href='#research'>Research</a>
-    </div>
-
   </g:HTMLPanel>
 
 </ui:UiBinder>

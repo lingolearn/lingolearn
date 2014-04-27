@@ -21,18 +21,10 @@ public class HomeView extends Composite {
 
   @UiField VerticalPanel coursesAsStudent;
   @UiField VerticalPanel coursesAsInstructor;
-  @UiField Button sampleCardButton;
   @UiField Element userName;
   
   public HomeView() {
 	  initWidget(binder.createAndBindUi(this));
-	  
-	  //Hide sample card view
-	  sampleCardButton.setVisible(false);
-  }
-  
-  public HasClickHandlers getSampleCardButton() {
-	  return sampleCardButton;
   }
 
   public HasClickHandlers addCourseUserIsInstructing(Course course) {
