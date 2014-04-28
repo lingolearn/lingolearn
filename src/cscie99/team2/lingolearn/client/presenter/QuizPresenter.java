@@ -139,7 +139,7 @@ public class QuizPresenter implements Presenter {
 				for (int i=0;i<wrongAnswerList.size();i++) {
 					currentWrongAnswers += wrongAnswerList.get(i);
 					if (i != (wrongAnswerList.size()-1)) {
-						currentWrongAnswers += ",";
+						currentWrongAnswers += ";";
 					}
 				}
 				
@@ -161,7 +161,7 @@ public class QuizPresenter implements Presenter {
 		display.addAnswer(otherCards.get(i).getDisplayString());
 		currentWrongAnswers += otherCards.get(i).getDisplayString();
 		if (i != (otherCards.size()-1)) {
-			currentWrongAnswers += ",";
+			currentWrongAnswers += ";";
 		}
 	}
   }
