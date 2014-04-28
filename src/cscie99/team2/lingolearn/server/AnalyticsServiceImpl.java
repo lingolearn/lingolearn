@@ -327,10 +327,10 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 			sb.append(lAccessor.getLessonById(fcr.getSessionId()).getCourseId().toString() + ",");
 			sb.append(fcr.getAnswerTimeRec().toString() + ",");
 			sb.append(fcr.getSeq() + ",");
-			sb.append(cAccessor.getCardById(fcr.getCardId()).getKanji() + ",");
-			sb.append(cAccessor.getCardById(fcr.getCardId()).getHiragana() + ",");
-			sb.append(cAccessor.getCardById(fcr.getCardId()).getKatakana() + ",");
-			sb.append(cAccessor.getCardById(fcr.getCardId()).getTranslation() + ",");
+			sb.append(cAccessor.getCardById(fcr.getCardId()).getKanji().replace(",",";") + ",");
+			sb.append(cAccessor.getCardById(fcr.getCardId()).getHiragana().replace(",",";") + ",");
+			sb.append(cAccessor.getCardById(fcr.getCardId()).getKatakana().replace(",",";") + ",");
+			sb.append(cAccessor.getCardById(fcr.getCardId()).getTranslation().replace(",",";") + ",");
 			sb.append(fcr.getAssessment().toString() + "\n");						
 		}
 		return sb.toString();		
@@ -399,10 +399,10 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 			sb.append(qAccessor.getQuizById(qr.getSessionId()).getCourseId().toString() + ",");
 			sb.append(qr.getAnswerTimeRec().toString() + ",");
 			sb.append(qr.getSeq() + ",");
-			sb.append(cAccessor.getCardById(qr.getCardId()).getKanji() + ",");
-			sb.append(cAccessor.getCardById(qr.getCardId()).getHiragana() + ",");
-			sb.append(cAccessor.getCardById(qr.getCardId()).getKatakana() + ",");
-			sb.append(cAccessor.getCardById(qr.getCardId()).getTranslation() + ",");
+			sb.append(cAccessor.getCardById(qr.getCardId()).getKanji().replace(",",";") + ",");
+			sb.append(cAccessor.getCardById(qr.getCardId()).getHiragana().replace(",",";") + ",");
+			sb.append(cAccessor.getCardById(qr.getCardId()).getKatakana().replace(",",";") + ",");
+			sb.append(cAccessor.getCardById(qr.getCardId()).getTranslation().replace(",",";") + ",");
 			sb.append(qr.getConfuserType() + ",");
 			sb.append(qr.getNumConfusersUsed() + ",");
 			sb.append(qr.getWrongAnswers() + ",");
