@@ -81,7 +81,9 @@ public class CourseView extends Composite {
 	  }	  
   }
   
-  public void addStatisticsRow(ArrayList<String> data) {
+  public void addStatisticsRow(String[] data) {
+	  assert data.length == 5;
+	  
 	  TableRowElement row = analytics.insertRow(-1);
 	  
 	  for (String element : data)

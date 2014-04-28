@@ -87,35 +87,33 @@ public class CoursePresenter implements Presenter {
 			  float definitelyKnewIt = 0.0f;
 
 			  for (Entry<String, Map<String, Float>> entry : data.entrySet()) {
-				    String studentName = entry.getKey();
 				    Map<String, Float> studentData = entry.getValue();
+				    
 			    	noStudents++;
-			    	noClue += entry.getValue().get("noClue");
+			    	noClue += studentData.get("noClue");
 			    	sortaKnewIt += entry.getValue().get("sortaKnewIt");
-			    	definitelyKnewIt += entry.getValue().get("definitelyKnewIt");
-			    	ArrayList<String> row = new ArrayList<String>();
-			    	row.add(studentName);
-				    for (Entry<String, Float> statEntry : studentData.entrySet()) {
-				    	String statName = statEntry.getKey();
-				    	Double statValue = (double)Math.round(statEntry.getValue() * 1000) / 10;
-				    	
-				    	if (statName.equals("noClue"))
-				    		row.add(statValue.toString() + "%");
-				    	if (statName.equals("sortaKnewIt"))
-				    		row.add(statValue.toString() + "%");
-				    	if (statName.equals("definitelyKnewIt"))
-				    		row.add(statValue.toString() + "%");
-				    	if (statName.equals("recallRate"))
-				    		row.add(statValue.toString() + "%");
-				    }
-				    display.addStatisticsRow(row);
+			    	definitelyKnewIt += studentData.get("definitelyKnewIt");
+					
+				    String[] row = new String[5];
+					row[0] = entry.getKey();
+					row[1] = percentage_format(studentData.get("noClue"));
+					row[2] = percentage_format(studentData.get("sortaKnewIt"));
+					row[3] = percentage_format(studentData.get("definitelyKnewIt"));
+					row[4] = percentage_format(studentData.get("recallRate"));
+					
+					display.addStatisticsRow(row);
 			  }
+			  
 			  noClue = noClue/(float)noStudents;
 			  sortaKnewIt = sortaKnewIt/(float)noStudents;
 			  definitelyKnewIt = definitelyKnewIt/(float)noStudents;
 			  display.setVisualizations(noClue, sortaKnewIt, definitelyKnewIt);
 			  
 	      }
+		  
+		  private String percentage_format(Float value) {
+			  return (double)Math.round(value * 1000) / 10 + "%";
+		  }
 	      
 	      public void onFailure(Throwable caught) {
 	         //Window.alert("Error fetching course assignments");
