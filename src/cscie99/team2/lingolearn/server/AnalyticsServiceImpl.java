@@ -405,7 +405,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 			sb.append(cAccessor.getCardById(qr.getCardId()).getTranslation().replace(",",";") + ",");
 			sb.append(qr.getConfuserType() + ",");
 			sb.append(qr.getNumConfusersUsed() + ",");
-			sb.append(qr.getWrongAnswers() + ",");
+			sb.append(qr.getWrongAnswers().replace(",",";") + ",");
 			sb.append(String.valueOf(qr.isCorrect()) + "\n");
 		}
 		
