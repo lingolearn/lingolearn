@@ -164,7 +164,7 @@ public class ResearchPresenter implements Presenter {
 			public void onSuccess(String csvdata) {
 				quizCsvDataUri = "data:text/csv;charset=utf-8,";
 				quizCsvDataUri += csvdata;
-				display.enableSaveFlashCardResponses();
+				display.enableSaveQuizResponses();
 			}
 
 			public void onFailure(Throwable caught) {
