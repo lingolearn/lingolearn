@@ -280,7 +280,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		
 		if (courseId != null) {
 			for (FlashCardResponse fcr: fcResps) {
-				if (lAccessor.getLessonById(fcr.getSessionId()).getCourseId() == courseId) {
+				if (lAccessor.getLessonById(fcr.getSessionId()).getCourseId().equals(courseId)) {
 					queriedList1.add(fcr);
 				}
 			}
@@ -352,7 +352,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		
 		if (courseId != null) {
 			for (QuizResponse qr: qResps) {
-				if (qAccessor.getQuizById(qr.getSessionId()).getCourseId() == courseId) {
+				if (qAccessor.getQuizById(qr.getSessionId()).getCourseId().equals(courseId)) {
 					queriedList1.add(qr);
 				}
 			}
