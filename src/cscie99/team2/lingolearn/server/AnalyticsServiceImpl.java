@@ -396,7 +396,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 			sb.append(bioData.get("languages") + ",");
 			sb.append(bioData.get("textbooks") + ",");
 			sb.append(bioData.get("outsideCourses") + ",");
-			sb.append(lAccessor.getLessonById(qr.getSessionId()).getCourseId().toString() + ",");
+			sb.append(qAccessor.getQuizById(qr.getSessionId()).getCourseId().toString() + ",");
 			sb.append(qr.getAnswerTimeRec().toString() + ",");
 			sb.append(qr.getSeq() + ",");
 			sb.append(cAccessor.getCardById(qr.getCardId()).getKanji() + ",");
