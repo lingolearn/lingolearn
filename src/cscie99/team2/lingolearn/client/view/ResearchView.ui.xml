@@ -8,7 +8,7 @@
     <h2>Research</h2>
 
 	<div class='panel panel-default'>
-  		<div class='panel-heading'>Raw data</div>  	
+  		<div class='panel-heading'>Student Summary Metrics</div>  	
   		<div class='panel-body'>
   		    <g:Button ui:field='downloadAllButton' styleName='btn btn-primary'>Prepare download</g:Button>
   		    <g:Button ui:field='saveAllButton' styleName='btn btn-primary transparent animated'>Save</g:Button>
