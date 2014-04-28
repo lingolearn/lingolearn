@@ -41,6 +41,13 @@
         </table>
       </div>
     </div>
+    
+    <div class='panel panel-default'>
+      <div class='panel-heading'>Flash Card Assessments </div>
+      <div class='panel-body'>
+       	<g:VerticalPanel ui:field='flashCardAssessments'></g:VerticalPanel>   
+      </div>
+    </div>
 
   </g:HTMLPanel>
 

@@ -14,6 +14,17 @@ import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import com.google.gwt.core.client.JsArray;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.visualization.client.AbstractDataTable;
+import com.google.gwt.visualization.client.VisualizationUtils;
+import com.google.gwt.visualization.client.DataTable;
+import com.google.gwt.visualization.client.Selection;
+import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
+import com.google.gwt.visualization.client.events.SelectHandler;
+import com.google.gwt.visualization.client.visualizations.corechart.*;
+
+
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.Session;
@@ -29,6 +40,7 @@ public class CourseView extends Composite {
   @UiField VerticalPanel assignments;
   @UiField Element addAssignmentLink;
   @UiField TableElement analytics;
+  @UiField VerticalPanel flashCardAssessments;
   
   public CourseView() {
 	  initWidget(binder.createAndBindUi(this));
@@ -76,6 +88,91 @@ public class CourseView extends Composite {
 		  row.insertCell(-1).setInnerText(element);
 	  
   }
+  
+  public void setVisualizations(final float noClue, final float sortaKnewIt, final float definitelyKnewIt) {
+	// Create a callback to be called when the visualization API
+	    // has been loaded.
+	    Runnable onLoadCallback = new Runnable() {
+	      public void run() {
+	        Panel panel = flashCardAssessments;
+	 
+	        // Create a pie chart visualization.
+	        PieChart pie = new PieChart(createTable(noClue, sortaKnewIt, definitelyKnewIt), createPieOptions());
+
+	        pie.addSelectHandler(createSelectHandler(pie));
+	        panel.add(pie);
+	      }
+	    };
+
+	    // Load the visualization api, passing the onLoadCallback to be called
+	    // when loading is done.
+	    VisualizationUtils.loadVisualizationApi(onLoadCallback, CoreChart.PACKAGE);
+  }
+  
+  
+  private PieChart.PieOptions createPieOptions() {
+	    PieChart.PieOptions options = PieChart.PieOptions.create();
+	    options.setWidth(500);
+	    options.setHeight(300);
+	    options.set3D(true);
+	    options.set("tooltip.text", "percentage");
+	    return options;
+	  }
+
+  private SelectHandler createSelectHandler(final PieChart chart) {
+	  return new SelectHandler() {
+	    @Override
+	    public void onSelect(SelectEvent event) {
+	      String message = "";
+	      
+	      // May be multiple selections.
+	      JsArray<Selection> selections = chart.getSelections();
+
+	      for (int i = 0; i < selections.length(); i++) {
+	        // add a new line for each selection
+	        message += i == 0 ? "" : "\n";
+	        
+	        Selection selection = selections.get(i);
+
+	        if (selection.isCell()) {
+	          // isCell() returns true if a cell has been selected.
+	           
+	          // getRow() returns the row number of the selected cell.
+	          int row = selection.getRow();
+	          // getColumn() returns the column number of the selected cell.
+	          int column = selection.getColumn();
+	          message += "cell " + row + ":" + column + " selected";
+	        } else if (selection.isRow()) {
+	          // isRow() returns true if an entire row has been selected.
+	           
+	          // getRow() returns the row number of the selected row.
+	          int row = selection.getRow();
+	          message += "row " + row + " selected";
+	        } else {
+	          // unreachable
+	          message += "Pie chart selections should be either row selections or cell selections.";
+	          message += "  Other visualizations support column selections as well.";
+	        }
+	      }
+	        
+	      }
+	  };
+	}
+
+  private AbstractDataTable createTable(float nc, float ski, float dki) {
+	  DataTable data = DataTable.create();
+	  data.addColumn(ColumnType.STRING, "Flash Card Assessment");
+	  data.addColumn(ColumnType.NUMBER, "Number of Responses");
+	  data.addRows(3);
+	  data.setValue(0, 0, "No Clue");
+	  data.setValue(0, 1, nc);
+	  data.setValue(1, 0, "Sorta Knew It");
+	  data.setValue(1, 1, ski);
+	  data.setValue(2, 0, "Definitely Knew It");
+	  data.setValue(2, 1, dki);
+	  return data;
+  }
+	
   
   public Widget asWidget() {
     return this;

@@ -80,12 +80,19 @@ public class CoursePresenter implements Presenter {
 	  analyticsService.getCourseMetricsData(this.course.getCourseId(), 
 			  new AsyncCallback<Map<String, Map<String, Float>>>() {
 		  public void onSuccess(Map<String, Map<String, Float>> data) {
+			  
+			  int noStudents = 0;
+			  float noClue = 0.0f;
+			  float sortaKnewIt = 0.0f;
+			  float definitelyKnewIt = 0.0f;
 
-			  // TODO: lots of tricky nested data structures here, can probably be simpfilied
 			  for (Entry<String, Map<String, Float>> entry : data.entrySet()) {
 				    String studentName = entry.getKey();
 				    Map<String, Float> studentData = entry.getValue();
-			    	
+			    	noStudents++;
+			    	noClue += entry.getValue().get("noClue");
+			    	sortaKnewIt += entry.getValue().get("sortaKnewIt");
+			    	definitelyKnewIt += entry.getValue().get("definitelyKnewIt");
 			    	ArrayList<String> row = new ArrayList<String>();
 			    	row.add(studentName);
 				    for (Entry<String, Float> statEntry : studentData.entrySet()) {
@@ -103,6 +110,11 @@ public class CoursePresenter implements Presenter {
 				    }
 				    display.addStatisticsRow(row);
 			  }
+			  noClue = noClue/(float)noStudents;
+			  sortaKnewIt = sortaKnewIt/(float)noStudents;
+			  definitelyKnewIt = definitelyKnewIt/(float)noStudents;
+			  display.setVisualizations(noClue, sortaKnewIt, definitelyKnewIt);
+			  
 	      }
 	      
 	      public void onFailure(Throwable caught) {
