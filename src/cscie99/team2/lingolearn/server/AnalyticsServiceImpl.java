@@ -14,6 +14,7 @@ import cscie99.team2.lingolearn.server.datastore.CourseDAO;
 import cscie99.team2.lingolearn.server.datastore.CourseRegistrationDAO;
 import cscie99.team2.lingolearn.server.datastore.FlashCardResponseDAO;
 import cscie99.team2.lingolearn.server.datastore.LessonDAO;
+import cscie99.team2.lingolearn.server.datastore.QuizDAO;
 import cscie99.team2.lingolearn.server.datastore.QuizResponseDAO;
 import cscie99.team2.lingolearn.server.datastore.UserDAO;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
@@ -36,6 +37,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	private CardDAO cAccessor;
 	private CourseDAO courseAccessor;
 	private LessonDAO lAccessor;
+	private QuizDAO qAccessor;
 	private MetricsCalculator mc;
 	
 	
@@ -47,6 +49,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		cAccessor = CardDAO.getInstance();
 		courseAccessor = CourseDAO.getInstance();
 		lAccessor = LessonDAO.getInstance();
+		qAccessor = QuizDAO.getInstance();
 		mc = new MetricsCalculator();
 	}
 
@@ -349,7 +352,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		
 		if (courseId != null) {
 			for (QuizResponse qr: qResps) {
-				if (lAccessor.getLessonById(qr.getSessionId()).getCourseId() == courseId) {
+				if (qAccessor.getQuizById(qr.getSessionId()).getCourseId() == courseId) {
 					queriedList1.add(qr);
 				}
 			}
