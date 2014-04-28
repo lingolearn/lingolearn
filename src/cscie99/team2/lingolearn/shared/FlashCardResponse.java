@@ -55,6 +55,7 @@ public class FlashCardResponse implements Serializable {
 		this.isDropped = isDropped;
 		this.timeToAnswer = timeToAnswer;
 		this.assessment = assessment;
+		seq = "Japanese-->English";
 	}
 	
 	public FlashCardResponse(Long fcRespId, Long userSessionId, Long sessionId,
@@ -74,6 +75,7 @@ public class FlashCardResponse implements Serializable {
 		this.timeToAnswer = timeToAnswer;
 		this.assessment = assessment;
 		this.answerTimeRec = answerTimeRec;
+		seq = "Japanese-->English";
 	}
 	
 	public FlashCardResponse(Long fcRespId, Long userSessionId, Long sessionId,
@@ -94,6 +96,7 @@ public class FlashCardResponse implements Serializable {
 		this.assessment = assessment;
 		this.answerTimeRec = answerTimeRec;
 		this.seq = seq;
+		seq = "Japanese-->English";
 	}
 	
 	public Long getSessionId() {

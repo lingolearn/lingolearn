@@ -53,6 +53,7 @@ public class QuizResponse implements Serializable {
 		this.isCorrect = isCorrect;
 		this.isChanged = isChanged;
 		this.timeToAnswer = timeToAnswer;
+		seq = "Japanese-->English";
 	}
 	
 	public QuizResponse(Long qRespId, Long userSessionId, Long sessionId,
@@ -70,6 +71,7 @@ public class QuizResponse implements Serializable {
 		this.isChanged = isChanged;
 		this.timeToAnswer = timeToAnswer;
 		this.answerTimeRec = answerTimeRec;
+		seq = "Japanese-->English";
 	}
 
 	public QuizResponse(Long qRespId, Long userSessionId, Long sessionId,
@@ -88,6 +90,7 @@ public class QuizResponse implements Serializable {
 		this.answerTimeRec = answerTimeRec;
 		this.numConfusersUsed = numConfusersUsed;
 		this.wrongAnswers = wrongAnswers;
+		seq = "Japanese-->English";
 	}
 	
 	public QuizResponse(Long qRespId, Long userSessionId, Long sessionId,
@@ -108,6 +111,7 @@ public class QuizResponse implements Serializable {
 		this.numConfusersUsed = numConfusersUsed;
 		this.wrongAnswers = wrongAnswers;
 		this.seq = seq;
+		seq = "Japanese-->English";
 	}
 	
 	public Long getSessionId() {
