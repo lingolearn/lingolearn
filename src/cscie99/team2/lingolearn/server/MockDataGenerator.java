@@ -3,8 +3,6 @@ package cscie99.team2.lingolearn.server;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -20,15 +18,7 @@ import cscie99.team2.lingolearn.server.tools.CardFileLoader;
 import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.Deck;
-import cscie99.team2.lingolearn.shared.Gender;
-import cscie99.team2.lingolearn.shared.Image;
-import cscie99.team2.lingolearn.shared.Language;
-import cscie99.team2.lingolearn.shared.LanguageTypes;
-import cscie99.team2.lingolearn.shared.Lesson;
-import cscie99.team2.lingolearn.shared.Quiz;
-import cscie99.team2.lingolearn.shared.Sound;
 import cscie99.team2.lingolearn.shared.User;
-import cscie99.team2.lingolearn.shared.error.CardNotFoundException;
 
 public class MockDataGenerator {
 	
