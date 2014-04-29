@@ -95,7 +95,7 @@ public class MockDataGenerator {
 			try {
 				InputStream is = servletContext.getResourceAsStream(fileNames[i]);
 				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(is));
+						new InputStreamReader(is, "UTF-8"));
 				CardFileLoader cardLoader = new CardFileLoader();
 				List<Card> importedCards = cardLoader.loadCards(reader);
 				Iterator<Card> cardItr = importedCards.iterator();
