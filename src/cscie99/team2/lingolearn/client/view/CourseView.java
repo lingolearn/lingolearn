@@ -9,8 +9,10 @@ import com.google.gwt.dom.client.TableElement;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -70,16 +72,16 @@ public class CourseView extends Composite {
 	  assignments.removeStyleName("loading");
 
 	  for (int i=0;i<sessions.size();i++) {
-		  InlineHTML text = new InlineHTML();
-		  text.setHTML("<a href='app.html?sessionId=" + sessions.get(i).getSessionId() + 
-				  "#session'>" + sessions.get(i).getDeck().getDesc() + " (Deck #" + 
-				  sessions.get(i).getDeck().getId() + ")</a>");
-		  
+		  Anchor anchor = new Anchor(sessions.get(i).getDeck().getDesc() + " (Deck #" + 
+				  sessions.get(i).getDeck().getId() + ")", "app.html?sessionId=" + 
+				  sessions.get(i).getSessionId() + "#session");
+		  anchor.setStyleName("list-group-item");
+
 		  if (sessions.get(i) instanceof Lesson) {
-			  lessons.add(text);
+			  ((HTMLPanel) lessons.getWidget(0)).add(anchor);
 			  lessons.removeStyleName("hidden");   // might already be removed
 		  } else {
-			  quizes.add(text);
+			  ((HTMLPanel) quizes.getWidget(0)).add(anchor);
 			  quizes.removeStyleName("hidden");
 		  }
 	  }	  
