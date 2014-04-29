@@ -10,10 +10,10 @@ import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.visualization.client.AbstractDataTable;
@@ -23,7 +23,6 @@ import com.google.gwt.visualization.client.Selection;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.events.SelectHandler;
 import com.google.gwt.visualization.client.visualizations.corechart.*;
-
 
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.Lesson;
@@ -37,7 +36,9 @@ public class CourseView extends Composite {
   @UiField Element courseTitle;
   @UiField Element instructor;
   @UiField Element courseDesc;
-  @UiField VerticalPanel assignments;
+  @UiField HTMLPanel assignments;
+  @UiField HTMLPanel lessons;
+  @UiField HTMLPanel quizes;
   @UiField Element addAssignmentLink;
   @UiField TableElement analytics;
   @UiField VerticalPanel flashCardAssessments;
@@ -66,18 +67,21 @@ public class CourseView extends Composite {
   }
   
   public void setAssignmentList(ArrayList<Session> sessions) {
-	  String type;
+	  assignments.removeStyleName("loading");
+
 	  for (int i=0;i<sessions.size();i++) {
-		  if (sessions.get(i) instanceof Lesson) {
-			  type = "Lesson";
-		  } else {
-			  type = "Quiz";
-		  }
 		  InlineHTML text = new InlineHTML();
 		  text.setHTML("<a href='app.html?sessionId=" + sessions.get(i).getSessionId() + 
-				  "#session'>" + type + " - " + sessions.get(i).getDeck().getDesc() + " (Deck #" + 
+				  "#session'>" + sessions.get(i).getDeck().getDesc() + " (Deck #" + 
 				  sessions.get(i).getDeck().getId() + ")</a>");
-		  assignments.add(text);
+		  
+		  if (sessions.get(i) instanceof Lesson) {
+			  lessons.add(text);
+			  lessons.removeStyleName("hidden");   // might already be removed
+		  } else {
+			  quizes.add(text);
+			  quizes.removeStyleName("hidden");
+		  }
 	  }	  
   }
   

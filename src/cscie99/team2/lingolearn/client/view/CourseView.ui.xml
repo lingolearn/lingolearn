@@ -19,7 +19,15 @@
       	<a class='btn btn-primary btn-xs pull-right' ui:field='addAssignmentLink'>Add</a>
       </div>
       <div class='panel-body'>
-          <g:VerticalPanel ui:field='assignments'></g:VerticalPanel>
+          <g:HTMLPanel ui:field='assignments' styleName='loading'>
+          	<g:HTMLPanel ui:field='lessons' styleName='hidden'>
+          		<h4>Lessons</h4>
+          	</g:HTMLPanel>
+          	
+          	<g:HTMLPanel ui:field='quizes' styleName='hidden'>
+          		<h4>Quizes</h4>
+          	</g:HTMLPanel>
+          </g:HTMLPanel>
       </div>
     </div>
     
