@@ -69,7 +69,7 @@ public class QuizResponseDAO {
 	 * @param sessionId
 	 * @return a list of matched quiz responses
 	 */
-	public List<QuizResponse> getAllQuizResponsesBySessionIds(Long userSessionId,
+	public List<QuizResponse> getAllQuizResponsesByUserSessionId(Long userSessionId,
 																														Long sessionId){
 		List<ObjectifyableQuizResponse> oQuizResponses = 
 				ofy().load().type(ObjectifyableQuizResponse.class)
@@ -81,6 +81,25 @@ public class QuizResponseDAO {
 			matchedResponses.add(it.next().getQuizResponse());
 		}
 		return matchedResponses;
+	}
+	
+/**
+ * Return a list of all Quiz responses that match the specified session id.
+ * @param sessionId
+ * @return a list of matched Quiz Responses.
+ */
+	public List<QuizResponse> getAllQuizResponsesBySessionId(Long sessionId ){
+		List<ObjectifyableQuizResponse> oQuizResponses = 
+				ofy().load().type(ObjectifyableQuizResponse.class)
+								.filter("sessionId", sessionId).list();
+								
+		Iterator<ObjectifyableQuizResponse> it = oQuizResponses.iterator();
+		List<QuizResponse> matchedResponses = new ArrayList<>();
+		while (it.hasNext()) {
+			matchedResponses.add(it.next().getQuizResponse());
+		}
+		return matchedResponses;
+	
 	}
 	
 	/**

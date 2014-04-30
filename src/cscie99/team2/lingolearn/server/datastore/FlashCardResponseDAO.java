@@ -70,7 +70,7 @@ public class FlashCardResponseDAO {
 	 * @param sessionId
 	 * @return a List of matching flash card responses
 	 */
-	public List<FlashCardResponse> getAllFlashCardResponsesSessionIds(
+	public List<FlashCardResponse> getAllFlashCardResponsesByUserSessionId(
 																Long userSessionId, Long sessionId){
 		List<ObjectifyableFlashCardResponse> oFlashCardResponses = 
 							ofy().load().type(ObjectifyableFlashCardResponse.class).filter("sessionId", sessionId)
@@ -84,6 +84,26 @@ public class FlashCardResponseDAO {
 		return matchedResponses;
 	
 	}
+	
+	/**
+	 * Get all Flash Card Responses associated with the specified session id.
+	 * @param sessionId
+	 * @return a list of all matching flash card responses.
+	 */
+	public List<FlashCardResponse> getAllFlashCardResponsesBySessionId( 
+																											Long sessionId ){
+		List<ObjectifyableFlashCardResponse> oFlashCardResponses = 
+				ofy().load().type(ObjectifyableFlashCardResponse.class)
+																	.filter("sessionId", sessionId).list();
+
+		Iterator<ObjectifyableFlashCardResponse> it = oFlashCardResponses.iterator();
+		List<FlashCardResponse> matchedResponses = new ArrayList<>();
+		while (it.hasNext()) {
+			matchedResponses.add(it.next().getFlashCardResponse());
+		}
+		return matchedResponses;
+	}
+	
 	
 	/**
 	 * Obtains a list of all available FlashCardResponses in the datastore
