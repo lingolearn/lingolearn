@@ -64,6 +64,28 @@ public class FlashCardResponseDAO {
 	}
 	
 	/**
+	 * Return all Flash Card Responses that match the specified userSession Id and
+	 * sessionId.
+	 * @param userSessionId
+	 * @param sessionId
+	 * @return a List of matching flash card responses
+	 */
+	public List<FlashCardResponse> getAllFlashCardResponsesSessionIds(
+																Long userSessionId, Long sessionId){
+		List<ObjectifyableFlashCardResponse> oFlashCardResponses = 
+							ofy().load().type(ObjectifyableFlashCardResponse.class).filter("sessionId", sessionId)
+										.filter("userSessionId", userSessionId).list();
+		
+		Iterator<ObjectifyableFlashCardResponse> it = oFlashCardResponses.iterator();
+		List<FlashCardResponse> matchedResponses = new ArrayList<>();
+		while (it.hasNext()) {
+			matchedResponses.add(it.next().getFlashCardResponse());
+		}
+		return matchedResponses;
+	
+	}
+	
+	/**
 	 * Obtains a list of all available FlashCardResponses in the datastore
 	 * @return list of all FlashCardResponses or Null if no FlashCardResponses in the datastore
 	 */

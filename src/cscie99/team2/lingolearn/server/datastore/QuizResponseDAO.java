@@ -62,6 +62,26 @@ public class QuizResponseDAO {
 		return (qResps.size() == 0) ? null : qResps;
 	}
 		
+	/**
+	 * Return a list of Quiz responses that match the specified user session id
+	 * and session id
+	 * @param userSessionId
+	 * @param sessionId
+	 * @return a list of matched quiz responses
+	 */
+	public List<QuizResponse> getAllQuizResponsesBySessionIds(Long userSessionId,
+																														Long sessionId){
+		List<ObjectifyableQuizResponse> oQuizResponses = 
+				ofy().load().type(ObjectifyableQuizResponse.class)
+								.filter("sessionId", sessionId)
+								.filter("userSessionId", userSessionId).list();
+		Iterator<ObjectifyableQuizResponse> it = oQuizResponses.iterator();
+		List<QuizResponse> matchedResponses = new ArrayList<>();
+		while (it.hasNext()) {
+			matchedResponses.add(it.next().getQuizResponse());
+		}
+		return matchedResponses;
+	}
 	
 	/**
 	 * Obtains a list of all available QuizResponses in the datastore
