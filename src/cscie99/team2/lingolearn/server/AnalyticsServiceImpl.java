@@ -306,6 +306,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 					row.add(metricsData.get("noClue"));
 					row.add(metricsData.get("sortaKnewIt"));
 					row.add(metricsData.get("definitelyKnewIt"));
+					row.add(metricsData.get("recallRate"));
 					data.add(row);	
 				}
 			}
