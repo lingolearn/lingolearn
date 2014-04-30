@@ -77,7 +77,8 @@ public class CoursePresenter implements Presenter {
 	      }
 	  });
 	  
-	  analyticsService.getCourseMetricsData(this.course.getCourseId(), 
+	  
+	  analyticsService.getCourseMetricsDataInstructorView(this.course.getCourseId(), null,  
 			  new AsyncCallback<Map<String, Map<String, Float>>>() {
 		  public void onSuccess(Map<String, Map<String, Float>> data) {
 			  

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.text.DateFormat;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -17,12 +18,17 @@ import cscie99.team2.lingolearn.server.datastore.LessonDAO;
 import cscie99.team2.lingolearn.server.datastore.QuizDAO;
 import cscie99.team2.lingolearn.server.datastore.QuizResponseDAO;
 import cscie99.team2.lingolearn.server.datastore.UserDAO;
+import cscie99.team2.lingolearn.server.datastore.UserSessionDAO;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
+import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.OutsideCourse;
 import cscie99.team2.lingolearn.shared.Language;
+import cscie99.team2.lingolearn.shared.Quiz;
 import cscie99.team2.lingolearn.shared.QuizResponse;
+import cscie99.team2.lingolearn.shared.Session;
 import cscie99.team2.lingolearn.shared.Textbook;
 import cscie99.team2.lingolearn.shared.User;
+import cscie99.team2.lingolearn.shared.UserSession;
 
 public class AnalyticsServiceImpl extends RemoteServiceServlet implements AnalyticsService{
 	
@@ -31,26 +37,33 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	 */
 	private static final long serialVersionUID = 1L;
 	private UserDAO uAccessor;
-	private CourseRegistrationDAO crAccessor;
 	private QuizResponseDAO qRespAccessor;
 	private FlashCardResponseDAO fcRespAccessor;
 	private CardDAO cAccessor;
 	private CourseDAO courseAccessor;
 	private LessonDAO lAccessor;
 	private QuizDAO qAccessor;
+	private UserSessionDAO usAccessor;
 	private MetricsCalculator mc;
 	
 	
 	public AnalyticsServiceImpl() {
 		uAccessor = UserDAO.getInstance();
-		crAccessor = CourseRegistrationDAO.getInstance();
 		qRespAccessor = QuizResponseDAO.getInstance();
 		fcRespAccessor = FlashCardResponseDAO.getInstance();
 		cAccessor = CardDAO.getInstance();
 		courseAccessor = CourseDAO.getInstance();
 		lAccessor = LessonDAO.getInstance();
 		qAccessor = QuizDAO.getInstance();
+		usAccessor = UserSessionDAO.getInstance();
 		mc = new MetricsCalculator();
+	}
+	
+	/**
+	 * Gets a user's name
+	 */
+	public String getUserName (String gplusId) {
+		return (uAccessor.getUserByGplusId(gplusId).getLastName() + ", " + uAccessor.getUserByGplusId(gplusId).getFirstName());
 	}
 
 	/**
@@ -110,6 +123,53 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	 	
 	 	return data;
 	}
+	
+	/**
+	 * Pulls the metrics data on a particular user
+	 */
+	public Map<String, Float> getMetricsDataByUser (String gplusId) {
+		Map<String, Float> data = new HashMap<String, Float>();	
+	 	data.put("recallRate", mc.calculateRecallRate(gplusId));
+	 	//data.put("avgQuizReactionTime", mc.calculateAvgQuizReactionTime(gplusId));
+	 	//data.put("avgFlashCardReactionTime", mc.calculateAvgFlashCardReactionTime(gplusId));
+	 	//data.put("indecisionRate", mc.calculateIndecisionRate(gplusId));
+	 	//data.put("dropRate", mc.calculateDropRate(gplusId));
+	 	//data.put("averageSessionTime", mc.calculateAverageSessionTime(gplusId));
+	 	//data.put("repetitionsPerWeek", mc.calculateRepetitionsPerWeek(gplusId));
+	 	data.put("noClue", mc.calculatePercentNoClue(gplusId));
+	 	data.put("sortaKnewIt", mc.calculatePercentSortaKnewIt(gplusId));
+	 	data.put("definitelyKnewIt", mc.calculatePercentDefinitelyKnewIt(gplusId));
+	 	
+	 	return data;
+	}
+	
+	/**
+	 * Pulls the metrics data based on a particular user session and assignment
+	 */
+	public Map<String, Float> getMetricsDataBySessions (long sessionId, long userSessionId) {
+		Map<String, Float> data = new HashMap<String, Float>();
+		data.put("recallRate", mc.calculateRecallRateBySessions(sessionId, userSessionId));
+		data.put("noClue", mc.calculatePercentNoClueBySessions(sessionId, userSessionId));
+		data.put("sortaKnewIt", mc.calculatePercentSortaKnewItBySessions(sessionId, userSessionId));
+		data.put("definitelyKnewIt", mc.calculatePercentDefinitelyKnewItBySessions(sessionId, userSessionId));
+		data.put("flashCardCount", (float)mc.calculateFlashCardCountBySessions(sessionId, userSessionId));
+		data.put("quizQuestionCount", (float)mc.calculateQuizCountBySessions(sessionId, userSessionId));
+		
+		return data;
+	}
+	
+	/**
+	 * Pulls the metrics data based on a particular user and assignment
+	 */
+	public Map<String, Float> getMetricsDataByUserAndAssignment (String gplusId, long sessionId) {
+		Map<String, Float> data = new HashMap<String, Float>();
+		data.put("recallRate", mc.calculateRecallRateByUserAndAssignment(gplusId, sessionId));
+		data.put("noClue", mc.calculatePercentNoClueByUserAndAssignment(gplusId, sessionId));
+		data.put("sortaKnewIt", mc.calculatePercentSortaKnewItByUserAndAssignment(gplusId, sessionId));
+		data.put("definitelyKnewIt", mc.calculatePercentDefinitelyKnewItByUserAndAssignment(gplusId, sessionId));
+		
+		return data;
+	}
 
 	/**
 	 * Gets a list of all student id's enrolled in a specific course 
@@ -132,6 +192,35 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		}
 		return users;
 	}
+	
+	/**
+	 * Gets a list of all user sessions for the particular user
+	 */
+	public List<UserSession> getUserSessions(String gplusId) {
+		List<UserSession> userSessions = new ArrayList<UserSession>();
+		if (usAccessor.getAllUserSessionsByUser(gplusId) != null) {
+			userSessions = usAccessor.getAllUserSessionsByUser(gplusId);
+		}
+		return userSessions;
+	}
+	
+	/**
+	 * Gets a list of all assignments in the course
+	 */
+	public List<Session> getCourseAssignments (long courseId) {
+		List<Session> sessions = new ArrayList<Session>();
+		if (lAccessor.getAllLessonsByCourseId(courseId) != null) {
+			for (Lesson l: lAccessor.getAllLessonsByCourseId(courseId)) {
+				sessions.add(l);
+			}
+		}
+		if (qAccessor.getAllQuizsByCourseId(courseId) != null) {
+			for (Quiz q: qAccessor.getAllQuizsByCourseId(courseId)) {
+				sessions.add(q);
+			}
+		}
+		return sessions;
+	}
 
 	/**
 	 * Pulls all biographical data for students in a particular course
@@ -149,15 +238,77 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 	}
 
 	/**
-	 *  Pulls all metrics data for students in a particular course.
+	 *  Pulls all metrics data for students in a particular course (generic view).
 	 */
 	public Map<String, Map<String, Float>> getCourseMetricsData(Long courseId) {
 		List<User> students = getUsersInCourse(courseId);
 		Map<String, Map<String, Float>> data = new HashMap<String, Map<String, Float>>();
 		
 		for (User s: students) {
-			Map<String, Float> metricsData = getMetricsData (s.getGplusId());
+			Map<String, Float> metricsData = getMetricsDataByUser (s.getGplusId());
 			data.put(s.getUserId().toString(), metricsData);
+		}
+		
+		return data;
+	}
+	
+	/**
+	 *  Pulls all metrics data for students in a particular course (researcher view).
+	 */
+	public Map<String, Map<String, Float>> getCourseMetricsDataResearcherView (Long courseId) {
+		List<User> students = getUsersInCourse(courseId);
+		Map<String, Map<String, Float>> data = new HashMap<String, Map<String, Float>>();
+		
+		for (User s: students) {
+			Map<String, Float> metricsData = getMetricsDataByUser (s.getGplusId());
+			data.put(s.getUserId().toString(), metricsData);
+		}
+		
+		return data;
+	}
+	
+	/**
+	 *  Pulls all metrics data for students in a particular course (instructor view).
+	 */
+	public Map<String, Map<String, Float>> getCourseMetricsDataInstructorView (Long courseId, Long sessionId) {
+		List<User> students = getUsersInCourse(courseId);
+		Map<String, Map<String, Float>> data = new HashMap<String, Map<String, Float>>();
+		
+		if (sessionId == null) {
+			return getCourseMetricsDataResearcherView(courseId);
+		}
+		else {
+			for (User s: students) {
+				Map<String, Float> metricsData = getMetricsDataByUserAndAssignment(s.getGplusId(), sessionId);
+				data.put(s.getUserId().toString(), metricsData);
+			}
+		}
+		
+		return data;
+	}
+	
+	/**
+	 *  Pulls all metrics data for an individual student in a course (student view).
+	 */
+	public List<List<Object>> getCourseMetricsDataStudentView (Long courseId, String gplusId) {
+		List<Session> assignments = getCourseAssignments(courseId);
+		List<UserSession> sessions = getUserSessions(gplusId);
+		
+		List<List<Object>> data = new ArrayList<List<Object>>();
+		
+		for (Session a: assignments) {
+			for (UserSession us: sessions) {
+				Map<String, Float> metricsData = getMetricsDataBySessions (a.getSessionId(), us.getUserSessionId());
+				if (metricsData.get("flashCardCount") >0.8 || metricsData.get("quizQuestionCount") > 0.8) {
+					List<Object> row = new ArrayList<Object>();
+					row.add(DateFormat.getInstance().format(us.getSessStart()));
+					row.add(a.getDeck().getDesc());
+					row.add(metricsData.get("noClue"));
+					row.add(metricsData.get("sortaKnewIt"));
+					row.add(metricsData.get("definitelyKnewIt"));
+					data.add(row);	
+				}
+			}
 		}
 		
 		return data;
