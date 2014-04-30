@@ -123,6 +123,7 @@ public class CourseView extends Composite {
 	    options.setWidth(500);
 	    options.setHeight(300);
 	    options.set3D(true);
+	    options.setTitle("Course Aggregate Flash Card Assessments");
 	    options.set("tooltip.text", "percentage");
 	    return options;
 	  }
