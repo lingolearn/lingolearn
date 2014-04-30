@@ -342,7 +342,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		sb.append("UserID,Gender,NativeLanguage,NumberOfLanguages,NumberOfTextbooks,NumberOfOutsideCourses,"
 				+ "Languages,Textbooks,OutsideCourses,CourseID,ResponseTimestamp,"
 				+ "QuestionSequence,Kanji,Hiragana,Katakana,Translation,"
-				+ "ConfuserType,NumberofConfusers,WrongAnswers,IsCorrect");
+				+ "NumberofConfusers,WrongAnswers,IsCorrect");
 		sb.append("\n");
 		
 		List<QuizResponse> qResps = qRespAccessor.getAllQuizResponses();
@@ -403,7 +403,6 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 			sb.append(cAccessor.getCardById(qr.getCardId()).getHiragana().replace(",",";") + ",");
 			sb.append(cAccessor.getCardById(qr.getCardId()).getKatakana().replace(",",";") + ",");
 			sb.append(cAccessor.getCardById(qr.getCardId()).getTranslation().replace(",",";") + ",");
-			sb.append(qr.getConfuserType() + ",");
 			sb.append(qr.getNumConfusersUsed() + ",");
 			sb.append(qr.getWrongAnswers().replace(",",";") + ",");
 			sb.append(String.valueOf(qr.isCorrect()) + "\n");
