@@ -80,7 +80,7 @@ public class CourseDAO {
 		while (it.hasNext()) {
 			courses.add(it.next().getCourse());
 		}
-		return (courses.size() == 0) ? null: courses;
+		return courses;
 	}
 		
 	/**

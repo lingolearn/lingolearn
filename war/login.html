@@ -26,7 +26,7 @@
 				  <span
 				    class="g-signin"
 				    data-callback="signinCallback"
-				    data-clientid="1043535649105.apps.googleusercontent.com"
+				    data-clientid="586117319741-mvt4ndcec4l6b271q90d7j8lptiih29i.apps.googleusercontent.com"
 				    data-cookiepolicy="single_host_origin"
 				    data-requestvisibleactions="http://schemas.google.com/AddActivity"
 				    data-scope="https://www.googleapis.com/auth/plus.login email profile">
@@ -82,7 +82,7 @@
     		    //   "access_denied" - User denied access to your app
     		    //   "immediate_failed" - Could not automatically log in the user
     		    //alert('Sign-in state: ' + authResult['error']);
-    		    console.log('Sign-in state: ' + authResult['error']);
+    		    //console.log('Sign-in state: ' + authResult['error']);
     		  }
     }
 
@@ -137,7 +137,7 @@
     		success: function(data){
     			if( data ){
     				var referrer = document.referrer;
-    				console.log( referrer );
+    				//console.log( referrer );
     				//window.location.replace("/app.html");
     				window.location.replace("http://127.0.0.1:8888/app.html?gwt.codesvr=127.0.0.1:9997");
     			}else{
@@ -145,7 +145,7 @@
     			}
     		},
     		error: function(){
-    			console.log("An error occurred communicating with the login callback.");
+    			//console.log("An error occurred communicating with the login callback.");
     		}
     	});
     }
