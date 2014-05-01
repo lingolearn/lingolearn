@@ -62,8 +62,14 @@ public class MockDataGenerator {
 		//Here, we are using the course user's existence in the 
 		// database to determine whether or not the entire set 
 		// of data has already been added.
-		boolean beenAdded = userAccessor.hasCourseUserBeenAdded();
-		return beenAdded;
+		//boolean beenAdded = userAccessor.hasCourseUserBeenAdded();
+		User courseUser = userAccessor.getCourseUser();
+		if( courseUser == null || courseUser.getUserId() == null )
+			return false;
+		
+		List<Deck> decks = deckAccessor.getAllDecks();
+		return decks.size() > 0;
+		//return beenAdded;
 	}
 	
 	
