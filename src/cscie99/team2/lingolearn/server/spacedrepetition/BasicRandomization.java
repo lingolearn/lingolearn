@@ -1,5 +1,6 @@
 package cscie99.team2.lingolearn.server.spacedrepetition;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class BasicRandomization extends SpacedRepetition {
 			throw new SpacedRepetitionException("The deck has not been provided yet.");
 		}
 		// Copy the card ids over and shuffle the deck
-		shuffledDeck = deck.getCardIds();
+		shuffledDeck = new ArrayList<Long>(deck.getCardIds());
 		Collections.shuffle(shuffledDeck);
 	}
 

@@ -53,26 +53,11 @@ public class LeitnerSystemTest {
 	}
 	
 	/**
-	 * Prepare to run the test by creating the deck of cards.
+	 * Prepare to run the test by creating the deck of cards and the object.
 	 */
 	@Before
 	public void Setup() throws SpacedRepetitionException {
-		// Setup the deck to use for studying
-		deck = new Deck();
-		Card card = new Card("A", "A", "A", "A", "A", "A");
-		card.setId(0l);
-		deck.add(card);
-		card = new Card("B", "B", "B", "B", "B", "B");
-		card.setId(1l);
-		deck.add(card);
-		card = new Card("C", "C", "C", "C", "C", "C");
-		card.setId(2l);
-		deck.add(card);
-		card = new Card("D", "D", "D", "D", "D", "D");
-		card.setId(3l);
-		deck.add(card);
-		
-		// Get a Leitner System object
+		deck = SpacedRepetitionTest.getTestDeck();
 		study = SpacedRepetitionFactory.getSpacedRepetition(LeitnerSystem.class.getCanonicalName());
 		study.setDeck(deck);
 	}
