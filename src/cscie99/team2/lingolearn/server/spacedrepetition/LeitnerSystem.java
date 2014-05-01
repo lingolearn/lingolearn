@@ -39,12 +39,12 @@ public class LeitnerSystem extends SpacedRepetition {
 	}
 	
 	@Override
-	public boolean CardsRemaining() {
+	public boolean cardsRemaining() {
 		return (shuffledDeck.size() > 0);
 	}
 
 	@Override
-	public Card DrawCard() throws SpacedRepetitionException {
+	public Card drawCard() throws SpacedRepetitionException {
 		// Check for issues with the deck
 		if (deck == null) {
 			throw new SpacedRepetitionException("The deck has not been provided yet.");
@@ -57,6 +57,7 @@ public class LeitnerSystem extends SpacedRepetition {
 		}
 		// Remove and return the first card in the draw deck
 		try {
+			System.out.println("drawCard() " + deck.getSize());
 			return deck.getCard(shuffledDeck.remove(0));
 		} catch (CardNotFoundException ex) {
 			throw new SpacedRepetitionException("An error occured while drawing the card.", ex);
@@ -64,23 +65,37 @@ public class LeitnerSystem extends SpacedRepetition {
 	}
 	
 	/**
+	 * Get the contents of the current sessions. This function is provided 
+	 * largely for unit testing but in theory the session state can be saved
+	 * and restored at a later date.
+	 * 
+	 * @return The current state of the sessions.
+	 */
+	@SuppressWarnings("rawtypes")
+	public List<List> getSessions() {
+		return sessions;
+	}
+	
+	/**
 	 * Prepare the deck to be used by preparing the initial session.
 	 */
 	@Override
-	public void SetDeck(Deck deck) {
+	public void setDeck(Deck deck) {
 		// Let the parent class set the deck
-		super.SetDeck(deck);
+		super.setDeck(deck);
 		// Create the first session for the user
 		currentSession = -1;
-		sessions.set(0, this.deck.getCardIds());
+		// Make sure we store a copy of the card ids so the original deck 
+		// doesn't get modified
+		sessions.set(0, new ArrayList<Long>(this.deck.getCardIds()));
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public void SetResult(Card card, boolean correct) {
+	public void setResult(Card card, boolean correct) {
 		// Start by finding where the card is
-		for (int ndx = 0; ndx < currentSession; ndx++) {
-			for (int ndy = 0; ndy < sessions.get(ndx).size(); ndx++) {
+		for (int ndx = 0; ndx <= currentSession; ndx++) {
+			for (int ndy = 0; ndy < sessions.get(ndx).size(); ndy++) {
 				// If this isn't the right card, press on
 				if (sessions.get(ndx).get(ndy) != card.getId()) {
 					continue;
@@ -104,7 +119,7 @@ public class LeitnerSystem extends SpacedRepetition {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void ShuffleDeck() throws SpacedRepetitionException {
+	public void shuffleDeck() throws SpacedRepetitionException {
 		// Update the current session and cycle as needed
 		currentSession++;
 		if (currentSession == NUMBER_SESSIONS) {
@@ -112,9 +127,13 @@ public class LeitnerSystem extends SpacedRepetition {
 		}
 		// Move the cards for the sessions into the current shuffled deck
 		shuffledDeck = new ArrayList<Long>();
-		for (int ndx = 0; ndx < currentSession; ndx++) {
+		for (int ndx = 0; ndx <= currentSession; ndx++) {
 			shuffledDeck.addAll(sessions.get(ndx));
 		}
+		for (Long value : shuffledDeck) {
+			System.out.print(value);
+		}
+		System.out.println();
 		Collections.shuffle(shuffledDeck);
 	}
 }

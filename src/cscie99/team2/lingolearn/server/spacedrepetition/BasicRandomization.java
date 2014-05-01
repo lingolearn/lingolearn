@@ -16,7 +16,7 @@ public class BasicRandomization extends SpacedRepetition {
 	private List<Long> shuffledDeck = null;
 	
 	@Override
-	public Card DrawCard() throws SpacedRepetitionException {
+	public Card drawCard() throws SpacedRepetitionException {
 		// Check for issues with the deck
 		if (deck == null) {
 			throw new SpacedRepetitionException("The deck has not been provided yet.");
@@ -36,12 +36,12 @@ public class BasicRandomization extends SpacedRepetition {
 	}
 	
 	@Override
-	public boolean CardsRemaining() {
+	public boolean cardsRemaining() {
 		return (shuffledDeck.size() > 0);
 	}
 	
 	@Override
-	public void ShuffleDeck() throws SpacedRepetitionException {
+	public void shuffleDeck() throws SpacedRepetitionException {
 		// Make sure we have a deck to work with
 		if (deck == null) {
 			throw new SpacedRepetitionException("The deck has not been provided yet.");
@@ -56,5 +56,5 @@ public class BasicRandomization extends SpacedRepetition {
 	 * information, it is silently dropped.
 	 */
 	@Override
-	public void SetResult(Card card, boolean correct) { }
+	public void setResult(Card card, boolean correct) { }
 }
