@@ -54,6 +54,17 @@ h2 {
  * Card
  */
 
+/** Added 5/2 by jeff **/
+a.session-type-anchor {
+	padding-left:40px;
+}
+
+.list-group a.session-type-anchor:hover {
+	background-color:#428bca;
+	font-weight:bold;
+	color:black;
+}
+
 .card-container {
   -webkit-perspective:1000;
   perspective:1000;
