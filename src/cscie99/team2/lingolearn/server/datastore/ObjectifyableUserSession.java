@@ -20,6 +20,7 @@ public class ObjectifyableUserSession implements Serializable {
 	@Id private Long    userSessionId;	// Unique UserSession id
 	@Index private Long    sessionId;	// Session(Assignement) id
 	@Index private String  gplusId;      	// User id
+	@Index private String sessionType;		// type of session, e.g. kanji >> translation
 	private Date    sessStart,			// Timestamp of the session's start
 				    sessEnd;    		// Timestamp of the session's end
 
@@ -33,6 +34,9 @@ public class ObjectifyableUserSession implements Serializable {
 		this.userSessionId = uSession.getUserSessionId();
 		this.sessionId = uSession.getSessionId();
 		this.gplusId = uSession.getGplusId();
+		this.sessionType = 
+				uSession.getSessionType() != null ? 
+						uSession.getSessionType().toString() : "";
 		this.sessStart = uSession.getSessStart();
 		this.sessEnd = uSession.getSessEnd();
 	}
@@ -46,6 +50,11 @@ public class ObjectifyableUserSession implements Serializable {
 		uSession.setUserSessionId(this.userSessionId);
 		uSession.setSessionId(this.sessionId);
 		uSession.setGplusId(this.gplusId);
+		if( this.sessionType == null || this.sessionType.isEmpty()){
+			uSession.setSessionType("");
+		}else{
+			uSession.setSessionType(this.sessionType);
+		}
 		uSession.setSessStart(this.sessStart);
 		uSession.setSessEnd(this.sessEnd);
 		return uSession;

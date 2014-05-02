@@ -13,18 +13,46 @@ public class UserSession implements Serializable {
 	private Long    userSessionId;	// Unique UserSession id
 	private Long    sessionId;		// Session(Assignement) id
 	private String  gplusId;       	// User id
+	private String sessionType;	// type of session, e.g. kanji >> translation
 	private Date    sessStart,		// Timestamp of the session's start
 				    sessEnd;    	// Timestamp of the session's end
 
 	public UserSession() {};
 	
 	public UserSession(Long userSessionId, Long sessionId, String gplusId,
-			Date sessStart, Date sessEnd) {
+			String sessionType, Date sessStart, Date sessEnd){
+		
 		this.userSessionId = userSessionId;
 		this.sessionId = sessionId;
 		this.gplusId = gplusId;
+		this.sessionType = sessionType;
 		this.sessStart = sessStart;
 		this.sessEnd = sessEnd;
+		
+	}
+	
+	public UserSession(Long userSessionId, Long sessionId, String gplusId,
+			SessionTypes sessionType, Date sessStart, Date sessEnd){
+		this( userSessionId, sessionId, gplusId, 
+					sessionType.toString(), sessStart, sessEnd );
+	}
+	
+	public UserSession(Long userSessionId, Long sessionId, String gplusId,
+			Date sessStart, Date sessEnd) {
+		
+		this( userSessionId, sessionId, gplusId, "", sessStart, sessEnd );
+	}
+	
+	public SessionTypes getSessionType() {
+		return sessionType == null ? null : SessionTypes.valueOf(sessionType);
+	}
+
+	public void setSessionType(String sessionType) {
+		this.sessionType = sessionType;
+	}
+
+	public void setSessionType(SessionTypes type){
+		this.sessionType = type.toString();
 	}
 	
 	public Date getSessStart() {

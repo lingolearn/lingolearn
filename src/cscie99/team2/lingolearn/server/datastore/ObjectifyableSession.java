@@ -15,6 +15,7 @@ public class ObjectifyableSession implements Serializable {
 	
 	@Id protected Long   sessId;			// Unique Session / Assignment Id
 	@Index protected Long courseId;		// Course Id that this session belongs to
+	@Index String sessionType;		// type of session, e.g. kanji >> translation
 	@Load Ref<ObjectifyableDeck> deck;	// Deck associated with this session
 	
 	public ObjectifyableSession() {};

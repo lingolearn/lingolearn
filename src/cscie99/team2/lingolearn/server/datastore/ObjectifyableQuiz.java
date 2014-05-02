@@ -30,9 +30,11 @@ public class ObjectifyableQuiz extends ObjectifyableSession implements Serializa
 	 * @param q		Lesson object
 	 */
 	public ObjectifyableQuiz (Quiz q) {
+		
 		this.sessId = q.getSessionId();
 		this.courseId = q.getCourseId();
 		this.mode = q.getMode();
+		this.sessionType = q.getSessionType().toString();
 		this.deck = null;
 		
 		Deck deck = q.getDeck();
@@ -48,6 +50,7 @@ public class ObjectifyableQuiz extends ObjectifyableSession implements Serializa
 		q.setSessionId(this.sessId);
 		q.setCourseId(this.courseId);
 		q.setMode(this.mode);
+		q.setSessionType(this.sessionType);
 		if (this.deck != null) {
 			q.setDeck(this.deck.get().getDeck());
 		} else {

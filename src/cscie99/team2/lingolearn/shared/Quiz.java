@@ -23,6 +23,12 @@ public class Quiz extends Session implements Serializable {
 		super(sessId, deck, courseId);
 		this.mode = mode;
 	}
+	
+	public Quiz(Long sessId, Deck deck, Long courseId, String mode,
+																	SessionTypes sessionType ) {
+		super(sessId, deck, courseId, sessionType);
+		this.mode = "";
+	}
 
 	public String getMode() {
 		return mode;

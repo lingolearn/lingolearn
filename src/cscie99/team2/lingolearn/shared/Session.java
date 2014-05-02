@@ -12,13 +12,24 @@ public abstract class Session implements Serializable {
 	private Long   sessId;	// Unique Session / Assignment Id
 	private Deck    deck;	// Deck associated with this session
 	private Long courseId;	// Course Id that this session belongs to
+	private String sessionType;	// type of session, e.g. kanji >> translation
 	
 	public Session() {};
 	
-	public Session(Long sessId, Deck deck, Long courseId) {
+	public Session(Long sessId, Deck deck, Long courseId, String sessionType) {
 		this.sessId = sessId;
 		this.deck = deck;
 		this.courseId = courseId;
+		this.sessionType = sessionType;
+	}
+	
+	public Session(Long sessId, Deck deck, Long courseId,
+																				SessionTypes sessionType ) {
+		this(sessId, deck, courseId, sessionType.toString());
+	}
+	
+	public Session(Long sessId, Deck deck, Long courseId) {
+		this(sessId, deck, courseId, "");
 	}
 	
 	/**
@@ -49,4 +60,17 @@ public abstract class Session implements Serializable {
 	public void setCourseId(Long courseId) {
 		this.courseId = courseId;
 	}
+	
+	public SessionTypes getSessionType() {
+		return SessionTypes.valueOf(sessionType);
+	}
+
+	public void setSessionType(String sessionType) {
+		this.sessionType = sessionType;
+	}
+
+	public void setSessionType(SessionTypes type){
+		this.sessionType = type.toString();
+	}
+	
 }
