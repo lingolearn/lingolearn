@@ -55,7 +55,7 @@ public class LessonDAO {
 		while (it.hasNext()) {
 			lessons.add(it.next().getLesson());
 		}
-		return (lessons.size() == 0) ? null : lessons;
+		return lessons;
 	}
 	
 	
@@ -67,7 +67,7 @@ public class LessonDAO {
 		while (it.hasNext()) {
 			lessons.add(it.next().getLesson());
 		}
-		return (lessons.size() == 0) ? null : lessons;
+		return lessons;
 	}
 	
 	

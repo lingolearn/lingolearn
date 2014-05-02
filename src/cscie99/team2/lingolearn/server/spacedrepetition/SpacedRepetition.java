@@ -13,21 +13,21 @@ public abstract class SpacedRepetition {
 	 * 
 	 * @return True if there are cards remaining.
 	 */
-	public abstract boolean CardsRemaining();
+	public abstract boolean cardsRemaining();
 	
 	/**
 	 * Get the id of the next card from the deck.
 	 * 
 	 * @return The next card that should be shown to the user.
 	 */
-	public abstract Card DrawCard() throws SpacedRepetitionException;
+	public abstract Card drawCard() throws SpacedRepetitionException;
 	
 	/**
 	 * Set the deck that should be used by the algorithm.
 	 * 
 	 * @param deck The deck to be used by the algorithm.
 	 */
-	public void SetDeck(Deck deck) {
+	public void setDeck(Deck deck) {
 		this.deck = deck;		
 	}
 	
@@ -38,10 +38,10 @@ public abstract class SpacedRepetition {
 	 * @param correct True if the user was correct or knew the card, false 
 	 * otherwise.
 	 */
-	public abstract void SetResult(Card card, boolean correct);
+	public abstract void setResult(Card card, boolean correct);
 	
 	/**
 	 * Shuffle the deck of cards. 
 	 */
-	public abstract void ShuffleDeck() throws SpacedRepetitionException;
+	public abstract void shuffleDeck() throws SpacedRepetitionException;
 }

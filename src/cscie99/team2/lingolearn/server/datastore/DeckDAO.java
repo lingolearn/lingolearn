@@ -71,7 +71,7 @@ public class DeckDAO {
 		while (it.hasNext()) {
 			decks.add(it.next().getDeck());
 		}
-		return (decks.size() == 0) ? null : decks;
+		return decks;
 	}
 
 }

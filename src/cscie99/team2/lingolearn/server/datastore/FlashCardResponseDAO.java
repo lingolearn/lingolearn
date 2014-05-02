@@ -60,7 +60,7 @@ public class FlashCardResponseDAO {
 		while (it.hasNext()) {
 			qResps.add(it.next().getFlashCardResponse());
 		}
-		return (qResps.size() == 0) ? null : qResps;
+		return qResps;
 	}
 	
 	/**
@@ -116,7 +116,7 @@ public class FlashCardResponseDAO {
 		while (it.hasNext()) {
 			qResps.add(it.next().getFlashCardResponse());
 		}
-		return (qResps.size() == 0) ? null : qResps;
+		return qResps;
 	}
 	
 	public List<FlashCardResponse> getAllFlashCardResponsesBefore(Date date) {
@@ -129,7 +129,7 @@ public class FlashCardResponseDAO {
 		while (it.hasNext()) {
 			qResps.add(it.next().getFlashCardResponse());
 		}
-		return (qResps.size() == 0) ? null : qResps;
+		return qResps;
 	}
 	
 	public List<FlashCardResponse> getAllFlashCardResponsesOn(Date date) {
@@ -142,7 +142,7 @@ public class FlashCardResponseDAO {
 		while (it.hasNext()) {
 			qResps.add(it.next().getFlashCardResponse());
 		}
-		return (qResps.size() == 0) ? null : qResps;
+		return qResps;
 	}
 	
 	public List<FlashCardResponse> getAllFlashCardResponsesAfter(Date date) {
@@ -155,7 +155,7 @@ public class FlashCardResponseDAO {
 		while (it.hasNext()) {
 			qResps.add(it.next().getFlashCardResponse());
 		}
-		return (qResps.size() == 0) ? null : qResps;
+		return qResps;
 	}
 	
 	/**
