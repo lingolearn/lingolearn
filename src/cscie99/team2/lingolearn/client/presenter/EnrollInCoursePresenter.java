@@ -11,7 +11,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 import cscie99.team2.lingolearn.client.CourseServiceAsync;
-import cscie99.team2.lingolearn.client.CurrentUser;
 import cscie99.team2.lingolearn.client.view.EnrollInCourseView;
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.User;
@@ -64,7 +63,7 @@ public class EnrollInCoursePresenter implements Presenter {
   }
   
   private void addAvailableCoursesToList() {
-	  courseService.getAllAvailableCourses(CurrentUser.gplusId, new AsyncCallback<ArrayList<Course>>() {
+	  courseService.getAllAvailableCourses(currentUser.getGplusId(), new AsyncCallback<ArrayList<Course>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

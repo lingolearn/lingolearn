@@ -6,7 +6,6 @@ import java.util.List;
 
 import cscie99.team2.lingolearn.client.CardServiceAsync;
 import cscie99.team2.lingolearn.client.CourseServiceAsync;
-import cscie99.team2.lingolearn.client.CurrentUser;
 import cscie99.team2.lingolearn.client.event.AnalyticsEvent;
 import cscie99.team2.lingolearn.client.view.CardView;
 import cscie99.team2.lingolearn.client.view.QuizView;
@@ -109,7 +108,7 @@ public class SessionPresenter implements Presenter {
 				  }
 			  }
 
-			  courseService.createUserSession(session.getSessionId(), CurrentUser.gplusId, 
+			  courseService.createUserSession(session.getSessionId(), currentUser.getGplusId(), 
 					  new AsyncCallback<UserSession>() {
 
 				  public void onSuccess(UserSession returnedUserSession) {

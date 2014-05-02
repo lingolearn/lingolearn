@@ -190,7 +190,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				break;
 			case "course":
 				presenter = new CoursePresenter(courseService,
-						analyticsService, eventBus, new CourseView());
+						analyticsService, currentUser, eventBus, new CourseView());
 				break;
 			case "newCourse":
 				presenter = new NewCoursePresenter(courseService, userService,
@@ -333,7 +333,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	 * @param gpack
 	 */
 	private void attemptLogin(GoogleIdPackage gpack) {
-		CurrentUser.gplusId = gpack.getGplusId();
 		userService.loginUser(gpack.getGmail(), new AsyncCallback<User>() {
 			public void onSuccess(User user) {
 				userAuthenticated = true;

@@ -77,13 +77,8 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 
 	
 	public ArrayList<Course> getAllAvailableCourses(String gplusId) {
-		HttpSession session = this.getThreadLocalRequest().getSession();
-		Object sessionUser = session.getAttribute(UserServiceImpl.USER_SESSION_KEY);
-		if( sessionUser == null )
-			return new ArrayList<Course>();
-		
-		User student = (User)sessionUser;
-		return (ArrayList<Course>) courseAccessor.getAvailableCourses(student);
+		User user = UserDAO.getInstance().getUserByGplusId(gplusId);
+		return (ArrayList<Course>) courseAccessor.getAvailableCourses(user);
 	}
 	
 	

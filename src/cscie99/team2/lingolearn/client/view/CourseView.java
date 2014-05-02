@@ -87,14 +87,18 @@ public class CourseView extends Composite {
 	  }	  
   }
   
-  public void addStatisticsRow(String[] data) {
-	  assert data.length == 5;
-	  
-	  TableRowElement row = analytics.insertRow(-1);
-	  
-	  for (String element : data)
+  public void setStatisticsHeader(String[] data) {
+	  TableRowElement row = analytics.getTHead().insertRow(-1);
+	  for (String element : data) {
 		  row.insertCell(-1).setInnerText(element);
-	  
+	  }
+  }
+  
+  public void addStatisticsRow(String[] data) {
+	  TableRowElement row = analytics.insertRow(-1);
+	  for (String element : data) {
+		  row.insertCell(-1).setInnerText(element);
+	  }
   }
   
   public void setVisualizations(final float noClue, final float sortaKnewIt, final float definitelyKnewIt) {

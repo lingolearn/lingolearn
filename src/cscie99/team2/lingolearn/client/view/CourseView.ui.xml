@@ -38,13 +38,6 @@
       <div class='panel-body'>
         <table class="table table-striped" ui:field='analytics'>
         	<thead>
-        		<tr>
-	        		<th>User ID</th>
-	        		<th>No Clue</th>
-	        		<th>Sorta Knew It</th>
-	        		<th>Definitely Knew It</th>
-	        		<th>Quiz Recall Rate</th>
-        		</tr>
         	</thead>
         	<tbody>
         	</tbody>
