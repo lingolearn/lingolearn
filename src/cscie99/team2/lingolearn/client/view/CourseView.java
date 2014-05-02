@@ -29,6 +29,7 @@ import com.google.gwt.visualization.client.visualizations.corechart.*;
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.Session;
+import cscie99.team2.lingolearn.shared.SessionTypes;
 
 public class CourseView extends Composite {
   
@@ -72,19 +73,50 @@ public class CourseView extends Composite {
 	  assignments.removeStyleName("loading");
 
 	  for (int i=0;i<sessions.size();i++) {
-		  Anchor anchor = new Anchor(sessions.get(i).getDeck().getDesc() + " (Deck #" + 
-				  sessions.get(i).getDeck().getId() + ")", "app.html?sessionId=" + 
-				  sessions.get(i).getSessionId() + "#session");
-		  anchor.setStyleName("list-group-item");
-
-		  if (sessions.get(i) instanceof Lesson) {
-			  ((HTMLPanel) lessons.getWidget(0)).add(anchor);
-			  lessons.removeStyleName("hidden");   // might already be removed
-		  } else {
-			  ((HTMLPanel) quizes.getWidget(0)).add(anchor);
-			  quizes.removeStyleName("hidden");
-		  }
+	  	addAssignmentLinks( sessions.get(i) );
 	  }	  
+  }
+  
+  private void addAssignmentLinks( Session session ){
+  	ArrayList<Anchor> sessionLinks = new ArrayList<Anchor>();
+  	
+  	Long sessionId = session.getSessionId();
+    Anchor mainAnchor = new Anchor(session.getDeck().getDesc() + " (Deck #" + 
+			  session.getDeck().getId() + ")", "app.html?sessionId=" + 
+			  sessionId + "#session");
+	  mainAnchor.setStyleName("list-group-item");
+
+	  sessionLinks.add(mainAnchor);
+	  for( SessionTypes type : SessionTypes.values() ){
+	  	String value = CourseView.getSessionTypeLabel(type);
+	  	String href = "app.html?sessionId=" + sessionId
+	  							+ "&type=" + type.toString() + "#session";
+	  	Anchor typeAnchor = new Anchor(value, href);
+	  	typeAnchor.setStyleName("list-group-item session-type-anchor");
+	  	sessionLinks.add(typeAnchor);
+	  }
+	  
+	  HTMLPanel assignmentPanel = null;
+	  if (session instanceof Lesson) {
+		  assignmentPanel = ((HTMLPanel) lessons.getWidget(0));
+		  lessons.removeStyleName("hidden");   // might already be removed
+	  } else {
+	  	assignmentPanel = ((HTMLPanel) quizes.getWidget(0));
+		  quizes.removeStyleName("hidden");
+	  }
+	  
+	  for( Anchor anchor : sessionLinks ){
+	  	assignmentPanel.add(anchor);
+	  }
+	  /*
+	  if (session instanceof Lesson) {
+		  ((HTMLPanel) lessons.getWidget(0)).add(anchor);
+		  lessons.removeStyleName("hidden");   // might already be removed
+	  } else {
+		  ((HTMLPanel) quizes.getWidget(0)).add(anchor);
+		  quizes.removeStyleName("hidden");
+	  }
+	  */
   }
   
   public void setStatisticsHeader(String[] data) {
@@ -121,6 +153,16 @@ public class CourseView extends Composite {
 	    VisualizationUtils.loadVisualizationApi(onLoadCallback, CoreChart.PACKAGE);
   }
   
+  public static String getSessionTypeLabel( SessionTypes type ){
+  	String tokens[] = type.toString().split("_");
+  	if( tokens.length == 0 ){
+  		return "";
+  	}else if( tokens.length == 1 ){
+  		return tokens[0];
+  	}else{
+  		return tokens[0] + " / " + tokens[1];
+  	}
+  }
   
   private PieChart.PieOptions createPieOptions() {
 	    PieChart.PieOptions options = PieChart.PieOptions.create();

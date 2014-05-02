@@ -6,12 +6,10 @@ import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpSession;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import cscie99.team2.lingolearn.client.CourseService;
-import cscie99.team2.lingolearn.shared.UserSession;
 import cscie99.team2.lingolearn.server.datastore.CourseDAO;
 import cscie99.team2.lingolearn.server.datastore.CourseRegistrationDAO;
 import cscie99.team2.lingolearn.server.datastore.DeckDAO;
@@ -25,7 +23,9 @@ import cscie99.team2.lingolearn.shared.Deck;
 import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.Quiz;
 import cscie99.team2.lingolearn.shared.Session;
+import cscie99.team2.lingolearn.shared.SessionTypes;
 import cscie99.team2.lingolearn.shared.User;
+import cscie99.team2.lingolearn.shared.UserSession;
 import cscie99.team2.lingolearn.shared.error.DeckNotFoundException;
 
 @SuppressWarnings("serial")
@@ -147,11 +147,13 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 	}
 
 	@Override
-	public UserSession createUserSession(Long sessionId, String gplusId) {
+	public UserSession createUserSession(Long sessionId, String gplusId,
+																		SessionTypes sessionType ) {
 		UserSession u = new UserSession();
 		u.setSessionId(sessionId);
 		u.setGplusId(gplusId);
 		u.setSessStart(new Date());
+		u.setSessionType(sessionType);
 		u = userSessionAccessor.storeUserSession(u);
 		return u;
 	}

@@ -30,7 +30,8 @@ public class ObjectifyableLesson extends ObjectifyableSession implements Seriali
 		this.sessId = l.getSessionId();
 		this.courseId = l.getCourseId();
 		this.deck = null;
-		this.sessionType = l.getSessionType().toString();
+		this.sessionType = l.getSessionType() == null ? ""
+									: l.getSessionType().toString();
 		Deck deck = l.getDeck();
 		if (deck != null) { 
 			ObjectifyableDeck oDeck = new ObjectifyableDeck(deck);

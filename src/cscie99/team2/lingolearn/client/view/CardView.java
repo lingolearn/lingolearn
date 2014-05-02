@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -13,6 +14,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
 import cscie99.team2.lingolearn.shared.Card;
+import cscie99.team2.lingolearn.shared.SessionTypes;
 
 public class CardView extends Composite {
   interface Binder extends UiBinder<Widget, CardView> { }
@@ -21,10 +23,12 @@ public class CardView extends Composite {
   @UiField FlowPanel card_container;
   @UiField FlowPanel card;
   @UiField FlowPanel front;
+  @UiField FlowPanel cardFrontValue;
   @UiField FlowPanel back;
   @UiField FlowPanel kanji;
-  @UiField FlowPanel hirigana;
+  @UiField FlowPanel hiragana;
   @UiField FlowPanel translation;
+  @UiField FlowPanel cardBackValue;
   @UiField FlowPanel knowledgeAssessmentArea;
   @UiField Button knowledgeLow;
   @UiField Button knowledgeMedium;
@@ -57,11 +61,77 @@ public class CardView extends Composite {
   }
 
   public void setData(Card card) {
-	  //"unflip" the card if it is flipped
-	  this.card_container.removeStyleName("card-flipped");
+
+	  clearCard();
+	  String sessionType = Window.Location.getParameter("type");
+  	HTML frontValue = new HTML();
+  	final HTML backValue = new HTML();
+  	
+	  switch(sessionType){
+	  	case "Kanji_Translation":
+	  		frontValue.setText(card.getKanji());
+	  		backValue.setText(card.getTranslation());
+	  		break;
+	  	case "Hiragana_Translation":
+	  		frontValue.setText(card.getHiragana());
+	  		backValue.setText(card.getTranslation());
+	  		break;
+	  	case "Translation_Kanji":
+	  		frontValue.setText(card.getTranslation());
+	  		backValue.setText(card.getKanji());
+	  		break;
+	  	case "Translation_Hiragana":
+	  		frontValue.setText(card.getTranslation());
+	  		backValue.setText(card.getHiragana());
+	  		break;
+	  	case "Kanji_Hiragana":
+	  		frontValue.setText(card.getKanji());
+	  		backValue.setText(card.getHiragana());
+	  		break;
+	  	case "Hiragana_Kanji":
+	  		frontValue.setText(card.getHiragana());
+	  		backValue.setText(card.getKanji());
+	  		break;
+	  	case "Confusor":
+	  	
+	  	default:
+	  		setDefaultType(card);
+	  		break;
+	  }
 	  
-	  //clear DOM nodes
-	  this.kanji.clear();
+	  cardFrontValue.add(frontValue);
+	  
+	  Timer timer = new Timer() {
+      public void run() {
+    	  cardBackValue.clear();
+    	  cardBackValue.add(backValue);
+      }
+	  };
+	  timer.schedule(1000);
+	  
+  }
+  
+  public Timer setKanjiTranslationType(Card card){
+  	HTML frontValue = new HTML();
+  	final HTML backValue = new HTML();
+  	
+  	frontValue.setText(card.getKanji());
+  	backValue.setText(card.getTranslation());
+  	
+	  // Update UI after a second so the user doesn't get a peek at
+	  // the answer during the animation
+	  Timer timer = new Timer() {
+	      public void run() {
+	    	  translation.clear();
+	    	  translation.add(backValue);
+	      }
+	  };
+	  
+	  return timer;
+  }
+  
+  public Timer setDefaultType(Card card){
+
 	  
 	  //add card data to DOM nodes
 	  HTML tb1 = new HTML();
@@ -84,8 +154,7 @@ public class CardView extends Composite {
 	      }
 	  };
 	  
-	  timer.schedule(1000);
-	  
+	  return timer;
   }
   
   public void flipCard() {
@@ -97,5 +166,16 @@ public class CardView extends Composite {
   
   public Widget asWidget() {
     return this;
+  }
+  
+  private void clearCard(){
+	  //"unflip" the card if it is flipped
+	  this.card_container.removeStyleName("card-flipped");
+	  //clear DOM nodes
+	  this.kanji.clear();
+	  this.hiragana.clear();
+	  this.translation.clear();
+	  this.cardFrontValue.clear();
+	  this.cardBackValue.clear();
   }
 }

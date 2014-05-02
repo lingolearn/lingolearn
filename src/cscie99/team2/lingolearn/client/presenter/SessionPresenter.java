@@ -6,6 +6,7 @@ import java.util.List;
 
 import cscie99.team2.lingolearn.client.CardServiceAsync;
 import cscie99.team2.lingolearn.client.CourseServiceAsync;
+import cscie99.team2.lingolearn.client.Notice;
 import cscie99.team2.lingolearn.client.event.AnalyticsEvent;
 import cscie99.team2.lingolearn.client.view.CardView;
 import cscie99.team2.lingolearn.client.view.QuizView;
@@ -16,6 +17,7 @@ import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.Quiz;
 import cscie99.team2.lingolearn.shared.QuizResponse;
 import cscie99.team2.lingolearn.shared.Session;
+import cscie99.team2.lingolearn.shared.SessionTypes;
 import cscie99.team2.lingolearn.shared.User;
 import cscie99.team2.lingolearn.shared.UserSession;
 
@@ -83,16 +85,25 @@ public class SessionPresenter implements Presenter {
     container.clear();
     container.add(display.asWidget());
     
-    //Set session based on query parameter in URL
-    Long sessionId = (long) 0;
-    sessionId = Long.valueOf(Window.Location.getParameter("sessionId"));
-    this.setSession(sessionId);
+    try{
+    	//Set session based on query parameter in URL
+    	Long sessionId = (long) 0;
+    	String sessionType = 
+    				Window.Location.getParameter("type") == null ? ""
+    						: Window.Location.getParameter("type");
+    	
+    	sessionId = Long.valueOf(Window.Location.getParameter("sessionId"));
+    	this.setSession(sessionId, sessionType);
+    }catch( NumberFormatException nfe ){
+    	Notice.showNotice(
+    			"The study session specified is invalid.", "error");
+    }
   }
   
   /*
    * Sets and starts a session
    */
-  public void setSession(Long sessionId) {
+  public void setSession(Long sessionId, final String sessionType) {
 	  
 	  courseService.getSessionById(sessionId, 
 			  new AsyncCallback<Session>() {
@@ -108,7 +119,11 @@ public class SessionPresenter implements Presenter {
 				  }
 			  }
 
-			  courseService.createUserSession(session.getSessionId(), currentUser.getGplusId(), 
+			  SessionTypes type = SessionTypes.valueOf(sessionType);
+			  
+			  courseService.createUserSession(session.getSessionId(), 
+			  		currentUser.getGplusId(), 
+			  		type,
 					  new AsyncCallback<UserSession>() {
 
 				  public void onSuccess(UserSession returnedUserSession) {

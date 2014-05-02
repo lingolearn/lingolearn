@@ -10,6 +10,7 @@ import cscie99.team2.lingolearn.shared.Deck;
 import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.Quiz;
 import cscie99.team2.lingolearn.shared.Session;
+import cscie99.team2.lingolearn.shared.SessionTypes;
 import cscie99.team2.lingolearn.shared.User;
 import cscie99.team2.lingolearn.shared.UserSession;
 
@@ -22,7 +23,8 @@ public interface CourseServiceAsync {
   public void getSessionsForCourse(Long courseId, AsyncCallback<ArrayList<Session>> callback);
   public void getSessionById(Long sessionId, AsyncCallback<Session> callback);
   public void createCourse(Course course, AsyncCallback<Course> callback);
-  public void createUserSession(Long sessionId, String gplusId, AsyncCallback<UserSession> callback);
+  public void createUserSession(Long sessionId, String gplusId, 
+  												SessionTypes type, AsyncCallback<UserSession> callback);
   public void enrollInCourse(Course course, User student, AsyncCallback<Boolean> callback);
   public void enrollInCourse(Long courseId, String gplusId, AsyncCallback<Boolean> callback);
   public void createLesson(Long courseId, Long deckId, AsyncCallback<Lesson> callback);

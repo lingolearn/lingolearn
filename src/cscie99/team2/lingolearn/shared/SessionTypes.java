@@ -2,12 +2,12 @@ package cscie99.team2.lingolearn.shared;
 
 public enum SessionTypes {
 
-	KANJI_TRANSLATION, 
-	HIRAGANA_TRANSLATION,
-	TRANSLATION_KANJI,
-	TRANSLATION_HIRAGANA,
-	KANJI_HIRAGANA,
-	HIRAGANA_KANJI,
-	CONFUSOR
+	Kanji_Translation, 
+	Hiragana_Translation,
+	Translation_Kanji,
+	Translation_Hiragana,
+	Kanji_Hiragana,
+	Hiragana_Kanji,
+	Confusor
 	
 }

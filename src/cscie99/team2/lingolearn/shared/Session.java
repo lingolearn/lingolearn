@@ -62,7 +62,8 @@ public abstract class Session implements Serializable {
 	}
 	
 	public SessionTypes getSessionType() {
-		return SessionTypes.valueOf(sessionType);
+		return this.sessionType == null ? null 
+							: SessionTypes.valueOf(sessionType);
 	}
 
 	public void setSessionType(String sessionType) {

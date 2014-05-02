@@ -7,14 +7,15 @@
     <g:FlowPanel ui:field='card_container' styleName='card-container'>
       <g:FlowPanel ui:field='card' styleName='card'>
         <g:FlowPanel ui:field='front' styleName='card-front'>
-          <g:FlowPanel ui:field='kanji' styleName='kanji'>
-          </g:FlowPanel>
-          <g:FlowPanel ui:field='hirigana' styleName='hirigana'>
-          </g:FlowPanel>
-        </g:FlowPanel>
+          <g:FlowPanel ui:field='kanji' styleName='kanji'></g:FlowPanel>
+          <g:FlowPanel ui:field='hiragana' styleName='hirigana'></g:FlowPanel>
+          <g:FlowPanel ui:field="cardFrontValue" styleName="card-front-value"></g:FlowPanel>
+        </g:FlowPanel><!-- end front -->
 
         <g:FlowPanel ui:field='back' styleName='card-back'>
           <g:FlowPanel ui:field='translation' styleName='translation'>
+          </g:FlowPanel>
+          <g:FlowPanel ui:field="cardBackValue" styleName="card-back-value">
           </g:FlowPanel>
 
           <g:FlowPanel ui:field='knowledgeAssessmentArea' styleName='btn-group'>

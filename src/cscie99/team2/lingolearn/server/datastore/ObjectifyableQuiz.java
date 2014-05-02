@@ -34,7 +34,8 @@ public class ObjectifyableQuiz extends ObjectifyableSession implements Serializa
 		this.sessId = q.getSessionId();
 		this.courseId = q.getCourseId();
 		this.mode = q.getMode();
-		this.sessionType = q.getSessionType().toString();
+		this.sessionType = q.getSessionType() == null ? ""
+												: q.getSessionType().toString();
 		this.deck = null;
 		
 		Deck deck = q.getDeck();
