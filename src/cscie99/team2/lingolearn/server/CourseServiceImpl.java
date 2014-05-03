@@ -147,8 +147,7 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 	}
 
 	@Override
-	public UserSession createUserSession(Long sessionId, String gplusId,
-																		SessionTypes sessionType ) {
+	public UserSession createUserSession(Long sessionId, String gplusId, SessionTypes sessionType ) {
 		UserSession u = new UserSession();
 		u.setSessionId(sessionId);
 		u.setGplusId(gplusId);
@@ -189,8 +188,7 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		return l;
 	}
 	
-	public Quiz createQuiz(Long courseId, Long deckId, 
-			Boolean useConfuser, SessionTypes sessionType) {
+	public Quiz createQuiz(Long courseId, Long deckId, Boolean useConfuser, SessionTypes sessionType) {
 		Quiz q = new Quiz();
 		q.setCourseId(courseId);
 		q.setSessionType(sessionType);

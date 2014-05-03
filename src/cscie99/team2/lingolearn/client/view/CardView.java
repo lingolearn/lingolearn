@@ -1,6 +1,5 @@
 package cscie99.team2.lingolearn.client.view;
 
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -60,56 +59,53 @@ public class CardView extends Composite {
 	  return knowledgeHigh;
   }
 
-  public void setData(Card card) {
-
-	  clearCard();
-	  String sessionType = Window.Location.getParameter("type");
-  	HTML frontValue = new HTML();
-  	final HTML backValue = new HTML();
-  	
-	  switch(sessionType){
-	  	case "Kanji_Translation":
-	  		frontValue.setText(card.getKanji());
-	  		backValue.setText(card.getTranslation());
-	  		break;
-	  	case "Hiragana_Translation":
-	  		frontValue.setText(card.getHiragana());
-	  		backValue.setText(card.getTranslation());
-	  		break;
-	  	case "Translation_Kanji":
-	  		frontValue.setText(card.getTranslation());
-	  		backValue.setText(card.getKanji());
-	  		break;
-	  	case "Translation_Hiragana":
-	  		frontValue.setText(card.getTranslation());
-	  		backValue.setText(card.getHiragana());
-	  		break;
-	  	case "Kanji_Hiragana":
-	  		frontValue.setText(card.getKanji());
-	  		backValue.setText(card.getHiragana());
-	  		break;
-	  	case "Hiragana_Kanji":
-	  		frontValue.setText(card.getHiragana());
-	  		backValue.setText(card.getKanji());
-	  		break;
-	  	case "Confusor":
+  	public void setData(Card card) {
+	  	clearCard();
 	  	
-	  	default:
-	  		setDefaultType(card);
-	  		break;
-	  }
-	  
-	  cardFrontValue.add(frontValue);
-	  
-	  Timer timer = new Timer() {
-      public void run() {
-    	  cardBackValue.clear();
-    	  cardBackValue.add(backValue);
-      }
-	  };
-	  timer.schedule(1000);
-	  
-  }
+		// Prepare the HTML
+		HTML frontValue = new HTML();
+		final HTML backValue = new HTML();
+		// Parse the card type
+		SessionTypes types = SessionTypes.getEnum(Window.Location.getParameter("type"));
+		switch (types) {
+			case Kanji_Translation:
+				frontValue.setText(card.getKanji());
+				backValue.setText(card.getTranslation());
+				break;
+			case Hiragana_Translation:
+				frontValue.setText(card.getHiragana());
+				backValue.setText(card.getTranslation());
+				break;
+			case Translation_Kanji:
+				frontValue.setText(card.getTranslation());
+				backValue.setText(card.getKanji());
+				break;
+			case Translation_Hiragana:
+				frontValue.setText(card.getTranslation());
+				backValue.setText(card.getHiragana());
+				break;
+			case Kanji_Hiragana:
+				frontValue.setText(card.getKanji());
+				backValue.setText(card.getHiragana());
+				break;
+			case Hiragana_Kanji:
+				frontValue.setText(card.getHiragana());
+				backValue.setText(card.getKanji());
+				break;
+			case Confusor:
+			default:
+				setDefaultType(card);
+		}
+		cardFrontValue.add(frontValue);
+
+		Timer timer = new Timer() {
+			public void run() {
+				cardBackValue.clear();
+				cardBackValue.add(backValue);
+			}
+		};
+		timer.schedule(1000);
+  	}
   
   public Timer setKanjiTranslationType(Card card){
   	HTML frontValue = new HTML();

@@ -80,13 +80,11 @@ public class AddAssignmentPresenter implements Presenter {
 						}
 						
 						public void onFailure(Throwable caught){
-							Notice.showNotice("The specified course was not found."
-																						, "error");
+							Notice.showNotice("The specified course was not found.", "error");
 						}
 			});
 		}catch( NumberFormatException nfe ){
-			Notice.showNotice("The specified course was not found."
-					, "error");
+			Notice.showNotice("The specified course was not found.", "error");
 		}
 		
 	}
@@ -101,8 +99,7 @@ public class AddAssignmentPresenter implements Presenter {
 						display.getSelectedSessionType(),
 						new AsyncCallback<Quiz>() {
 							public void onFailure(Throwable caught) {
-								Notice.showNotice("Unable to create quiz.",
-										"warning");
+								Notice.showNotice("Unable to create quiz.", "warning");
 							}
 
 							public void onSuccess(Quiz result) {
@@ -120,8 +117,7 @@ public class AddAssignmentPresenter implements Presenter {
 				courseService.createLesson(courseId, selectedDeck.getId(),
 						new AsyncCallback<Lesson>() {
 							public void onFailure(Throwable caught) {
-								Notice.showNotice("Unable to create lesson.",
-										"warning");
+								Notice.showNotice("Unable to create lesson.", "warning");
 							}
 
 							public void onSuccess(Lesson result) {
@@ -136,8 +132,7 @@ public class AddAssignmentPresenter implements Presenter {
 		deckService.getAllDecks(new AsyncCallback<List<Deck>>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				Notice.showNotice("Uh oh, we couldn't get the list of decks.",
-						"warning");
+				Notice.showNotice("Uh oh, we couldn't get the list of decks.", "warning");
 			}
 
 			@Override

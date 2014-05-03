@@ -19,6 +19,25 @@ public enum SessionTypes {
 		text = value;
 	}
 	
+	/**
+	 * Get the enumerated type that corresponds to either the name or toString value.
+	 * 
+	 * @param value Value to be checked.
+	 * @return The correct session type enumeration.
+	 */
+	public static SessionTypes getEnum(String value) {
+		for (SessionTypes type : SessionTypes.values()) {
+			if (type.toString().equalsIgnoreCase(value)) {
+				return type;
+			}
+			if (type.name().equalsIgnoreCase(value)) {
+				return type;
+			}
+		}
+		// If we get here, we don't know what was provided
+		throw new IllegalArgumentException("The value was not recognized: " + value);
+	}
+	
 	@Override
 	public String toString() {
 		return text;

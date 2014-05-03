@@ -75,23 +75,21 @@ public class AddAssignmentView extends Composite {
   		SessionTypes type = types[i];
   		RadioButton radioButton = new RadioButton(radioGroup, type.toString());
   		radioButton.setStyleName("session-type-radio");
-  		if( type == SessionTypes.Kanji_Translation )
+  		if( type == SessionTypes.Kanji_Translation ) {
   			radioButton.setValue(true);
-  		//radioButton.addClickHandler( new RadioClickHandler( radioButton, this) );
+  		}
   		sessionTypeRadios.add(radioButton);
   	}
   }
   
   public SessionTypes getSelectedSessionType(){
   	RadioButton selected = getSelectedSessionTypeRadio();
-  	SessionTypes type = SessionTypes.Kanji_Translation;
   	try{
-  		type = SessionTypes.valueOf(selected.getText());
-  		return type;
+  		return SessionTypes.getEnum(selected.getText());
   	}catch( IllegalArgumentException iae ){
-  		return type;
+  		// Return the default on error
+  		return SessionTypes.Kanji_Translation;
   	}
-  	
   }
   
   private RadioButton getSelectedSessionTypeRadio(){
@@ -114,8 +112,7 @@ public class AddAssignmentView extends Composite {
   	private RadioButton clicked;
   	private AddAssignmentView display; 
   	
-  	public RadioClickHandler( RadioButton clicked, 
-  																	AddAssignmentView display ){
+  	public RadioClickHandler( RadioButton clicked, AddAssignmentView display ){
   		this.clicked = clicked;
   		this.display = display;
   	}
