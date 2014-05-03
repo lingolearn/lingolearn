@@ -218,7 +218,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				break;
 			case "addAssignment":
 				presenter = new AddAssignmentPresenter(courseService,
-						deckService, eventBus, new AddAssignmentView());
+						deckService, currentUser, eventBus, new AddAssignmentView());
 				break;
 
 			}

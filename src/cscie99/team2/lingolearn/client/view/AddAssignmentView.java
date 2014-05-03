@@ -30,15 +30,23 @@ public class AddAssignmentView extends Composite {
 	  initWidget(binder.createAndBindUi(this));
   }
   
-  public HasClickHandlers getCreateQuizButton() {
+  public HasClickHandlers getCreateQuizButtonHandlers() {
 	  return createQuizButton;
   }
   
-  public HasClickHandlers getCreateLessonButton() {
+  public HasClickHandlers getCreateLessonButtonHandlers() {
 	  return createLessonButton;
   }
   
-  public Boolean isUseConfuserSelected() {
+  public Button getCreateQuizButton() {
+		return createQuizButton;
+	}
+
+	public Button getCreateLessonButton() {
+		return createLessonButton;
+	}
+
+	public Boolean isUseConfuserSelected() {
 	  return useConfuser.getValue();
   }
   

@@ -2,20 +2,22 @@ package cscie99.team2.lingolearn.client.presenter;
 
 import java.util.List;
 
-import cscie99.team2.lingolearn.client.CourseServiceAsync;
-import cscie99.team2.lingolearn.client.DeckServiceAsync;
-import cscie99.team2.lingolearn.client.Notice;
-import cscie99.team2.lingolearn.client.view.AddAssignmentView;
-import cscie99.team2.lingolearn.shared.Deck;
-import cscie99.team2.lingolearn.shared.Lesson;
-import cscie99.team2.lingolearn.shared.Quiz;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
+
+import cscie99.team2.lingolearn.client.CourseServiceAsync;
+import cscie99.team2.lingolearn.client.DeckServiceAsync;
+import cscie99.team2.lingolearn.client.Notice;
+import cscie99.team2.lingolearn.client.view.AddAssignmentView;
+import cscie99.team2.lingolearn.shared.Course;
+import cscie99.team2.lingolearn.shared.Deck;
+import cscie99.team2.lingolearn.shared.Lesson;
+import cscie99.team2.lingolearn.shared.Quiz;
+import cscie99.team2.lingolearn.shared.User;
 
 public class AddAssignmentPresenter implements Presenter {
 
@@ -24,18 +26,74 @@ public class AddAssignmentPresenter implements Presenter {
 	private final CourseServiceAsync courseService;
 	private final DeckServiceAsync deckService;
 	private Long courseId;
-
+	private Course currentCourse;
+	private User currentUser;
+	private boolean userIsInstructor = false;
+	
 	public AddAssignmentPresenter(CourseServiceAsync courseService,
-			DeckServiceAsync deckService, HandlerManager eventBus,
+			DeckServiceAsync deckService, User user,
+			HandlerManager eventBus,
 			AddAssignmentView display) {
 		this.courseService = courseService;
 		this.deckService = deckService;
 		this.eventBus = eventBus;
 		this.display = display;
+		this.currentUser = user;
+	}
+	
+	public AddAssignmentPresenter(CourseServiceAsync courseService,
+			DeckServiceAsync deckService, HandlerManager eventBus,
+			AddAssignmentView display) {
+		
+		this( courseService, deckService, null, eventBus, display);
 	}
 
 	public void bind() {
-		display.getCreateQuizButton().addClickHandler(new ClickHandler() {
+		
+		populateDeckList();
+		userIsInstructor = currentCourse.getInstructor().equals(currentUser);
+		
+		createLessonButton();
+		if( userIsInstructor ){
+			createQuizButton();
+		}else{
+			display.getCreateQuizButton().setEnabled(false);
+		}
+		
+	}
+
+	public void go(final HasWidgets container) {
+		try{
+			courseId = Long.valueOf(Window.Location.getParameter("courseId"));
+			courseService.getCourseById(this.courseId, 
+					new AsyncCallback<Course>(){
+						public void onSuccess(Course course){
+							currentCourse = course;
+							
+							bind();
+							container.clear();
+							container.add(display.asWidget());
+						}
+						
+						public void onFailure(Throwable caught){
+							Notice.showNotice("The specified course was not found."
+																						, "error");
+						}
+			});
+		}catch( NumberFormatException nfe ){
+			Notice.showNotice("The specified course was not found."
+					, "error");
+		}
+		
+		bind();
+
+
+		// Set course based on query parameter in URL
+		
+	}
+
+	private void createQuizButton(){
+		display.getCreateQuizButtonHandlers().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				Deck selectedDeck = display.getSelectedDeck();
 				courseService.createQuiz(courseId, selectedDeck.getId(),
@@ -52,8 +110,10 @@ public class AddAssignmentPresenter implements Presenter {
 						});
 			}
 		});
-
-		display.getCreateLessonButton().addClickHandler(new ClickHandler() {
+	}
+	
+	private void createLessonButton(){
+		display.getCreateLessonButtonHandlers().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				Deck selectedDeck = display.getSelectedDeck();
 				courseService.createLesson(courseId, selectedDeck.getId(),
@@ -70,17 +130,11 @@ public class AddAssignmentPresenter implements Presenter {
 			}
 		});
 	}
-
-	public void go(final HasWidgets container) {
-		bind();
-		container.clear();
-		container.add(display.asWidget());
-		populateDeckList();
-
-		// Set course based on query parameter in URL
-		courseId = Long.valueOf(Window.Location.getParameter("courseId"));
+	
+	private void getCourse(){
+	
 	}
-
+	
 	private void populateDeckList() {
 		deckService.getAllDecks(new AsyncCallback<List<Deck>>() {
 			@Override
