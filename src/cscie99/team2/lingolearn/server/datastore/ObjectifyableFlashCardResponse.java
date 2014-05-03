@@ -32,7 +32,7 @@ public class ObjectifyableFlashCardResponse implements Serializable {
 	@Unindex private float	timeToAnswer; 	// Time, user spent answering this question
 	@Unindex private Assessment assessment;	// The user's assessment of the flashcard.
 	private Date	answerTimeRec;			// Date when the answer was obtained
-	@Unindex private String	seq;				// Sequence
+	@Unindex private String	seq;				// Now holds the SessionType
 	
 	public ObjectifyableFlashCardResponse() {}
 	

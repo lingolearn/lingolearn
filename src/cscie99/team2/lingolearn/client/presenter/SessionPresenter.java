@@ -161,6 +161,7 @@ public class SessionPresenter implements Presenter {
 	  flashCardResponse.setSessionId(session.getSessionId());
 	  flashCardResponse.setUserSessionId(userSession.getUserSessionId());
 	  flashCardResponse.setAssessment(knowledge);
+	  flashCardResponse.setSeq(this.userSession.getSessionType().toString());
 	  AnalyticsEvent flashCardEvent = new AnalyticsEvent(flashCardResponse);
 	  eventBus.fireEvent(flashCardEvent);
 	  
@@ -172,6 +173,7 @@ public class SessionPresenter implements Presenter {
 	  quizResponse.setGplusId(currentUser.getGplusId());
 	  quizResponse.setSessionId(session.getSessionId());
 	  quizResponse.setUserSessionId(userSession.getUserSessionId());
+	  quizResponse.setSeq(this.userSession.getSessionType().toString());
 	  AnalyticsEvent quizEvent = new AnalyticsEvent(quizResponse);
 	  eventBus.fireEvent(quizEvent);
   }

@@ -9,7 +9,9 @@ import java.util.Date;
 public class QuizResponse implements Serializable {
 
 	private static final long serialVersionUID = 3269082972556822708L;
-
+	public static final String DEFAULT_SEQUENCE = 
+			SessionTypes.Kanji_Translation.toString();
+	
 	private Long 	qRespId,			// Unique QuizResponse id
 					userSessionId,		// UserSession id
 					sessionId,			// Session id/ Assignment Id
@@ -22,7 +24,7 @@ public class QuizResponse implements Serializable {
 	private Date	answerTimeRec;		// Date when the answer was obtained
 	private int 	numConfusersUsed;	// Number of confuser's used [0,1,2,3]
 	private String	wrongAnswers;		// CSV list of wrong answers that were presented, for example [dog,bird,cow]
-	private String	seq;				// Sequence
+	private String	seq;				// Now holds the SessionType
 	
 	public QuizResponse () {
 		this.answerTimeRec = new Date();
@@ -38,7 +40,7 @@ public class QuizResponse implements Serializable {
 		this.isCorrect = isCorrect;
 		this.isChanged = isChanged;
 		this.timeToAnswer = timeToAnswer;
-		seq = "Japanese-->English";
+		seq = DEFAULT_SEQUENCE;
 	}
 	
 	public QuizResponse(Long qRespId, Long userSessionId, Long sessionId, Long cardId, String gplusId, 
@@ -53,7 +55,7 @@ public class QuizResponse implements Serializable {
 		this.isCorrect = isCorrect;
 		this.isChanged = isChanged;
 		this.timeToAnswer = timeToAnswer;
-		seq = "Japanese-->English";
+		seq = DEFAULT_SEQUENCE;
 	}
 	
 	public QuizResponse(Long qRespId, Long userSessionId, Long sessionId,
@@ -71,7 +73,7 @@ public class QuizResponse implements Serializable {
 		this.isChanged = isChanged;
 		this.timeToAnswer = timeToAnswer;
 		this.answerTimeRec = answerTimeRec;
-		seq = "Japanese-->English";
+		seq = DEFAULT_SEQUENCE;
 	}
 
 	public QuizResponse(Long qRespId, Long userSessionId, Long sessionId,
@@ -90,7 +92,7 @@ public class QuizResponse implements Serializable {
 		this.answerTimeRec = answerTimeRec;
 		this.numConfusersUsed = numConfusersUsed;
 		this.wrongAnswers = wrongAnswers;
-		seq = "Japanese-->English";
+		seq = DEFAULT_SEQUENCE;
 	}
 	
 	public QuizResponse(Long qRespId, Long userSessionId, Long sessionId,
@@ -111,7 +113,7 @@ public class QuizResponse implements Serializable {
 		this.numConfusersUsed = numConfusersUsed;
 		this.wrongAnswers = wrongAnswers;
 		this.seq = seq;
-		seq = "Japanese-->English";
+		seq = DEFAULT_SEQUENCE;
 	}
 	
 	public Long getSessionId() {

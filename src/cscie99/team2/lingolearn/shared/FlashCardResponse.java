@@ -6,6 +6,9 @@ import java.util.Date;
 public class FlashCardResponse implements Serializable {
 
 	private static final long serialVersionUID = -1298962988486358463L;
+	public static final String DEFAULT_SEQUENCE = 
+							SessionTypes.Kanji_Translation.toString();
+	
 	
 	private Long 	fcRespId,		// Unique QuizResponse id
 					userSessionId,	// UserSession id
@@ -19,7 +22,7 @@ public class FlashCardResponse implements Serializable {
 	private float	timeToAnswer; 	// Time, user spent answering this question
 	private Assessment assessment;	// The user's assessment of the flashcard.
 	private Date	answerTimeRec;	// Date when the answer was obtained
-	private String	seq;			// Sequence
+	private String	seq;			// Now holds the SessionType
 
 	public FlashCardResponse() {
 		this.answerTimeRec = new Date();
@@ -37,7 +40,7 @@ public class FlashCardResponse implements Serializable {
 		this.isDropped = isDropped;
 		this.timeToAnswer = timeToAnswer;
 		this.assessment = assessment;
-		seq = "Japanese-->English";
+		seq = DEFAULT_SEQUENCE;
 	}
 
 	public FlashCardResponse(Long fcRespId, Long userSessionId, Long sessionId,
@@ -55,7 +58,7 @@ public class FlashCardResponse implements Serializable {
 		this.isDropped = isDropped;
 		this.timeToAnswer = timeToAnswer;
 		this.assessment = assessment;
-		seq = "Japanese-->English";
+		seq = DEFAULT_SEQUENCE;
 	}
 	
 	public FlashCardResponse(Long fcRespId, Long userSessionId, Long sessionId,
@@ -75,7 +78,7 @@ public class FlashCardResponse implements Serializable {
 		this.timeToAnswer = timeToAnswer;
 		this.assessment = assessment;
 		this.answerTimeRec = answerTimeRec;
-		seq = "Japanese-->English";
+		seq = DEFAULT_SEQUENCE;
 	}
 	
 	public FlashCardResponse(Long fcRespId, Long userSessionId, Long sessionId,
@@ -96,7 +99,7 @@ public class FlashCardResponse implements Serializable {
 		this.assessment = assessment;
 		this.answerTimeRec = answerTimeRec;
 		this.seq = seq;
-		seq = "Japanese-->English";
+		seq = DEFAULT_SEQUENCE;
 	}
 	
 	public Long getSessionId() {
