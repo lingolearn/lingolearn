@@ -30,6 +30,7 @@ public interface CourseService extends RemoteService {
 	public Boolean enrollInCourse(Course course, User student);
 	public Boolean enrollInCourse(Long courseId, String gplusId);
 	public Lesson createLesson(Long courseId, Long deckId);
-	public Quiz createQuiz(Long courseId, Long deckId, Boolean useConfuser);
+	public Quiz createQuiz(Long courseId, Long deckId, 
+							Boolean useConfuser, SessionTypes sessionType);
 	public List<Deck> getAllDecks();
 }

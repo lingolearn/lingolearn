@@ -88,12 +88,10 @@ public class SessionPresenter implements Presenter {
     try{
     	//Set session based on query parameter in URL
     	Long sessionId = (long) 0;
-    	String sessionType = 
-    				Window.Location.getParameter("type") == null ? ""
-    						: Window.Location.getParameter("type");
+    	
     	
     	sessionId = Long.valueOf(Window.Location.getParameter("sessionId"));
-    	this.setSession(sessionId, sessionType);
+    	this.setSession(sessionId);
     }catch( NumberFormatException nfe ){
     	Notice.showNotice(
     			"The study session specified is invalid.", "error");
@@ -103,24 +101,38 @@ public class SessionPresenter implements Presenter {
   /*
    * Sets and starts a session
    */
-  public void setSession(Long sessionId, final String sessionType) {
+  public void setSession(Long sessionId) {
 	  
 	  courseService.getSessionById(sessionId, 
 			  new AsyncCallback<Session>() {
 		  public void onSuccess(Session returnedSession) {
 			  session = returnedSession;
 			  
+			  // Get the session type -- either from the 
+			  // query string, or from the quiz instance variable
+			  // set by the instructor
+			  String sessionType = 
+    				Window.Location.getParameter("type") == null ? ""
+    						: Window.Location.getParameter("type");
+			  
+			  SessionTypes type = SessionTypes.Kanji_Translation;
 			  if (session instanceof Quiz) {
 				  Quiz q = (Quiz) session;
+				  type = q.getSessionType();
 				  if (q.getMode().equals("yes")) {
 					  quizPresenter.setUseConfusers(true);
 				  } else {
 					  quizPresenter.setUseConfusers(false);
 				  }
+			  }else{
+			  	try{
+			  		type = SessionTypes.valueOf(sessionType);
+			  	}catch(IllegalArgumentException iae ){
+			  		Notice.showNotice("Invalid Lession Type.", "error");
+			  		return;
+			  	}
 			  }
 
-			  SessionTypes type = SessionTypes.valueOf(sessionType);
-			  
 			  courseService.createUserSession(session.getSessionId(), 
 			  		currentUser.getGplusId(), 
 			  		type,
