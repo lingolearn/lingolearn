@@ -7,6 +7,7 @@
 /war/WEB-INF/classes
 /war/WEB-INF/deploy
 /war/WEB-INF/appengine-generated
+/war/WEB-INF/lib
 
 # TODO Determine what the following excludes are for
 /build
