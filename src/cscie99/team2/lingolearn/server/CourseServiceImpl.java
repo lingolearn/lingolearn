@@ -189,9 +189,11 @@ public class CourseServiceImpl extends RemoteServiceServlet implements CourseSer
 		return l;
 	}
 	
-	public Quiz createQuiz(Long courseId, Long deckId, Boolean useConfuser) {
+	public Quiz createQuiz(Long courseId, Long deckId, 
+			Boolean useConfuser, SessionTypes sessionType) {
 		Quiz q = new Quiz();
 		q.setCourseId(courseId);
+		q.setSessionType(sessionType);
 		if (useConfuser) {
 			q.setMode("yes");
 		} else {

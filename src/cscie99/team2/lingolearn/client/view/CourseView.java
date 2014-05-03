@@ -89,15 +89,19 @@ public class CourseView extends Composite {
 		mainAnchor.setStyleName("list-group-item");
 		
 		sessionLinks.add(mainAnchor);
-		for( SessionTypes type : SessionTypes.values() ){
-			String value = CourseView.getSessionTypeLabel(type);
-			String href = "app.html?sessionId=" + sessionId
-								+ "&type=" + type.toString() + "#session";
-			Anchor typeAnchor = new Anchor(value, href);
-			typeAnchor.setStyleName("list-group-item session-type-anchor");
-			sessionLinks.add(typeAnchor);
-		}
 		
+		// We only display the session type choices for lessons.
+		// quiz session types are set by the instructor
+		if( session instanceof Lesson ){
+			for( SessionTypes type : SessionTypes.values() ){
+				String value = CourseView.getSessionTypeLabel(type);
+				String href = "app.html?sessionId=" + sessionId
+									+ "&type=" + type.toString() + "#session";
+				Anchor typeAnchor = new Anchor(value, href);
+				typeAnchor.setStyleName("list-group-item session-type-anchor");
+				sessionLinks.add(typeAnchor);
+			}
+		}
 		HTMLPanel assignmentPanel = null;
 		if (session instanceof Lesson) {
 			assignmentPanel = ((HTMLPanel) lessons.getWidget(0));

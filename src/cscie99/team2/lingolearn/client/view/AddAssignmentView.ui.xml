@@ -23,7 +23,6 @@
      		<div class='form-group quiz-type-form'>
       			<div class='col-sm-offset-4 col-sm-8'>
       				<g:CheckBox ui:field='useConfuser' text="Use confuser?" />
-      				<p>This is not yet implemented on the back end.</p>
       				<g:FlowPanel ui:field="sessionTypeRadios">
       				</g:FlowPanel>
       			</div>
