@@ -17,6 +17,7 @@ import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.Deck;
 import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.Quiz;
+import cscie99.team2.lingolearn.shared.SessionTypes;
 import cscie99.team2.lingolearn.shared.User;
 
 public class AddAssignmentPresenter implements Presenter {
@@ -60,10 +61,13 @@ public class AddAssignmentPresenter implements Presenter {
 			display.getCreateQuizButton().setEnabled(false);
 		}
 		
+		display.setSessionTypes(SessionTypes.values());
 	}
 
 	public void go(final HasWidgets container) {
 		try{
+			
+			// Set course based on query parameter in URL
 			courseId = Long.valueOf(Window.Location.getParameter("courseId"));
 			courseService.getCourseById(this.courseId, 
 					new AsyncCallback<Course>(){
@@ -84,11 +88,6 @@ public class AddAssignmentPresenter implements Presenter {
 			Notice.showNotice("The specified course was not found."
 					, "error");
 		}
-		
-		bind();
-
-
-		// Set course based on query parameter in URL
 		
 	}
 
@@ -129,10 +128,6 @@ public class AddAssignmentPresenter implements Presenter {
 						});
 			}
 		});
-	}
-	
-	private void getCourse(){
-	
 	}
 	
 	private void populateDeckList() {

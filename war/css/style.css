@@ -65,6 +65,15 @@ a.session-type-anchor {
 	color:black;
 }
 
+.quiz-type-form .session-type-radio {
+	display:block;
+	padding:1px;
+}
+
+.quiz-type-form p {
+	font-size: small;
+}
+
 .card-container {
   -webkit-perspective:1000;
   perspective:1000;

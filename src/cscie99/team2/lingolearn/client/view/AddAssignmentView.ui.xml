@@ -20,9 +20,12 @@
       			<label class='col-sm-4'>Deck</label>
       			<div class='col-sm-8'><g:ListBox ui:field='deckList' styleName='form-control'></g:ListBox></div>
      		</div>
-     		<div class='form-group'>
+     		<div class='form-group quiz-type-form'>
       			<div class='col-sm-offset-4 col-sm-8'>
       				<g:CheckBox ui:field='useConfuser' text="Use confuser?" />
+      				<p>This is not yet implemented on the back end.</p>
+      				<g:FlowPanel ui:field="sessionTypeRadios">
+      				</g:FlowPanel>
       			</div>
      		</div>
      		<div class='form-group'>

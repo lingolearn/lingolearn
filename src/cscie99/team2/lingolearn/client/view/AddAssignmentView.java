@@ -10,10 +10,13 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
 
 import cscie99.team2.lingolearn.shared.Deck;
+import cscie99.team2.lingolearn.shared.SessionTypes;
 
 public class AddAssignmentView extends Composite {
   
@@ -24,6 +27,7 @@ public class AddAssignmentView extends Composite {
   @UiField Button createQuizButton;
   @UiField Button createLessonButton;
   @UiField CheckBox useConfuser;
+  @UiField FlowPanel sessionTypeRadios;
   private List<Deck> listOfDecks;
   
   public AddAssignmentView() {
@@ -61,6 +65,16 @@ public class AddAssignmentView extends Composite {
 	  for (int i=0;i<decks.size();i++) {
 		  deckList.addItem(decks.get(i).getDesc() + "(" + decks.get(i).getId().toString() + ")");
 	  }
+  }
+  
+  public void setSessionTypes( SessionTypes []types ){
+  	String radioGroup = "session-type";
+  	for( int i = 0; i < types.length; i++ ){
+  		SessionTypes type = types[i];
+  		RadioButton radioButton = new RadioButton(radioGroup, type.toString());
+  		radioButton.setStyleName("session-type-radio");
+  		sessionTypeRadios.add(radioButton);
+  	}
   }
   
 }

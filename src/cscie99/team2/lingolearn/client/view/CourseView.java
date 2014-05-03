@@ -4,6 +4,7 @@ package cscie99.team2.lingolearn.client.view;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TableElement;
 import com.google.gwt.dom.client.TableRowElement;
@@ -11,20 +12,20 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.InlineHTML;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.core.client.JsArray;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.visualization.client.AbstractDataTable;
-import com.google.gwt.visualization.client.VisualizationUtils;
+import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.Selection;
-import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
+import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.events.SelectHandler;
-import com.google.gwt.visualization.client.visualizations.corechart.*;
+import com.google.gwt.visualization.client.visualizations.corechart.CoreChart;
+import com.google.gwt.visualization.client.visualizations.corechart.PieChart;
 
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.Lesson;
@@ -78,45 +79,38 @@ public class CourseView extends Composite {
   }
   
   private void addAssignmentLinks( Session session ){
-  	ArrayList<Anchor> sessionLinks = new ArrayList<Anchor>();
   	
+  	ArrayList<Anchor> sessionLinks = new ArrayList<Anchor>();
+	    
   	Long sessionId = session.getSessionId();
-    Anchor mainAnchor = new Anchor(session.getDeck().getDesc() + " (Deck #" + 
-			  session.getDeck().getId() + ")", "app.html?sessionId=" + 
-			  sessionId + "#session");
-	  mainAnchor.setStyleName("list-group-item");
+    Anchor mainAnchor = new Anchor(session.getDeck().getDesc() + " (Deck #" +
+		session.getDeck().getId() + ")", "app.html?sessionId=" +
+		sessionId + "#session");
+		mainAnchor.setStyleName("list-group-item");
+		
+		sessionLinks.add(mainAnchor);
+		for( SessionTypes type : SessionTypes.values() ){
+			String value = CourseView.getSessionTypeLabel(type);
+			String href = "app.html?sessionId=" + sessionId
+								+ "&type=" + type.toString() + "#session";
+			Anchor typeAnchor = new Anchor(value, href);
+			typeAnchor.setStyleName("list-group-item session-type-anchor");
+			sessionLinks.add(typeAnchor);
+		}
+		
+		HTMLPanel assignmentPanel = null;
+		if (session instanceof Lesson) {
+			assignmentPanel = ((HTMLPanel) lessons.getWidget(0));
+			lessons.removeStyleName("hidden"); // might already be removed
+		} else {
+			assignmentPanel = ((HTMLPanel) quizes.getWidget(0));
+			quizes.removeStyleName("hidden");
+		}
+		
+		for( Anchor anchor : sessionLinks ){
+			assignmentPanel.add(anchor);
+		}
 
-	  sessionLinks.add(mainAnchor);
-	  for( SessionTypes type : SessionTypes.values() ){
-	  	String value = CourseView.getSessionTypeLabel(type);
-	  	String href = "app.html?sessionId=" + sessionId
-	  							+ "&type=" + type.toString() + "#session";
-	  	Anchor typeAnchor = new Anchor(value, href);
-	  	typeAnchor.setStyleName("list-group-item session-type-anchor");
-	  	sessionLinks.add(typeAnchor);
-	  }
-	  
-	  HTMLPanel assignmentPanel = null;
-	  if (session instanceof Lesson) {
-		  assignmentPanel = ((HTMLPanel) lessons.getWidget(0));
-		  lessons.removeStyleName("hidden");   // might already be removed
-	  } else {
-	  	assignmentPanel = ((HTMLPanel) quizes.getWidget(0));
-		  quizes.removeStyleName("hidden");
-	  }
-	  
-	  for( Anchor anchor : sessionLinks ){
-	  	assignmentPanel.add(anchor);
-	  }
-	  /*
-	  if (session instanceof Lesson) {
-		  ((HTMLPanel) lessons.getWidget(0)).add(anchor);
-		  lessons.removeStyleName("hidden");   // might already be removed
-	  } else {
-		  ((HTMLPanel) quizes.getWidget(0)).add(anchor);
-		  quizes.removeStyleName("hidden");
-	  }
-	  */
   }
   
   public void setStatisticsHeader(String[] data) {
