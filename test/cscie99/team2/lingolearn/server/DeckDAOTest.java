@@ -3,7 +3,7 @@
  */
 package cscie99.team2.lingolearn.server;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -157,10 +157,9 @@ public class DeckDAOTest {
 		} catch (DeckNotFoundException e) {
 			assertTrue(false);
 		}
-		if (d != null) {
-			result = d.getId();
-		}
-		assertTrue("Retrieval card by DeckId failed: expected 101, but obtained: " + result, (long)101 == result);
+		assertNotNull(d);
+		result = d.getId();
+		assertEquals("Retrieval card by DeckId failed: expected 101, but obtained: " + result, (long)101, result);
 	}
 
 	@Test
@@ -176,9 +175,7 @@ public class DeckDAOTest {
 		} catch (DeckNotFoundException e) {
 			assertTrue(true);
 		}
-		if (d != null) {
-			assertTrue(false);
-		}
+		assertNull(d);
 	}
 	
 	@Test
@@ -197,9 +194,7 @@ public class DeckDAOTest {
 		} catch (DeckNotFoundException e) {
 			assertTrue(true);
 		}
-		if (d != null) {
-			assertTrue(false);
-		}
+		assertNull(d);
 	}
 	
 }
