@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.gwt.user.client.Random;
+
 import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.error.CardNotFoundException;
 import cscie99.team2.lingolearn.shared.error.SpacedRepetitionException;
@@ -44,7 +46,10 @@ public class BasicRandomization extends SpacedRepetition {
 		}
 		// Copy the card ids over and shuffle the deck
 		shuffledDeck = new ArrayList<Long>(deck.getCardIds());
-		Collections.shuffle(shuffledDeck);
+		//Collections.shuffle(shuffledDeck);
+		for(int index = 0; index < shuffledDeck.size(); index += 1) {  
+			Collections.swap(shuffledDeck, index, Random.nextInt(shuffledDeck.size()));  
+		} 
 	}
 
 	/**

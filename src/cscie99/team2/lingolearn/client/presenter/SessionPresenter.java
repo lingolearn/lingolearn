@@ -15,12 +15,14 @@ import cscie99.team2.lingolearn.client.view.QuizView;
 import cscie99.team2.lingolearn.client.view.SessionView;
 import cscie99.team2.lingolearn.shared.Assessment;
 import cscie99.team2.lingolearn.shared.Card;
+import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
 import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.Quiz;
 import cscie99.team2.lingolearn.shared.QuizResponse;
 import cscie99.team2.lingolearn.shared.Session;
 import cscie99.team2.lingolearn.shared.SessionTypes;
+import cscie99.team2.lingolearn.shared.SpacedRepetitionOption;
 import cscie99.team2.lingolearn.shared.User;
 import cscie99.team2.lingolearn.shared.UserSession;
 import cscie99.team2.lingolearn.shared.error.SpacedRepetitionException;
@@ -45,6 +47,7 @@ public class SessionPresenter implements Presenter {
   private User currentUser;
   private Long currentCardId;
   private SpacedRepetition spacedRepetitionSystem;
+  private Course course;
   
   public SessionPresenter(CourseServiceAsync courseService, 
 		  CardServiceAsync cardService, User currentUser, HandlerManager eventBus, 
@@ -55,8 +58,6 @@ public class SessionPresenter implements Presenter {
       this.currentUser = currentUser;
 	  this.eventBus = eventBus;
       this.display = display;
-      
-      this.spacedRepetitionSystem = new LeitnerSystem();
   }
   
   public void bind() {
@@ -110,7 +111,6 @@ public class SessionPresenter implements Presenter {
    */
   public void setSession(Long sessionId) {
 	  
-	  
 	  courseService.getSessionById(sessionId, 
 			  new AsyncCallback<Session>() {
 		  public void onSuccess(Session returnedSession) {
@@ -119,60 +119,86 @@ public class SessionPresenter implements Presenter {
 			  //Set "return to course" link of session
 			  display.setReturnToCourseLink(returnedSession.getCourseId());
 			  
-			  // Get the session type -- either from the 
-			  // query string, or from the quiz instance variable
-			  // set by the instructor
-			  String sessionType = 
-    				Window.Location.getParameter("type") == null ? ""
-    						: Window.Location.getParameter("type");
 			  
-			  SessionTypes type = SessionTypes.Kanji_Translation;
-			  if (session instanceof Quiz) {
-				  Quiz q = (Quiz) session;
-				  type = q.getSessionType();
-				  if (q.getMode().equals("yes")) {
-					  quizPresenter.setUseConfusers(true);
-				  } else {
-					  quizPresenter.setUseConfusers(false);
-				  }
-			  }else{
-			  	try{
-			  		type = SessionTypes.getEnum(sessionType);
-			  	}catch(IllegalArgumentException iae ){
-			  		Notice.showNotice("Unable to parse the session type (" + type + ")", "error");
-			  		return;
-			  	}
-			  }
+			  courseService.getCourseById(returnedSession.getCourseId(), new AsyncCallback<Course>() {
 
-			  courseService.createUserSession(session.getSessionId(), 
-			  		currentUser.getGplusId(), 
-			  		type,
-					  new AsyncCallback<UserSession>() {
+				@Override
+				public void onFailure(Throwable caught) {
+					Notice.showNotice("Unable to get course of session.", "warning");
+				}
 
-				  public void onSuccess(UserSession returnedUserSession) {
-					  userSession = returnedUserSession;
+				@Override
+				public void onSuccess(Course result) {
+					
+					  course = result;
 					  
-				      if (session instanceof Lesson) {
-				    	  cardPresenter.go(display.getCardContainer());
-				      } else {
-				    	  quizPresenter.go(display.getCardContainer());
-				      }
-				      
-					  display.setSessionName(session.getDeck().getDesc());
-					  spacedRepetitionSystem.setDeck(session.getDeck());
-					  try {
-						  spacedRepetitionSystem.shuffleDeck();
-					  } catch (SpacedRepetitionException e) {
-							e.printStackTrace();
+					  if (course.getSpacedRepetitionOption() == SpacedRepetitionOption.LEITNER) {
+						  spacedRepetitionSystem = new LeitnerSystem();
+					  } else {
+						  spacedRepetitionSystem = new BasicRandomization();
 					  }
-					  gotoNextCard();
-				  }
+					
+					  // Get the session type -- either from the 
+					  // query string, or from the quiz instance variable
+					  // set by the instructor
+					  String sessionType = 
+		    				Window.Location.getParameter("type") == null ? ""
+		    						: Window.Location.getParameter("type");
+					  
+					  SessionTypes type = SessionTypes.Kanji_Translation;
+					  if (session instanceof Quiz) {
+						  Quiz q = (Quiz) session;
+						  type = q.getSessionType();
+						  if (q.getMode().equals("yes")) {
+							  quizPresenter.setUseConfusers(true);
+						  } else {
+							  quizPresenter.setUseConfusers(false);
+						  }
+					  }else{
+					  	try{
+					  		type = SessionTypes.getEnum(sessionType);
+					  	}catch(IllegalArgumentException iae ){
+					  		Notice.showNotice("Unable to parse the session type (" + type + ")", "error");
+					  		return;
+					  	}
+					  }
 
-				  public void onFailure(Throwable caught) {
-					  Window.alert("An unhandled error occured: " + caught.getMessage());
-				  }
+					  courseService.createUserSession(session.getSessionId(), 
+					  		currentUser.getGplusId(), 
+					  		type,
+							  new AsyncCallback<UserSession>() {
+
+						  public void onSuccess(UserSession returnedUserSession) {
+							  userSession = returnedUserSession;
+							  
+						      if (session instanceof Lesson) {
+						    	  cardPresenter.go(display.getCardContainer());
+						      } else {
+						    	  quizPresenter.go(display.getCardContainer());
+						      }
+						      
+							  display.setSessionName(session.getDeck().getDesc());
+							  spacedRepetitionSystem.setDeck(session.getDeck());
+							  try {
+								  spacedRepetitionSystem.shuffleDeck();
+							  } catch (SpacedRepetitionException e) {
+									e.printStackTrace();
+							  }
+							  gotoNextCard();
+						  }
+
+						  public void onFailure(Throwable caught) {
+							  Window.alert("An unhandled error occured: " + caught.getMessage());
+						  }
+						  
+					  });
+					
+				}
 				  
 			  });
+			  
+			  
+			  
 	      }
 	      
 	      public void onFailure(Throwable caught) {
