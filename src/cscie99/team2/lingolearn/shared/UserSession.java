@@ -44,7 +44,7 @@ public class UserSession implements Serializable {
 	}
 	
 	public SessionTypes getSessionType() {
-		return sessionType == null ? null : SessionTypes.valueOf(sessionType);
+		return sessionType == null ? null : SessionTypes.getEnum(sessionType);
 	}
 
 	public void setSessionType(String sessionType) {

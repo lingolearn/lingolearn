@@ -63,7 +63,7 @@ public abstract class Session implements Serializable {
 	
 	public SessionTypes getSessionType() {
 		return this.sessionType == null ? null 
-							: SessionTypes.valueOf(sessionType);
+							: SessionTypes.getEnum(sessionType);
 	}
 
 	public void setSessionType(String sessionType) {
@@ -71,7 +71,7 @@ public abstract class Session implements Serializable {
 	}
 
 	public void setSessionType(SessionTypes type){
-		this.sessionType = type.toString();
+		this.sessionType = type.name();
 	}
 	
 }

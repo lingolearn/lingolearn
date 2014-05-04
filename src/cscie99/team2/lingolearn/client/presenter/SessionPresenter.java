@@ -1,6 +1,5 @@
 package cscie99.team2.lingolearn.client.presenter;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,9 +125,9 @@ public class SessionPresenter implements Presenter {
 				  }
 			  }else{
 			  	try{
-			  		type = SessionTypes.valueOf(sessionType);
+			  		type = SessionTypes.getEnum(sessionType);
 			  	}catch(IllegalArgumentException iae ){
-			  		Notice.showNotice("Invalid Lession Type.", "error");
+			  		Notice.showNotice("Unable to parse the session type (" + type + ")", "error");
 			  		return;
 			  	}
 			  }
@@ -153,7 +152,7 @@ public class SessionPresenter implements Presenter {
 				  }
 
 				  public void onFailure(Throwable caught) {
-					  Window.alert("unable to create user session");
+					  Window.alert("An unhandled error occured: " + caught.getMessage());
 				  }
 				  
 			  });

@@ -94,10 +94,9 @@ public class CourseView extends Composite {
 		// quiz session types are set by the instructor
 		if( session instanceof Lesson ){
 			for( SessionTypes type : SessionTypes.values() ){
-				String value = CourseView.getSessionTypeLabel(type);
 				String href = "app.html?sessionId=" + sessionId
-									+ "&type=" + type.toString() + "#session";
-				Anchor typeAnchor = new Anchor(value, href);
+									+ "&type=" + type.name() + "#session";
+				Anchor typeAnchor = new Anchor(type.toString(), href);
 				typeAnchor.setStyleName("list-group-item session-type-anchor");
 				sessionLinks.add(typeAnchor);
 			}
@@ -149,17 +148,6 @@ public class CourseView extends Composite {
 	    // Load the visualization api, passing the onLoadCallback to be called
 	    // when loading is done.
 	    VisualizationUtils.loadVisualizationApi(onLoadCallback, CoreChart.PACKAGE);
-  }
-  
-  public static String getSessionTypeLabel( SessionTypes type ){
-  	String tokens[] = type.toString().split("_");
-  	if( tokens.length == 0 ){
-  		return "";
-  	}else if( tokens.length == 1 ){
-  		return tokens[0];
-  	}else{
-  		return tokens[0] + " / " + tokens[1];
-  	}
   }
   
   private PieChart.PieOptions createPieOptions() {
