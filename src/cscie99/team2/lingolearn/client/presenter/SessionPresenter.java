@@ -3,14 +3,18 @@ package cscie99.team2.lingolearn.client.presenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import cscie99.team2.lingolearn.client.BasicRandomization;
 import cscie99.team2.lingolearn.client.CardServiceAsync;
 import cscie99.team2.lingolearn.client.CourseServiceAsync;
+import cscie99.team2.lingolearn.client.LeitnerSystem;
 import cscie99.team2.lingolearn.client.Notice;
+import cscie99.team2.lingolearn.client.SpacedRepetition;
 import cscie99.team2.lingolearn.client.event.AnalyticsEvent;
 import cscie99.team2.lingolearn.client.view.CardView;
 import cscie99.team2.lingolearn.client.view.QuizView;
 import cscie99.team2.lingolearn.client.view.SessionView;
 import cscie99.team2.lingolearn.shared.Assessment;
+import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
 import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.Quiz;
@@ -19,6 +23,7 @@ import cscie99.team2.lingolearn.shared.Session;
 import cscie99.team2.lingolearn.shared.SessionTypes;
 import cscie99.team2.lingolearn.shared.User;
 import cscie99.team2.lingolearn.shared.UserSession;
+import cscie99.team2.lingolearn.shared.error.SpacedRepetitionException;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -38,7 +43,8 @@ public class SessionPresenter implements Presenter {
   private Session session;
   private UserSession userSession;
   private User currentUser;
-  private int currentCardNumber;
+  private Long currentCardId;
+  private SpacedRepetition spacedRepetitionSystem;
   
   public SessionPresenter(CourseServiceAsync courseService, 
 		  CardServiceAsync cardService, User currentUser, HandlerManager eventBus, 
@@ -49,6 +55,8 @@ public class SessionPresenter implements Presenter {
       this.currentUser = currentUser;
 	  this.eventBus = eventBus;
       this.display = display;
+      
+      this.spacedRepetitionSystem = new LeitnerSystem();
   }
   
   public void bind() {
@@ -146,8 +154,13 @@ public class SessionPresenter implements Presenter {
 				    	  quizPresenter.go(display.getCardContainer());
 				      }
 				      
-					  display.setSessionName("Session " + session.getSessionId());
-					  currentCardNumber = 0;
+					  display.setSessionName(session.getDeck().getDesc());
+					  spacedRepetitionSystem.setDeck(session.getDeck());
+					  try {
+						  spacedRepetitionSystem.shuffleDeck();
+					  } catch (SpacedRepetitionException e) {
+							e.printStackTrace();
+					  }
 					  gotoNextCard();
 				  }
 
@@ -168,7 +181,7 @@ public class SessionPresenter implements Presenter {
 	  //Send knowledge to the analytics service
 	  FlashCardResponse flashCardResponse = new FlashCardResponse();
 	  flashCardResponse.setGplusId(currentUser.getGplusId());
-	  flashCardResponse.setCardId(session.getDeck().getCardIds().get(currentCardNumber));
+	  flashCardResponse.setCardId(currentCardId);
 	  flashCardResponse.setSessionId(session.getSessionId());
 	  flashCardResponse.setUserSessionId(userSession.getUserSessionId());
 	  flashCardResponse.setAssessment(knowledge);
@@ -190,16 +203,27 @@ public class SessionPresenter implements Presenter {
   }
   
   public void gotoNextCard() {
-	  if (session instanceof Lesson) {
-		  cardPresenter.setCardData(session.getDeck().getCardIds().get(currentCardNumber));
+	  
+	  boolean cardDrawn = true;
+	  if (spacedRepetitionSystem.cardsRemaining()) {
+		  try {
+			currentCardId = spacedRepetitionSystem.drawCard();
+			  if (session instanceof Lesson) {
+				  cardPresenter.setCardData(currentCardId);
+			  } else {
+				  quizPresenter.setCardData(
+						  currentCardId,
+						  selectThreeOtherCardsFromDeck());
+			  }
+		} catch (SpacedRepetitionException e) {
+			cardDrawn = false;
+		}
 	  } else {
-		  quizPresenter.setCardData(
-				  session.getDeck().getCardIds().get(currentCardNumber),
-				  selectThreeOtherCardsFromDeck());
+		  cardDrawn = false;
 	  }
-	  currentCardNumber++;
-	  if (currentCardNumber >= session.getDeck().getCardIds().size()) {
-		  currentCardNumber = 0;
+	  
+	  if (!cardDrawn) {
+		  Notice.showNotice("Unable to draw card","warning");
 	  }
   }
   
@@ -214,7 +238,7 @@ public class SessionPresenter implements Presenter {
 				  isValid = false;
 			  }
 		  }
-		  if (idx == currentCardNumber) {
+		  if (allIds.get(idx).equals(currentCardId)) {
 			  isValid = false;
 		  }
 		  if (isValid) {
