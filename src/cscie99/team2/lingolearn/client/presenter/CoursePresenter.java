@@ -121,7 +121,7 @@ public class CoursePresenter implements Presenter {
 			  float sortaKnewIt = 0.0f;
 			  float definitelyKnewIt = 0.0f;
 			  
-			  String[] headers = {"User ID","No Clue","Sorta Knew It",
+			  String[] headers = {"Student Name","No Clue","Sorta Knew It",
 					  "Definitely Knew It","Quiz Recall Rate"};
 			  display.setStatisticsHeader(headers);
 
