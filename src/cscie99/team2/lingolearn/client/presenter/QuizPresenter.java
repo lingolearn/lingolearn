@@ -101,9 +101,11 @@ public class QuizPresenter implements Presenter {
   private void populateQuizInfo(Card card, final ArrayList<Card> otherCards,
   																			final SessionTypes sessionType) {
 	  currentCard = card;
-	  this.currentCorrectAnswer = card.getDisplayString();
+	  //this.currentCorrectAnswer = card.getDisplayString();
+	  this.currentCorrectAnswer = getCorrectAnswer(card, sessionType);
 	  display.clearQuiz();
-	  display.addToStem(card.getTranslation());
+	  //display.addToStem(card.getTranslation());
+	  setQuestion(card, sessionType);
 	  display.addAnswer(this.currentCorrectAnswer);
 	  if (useConfusers) {
 		  cardService.getConfusersForCard(currentCard, sessionType, 
@@ -157,6 +159,47 @@ public class QuizPresenter implements Presenter {
 	  
   }
   
+  private void setQuestion(Card card, SessionTypes sessionType ){
+  	switch( sessionType ){
+  		case Kanji_Translation:
+  		case Kanji_Hiragana:
+  			display.addToStem(card.getKanji());
+  			break;
+  			
+  		case Hiragana_Translation:
+  		case Hiragana_Kanji:
+  			display.addToStem(card.getHiragana());
+  			break;
+  			
+  		case Translation_Kanji:
+  		case Translation_Hiragana:
+  			display.addToStem(card.getTranslation());
+  			break;
+  			
+  		default:
+  			break;
+  	}
+  }
+  
+  private String getCorrectAnswer(Card card, SessionTypes sessionType ){
+  	switch( sessionType ){
+			case Kanji_Translation:
+			case Hiragana_Translation:
+				return card.getTranslation();
+				
+			case Hiragana_Kanji:
+			case Translation_Kanji:
+				return card.getKanji();
+				
+			
+			case Translation_Hiragana:
+			case Kanji_Hiragana:
+				return card.getHiragana();
+				
+			default:
+				return "";
+  	}
+  }
   
   private void useAsWrongAnswers(ArrayList<Card> otherCards) {
 	currentNumConfusers = 0;
