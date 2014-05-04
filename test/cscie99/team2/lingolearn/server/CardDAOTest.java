@@ -269,7 +269,7 @@ public class CardDAOTest {
 				cardList = cardAccessor.getAllCardsByKanji("k1");
 			} catch (CardNotFoundException e) {
 				// There is no any Card stored yet with this kanji
-				//System.err.println("Cards were not found");
+				System.err.println("Cards were not found");
 				assertTrue(false);
 			}
 			// The list should contain 2 cards
@@ -290,6 +290,7 @@ public class CardDAOTest {
 			} catch (CardNotFoundException e) {
 				// There is no any Card stored yet with this native language
 				System.err.println("Cards were not found");
+				assertTrue(false);
 			}
 			// The list should contain only 1 card
 			assertTrue("Retrieval of the cards list with the same native language failed: expected 1 Card, but obtained: " + cardList.size(), cardList.size() == size);
@@ -307,7 +308,6 @@ public class CardDAOTest {
 			try {
 				cardList = cardAccessor.getAllCards();
 			} catch (CardNotFoundException e) {
-				// TODO Auto-generated catch block
 				System.err.println("Cards were not found");
 				assertTrue(false);
 			}
@@ -326,9 +326,10 @@ public class CardDAOTest {
 		  cardAccessor.deleteCardById((long)101);
 		  // Retrieve non-existing card with cardId=101
 		  c = cardAccessor.getCardById((long)101);
-		  if (c != null) {
-			  assertTrue(false);
-		  }
+//		  if (c != null) {
+//			  assertTrue(false);
+//		  }
+		  assertNull(c);
 	  }
 	  
 }

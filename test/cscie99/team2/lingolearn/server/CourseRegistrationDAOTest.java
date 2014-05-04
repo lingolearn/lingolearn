@@ -69,20 +69,6 @@ public class CourseRegistrationDAOTest {
 		courseRegAccessor.storeCourseRegistration(cr3);
 		courseRegAccessor.storeCourseRegistration(cr4);
 		courseRegAccessor.storeCourseRegistration(cr5);
-
-		// Create and store 3 test Course objects
-		Course c1 = new Course (101L, "Best JP course ever", "JP101",
-				new Date(), new Date()); 
-		Course c2 = new Course (102L, "Best JP level2 course ever", "JP102",
-				new Date(), new Date()); 
-		Course c3 = new Course (103L, "Best JP level3 course ever", "JP103",
-				new Date(), new Date()); 
-		
-		// Store them in the local In-memory datastore
-		CourseDAO courseAccessor = CourseDAO.getInstance();
-		courseAccessor.storeCourse(c1);
-		courseAccessor.storeCourse(c2);
-		courseAccessor.storeCourse(c3);
 		
 		// Create 2 users
 		Language lang1 = new Language("1","en-us");
@@ -95,8 +81,26 @@ public class CourseRegistrationDAOTest {
 		
 		// Store them in the local In-memory datastore
 		UserDAO userAccessor = UserDAO.getInstance();
-		userAccessor.storeUser(u1);
-		userAccessor.storeUser(u2);
+		User instr = userAccessor.storeUser(u1);
+		User student = userAccessor.storeUser(u2);
+		
+		// Create and store 3 test Course objects
+
+		Course c1 = new Course (101L, "Best JP course ever", "JP101",
+				new Date(), new Date(), instr); 
+		c1.addStudent(student);
+		Course c2 = new Course (102L, "Best JP level2 course ever", "JP102",
+				new Date(), new Date(), instr); 
+		c2.addStudent(student);
+		Course c3 = new Course (103L, "Best JP level3 course ever", "JP103",
+				new Date(), new Date(), instr);
+		c3.addStudent(student);
+		
+		// Store them in the local In-memory datastore
+		CourseDAO courseAccessor = CourseDAO.getInstance();
+		courseAccessor.storeCourse(c1);
+		courseAccessor.storeCourse(c2);
+		courseAccessor.storeCourse(c3);
 	}
 		
 	@After
@@ -113,14 +117,10 @@ public class CourseRegistrationDAOTest {
 		List<CourseRegistration> cReg = null;
 		String gplusId = "gplusId";
 		int size = 3;
-
 		cReg = courseRegAccessor.getCourseRegistrationByUserId(gplusId);
-		if (cReg != null) {
-			// The CourseRegistration list should contain 3 elements
-			assertTrue("Retrieval of the CoursesRegistration failed: expected " + size + " CourseReservations (s), but obtained: " + cReg.size(), cReg.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(cReg);
+		// The CourseRegistration list should contain 3 elements
+		assertEquals("Retrieval of the CoursesRegistration failed: expected " + size + " CourseReservations (s), but obtained: " + cReg.size(), cReg.size(), size);
 	}
 
 	@Test
@@ -132,14 +132,9 @@ public class CourseRegistrationDAOTest {
 		List<CourseRegistration> cReg = null;
 		Long courseId = 101L;
 		int size = 2;
-
 		cReg = courseRegAccessor.getCourseRegistrationByCourseId(courseId);
-		if (cReg != null) {
-			// The CourseRegistration list should contain 3 elements
-			assertTrue("Retrieval of the CoursesRegistration failed: expected " + size + " CourseReservations (s), but obtained: " + cReg.size(), cReg.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(cReg);
+		assertEquals("Retrieval of the CoursesRegistration failed: expected " + size + " CourseReservations (s), but obtained: " + cReg.size(), cReg.size(), size);
 	}
 	
 	@Test
@@ -151,14 +146,9 @@ public class CourseRegistrationDAOTest {
 		List<User> uList = null;
 		Long courseId = 101L;
 		int size = 2;
-
 		uList = courseRegAccessor.getUserCourseId(courseId);
-		if (uList != null) {
-			// Should return 2 users
-			assertTrue("Retrieval of the Users failed: expected " + size + " CourseReservations (s), but obtained: " + uList.size(), uList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(uList);
+		assertEquals("Retrieval of the Users failed: expected " + size + " CourseReservations (s), but obtained: " + uList.size(), uList.size(), size);
 	}
 	
 	@Test
@@ -169,14 +159,10 @@ public class CourseRegistrationDAOTest {
 		CourseRegistrationDAO  courseRegAccessor = CourseRegistrationDAO.getInstance();
 		List<CourseRegistration> cReg = null;
 		int size = 5;
-
 		cReg = courseRegAccessor.getAllCourseRegistrations();
-		if (cReg != null) {
-			// The CourseRegistration list should contain 5 elements
-			assertTrue("Retrieval of the CoursesRegistration failed: expected " + size + " CourseReservations (s), but obtained: " + cReg.size(), cReg.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(cReg);
+		// The CourseRegistration list should contain 5 elements
+		assertEquals("Retrieval of the CoursesRegistration failed: expected " + size + " CourseReservations (s), but obtained: " + cReg.size(), cReg.size(), size);
 	}
 	
 	@Test
@@ -191,10 +177,6 @@ public class CourseRegistrationDAOTest {
 		courseRegAccessor.deleteCourseRegistrationById(courseRegId);
 		// Retrieve non-existing CourseRegistration with gplusId
 		courseReg = courseRegAccessor.getCourseRegistrationById(courseRegId);
-		if (courseReg != null) {
-			assertTrue(false);
-		} else {
-			assertTrue(true);
-		}
+		assertNull(courseReg);
 	}
 }

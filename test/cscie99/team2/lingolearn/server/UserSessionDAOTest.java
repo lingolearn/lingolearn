@@ -50,13 +50,13 @@ public class UserSessionDAOTest {
 		helper.setUp();
 
 		// Create and store 3 test UserSession objects
-		UserSession us1 = new UserSession(111L, 101L, "gplusId",
+		UserSession us1 = new UserSession(111L, 101L, "gplusId", "Kanji_Translation",
 				new Date(), new Date());
-		UserSession us2 = new UserSession(112L, 102L, "gplusId",
+		UserSession us2 = new UserSession(112L, 102L, "gplusId", "Kanji_Translation",
 				new Date(), new Date());
-		UserSession us3 = new UserSession(113L, 101L, "gplusId2",
+		UserSession us3 = new UserSession(113L, 101L, "gplusId2", "Kanji_Translation",
 				new Date(), new Date());
-		
+
 		// Store them in the local In-memory datastore
 		UserSessionDAO uSessAccessor = UserSessionDAO.getInstance();
 		uSessAccessor.storeUserSession(us1);
@@ -76,17 +76,13 @@ public class UserSessionDAOTest {
 	public void testGetById() {
 		UserSessionDAO uSessAccessor = UserSessionDAO.getInstance();
 		UserSession us = null;
-		Long result = null;
-
+		long result;
 		us =  uSessAccessor.getUserSessionById(111L);
-		if (us == null) {
-			assertTrue(false);
-		} else {
+		assertNotNull(us);
 		result = us.getUserSessionId();
-		assertTrue("Retrieval UserSession by sessionId failed: expected 111, but obtained: " + result, result == 111L);
-		}
+		assertEquals("Retrieval UserSession by sessionId failed: expected 111, but obtained: " + result, result,111L);
 	}
-	
+
 	@Test
 	/**
 	 * Test to retrieve all UserSession from datastore belonging to the same User
@@ -95,16 +91,11 @@ public class UserSessionDAOTest {
 		UserSessionDAO uSessAccessor = UserSessionDAO.getInstance();
 		List<UserSession> rList = null;
 		int size = 2;
-
 		rList = uSessAccessor.getAllUserSessionsByUser("gplusId");
-		if (rList != null) {
-			// The list should contain 2 UserSession objects
-			assertTrue("Retrieval of the all UserSession list failed: expected " + size + " UserSession(s), but obtained: " + rList.size(), rList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(rList);
+		assertEquals("Retrieval of the all UserSession list failed: expected " + size + " UserSession(s), but obtained: " + rList.size(), rList.size(), size);
 	}
-	
+
 	@Test
 	/**
 	 * Test to retrieve all UserSession from datastore belonging to the same User
@@ -113,16 +104,11 @@ public class UserSessionDAOTest {
 		UserSessionDAO uSessAccessor = UserSessionDAO.getInstance();
 		List<UserSession> rList = null;
 		int size = 2;
-
 		rList = uSessAccessor.getAllUserSessionsBySession(101L);
-		if (rList != null) {
-			// The list should contain 2 UserSession objects
-			assertTrue("Retrieval of the all UserSession list failed: expected " + size + " UserSession(s), but obtained: " + rList.size(), rList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(rList);
+		assertEquals("Retrieval of the all UserSession list failed: expected " + size + " UserSession(s), but obtained: " + rList.size(), rList.size(), size);
 	}
-	
+
 	@Test
 	/**
 	 * Test to retrieve all UserSession from datastore
@@ -131,32 +117,22 @@ public class UserSessionDAOTest {
 		UserSessionDAO uSessAccessor = UserSessionDAO.getInstance();
 		List<UserSession> rList = null;
 		int size = 3;
-
 		rList = uSessAccessor.getAllUserSessions();
-		if (rList != null) {
-			// The list should contain 3 UserSession objects
-			  System.out.println("!!! " + rList);
-			assertTrue("Retrieval of the all UserSession list failed: expected " + size + " UserSession (s), but obtained: " + rList.size(), rList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(rList);
+		assertEquals("Retrieval of the all UserSession list failed: expected " + size + " UserSession (s), but obtained: " + rList.size(), rList.size(), size);
 	}
 
-	  @Test
-	  /**
-	   * Test card QuizRespone by "uSessAccessor"
-	   */
-	  public void testDeleteUserSessionById() {
-		  UserSessionDAO uSessAccessor = UserSessionDAO.getInstance();
-		  UserSession qr = null;
-		  // Delete UserSession with sessionId = 111
-		  uSessAccessor.deleteUserSessionById(111L);
-		  // Retrieve non-existing QuizResp with sessionId = 111
-		  qr = uSessAccessor.getUserSessionById(111L);
-		  if (qr != null) {
-			  assertTrue(false);
-		  } else {
-			  assertTrue(true);
-		  }
-	  }
+	@Test
+	/**
+	 * Test card QuizRespone by "uSessAccessor"
+	 */
+	public void testDeleteUserSessionById() {
+		UserSessionDAO uSessAccessor = UserSessionDAO.getInstance();
+		UserSession qr = null;
+		// Delete UserSession with sessionId = 111
+		uSessAccessor.deleteUserSessionById(111L);
+		// Retrieve non-existing QuizResp with sessionId = 111
+		qr = uSessAccessor.getUserSessionById(111L);
+		assertNull(qr);
+	}
 }

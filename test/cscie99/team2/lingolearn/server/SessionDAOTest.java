@@ -23,6 +23,7 @@ import cscie99.team2.lingolearn.shared.CourseTest;
 import cscie99.team2.lingolearn.shared.Deck;
 import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.Quiz;
+import cscie99.team2.lingolearn.shared.SessionTypes;
 
 /**
  * @author YPolyanskyy
@@ -58,11 +59,11 @@ public class SessionDAOTest {
 		Deck d2 = new Deck();
 		d1.setId(101L);
 		d2.setId(102L);
-		Lesson l1 = new Lesson(111L, d1, 101L);
-		Lesson l2 = new Lesson(112L, d2, 102L);
-		Lesson l3 = new Lesson(113L, d1, 103L);
-		Quiz q1 = new Quiz(114L, d1, 104L, "learn");
-		Quiz q2 = new Quiz(115L, d1, 104L, "learn");
+		Lesson l1 = new Lesson(111L, d1, 101L, SessionTypes.Kanji_Translation);
+		Lesson l2 = new Lesson(112L, d2, 102L, SessionTypes.Kanji_Translation);
+		Lesson l3 = new Lesson(113L, d1, 103L, SessionTypes.Kanji_Translation);
+		Quiz q1 = new Quiz(114L, d1, 104L, "learn", SessionTypes.Kanji_Translation);
+		Quiz q2 = new Quiz(115L, d1, 104L, "learn", SessionTypes.Kanji_Translation);
 		CourseTest t1 = new CourseTest(116L, d1, 105L, 30, null);
 		CourseTest t2 = new CourseTest(117L, d2, 106L, 60, null);
 		
@@ -94,15 +95,13 @@ public class SessionDAOTest {
 	public void testGetLessonById() {
 		LessonDAO lessonAccessor = LessonDAO.getInstance();
 		Lesson lesson = null;
-		Long result = null;
+		//Long result = null;
+		long result;
 
 		lesson =  lessonAccessor.getLessonById(111L);
-		if (lesson == null) {
-			assertTrue(false);
-		} else {
-			result = lesson.getSessionId();
-			assertTrue("Retrieval Lesson by lessonId failed: expected 111, but obtained: " + result, result == 111L);
-		}
+		assertNotNull(lesson);
+		result = lesson.getSessionId();
+		assertEquals("Retrieval Lesson by lessonId failed: expected 111, but obtained: " + result,  result, 111L);
 	}
 
 	@Test
@@ -112,15 +111,13 @@ public class SessionDAOTest {
 	public void testGetCourseTestById() {
 		CourseTestDAO courseTestAccessor = CourseTestDAO.getInstance();
 		CourseTest courseTest = null;
-		Long result = null;
+		long result;
 
 		courseTest =  courseTestAccessor.getTestById(117L);
-		if (courseTest == null) {
-			assertTrue(false);
-		} else {
-			result = courseTest.getSessionId();
-			assertTrue("Retrieval CourseTest by id failed: expected 117, but obtained: " + result, result == 117L);
-		}
+		assertNotNull(courseTest);
+		result = courseTest.getSessionId();
+		assertEquals("Retrieval CourseTest by id failed: expected 117, but obtained: " + result, result, 117L);
+		
 	}
 	
 	@Test
@@ -130,15 +127,11 @@ public class SessionDAOTest {
 	public void testGetQuizById() {
 		QuizDAO quizAccessor = QuizDAO.getInstance();
 		Quiz quiz = null;
-		Long result = null;
-
+		long result;
 		quiz =  quizAccessor.getQuizById(114L);
-		if (quiz == null) {
-			assertTrue(false);
-		} else {
-			result = quiz.getSessionId();
-			assertTrue("Retrieval Lesson by lessonId failed: expected 114, but obtained: " + result, result == 114L);
-		}
+		assertNotNull(quiz);
+		result = quiz.getSessionId();
+		assertEquals("Retrieval Lesson by lessonId failed: expected 114, but obtained: " + result, result, 114L);
 	}
 	
 	@Test
@@ -146,14 +139,10 @@ public class SessionDAOTest {
 		LessonDAO lessonAccessor = LessonDAO.getInstance();
 		List<Lesson> lList = null;
 		int size = 1;
-
 		lList = lessonAccessor.getAllLessonsByCourseId(101L);
-		if (lList != null) {
-			// The list should contain 1 Lesson objects
-			assertTrue("Retrieval of the all Lessons list failed: expected " + size + " Lesson(s), but obtained: " + lList.size(), lList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(lList);
+		// The list should contain 1 Lesson objects
+		assertEquals("Retrieval of the all Lessons list failed: expected " + size + " Lesson(s), but obtained: " + lList.size(), lList.size(), size);
 	}
 	
 	@Test
@@ -161,14 +150,11 @@ public class SessionDAOTest {
 		CourseTestDAO courseTestAccessor = CourseTestDAO.getInstance();		
 		List<CourseTest> ctList = null;
 		int size = 1;
-
 		ctList = courseTestAccessor.getAllTestsByCourseId(106L);
-		if (ctList != null) {
-			// The list should contain 1 CourseTest object
-			assertTrue("Retrieval of the all CourseTests list failed: expected " + size + " CourseTest(s), but obtained: " + ctList.size(), ctList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(ctList);
+		// The list should contain 1 CourseTest object
+		assertEquals("Retrieval of the all CourseTests list failed: expected " + size + " CourseTest(s), but obtained: " + ctList.size(), ctList.size(), size);
+		
 	}
 	
 	@Test
@@ -176,14 +162,10 @@ public class SessionDAOTest {
 		QuizDAO quizAccessor = QuizDAO.getInstance();
 		List<Quiz> qList = null;
 		int size = 2;
-
 		qList = quizAccessor.getAllQuizsByCourseId(104L);
-		if (qList != null) {
-			// The list should contain 2 Quiz objects
-			assertTrue("Retrieval of the all Quiz list failed: expected " + size + " Lesson(s), but obtained: " + qList.size(), qList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(qList);
+		// The list should contain 2 Quiz objects
+		assertEquals("Retrieval of the all Quiz list failed: expected " + size + " Lesson(s), but obtained: " + qList.size(), qList.size(), size);
 	}
 	
 	@Test
@@ -191,14 +173,10 @@ public class SessionDAOTest {
 		LessonDAO lessonAccessor = LessonDAO.getInstance();
 		List<Lesson> lList = null;
 		int size = 3;
-
 		lList = lessonAccessor.getAllLessons();
-		if (lList != null) {
-			// The list should contain 3 Lesson objects
-			assertTrue("Retrieval of the all Lessons list failed: expected " + size + " Lesson(s), but obtained: " + lList.size(), lList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(lList);
+		// The list should contain 3 Lesson objects
+		assertEquals("Retrieval of the all Lessons list failed: expected " + size + " Lesson(s), but obtained: " + lList.size(), lList.size(), size);
 	}
 	
 	@Test
@@ -206,14 +184,10 @@ public class SessionDAOTest {
 		CourseTestDAO courseTestAccessor = CourseTestDAO.getInstance();	
 		List<CourseTest> ctList = null;
 		int size = 2;
-
 		ctList = courseTestAccessor.getAllTests();
-		if (ctList != null) {
-			// The list should contain 2 CourseTest objects
-			assertTrue("Retrieval of the all CourseTest list failed: expected " + size + " CourseTest(s), but obtained: " + ctList.size(), ctList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(ctList);
+		// The list should contain 2 CourseTest objects
+		assertEquals("Retrieval of the all CourseTest list failed: expected " + size + " CourseTest(s), but obtained: " + ctList.size(), ctList.size(), size);
 	}
 	
 	@Test
@@ -221,14 +195,10 @@ public class SessionDAOTest {
 		QuizDAO quizAccessor = QuizDAO.getInstance();
 		List<Quiz> qList = null;
 		int size = 2;
-
 		qList = quizAccessor.getAllQuizs();
-		if (qList != null) {
-			// The list should contain 2 Quiz objects
-			assertTrue("Retrieval of the all Quiz list failed: expected " + size + " Quiz(s), but obtained: " + qList.size(), qList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(qList);
+		// The list should contain 2 Quiz objects
+		assertEquals("Retrieval of the all Quiz list failed: expected " + size + " Quiz(s), but obtained: " + qList.size(), qList.size(), size);
 	}
 
 	@Test
@@ -242,11 +212,7 @@ public class SessionDAOTest {
 		lessonAccessor.deleteLessonById(111L);
 		// Retrieve non-existing Lesson with lessonId = 111
 		lesson = lessonAccessor.getLessonById(111L);
-		if (lesson != null) {
-			assertTrue(false);
-		} else {
-			assertTrue(true);
-		}
+		assertNull(lesson);
 	}
 	
 	@Test
@@ -260,11 +226,7 @@ public class SessionDAOTest {
 		courseTestAccessor.deleteTestById(116L);
 		// Retrieve non-existing CourseTest with courseTestId = 116
 		courseTest = courseTestAccessor.getTestById(116L);
-		if (courseTest != null) {
-			assertTrue(false);
-		} else {
-			assertTrue(true);
-		}
+		assertNull(courseTest);
 	}
 	
 	@Test
@@ -278,11 +240,7 @@ public class SessionDAOTest {
 		quizAccessor.deleteQuizById(114L);
 		// Retrieve non-existing Lesson with quizId = 114
 		quiz = quizAccessor.getQuizById(114L);
-		if (quiz != null) {
-			assertTrue(false);
-		} else {
-			assertTrue(true);
-		}
+		assertNull(quiz);
 	}
 	
 }

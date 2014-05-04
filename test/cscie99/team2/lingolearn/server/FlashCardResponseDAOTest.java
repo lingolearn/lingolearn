@@ -79,15 +79,11 @@ public class FlashCardResponseDAOTest {
 	public void testGetById() {
 		FlashCardResponseDAO qRespAccessor = FlashCardResponseDAO.getInstance();
 		FlashCardResponse fcr = null;
-		Long result = null;
-
+		long result;
 		fcr =  qRespAccessor.getFlashCardResponseById(111L);
-		if (fcr == null) {
-			assertTrue(false);
-		} else {
-			result = fcr.getSessionId();
-			assertTrue("Retrieval FlashCardResponse by sessionId failed: expected 101, but obtained: " + result, result == 111L);
-		}
+		assertNotNull(fcr);
+		result = fcr.getSessionId();
+		assertEquals("Retrieval FlashCardResponse by sessionId failed: expected 101, but obtained: " + result, result, 111L);
 	}
 
 	@Test
@@ -98,14 +94,10 @@ public class FlashCardResponseDAOTest {
 		FlashCardResponseDAO qRespAccessor = FlashCardResponseDAO.getInstance();
 		List<FlashCardResponse> rList = null;
 		int size = 2;
-
 		rList = qRespAccessor.getAllFlashCardResponsesByUser("gplusId");
-		if (rList != null) {
-			// The list should contain 2 FlashCardResponse objects
-			assertTrue("Retrieval of the all FlashCardResponse list failed: expected " + size + " FlashCardResponse (s), but obtained: " + rList.size(), rList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(rList);
+		// The list should contain 2 FlashCardResponse object(s)
+		assertEquals("Retrieval of the all FlashCardResponse list failed: expected " + size + " FlashCardResponse (s), but obtained: " + rList.size(), rList.size(), size);
 	}
 
 	@Test
@@ -116,14 +108,10 @@ public class FlashCardResponseDAOTest {
 		FlashCardResponseDAO qRespAccessor = FlashCardResponseDAO.getInstance();
 		List<FlashCardResponse> rList = null;
 		int size = 3;
-
 		rList = qRespAccessor.getAllFlashCardResponses();
-		if (rList != null) {
-			// The list should contain 3 FlashCardResponse objects
-			assertTrue("Retrieval of the all FlashCardResponse list failed: expected " + size + " FlashCardResponse (s), but obtained: " + rList.size(), rList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(rList);
+		// The list should contain 3 FlashCardResponse object(s)
+		assertEquals("Retrieval of the all FlashCardResponse list failed: expected " + size + " FlashCardResponse (s), but obtained: " + rList.size(), rList.size(), size);
 	}
 
 
@@ -136,20 +124,15 @@ public class FlashCardResponseDAOTest {
 		try {
 			date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z" ).parse("2014-04-15 20:27:30 EST");
 		} catch (ParseException e) {
-			e.printStackTrace();
+			assertTrue(false);
 		}
-
 		FlashCardResponseDAO qRespAccessor = FlashCardResponseDAO.getInstance();
 		List<FlashCardResponse> rList = null;
 		int size = 1;
-
 		rList = qRespAccessor.getAllFlashCardResponsesOn(date);
-		if (rList != null) {
-			// The list should contain 1 FlashCardResponse object(s)
-			assertTrue("Retrieval of the all FlashCardResponse list failed: expected " + size + " FlashCardResponse(s), but obtained: " + rList.size(), rList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(rList);
+		// The list should contain 1 FlashCardResponse object(s)
+		assertEquals("Retrieval of the all FlashCardResponse list failed: expected " + size + " FlashCardResponse(s), but obtained: " + rList.size(), rList.size(), size);
 	}
 
 	@Test
@@ -161,20 +144,15 @@ public class FlashCardResponseDAOTest {
 		try {
 			date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z" ).parse("1917-10-07 20:27:30 EST");
 		} catch (ParseException e) {
-			e.printStackTrace();
+			assertNotNull(e);
 		}
-
 		FlashCardResponseDAO qRespAccessor = FlashCardResponseDAO.getInstance();
 		List<FlashCardResponse> rList = null;
 		int size = 3;
-
 		rList = qRespAccessor.getAllFlashCardResponsesAfter(date);
-		if (rList != null) {
-			// The list should contain 1 FlashCardResponse object(s)
-			assertTrue("Retrieval of the all FlashCardResponse list failed: expected " + size + " FlashCardResponse(s), but obtained: " + rList.size(), rList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(rList);
+		// The list should contain 1 FlashCardResponse object(s)
+		assertEquals("Retrieval of the all FlashCardResponse list failed: expected " + size + " FlashCardResponse(s), but obtained: " + rList.size(), rList.size(), size);
 	}
 
 	@Test
@@ -186,20 +164,15 @@ public class FlashCardResponseDAOTest {
 		try {
 			date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z" ).parse("2020-10-07 20:27:30 EST");
 		} catch (ParseException e) {
-			e.printStackTrace();
+			assertNotNull(e);
 		}
-
 		FlashCardResponseDAO qRespAccessor = FlashCardResponseDAO.getInstance();
 		List<FlashCardResponse> rList = null;
 		int size = 3;
-
 		rList = qRespAccessor.getAllFlashCardResponsesBefore(date);
-		if (rList != null) {
-			// The list should contain 1 FlashCardResponse object(s)
-			assertTrue("Retrieval of the all FlashCardResponse list failed: expected " + size + " FlashCardResponse(s), but obtained: " + rList.size(), rList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(rList);
+		// The list should contain 1 FlashCardResponse object(s)
+		assertEquals("Retrieval of the all FlashCardResponse list failed: expected " + size + " FlashCardResponse(s), but obtained: " + rList.size(), rList.size(), size);
 	}
 
 	@Test
@@ -213,10 +186,6 @@ public class FlashCardResponseDAOTest {
 		qRespAccessor.deleteFlashCardResponseById(111L);
 		// Retrieve non-existing FlashCardResp with sessionId = 111
 		fcr = qRespAccessor.getFlashCardResponseById(111L);
-		if (fcr != null) {
-			assertTrue(false);
-		} else {
-			assertTrue(true);
-		}
+		assertNull(fcr);
 	}
 }

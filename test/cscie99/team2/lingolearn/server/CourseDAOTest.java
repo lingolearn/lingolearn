@@ -3,7 +3,7 @@
  */
 package cscie99.team2.lingolearn.server;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.Date;
 import java.util.List;
@@ -84,15 +84,11 @@ public class CourseDAOTest {
 	public void testGetById() {
 		CourseDAO courseAccessor = CourseDAO.getInstance();
 		Course course = null;
-		Long result = null;
-
+		long result;
 		course =  courseAccessor.getCourseById(11111L);
-		if (course == null) {
-			assertTrue(false);
-		} else {
+		assertNotNull(course);
 		result = course.getCourseId();
-		assertTrue("Retrieval Course by courseId failed: expected 101, but obtained: " + result, result == 11111L);
-		}
+		assertEquals("Retrieval Course by courseId failed: expected 101, but obtained: " + result, result, 11111L);
 	}
 	
 	@Test
@@ -100,14 +96,10 @@ public class CourseDAOTest {
 		CourseDAO courseAccessor = CourseDAO.getInstance();
 		Course course = null;
 		String search = "Best JP level2 course ever";
-
 		course =  courseAccessor.getCourseByDesc(search) ;
-		if (course == null) {
-			assertTrue(false);
-		} else {
+		assertNotNull(course);
 		String result = course.getCourseDesc();
-		assertTrue("Retrieval Course by course description failed, expected: " + search + " but obtained: " + result, result.equals(search));
-		}
+		assertEquals("Retrieval Course by course description failed, expected: " + search + " but obtained: ", result, search);
 	}
 	
 	@Test
@@ -115,14 +107,10 @@ public class CourseDAOTest {
 		CourseDAO courseAccessor = CourseDAO.getInstance();
 		Course course = null;
 		String search = "JP101";
-
 		course =  courseAccessor.getCourseByName(search) ;
-		if (course == null) {
-			assertTrue(false);
-		} else {
+		assertNotNull(course);
 		String result = course.getCourseName();
-		assertTrue("Retrieval Course by course name failed, expected: " + search + " but obtained: " + result, result.equals(search));
-		}
+		assertEquals("Retrieval Course by course name failed, expected: " + search + " but obtained: ", result, search);
 	}
 	
 	@Test
@@ -133,14 +121,9 @@ public class CourseDAOTest {
 		CourseDAO courseAccessor = CourseDAO.getInstance();
 		List<Course> cList = null;
 		int size = 3;
-
 		cList = courseAccessor.getAllCourses();
-		if (cList != null) {
-			// The list should contain 3 Course objects
-			assertTrue("Retrieval of the all Courses list failed: expected " + size + " Course (s), but obtained: " + cList.size(), cList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(cList);
+		assertEquals("Retrieval of the all Courses list failed: expected " + size + " Course (s), but obtained: " + cList.size(), cList.size(), size);
 	}
 
 	  @Test
@@ -154,10 +137,6 @@ public class CourseDAOTest {
 		  courseAccessor.deleteCourseById(11111L);
 		  // Retrieve non-existing Course with courseId = 11111
 		  course = courseAccessor.getCourseById(11111L);
-		  if (course != null) {
-			  assertTrue(false);
-		  } else {
-			  assertTrue(true);
-		  }
+		  assertNull(course);
 	  }
 }
