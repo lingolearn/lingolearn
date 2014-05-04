@@ -110,10 +110,14 @@ public class SessionPresenter implements Presenter {
    */
   public void setSession(Long sessionId) {
 	  
+	  
 	  courseService.getSessionById(sessionId, 
 			  new AsyncCallback<Session>() {
 		  public void onSuccess(Session returnedSession) {
 			  session = returnedSession;
+			  
+			  //Set "return to course" link of session
+			  display.setReturnToCourseLink(returnedSession.getCourseId());
 			  
 			  // Get the session type -- either from the 
 			  // query string, or from the quiz instance variable
