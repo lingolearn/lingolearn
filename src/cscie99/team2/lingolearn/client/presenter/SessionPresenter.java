@@ -213,7 +213,9 @@ public class SessionPresenter implements Presenter {
 			  } else {
 				  quizPresenter.setCardData(
 						  currentCardId,
-						  selectThreeOtherCardsFromDeck());
+						  selectThreeOtherCardsFromDeck(),
+						  session.getSessionType()
+				  		);
 			  }
 		} catch (SpacedRepetitionException e) {
 			cardDrawn = false;
