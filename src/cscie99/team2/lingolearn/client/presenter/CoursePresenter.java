@@ -121,7 +121,7 @@ public class CoursePresenter implements Presenter {
 			  float sortaKnewIt = 0.0f;
 			  float definitelyKnewIt = 0.0f;
 			  
-			  String[] headers = {"User ID","No Clue","Sorta Knew It",
+			  String[] headers = {"Student Name","No Clue","Sorta Knew It",
 					  "Definitely Knew It","Quiz Recall Rate"};
 			  display.setStatisticsHeader(headers);
 
@@ -196,10 +196,10 @@ public class CoursePresenter implements Presenter {
 						    String[] row = new String[6];
 							row[0] = studentData.get(0).toString();
 							row[1] = studentData.get(1).toString();
-							row[2] = studentData.get(2).toString();
-							row[3] = studentData.get(3).toString();
-							row[4] = studentData.get(4).toString();
-							row[5] = studentData.get(5).toString();
+							row[2] = percentage_format((Float) studentData.get(2));
+							row[3] = percentage_format((Float)studentData.get(3));
+							row[4] = percentage_format((Float)studentData.get(4));
+							row[5] = percentage_format((Float)studentData.get(5));
 							
 							display.addStatisticsRow(row);
 					  }

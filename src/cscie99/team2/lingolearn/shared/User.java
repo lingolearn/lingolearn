@@ -217,4 +217,8 @@ public class User implements Serializable {
 		}
 		return result;	
 	}
+	
+	public String getFullName(){
+	 	return firstName + " " + lastName;
+	 }
 }

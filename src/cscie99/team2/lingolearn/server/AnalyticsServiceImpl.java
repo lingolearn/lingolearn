@@ -261,7 +261,7 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		
 		for (User s: students) {
 			Map<String, Float> metricsData = getMetricsDataByUser (s.getGplusId());
-			data.put(s.getUserId().toString(), metricsData);
+			data.put(s.getFullName(), metricsData);
 		}
 		
 		return data;
@@ -274,13 +274,13 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		List<User> students = getUsersInCourse(courseId);
 		Map<String, Map<String, Float>> data = new HashMap<String, Map<String, Float>>();
 		
-		if (sessionId == null) {
+		if (sessionId == null) {	
 			return getCourseMetricsDataResearcherView(courseId);
 		}
 		else {
 			for (User s: students) {
 				Map<String, Float> metricsData = getMetricsDataByUserAndAssignment(s.getGplusId(), sessionId);
-				data.put(s.getUserId().toString(), metricsData);
+				data.put(s.getFullName(), metricsData);
 			}
 		}
 		

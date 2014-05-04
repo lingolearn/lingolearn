@@ -1,9 +1,7 @@
 package cscie99.team2.lingolearn.client.presenter;
 
-import cscie99.team2.lingolearn.client.CardServiceAsync;
-import cscie99.team2.lingolearn.client.view.QuizView;
-import cscie99.team2.lingolearn.shared.Card;
-import cscie99.team2.lingolearn.shared.QuizResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -12,8 +10,11 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
-import java.util.ArrayList;
-import java.util.List;
+import cscie99.team2.lingolearn.client.CardServiceAsync;
+import cscie99.team2.lingolearn.client.view.QuizView;
+import cscie99.team2.lingolearn.shared.Card;
+import cscie99.team2.lingolearn.shared.QuizResponse;
+import cscie99.team2.lingolearn.shared.SessionTypes;
 
 public class QuizPresenter implements Presenter {  
 
@@ -79,7 +80,8 @@ public class QuizPresenter implements Presenter {
     container.add(display.asWidget());
   }
   
-  public void setCardData(Long cardId, ArrayList<Long> otherOptionIds) {
+  public void setCardData(Long cardId, ArrayList<Long> otherOptionIds,
+  												final SessionTypes sessionType ) {
 	  
 	  ArrayList<Long> requestedIds = otherOptionIds;
 	  requestedIds.add(cardId);
@@ -87,7 +89,7 @@ public class QuizPresenter implements Presenter {
 	  cardService.getCardsByIds(requestedIds, new AsyncCallback<ArrayList<Card>>() {
 	      public void onSuccess(ArrayList<Card> cards) {
 	    	  Card card = cards.remove(cards.size()-1);
-	    	  populateQuizInfo(card,cards);
+	    	  populateQuizInfo(card,cards, sessionType );
 	      }
 	      
 	      public void onFailure(Throwable caught) {
@@ -96,14 +98,16 @@ public class QuizPresenter implements Presenter {
 	    });
   }
   
-  private void populateQuizInfo(Card card, final ArrayList<Card> otherCards) {
+  private void populateQuizInfo(Card card, final ArrayList<Card> otherCards,
+  																			final SessionTypes sessionType) {
 	  currentCard = card;
 	  this.currentCorrectAnswer = card.getDisplayString();
 	  display.clearQuiz();
 	  display.addToStem(card.getTranslation());
 	  display.addAnswer(this.currentCorrectAnswer);
 	  if (useConfusers) {
-		  cardService.getConfusersForCard(currentCard, new AsyncCallback<List<String>>() {
+		  cardService.getConfusersForCard(currentCard, sessionType, 
+		  												new AsyncCallback<List<String>>() {
 	
 			@Override
 			public void onFailure(Throwable caught) {
