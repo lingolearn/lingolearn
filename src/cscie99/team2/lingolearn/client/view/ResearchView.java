@@ -93,7 +93,12 @@ public class ResearchView extends Composite {
   
   public void setCourseList(List<Course> courses) {
 	  listOfCourses = courses;
-	  for (int i=0;i<courses.size();i++) {
+	  
+	  //Add the null course to represent "all courses"
+	  listOfCourses.add(0,null);
+	  courseList.addItem("All courses");
+	  
+	  for (int i=1;i<courses.size();i++) {
 		  courseList.addItem(courses.get(i).getCourseName());
 	  }
   }
