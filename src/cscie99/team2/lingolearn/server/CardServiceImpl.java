@@ -10,6 +10,7 @@ import cscie99.team2.lingolearn.server.confuser.CharacterType;
 import cscie99.team2.lingolearn.server.confuser.Confuser;
 import cscie99.team2.lingolearn.server.datastore.CardDAO;
 import cscie99.team2.lingolearn.shared.Card;
+import cscie99.team2.lingolearn.shared.SessionTypes;
 import cscie99.team2.lingolearn.shared.error.CardNotFoundException;
 import cscie99.team2.lingolearn.shared.error.ConfuserException;
 
@@ -135,7 +136,7 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 		}
 		return cards;
 	}
-
+	
 	@Override
 	public List<String> getConfusersForCard(Card card) {
 		List<String> confuserStrings = null;
@@ -150,5 +151,43 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 			e.printStackTrace();
 		}
 		return confuserStrings;
-	};
+	}
+
+
+	@Override
+	public List<String> getConfusersForCard(Card card, SessionTypes type) {
+		List<String> confuserStrings = new ArrayList<String>();
+		Confuser confuser = new Confuser();
+		CharacterType charType = CharacterType.Kanji;
+		switch(type)
+		{
+			case Translation_Kanji:
+				charType = CharacterType.Kanji;
+				break;
+			case Translation_Hiragana:
+				charType = CharacterType.Hiragana;
+				break;	
+			case Kanji_Hiragana:
+				charType = CharacterType.Hiragana;
+				break;
+			case Hiragana_Kanji:
+				charType = CharacterType.Kanji;
+				break;	
+			default:
+					return confuserStrings;
+		}
+		
+		try{
+			if (charType == CharacterType.Kanji ) {
+				confuserStrings = confuser.getConfusers(card, CharacterType.Kanji, 3);
+			} else {
+				confuserStrings = confuser.getConfusers(card, CharacterType.Hiragana, 3);
+			}
+		}catch( ConfuserException ce ){
+			return confuserStrings;
+		}
+		return confuserStrings;
+	
+	}
+
 }

@@ -1,11 +1,12 @@
 package cscie99.team2.lingolearn.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import cscie99.team2.lingolearn.shared.Card;
-
-import java.util.ArrayList;
-import java.util.List;
+import cscie99.team2.lingolearn.shared.SessionTypes;
 
 public interface CardServiceAsync {
 	public void deleteCardById(Long cardId, AsyncCallback<Void> callback);
@@ -21,4 +22,6 @@ public interface CardServiceAsync {
 	public void getAllCards(AsyncCallback<List<Card>> callback);
 	public void storeCard(Card card, AsyncCallback<Card> callback);
 	public void getConfusersForCard(Card card, AsyncCallback<List<String>> callback);
+	public void getConfusersForCard(Card card, SessionTypes type,
+																				AsyncCallback<List<String>> callback);
 }

@@ -2,8 +2,10 @@ package cscie99.team2.lingolearn.client.view;
 
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -17,6 +19,7 @@ public class SessionView extends Composite {
 
   @UiField FlowPanel sessionHeader;
   @UiField FlowPanel cardArea;
+  @UiField Anchor courseLink;
   
   public SessionView() {
 	  initWidget(binder.createAndBindUi(this));
@@ -31,6 +34,10 @@ public class SessionView extends Composite {
   
   public HasWidgets getCardContainer() {
 	  return this.cardArea;
+  }
+  
+  public void setReturnToCourseLink(Long courseId) {
+	  courseLink.setHref("app.html?courseId=" + courseId + "#course");
   }
   
   public Widget asWidget() {

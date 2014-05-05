@@ -7,9 +7,12 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+
+import cscie99.team2.lingolearn.shared.SpacedRepetitionOption;
 
 public class NewCourseView extends Composite {
   
@@ -19,9 +22,12 @@ public class NewCourseView extends Composite {
   @UiField TextBox courseName;
   @UiField TextArea courseDescription;
   @UiField Button createCourseButton;
+  @UiField ListBox spacedRepetitionListBox;
   
   public NewCourseView() {
 	  initWidget(binder.createAndBindUi(this));
+	  spacedRepetitionListBox.addItem("Leitner");
+	  spacedRepetitionListBox.addItem("Random");
   }
   
   public HasClickHandlers getCreateCourseButton() {
@@ -35,8 +41,18 @@ public class NewCourseView extends Composite {
   public String getCourseDescription() {
 	  return courseDescription.getText();
   }
+  
+  public SpacedRepetitionOption getSpacedRepetitionOption() {
+	  SpacedRepetitionOption result;
+	  if (spacedRepetitionListBox.getSelectedIndex() == 0) {
+		  result = SpacedRepetitionOption.LEITNER;
+	  } else {
+		  result = SpacedRepetitionOption.RANDOM;
+	  }
+	  return result;
+  }
 
-	public Widget asWidget() {
+  public Widget asWidget() {
     return this;
   }
 }
