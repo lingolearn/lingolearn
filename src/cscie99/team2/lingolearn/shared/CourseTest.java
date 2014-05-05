@@ -15,10 +15,6 @@ public class CourseTest extends Session implements Serializable {
 	public CourseTest() {
 		super();
 	}
-
-	public CourseTest(Long sessId, Deck deck, Long courseId) {
-		super(sessId, deck, courseId);
-	}
 	
 	public CourseTest(Long sessId, Deck deck, Long courseId, int timeLimit, Float grade) {
 		super(sessId, deck, courseId);
