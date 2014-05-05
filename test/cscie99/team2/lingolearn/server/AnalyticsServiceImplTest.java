@@ -3,6 +3,7 @@
  */
 package cscie99.team2.lingolearn.server;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -378,6 +379,100 @@ public class AnalyticsServiceImplTest {
 		  }
 		  // Compare
 		  assertEquals(sessions.size(), asImpl.getCourseAssignments(courseId).size());
+	  }
+	  
+	  @Test
+	  public void testGetCourseBiographicalData() {
+		  long courseId = 11111L;
+		  AnalyticsServiceImpl asImpl = new AnalyticsServiceImpl();
+		  List<User> students = asImpl.getUsersInCourse(courseId);
+		  Map<String, Map<String, String>> data = new HashMap<String, Map<String, String>>();
+		  for (User s: students) {
+			  Map<String, String> bioData = asImpl.getBiographicalData (s.getGplusId());
+			  data.put(s.getUserId().toString(), bioData);
+		  }
+		  // Compare
+		  assertEquals(data, asImpl.getCourseBiographicalData(courseId));
+	  }
+	  	  
+	  @Test
+	  public void testGetCourseMetricsData() {
+		  long courseId = 11111L;
+		  AnalyticsServiceImpl asImpl = new AnalyticsServiceImpl();
+		  List<User> students = asImpl.getUsersInCourse(courseId);
+		  Map<String, Map<String, Float>> data = new HashMap<String, Map<String, Float>>();
+		  for (User s: students) {
+			  Map<String, Float> metricsData = asImpl.getMetricsDataByUser (s.getGplusId());
+			  data.put(s.getUserId().toString(), metricsData);
+		  }
+		  // Compare
+		  assertEquals(data, asImpl.getCourseMetricsData(courseId));
+	  }
+	  
+	  @Test
+	  public void testGetCourseMetricsDataResearcherView() {
+		  long courseId = 11111L;
+		  AnalyticsServiceImpl asImpl = new AnalyticsServiceImpl();
+		  List<User> students = asImpl.getUsersInCourse(courseId);
+		  Map<String, Map<String, Float>> data = new HashMap<String, Map<String, Float>>();
+		  for (User s: students) {
+			  Map<String, Float> metricsData = asImpl.getMetricsDataByUser (s.getGplusId());
+			  data.put(s.getFullName(), metricsData);
+		  }
+		  // Compare
+		  assertEquals(data, asImpl.getCourseMetricsDataResearcherView(courseId));
+	  }
+	  
+	  @Test
+	  public void testGetCourseMetricsDataStudentView() {
+		  long courseId = 11111L;
+		  String gplusId = "gplusID";
+		  AnalyticsServiceImpl asImpl = new AnalyticsServiceImpl();
+		  List<Session> assignments = asImpl.getCourseAssignments(courseId);
+		  List<UserSession> sessions = asImpl.getUserSessions(gplusId);
+		  List<List<Object>> data = new ArrayList<List<Object>>();
+		  for (Session a: assignments) {
+			  for (UserSession us: sessions) {
+				  Map<String, Float> metricsData = asImpl.getMetricsDataBySessions (a.getSessionId(), us.getUserSessionId());
+				  if (metricsData.get("flashCardCount") >0.8 || metricsData.get("quizQuestionCount") > 0.8) {
+					  List<Object> row = new ArrayList<Object>();
+					  row.add(DateFormat.getInstance().format(us.getSessStart()));
+					  row.add(a.getDeck().getDesc());
+					  row.add(metricsData.get("noClue"));
+					  row.add(metricsData.get("sortaKnewIt"));
+					  row.add(metricsData.get("definitelyKnewIt"));
+					  row.add(metricsData.get("recallRate"));
+					  data.add(row);	
+				  }
+			  }
+		  }
+		  // Compare
+		  assertEquals(data, asImpl.getCourseMetricsDataStudentView(courseId, gplusId));
+	  }
 
+	  @Test
+	  public void testGetCourseMetricsDataInstructorViewNotNull() {
+		  long courseId = 11111L;
+		  long sessionId = 111L;
+		  AnalyticsServiceImpl asImpl = new AnalyticsServiceImpl();
+		  List<User> students = asImpl.getUsersInCourse(courseId);
+		  Map<String, Map<String, Float>> data = new HashMap<String, Map<String, Float>>();
+		  assertNotNull(sessionId);
+		  for (User s: students) {
+			  Map<String, Float> metricsData = asImpl.getMetricsDataByUserAndAssignment(s.getGplusId(), sessionId);
+			  data.put(s.getFullName(), metricsData);
+		  }
+		  // Compare
+		  assertEquals(data, asImpl.getCourseMetricsDataInstructorView(courseId, sessionId));
+	  }
+
+	  @Test
+	  public void testGetCourseMetricsDataInstructorViewNull() {
+		  long courseId = 11111L;
+		  Long sessionId = null;
+		  AnalyticsServiceImpl asImpl = new AnalyticsServiceImpl();
+		  assertNull(sessionId);
+		  // Compare
+		  assertEquals(asImpl.getCourseMetricsDataResearcherView(courseId), asImpl.getCourseMetricsDataInstructorView(courseId, sessionId) );
 	  }
 }
