@@ -157,14 +157,9 @@ a.session-type-anchor {
   margin-top: 20px;
 }
 
-.kanji {
-  font-size: 6em;
-  font-family: sans-serif;  /* TODO */
-}
-
-.translation {
-  font-size: 5em;
-  padding: 0.5em 0;
+.card-value {
+	width: 100%;
+	height: 200px;
 }
 
 .quiz-question {

@@ -9,7 +9,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
 
 import cscie99.team2.lingolearn.shared.Card;
@@ -24,9 +24,6 @@ public class CardView extends Composite {
   @UiField FlowPanel front;
   @UiField FlowPanel cardFrontValue;
   @UiField FlowPanel back;
-  @UiField FlowPanel kanji;
-  @UiField FlowPanel hiragana;
-  @UiField FlowPanel translation;
   @UiField FlowPanel cardBackValue;
   @UiField FlowPanel knowledgeAssessmentArea;
   @UiField Button knowledgeLow;
@@ -63,8 +60,8 @@ public class CardView extends Composite {
 	  	clearCard();
 	  	
 		// Prepare the HTML
-		HTML frontValue = new HTML();
-		final HTML backValue = new HTML();
+		final InlineLabel frontValue = new InlineLabel();
+		final InlineLabel backValue = new InlineLabel();
 		// Parse the card type
 		SessionTypes types = SessionTypes.getEnum(Window.Location.getParameter("type"));
 		switch (types) {
@@ -94,64 +91,28 @@ public class CardView extends Composite {
 				break;
 			case Confusor:
 			default:
-				setDefaultType(card);
+				if (card.getKatakana().equals(""))
+					frontValue.setText(card.getKanji() + "  —  " + card.getHiragana());
+				else
+					frontValue.setText(card.getKatakana());
+				backValue.setText(card.getTranslation());
 		}
 		cardFrontValue.add(frontValue);
+		resizeCardText();
 
 		Timer timer = new Timer() {
 			public void run() {
 				cardBackValue.clear();
 				cardBackValue.add(backValue);
+				resizeCardText();
 			}
 		};
 		timer.schedule(1000);
   	}
   
-  public Timer setKanjiTranslationType(Card card){
-  	HTML frontValue = new HTML();
-  	final HTML backValue = new HTML();
-  	
-  	frontValue.setText(card.getKanji());
-  	backValue.setText(card.getTranslation());
-  	
-	  // Update UI after a second so the user doesn't get a peek at
-	  // the answer during the animation
-	  Timer timer = new Timer() {
-	      public void run() {
-	    	  translation.clear();
-	    	  translation.add(backValue);
-	      }
-	  };
-	  
-	  return timer;
-  }
-  
-  public Timer setDefaultType(Card card){
-
-	  
-	  //add card data to DOM nodes
-	  HTML tb1 = new HTML();
-	  if (card.getKatakana().equals("")) {
-		  tb1.setText(card.getKanji() + "  —  " + card.getHiragana());  
-	  } else {
-		  tb1.setText(card.getKatakana());
-	  }
-	  this.kanji.add(tb1);
-	  
-	  final HTML tb2 = new HTML();
-	  tb2.setText(card.getTranslation());
-	  
-	  // Update UI after a second so the user doesn't get a peek at
-	  // the answer during the animation
-	  Timer timer = new Timer() {
-	      public void run() {
-	    	  translation.clear();
-	    	  translation.add(tb2);
-	      }
-	  };
-	  
-	  return timer;
-  }
+  public static native void resizeCardText() /*-{
+  	$wnd.jQuery('.card-value').textfill();
+  }-*/;
   
   public void flipCard() {
 	  if (this.card_container.getStyleName().contains("card-flipped"))
@@ -168,9 +129,6 @@ public class CardView extends Composite {
 	  //"unflip" the card if it is flipped
 	  this.card_container.removeStyleName("card-flipped");
 	  //clear DOM nodes
-	  this.kanji.clear();
-	  this.hiragana.clear();
-	  this.translation.clear();
 	  this.cardFrontValue.clear();
 	  this.cardBackValue.clear();
   }
