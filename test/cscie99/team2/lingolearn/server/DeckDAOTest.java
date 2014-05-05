@@ -164,6 +164,16 @@ public class DeckDAOTest {
 
 	@Test
 	/**
+	 * Test get all Decks 
+	 */
+	public void testGetAllDecks() {
+		DeckDAO deckAccessor = DeckDAO.getInstance();
+		int size = 2;
+		assertEquals(deckAccessor.getAllDecks().size(), size);
+	}
+	
+	@Test
+	/**
 	 * Test card retrieval by "deckId" 
 	 */
 	public void testFailedGetByDeckId() {

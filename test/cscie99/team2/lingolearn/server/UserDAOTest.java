@@ -86,7 +86,7 @@ public class UserDAOTest {
 	/**
 	 * Test User retrieval by "uId" 
 	 */
-	public void testGetById() {
+	public void testGetByGplusId() {
 		UserDAO userAccessor = UserDAO.getInstance();
 		User u = null;
 		String result = null;
@@ -211,6 +211,39 @@ public class UserDAOTest {
 		assertEquals("Retrieval user by Gmail failed: expected Smith, but obtained: ", result, "Smith");
 	}
 
+	@Test
+	/**
+	 * Test User retrieval by "Id" 
+	 */
+	public void testGetById() {
+		UserDAO userAccessor = UserDAO.getInstance();
+		User u = null;
+		long uid;
+		u = userAccessor.getUserByGplusId("googleID");
+		assertNotNull(u);
+		uid = u.getUserId();
+		u = userAccessor.getUserById(uid);
+		assertNotNull(u);
+	}
+	
+	@Test
+	/**
+	 * Test User deletion by "Id" 
+	 */
+	public void testDeleteById() {
+		UserDAO userAccessor = UserDAO.getInstance();
+		User u = null;
+		long uid;
+		u = userAccessor.getUserByGplusId("googleID3");
+		assertNotNull(u);
+		uid = u.getUserId();
+		u = userAccessor.getUserById(uid);
+		assertNotNull(u);
+		userAccessor.deleteUserByUid(uid);
+		u = userAccessor.getUserById(uid);
+		assertNull(u);
+	}
+	
 	@Test
 	/**
 	 * Test card delete by "uId"
