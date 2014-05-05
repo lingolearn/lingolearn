@@ -77,6 +77,7 @@ public class NewCoursePresenter implements Presenter {
 	  c.setCourseName(display.getCourseName());
 	  c.setCourseDesc(display.getCourseDescription());
 	  c.setInstructor(currentUser);
+	  c.setSpacedRepetitionOption(display.getSpacedRepetitionOption());
 	  return c;
   }
   

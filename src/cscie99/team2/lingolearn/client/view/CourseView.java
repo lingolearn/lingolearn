@@ -1,6 +1,5 @@
 package cscie99.team2.lingolearn.client.view;
 
-
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
@@ -12,10 +11,8 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.visualization.client.AbstractDataTable;
@@ -162,6 +159,7 @@ public class CourseView extends Composite {
 
   private SelectHandler createSelectHandler(final PieChart chart) {
 	  return new SelectHandler() {
+		// TODO Refactor or remove the usage of "messae" in this function
 	    @Override
 	    public void onSelect(SelectEvent event) {
 	      String message = "";

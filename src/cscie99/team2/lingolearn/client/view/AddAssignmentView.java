@@ -1,6 +1,5 @@
 package cscie99.team2.lingolearn.client.view;
 
-
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;

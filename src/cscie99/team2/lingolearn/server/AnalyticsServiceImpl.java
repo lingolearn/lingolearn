@@ -1,18 +1,17 @@
 package cscie99.team2.lingolearn.server;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.text.DateFormat;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import cscie99.team2.lingolearn.client.AnalyticsService;
 import cscie99.team2.lingolearn.server.datastore.CardDAO;
 import cscie99.team2.lingolearn.server.datastore.CourseDAO;
-import cscie99.team2.lingolearn.server.datastore.CourseRegistrationDAO;
 import cscie99.team2.lingolearn.server.datastore.FlashCardResponseDAO;
 import cscie99.team2.lingolearn.server.datastore.LessonDAO;
 import cscie99.team2.lingolearn.server.datastore.QuizDAO;
@@ -20,9 +19,9 @@ import cscie99.team2.lingolearn.server.datastore.QuizResponseDAO;
 import cscie99.team2.lingolearn.server.datastore.UserDAO;
 import cscie99.team2.lingolearn.server.datastore.UserSessionDAO;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
+import cscie99.team2.lingolearn.shared.Language;
 import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.OutsideCourse;
-import cscie99.team2.lingolearn.shared.Language;
 import cscie99.team2.lingolearn.shared.Quiz;
 import cscie99.team2.lingolearn.shared.QuizResponse;
 import cscie99.team2.lingolearn.shared.Session;

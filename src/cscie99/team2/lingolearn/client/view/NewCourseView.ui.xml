@@ -25,6 +25,13 @@
 		    		<g:Label text="Description" styleName='col-sm-4'/>
 		    		<g:FlowPanel styleName='col-sm-8'><g:TextArea ui:field='courseDescription' styleName='form-control'/></g:FlowPanel>
 		    	</g:FlowPanel>
+		    	
+		    	<g:FlowPanel styleName='form-group'>
+		    	    <g:Label text="Spaced repetition algorithm" styleName='col-sm-4'/>
+		    	    <g:FlowPanel styleName='col-sm-8'>
+		    	        <g:ListBox ui:field='spacedRepetitionListBox' styleName='form-control'></g:ListBox>
+		    	    </g:FlowPanel>
+		    	</g:FlowPanel>
 			    
 		    	<g:FlowPanel styleName='form-group'>
 			  		<g:FlowPanel styleName='col-sm-offset-4 col-sm-8'>
