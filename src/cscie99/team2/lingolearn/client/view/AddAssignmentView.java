@@ -1,9 +1,10 @@
 package cscie99.team2.lingolearn.client.view;
 
-
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -73,7 +74,50 @@ public class AddAssignmentView extends Composite {
   		SessionTypes type = types[i];
   		RadioButton radioButton = new RadioButton(radioGroup, type.toString());
   		radioButton.setStyleName("session-type-radio");
+  		if( type == SessionTypes.Kanji_Translation ) {
+  			radioButton.setValue(true);
+  		}
   		sessionTypeRadios.add(radioButton);
+  	}
+  }
+  
+  public SessionTypes getSelectedSessionType(){
+  	RadioButton selected = getSelectedSessionTypeRadio();
+  	try{
+  		return SessionTypes.getEnum(selected.getText());
+  	}catch( IllegalArgumentException iae ){
+  		// Return the default on error
+  		return SessionTypes.Kanji_Translation;
+  	}
+  }
+  
+  private RadioButton getSelectedSessionTypeRadio(){
+  	int totalWidgets = sessionTypeRadios.getWidgetCount();
+  	for( int i = 0; i < totalWidgets; i++ ){
+  		Widget widget = sessionTypeRadios.getWidget(i);
+  		if( widget instanceof RadioButton ){
+  			RadioButton radio = (RadioButton) widget;
+  			if( radio.getValue() )
+  				return radio;
+  				
+  		}
+  	}
+  	
+  	return null;
+  }
+  
+  public class RadioClickHandler implements ClickHandler {
+  	
+  	private RadioButton clicked;
+  	private AddAssignmentView display; 
+  	
+  	public RadioClickHandler( RadioButton clicked, AddAssignmentView display ){
+  		this.clicked = clicked;
+  		this.display = display;
+  	}
+  	
+  	public void onClick( ClickEvent event ){
+  		//display.selectedButton = clicked;
   	}
   }
   

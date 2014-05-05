@@ -7,6 +7,10 @@
     <g:FlowPanel ui:field='sessionHeader'></g:FlowPanel>
 
     <g:FlowPanel ui:field='cardArea'></g:FlowPanel>
+    
+    <g:FlowPanel>
+        <g:Anchor ui:field='courseLink'>Back to course</g:Anchor>
+    </g:FlowPanel>
 
   </g:HTMLPanel>
 

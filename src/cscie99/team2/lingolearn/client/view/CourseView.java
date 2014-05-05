@@ -1,6 +1,5 @@
 package cscie99.team2.lingolearn.client.view;
 
-
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
@@ -12,10 +11,8 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.visualization.client.AbstractDataTable;
@@ -89,15 +86,18 @@ public class CourseView extends Composite {
 		mainAnchor.setStyleName("list-group-item");
 		
 		sessionLinks.add(mainAnchor);
-		for( SessionTypes type : SessionTypes.values() ){
-			String value = CourseView.getSessionTypeLabel(type);
-			String href = "app.html?sessionId=" + sessionId
-								+ "&type=" + type.toString() + "#session";
-			Anchor typeAnchor = new Anchor(value, href);
-			typeAnchor.setStyleName("list-group-item session-type-anchor");
-			sessionLinks.add(typeAnchor);
-		}
 		
+		// We only display the session type choices for lessons.
+		// quiz session types are set by the instructor
+		if( session instanceof Lesson ){
+			for( SessionTypes type : SessionTypes.values() ){
+				String href = "app.html?sessionId=" + sessionId
+									+ "&type=" + type.name() + "#session";
+				Anchor typeAnchor = new Anchor(type.toString(), href);
+				typeAnchor.setStyleName("list-group-item session-type-anchor");
+				sessionLinks.add(typeAnchor);
+			}
+		}
 		HTMLPanel assignmentPanel = null;
 		if (session instanceof Lesson) {
 			assignmentPanel = ((HTMLPanel) lessons.getWidget(0));
@@ -147,17 +147,6 @@ public class CourseView extends Composite {
 	    VisualizationUtils.loadVisualizationApi(onLoadCallback, CoreChart.PACKAGE);
   }
   
-  public static String getSessionTypeLabel( SessionTypes type ){
-  	String tokens[] = type.toString().split("_");
-  	if( tokens.length == 0 ){
-  		return "";
-  	}else if( tokens.length == 1 ){
-  		return tokens[0];
-  	}else{
-  		return tokens[0] + " / " + tokens[1];
-  	}
-  }
-  
   private PieChart.PieOptions createPieOptions() {
 	    PieChart.PieOptions options = PieChart.PieOptions.create();
 	    options.setWidth(500);
@@ -170,6 +159,7 @@ public class CourseView extends Composite {
 
   private SelectHandler createSelectHandler(final PieChart chart) {
 	  return new SelectHandler() {
+		// TODO Refactor or remove the usage of "messae" in this function
 	    @Override
 	    public void onSelect(SelectEvent event) {
 	      String message = "";

@@ -98,29 +98,13 @@ public class MetricsCalculator {
 	}
 	
 	public int calculateFlashCardCountBySessions (long sessionId, long userSessionId) {
-		int flashCardsSeen = 0;
-		
 		List<FlashCardResponse> fcResps = fcRespAccessor.getAllFlashCardResponsesByUserSessionId(userSessionId, sessionId);
-		if (fcResps == null) {
-			return 0;
-		}
-		for (FlashCardResponse fcr: fcResps) {
-			flashCardsSeen++;
-		}
-		return flashCardsSeen;	
+		return (fcResps == null) ? 0 : fcResps.size();
 	}
 	
 	public int calculateQuizCountBySessions (long sessionId, long userSessionId) {
-		int questionsSeen = 0;
-		
 		List<QuizResponse> qResps = qRespAccessor.getAllQuizResponsesByUserSessionId(userSessionId, sessionId);
-		if (qResps == null) {
-			return 0;
-		}
-		for (QuizResponse qr: qResps) {
-			questionsSeen++;
-		}
-		return questionsSeen;	
+		return (qResps == null) ? 0 : qResps.size();
 	}
 	
 	public float calculatePercentNoClueBySessions(long sessionId, long userSessionId) {

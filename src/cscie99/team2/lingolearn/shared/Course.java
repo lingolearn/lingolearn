@@ -20,6 +20,7 @@ public class Course implements Serializable {
 				   courseEnd;	// Course end date
 	private User instructor;
 	private List<User> students;
+	private SpacedRepetitionOption spacedRepetitionOption = SpacedRepetitionOption.LEITNER;
 	
 	public Course() {
 		this( null, null, null, null, null, null );
@@ -113,5 +114,13 @@ public class Course implements Serializable {
 
 	public void setStudents(List<User> students) {
 		this.students = students;
+	}
+
+	public SpacedRepetitionOption getSpacedRepetitionOption() {
+		return spacedRepetitionOption;
+	}
+
+	public void setSpacedRepetitionOption(SpacedRepetitionOption spacedRepetitionOption) {
+		this.spacedRepetitionOption = spacedRepetitionOption;
 	}	
 }

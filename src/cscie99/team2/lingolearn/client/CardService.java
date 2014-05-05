@@ -1,12 +1,13 @@
 package cscie99.team2.lingolearn.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import cscie99.team2.lingolearn.shared.Card;
-
-import java.util.ArrayList;
-import java.util.List;
+import cscie99.team2.lingolearn.shared.SessionTypes;
 
 @RemoteServiceRelativePath("cardService")
 public interface CardService extends RemoteService {
@@ -23,4 +24,5 @@ public interface CardService extends RemoteService {
 	public List<Card> getAllCards();
 	public Card storeCard(Card card);
 	public List<String> getConfusersForCard(Card card);
+	public List<String> getConfusersForCard(Card card, SessionTypes type);
 }

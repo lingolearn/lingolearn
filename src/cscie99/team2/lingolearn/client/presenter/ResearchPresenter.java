@@ -55,7 +55,11 @@ public class ResearchPresenter implements Presenter {
 	display.getDownloadFlashCardResponsesButton().addClickHandler(new ClickHandler() {   
       public void onClick(ClickEvent event) {
     	Course c = display.getSelectedCourse();
-    	downloadFlashCardResponseData(c.getCourseId());
+    	if (c == null) {
+    		downloadFlashCardResponseData(null);
+    	} else {
+    		downloadFlashCardResponseData(c.getCourseId());
+    	}
       }
     });
     
@@ -69,7 +73,11 @@ public class ResearchPresenter implements Presenter {
 	display.getDownloadQuizResponsesButton().addClickHandler(new ClickHandler() {   
       public void onClick(ClickEvent event) {
     	Course c = display.getSelectedCourse();
-    	downloadQuizResponseData(c.getCourseId());
+    	if (c == null) {
+    		downloadQuizResponseData(null);
+    	} else {
+    		downloadQuizResponseData(c.getCourseId());
+    	}
       }
     });
     

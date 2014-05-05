@@ -15,6 +15,7 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Load;
 
 import cscie99.team2.lingolearn.shared.Course;
+import cscie99.team2.lingolearn.shared.SpacedRepetitionOption;
 import cscie99.team2.lingolearn.shared.User;
 
 /**
@@ -38,6 +39,7 @@ public class ObjectifyableCourse implements Serializable {
 	@Index
 	@Load
 	List<Ref<ObjectifyableUser>> students;
+	SpacedRepetitionOption spacedRepetitionOption;
 	
 	public ObjectifyableCourse() {
 		this.students = new ArrayList<Ref<ObjectifyableUser>>();
@@ -63,6 +65,7 @@ public class ObjectifyableCourse implements Serializable {
 		this.courseName = course.getCourseName();
 		this.courseStart = course.getCourseStart();
 		this.courseEnd = course.getCourseEnd();
+		this.spacedRepetitionOption = course.getSpacedRepetitionOption();
 	}   
 	
 	/**
@@ -76,6 +79,7 @@ public class ObjectifyableCourse implements Serializable {
 		c.setCourseName(this.courseName);
 		c.setCourseStart(this.courseStart);
 		c.setCourseEnd(this.courseEnd);
+		c.setSpacedRepetitionOption(this.spacedRepetitionOption);
 		ObjectifyableUser storedInstructor = this.instructor.get();
 		User instructor = storedInstructor.getUser();
 		c.setInstructor(instructor);

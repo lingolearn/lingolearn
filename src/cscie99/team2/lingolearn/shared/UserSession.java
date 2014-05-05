@@ -44,7 +44,7 @@ public class UserSession implements Serializable {
 	}
 	
 	public SessionTypes getSessionType() {
-		return sessionType == null ? null : SessionTypes.valueOf(sessionType);
+		return sessionType == null ? null : SessionTypes.getEnum(sessionType);
 	}
 
 	public void setSessionType(String sessionType) {
@@ -52,6 +52,9 @@ public class UserSession implements Serializable {
 	}
 
 	public void setSessionType(SessionTypes type){
+		if (type == null) {
+			type = SessionTypes.Confusor;
+		}
 		this.sessionType = type.toString();
 	}
 	

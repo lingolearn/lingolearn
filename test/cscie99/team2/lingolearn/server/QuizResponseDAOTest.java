@@ -78,15 +78,11 @@ public class QuizResponseDAOTest {
 	public void testGetById() {
 		QuizResponseDAO qRespAccessor = QuizResponseDAO.getInstance();
 		QuizResponse qr = null;
-		Long result = null;
-
+		long result;
 		qr =  qRespAccessor.getQuizResponseById(111L);
-		if (qr == null) {
-			assertTrue(false);
-		} else {
-			result = qr.getSessionId();
-			assertTrue("Retrieval QuizResponse by sessionId failed: expected 101, but obtained: " + result, result == 111L);
-		}
+		assertNotNull(qr);
+		result = qr.getSessionId();
+		assertEquals("Retrieval QuizResponse by sessionId failed: expected 101, but obtained: ", result, 111L);
 	}
 
 	@Test
@@ -97,14 +93,10 @@ public class QuizResponseDAOTest {
 		QuizResponseDAO qRespAccessor = QuizResponseDAO.getInstance();
 		List<QuizResponse> rList = null;
 		int size = 2;
-
 		rList = qRespAccessor.getAllQuizResponsesByUser("gplusId");
-		if (rList != null) {
-			// The list should contain 2 QuizResponse objects
-			assertTrue("Retrieval of the all QuizResponse list failed: expected " + size + " QuizResponse (s), but obtained: " + rList.size(), rList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(rList);
+		// The list should contain 2 QuizResponse objects
+		assertEquals("Retrieval of the all QuizResponse list failed: expected " + size + " QuizResponse (s), but obtained: " + rList.size(), rList.size(), size);
 	}
 
 	@Test
@@ -115,14 +107,10 @@ public class QuizResponseDAOTest {
 		QuizResponseDAO qRespAccessor = QuizResponseDAO.getInstance();
 		List<QuizResponse> rList = null;
 		int size = 3;
-
 		rList = qRespAccessor.getAllQuizResponses();
-		if (rList != null) {
-			// The list should contain 3 QuizResponse objects
-			assertTrue("Retrieval of the all QuizResponse list failed: expected " + size + " QuizResponse (s), but obtained: " + rList.size(), rList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(rList);
+		// The list should contain 3 QuizResponse objects
+		assertEquals("Retrieval of the all QuizResponse list failed: expected " + size + " QuizResponse (s), but obtained: " + rList.size(), rList.size(), size);
 	}
 
 	@Test
@@ -136,14 +124,10 @@ public class QuizResponseDAOTest {
 		QuizResponseDAO qRespAccessor = QuizResponseDAO.getInstance();
 		List<QuizResponse> rList = null;
 		int size = 1;
-
 		rList = qRespAccessor.getAllQuizResponsesOn(date);
-		if (rList != null) {
-			// The list should contain 3 QuizResponse objects
-			assertTrue("Retrieval of the all QuizResponse list failed: expected " + size + " QuizResponse (s), but obtained: " + rList.size(), rList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(rList);
+		// The list should contain 3 QuizResponse objects
+		assertEquals("Retrieval of the all QuizResponse list failed: expected " + size + " QuizResponse (s), but obtained: " + rList.size(), rList.size(), size);
 	}
 
 	@Test
@@ -157,14 +141,10 @@ public class QuizResponseDAOTest {
 		QuizResponseDAO qRespAccessor = QuizResponseDAO.getInstance();
 		List<QuizResponse> rList = null;
 		int size = 3;
-
 		rList = qRespAccessor.getAllQuizResponsesBefore(date);
-		if (rList != null) {
-			// The list should contain 3 QuizResponse objects
-			assertTrue("Retrieval of the all QuizResponse list failed: expected " + size + " QuizResponse (s), but obtained: " + rList.size(), rList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(rList);
+		// The list should contain 3 QuizResponse objects
+		assertEquals("Retrieval of the all QuizResponse list failed: expected " + size + " QuizResponse (s), but obtained: " + rList.size(), rList.size(), size);
 	}
 
 	@Test
@@ -178,14 +158,10 @@ public class QuizResponseDAOTest {
 		QuizResponseDAO qRespAccessor = QuizResponseDAO.getInstance();
 		List<QuizResponse> rList = null;
 		int size = 3;
-
 		rList = qRespAccessor.getAllQuizResponsesAfter(date);
-		if (rList != null) {
-			// The list should contain 3 QuizResponse objects
-			assertTrue("Retrieval of the all QuizResponse list failed: expected " + size + " QuizResponse (s), but obtained: " + rList.size(), rList.size() == size);
-		} else {
-			assertTrue(false);
-		}
+		assertNotNull(rList);
+		// The list should contain 3 QuizResponse objects
+		assertEquals("Retrieval of the all QuizResponse list failed: expected " + size + " QuizResponse (s), but obtained: " + rList.size(), rList.size(), size);
 	}
 
 	@Test
@@ -199,11 +175,6 @@ public class QuizResponseDAOTest {
 		qRespAccessor.deleteQuizResponseById(111L);
 		// Retrieve non-existing QuizResp with sessionId = 111
 		qr = qRespAccessor.getQuizResponseById(111L);
-		if (qr != null) {
-			System.out.println("!!! " + qr);
-			assertTrue(false);
-		} else {
-			assertTrue(true);
-		}
+		assertNull(qr);
 	}
 }

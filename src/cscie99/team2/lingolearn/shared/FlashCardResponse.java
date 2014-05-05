@@ -6,8 +6,7 @@ import java.util.Date;
 public class FlashCardResponse implements Serializable {
 
 	private static final long serialVersionUID = -1298962988486358463L;
-	public static final String DEFAULT_SEQUENCE = 
-							SessionTypes.Kanji_Translation.toString();
+	public static final String DEFAULT_SEQUENCE = SessionTypes.Kanji_Translation.toString();
 	
 	
 	private Long 	fcRespId,		// Unique QuizResponse id

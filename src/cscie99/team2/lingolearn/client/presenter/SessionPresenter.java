@@ -1,25 +1,31 @@
 package cscie99.team2.lingolearn.client.presenter;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
+import cscie99.team2.lingolearn.client.BasicRandomization;
 import cscie99.team2.lingolearn.client.CardServiceAsync;
 import cscie99.team2.lingolearn.client.CourseServiceAsync;
+import cscie99.team2.lingolearn.client.LeitnerSystem;
 import cscie99.team2.lingolearn.client.Notice;
+import cscie99.team2.lingolearn.client.SpacedRepetition;
 import cscie99.team2.lingolearn.client.event.AnalyticsEvent;
 import cscie99.team2.lingolearn.client.view.CardView;
 import cscie99.team2.lingolearn.client.view.QuizView;
 import cscie99.team2.lingolearn.client.view.SessionView;
 import cscie99.team2.lingolearn.shared.Assessment;
+import cscie99.team2.lingolearn.shared.Card;
+import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
 import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.Quiz;
 import cscie99.team2.lingolearn.shared.QuizResponse;
 import cscie99.team2.lingolearn.shared.Session;
 import cscie99.team2.lingolearn.shared.SessionTypes;
+import cscie99.team2.lingolearn.shared.SpacedRepetitionOption;
 import cscie99.team2.lingolearn.shared.User;
 import cscie99.team2.lingolearn.shared.UserSession;
+import cscie99.team2.lingolearn.shared.error.SpacedRepetitionException;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -39,7 +45,9 @@ public class SessionPresenter implements Presenter {
   private Session session;
   private UserSession userSession;
   private User currentUser;
-  private int currentCardNumber;
+  private Long currentCardId;
+  private SpacedRepetition spacedRepetitionSystem;
+  private Course course;
   
   public SessionPresenter(CourseServiceAsync courseService, 
 		  CardServiceAsync cardService, User currentUser, HandlerManager eventBus, 
@@ -88,12 +96,10 @@ public class SessionPresenter implements Presenter {
     try{
     	//Set session based on query parameter in URL
     	Long sessionId = (long) 0;
-    	String sessionType = 
-    				Window.Location.getParameter("type") == null ? ""
-    						: Window.Location.getParameter("type");
+    	
     	
     	sessionId = Long.valueOf(Window.Location.getParameter("sessionId"));
-    	this.setSession(sessionId, sessionType);
+    	this.setSession(sessionId);
     }catch( NumberFormatException nfe ){
     	Notice.showNotice(
     			"The study session specified is invalid.", "error");
@@ -103,48 +109,96 @@ public class SessionPresenter implements Presenter {
   /*
    * Sets and starts a session
    */
-  public void setSession(Long sessionId, final String sessionType) {
+  public void setSession(Long sessionId) {
 	  
 	  courseService.getSessionById(sessionId, 
 			  new AsyncCallback<Session>() {
 		  public void onSuccess(Session returnedSession) {
 			  session = returnedSession;
 			  
-			  if (session instanceof Quiz) {
-				  Quiz q = (Quiz) session;
-				  if (q.getMode().equals("yes")) {
-					  quizPresenter.setUseConfusers(true);
-				  } else {
-					  quizPresenter.setUseConfusers(false);
-				  }
-			  }
-
-			  SessionTypes type = SessionTypes.valueOf(sessionType);
+			  //Set "return to course" link of session
+			  display.setReturnToCourseLink(returnedSession.getCourseId());
 			  
-			  courseService.createUserSession(session.getSessionId(), 
-			  		currentUser.getGplusId(), 
-			  		type,
-					  new AsyncCallback<UserSession>() {
+			  
+			  courseService.getCourseById(returnedSession.getCourseId(), new AsyncCallback<Course>() {
 
-				  public void onSuccess(UserSession returnedUserSession) {
-					  userSession = returnedUserSession;
+				@Override
+				public void onFailure(Throwable caught) {
+					Notice.showNotice("Unable to get course of session.", "warning");
+				}
+
+				@Override
+				public void onSuccess(Course result) {
+					
+					  course = result;
 					  
-				      if (session instanceof Lesson) {
-				    	  cardPresenter.go(display.getCardContainer());
-				      } else {
-				    	  quizPresenter.go(display.getCardContainer());
-				      }
-				      
-					  display.setSessionName("Session " + session.getSessionId());
-					  currentCardNumber = 0;
-					  gotoNextCard();
-				  }
+					  if (course.getSpacedRepetitionOption() == SpacedRepetitionOption.LEITNER) {
+						  spacedRepetitionSystem = new LeitnerSystem();
+					  } else {
+						  spacedRepetitionSystem = new BasicRandomization();
+					  }
+					
+					  // Get the session type -- either from the 
+					  // query string, or from the quiz instance variable
+					  // set by the instructor
+					  String sessionType = 
+		    				Window.Location.getParameter("type") == null ? ""
+		    						: Window.Location.getParameter("type");
+					  
+					  SessionTypes type = SessionTypes.Kanji_Translation;
+					  if (session instanceof Quiz) {
+						  Quiz q = (Quiz) session;
+						  type = q.getSessionType();
+						  if (q.getMode().equals("yes")) {
+							  quizPresenter.setUseConfusers(true);
+						  } else {
+							  quizPresenter.setUseConfusers(false);
+						  }
+					  }else{
+					  	try{
+					  		type = SessionTypes.getEnum(sessionType);
+					  	}catch(IllegalArgumentException iae ){
+					  		Notice.showNotice("Unable to parse the session type (" + type + ")", "error");
+					  		return;
+					  	}
+					  }
 
-				  public void onFailure(Throwable caught) {
-					  Window.alert("unable to create user session");
-				  }
+					  courseService.createUserSession(session.getSessionId(), 
+					  		currentUser.getGplusId(), 
+					  		type,
+							  new AsyncCallback<UserSession>() {
+
+						  public void onSuccess(UserSession returnedUserSession) {
+							  userSession = returnedUserSession;
+							  
+						      if (session instanceof Lesson) {
+						    	  cardPresenter.go(display.getCardContainer());
+						      } else {
+						    	  quizPresenter.go(display.getCardContainer());
+						      }
+						      
+							  display.setSessionName(session.getDeck().getDesc());
+							  spacedRepetitionSystem.setDeck(session.getDeck());
+							  try {
+								  spacedRepetitionSystem.shuffleDeck();
+							  } catch (SpacedRepetitionException e) {
+									e.printStackTrace();
+							  }
+							  gotoNextCard();
+						  }
+
+						  public void onFailure(Throwable caught) {
+							  Window.alert("An unhandled error occured: " + caught.getMessage());
+						  }
+						  
+					  });
+					
+				}
 				  
 			  });
+			  
+			  
+			  
 	      }
 	      
 	      public void onFailure(Throwable caught) {
@@ -157,7 +211,7 @@ public class SessionPresenter implements Presenter {
 	  //Send knowledge to the analytics service
 	  FlashCardResponse flashCardResponse = new FlashCardResponse();
 	  flashCardResponse.setGplusId(currentUser.getGplusId());
-	  flashCardResponse.setCardId(session.getDeck().getCardIds().get(currentCardNumber));
+	  flashCardResponse.setCardId(currentCardId);
 	  flashCardResponse.setSessionId(session.getSessionId());
 	  flashCardResponse.setUserSessionId(userSession.getUserSessionId());
 	  flashCardResponse.setAssessment(knowledge);
@@ -179,16 +233,29 @@ public class SessionPresenter implements Presenter {
   }
   
   public void gotoNextCard() {
-	  if (session instanceof Lesson) {
-		  cardPresenter.setCardData(session.getDeck().getCardIds().get(currentCardNumber));
+	  
+	  boolean cardDrawn = true;
+	  if (spacedRepetitionSystem.cardsRemaining()) {
+		  try {
+			currentCardId = spacedRepetitionSystem.drawCard();
+			  if (session instanceof Lesson) {
+				  cardPresenter.setCardData(currentCardId);
+			  } else {
+				  quizPresenter.setCardData(
+						  currentCardId,
+						  selectThreeOtherCardsFromDeck(),
+						  session.getSessionType()
+				  		);
+			  }
+		} catch (SpacedRepetitionException e) {
+			cardDrawn = false;
+		}
 	  } else {
-		  quizPresenter.setCardData(
-				  session.getDeck().getCardIds().get(currentCardNumber),
-				  selectThreeOtherCardsFromDeck());
+		  cardDrawn = false;
 	  }
-	  currentCardNumber++;
-	  if (currentCardNumber >= session.getDeck().getCardIds().size()) {
-		  currentCardNumber = 0;
+	  
+	  if (!cardDrawn) {
+		  Notice.showNotice("Unable to draw card","warning");
 	  }
   }
   
@@ -203,7 +270,7 @@ public class SessionPresenter implements Presenter {
 				  isValid = false;
 			  }
 		  }
-		  if (idx == currentCardNumber) {
+		  if (allIds.get(idx).equals(currentCardId)) {
 			  isValid = false;
 		  }
 		  if (isValid) {
