@@ -1,10 +1,11 @@
-package edu.harvard.analysis;
+ package edu.harvard.analysis;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,10 @@ public class ConfuserAnalysis {
 	private final static String JLPT_EXTENSION = ".jlpt";
 	
 	// The JLPT level we are working with
-	private final static String JLPT_LEVEL = "5";
+	private final static String JLPT_LEVEL = "4";
+	
+	// Flag to indicate if the CSV should be written
+	private final static boolean WRITE_CSV = false;
 
 	/**
 	 * Main entry point for the application.
@@ -110,11 +114,15 @@ public class ConfuserAnalysis {
 		// Prepare the stream reader
 		BufferedReader reader = null;
 		InputStreamReader stream = null;
+		PrintWriter writer = null;
 		List<Card> cards = new ArrayList<Card>();
 		try {
 			// Open up the stream to be read
 			stream = new InputStreamReader(jlpt);
 			reader = new BufferedReader(stream);
+			if (WRITE_CSV) {
+				writer = new PrintWriter(JLPT_LEVEL + ".csv", "UTF-8");
+			}			
 			// Read and process the contents
 			String data;
 			while ((data = reader.readLine()) != null) {
@@ -131,6 +139,7 @@ public class ConfuserAnalysis {
 				}
 				card.setTranslation(values[2]);
 				cards.add(card);
+				writeCsv(writer, values, card);
 			}
 		} finally {
 			if (reader != null) {
@@ -138,6 +147,9 @@ public class ConfuserAnalysis {
 			}
 			if (stream != null) {
 				stream.close();
+			}
+			if (writer != null) {
+				writer.close();
 			}
 		}
 		// Return the results
@@ -158,5 +170,34 @@ public class ConfuserAnalysis {
 		System.out.println("\tWith Confusers: " + BasicMath.notZero(observations));
 		System.out.println("\tAverage: " + BasicMath.average(observations));
 		System.out.println("\tTotal: " + BasicMath.sum(observations));
+	}
+	
+	/**
+	 * Write the card information provide to the working CSV file.
+	 * 
+	 * @param writer The print writer to use when writing the contents.
+	 * @param values The values that were read from the file.
+	 * @param card The card that was parsed from the file.
+	 */
+	private static void writeCsv(PrintWriter writer, String[] values, Card card) {
+		// Make sure we have a print writer
+		if (writer == null) {
+			return;
+		}
+		// Parse out the text since the values do not properly phrase CSV since
+		// it is not needed to actually do the metrics
+		String text = values[2];
+		if (values.length > 3) {
+			text = "";
+			for (int ndx = 2; ndx < values.length; ndx++) {
+				text += values[ndx] + ",";
+			}
+			text = text.substring(0, text.length() - 1);
+		}
+		// Write the contents out to the file
+		writer.println(card.getKanji() + "," +
+					card.getHiragana() + "," +
+					card.getKatakana() + "," +
+					text + ",en-us,JLPT " + JLPT_LEVEL);
 	}
 }
