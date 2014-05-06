@@ -4,6 +4,7 @@
 package cscie99.team2.lingolearn.server;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -508,4 +509,37 @@ public class AnalyticsServiceImplTest {
 		  // Compare
 		  assertEquals(data, asImpl.getAllMetricsData());
 	  }
+	  
+	  @Test
+	  public void testGenerateCsvAllData() {
+		  AnalyticsServiceImpl asImpl = new AnalyticsServiceImpl();
+		  StringBuilder sb = new StringBuilder();
+		  sb.append("StudentID,GMail,Gender,NativeLanguage,NumberOfLanguages,NumberOfTextbooks,NumberOfOutsideCourses,"
+				  + "Languages,Textbooks,OutsideCourses,RecallRate,"
+				  + "PercentNoClue,PercentSortaKnewIt,PercentDefinitelyKnewIt");
+		  sb.append("\n");
+		  List<User> allStudents = asImpl.getAllStudents();
+		  for (User s: allStudents) {
+			  Map<String, String> bioData = asImpl.getBiographicalData(s.getGplusId());
+			  Map<String, Float> metricsData = asImpl.getMetricsData(s.getGplusId());
+			  sb.append(s.getUserId() + ",");
+			  sb.append(bioData.get("gmail") + ",");
+			  sb.append(bioData.get("gender") + ",");
+			  sb.append(bioData.get("nativeLanguage") + ",");
+			  sb.append(bioData.get("noLanguages") + ",");
+			  sb.append(bioData.get("noTextbooks") + ",");
+			  sb.append(bioData.get("noOutsideCourses") + ",");
+			  sb.append(bioData.get("languages") + ",");
+			  sb.append(bioData.get("textbooks") + ",");
+			  sb.append(bioData.get("outsideCourses") + ",");
+			  sb.append(metricsData.get("recallRate") + ",");
+			  sb.append(metricsData.get("noClue") + ",");
+			  sb.append(metricsData.get("sortaKnewIt") + ",");
+			  sb.append(metricsData.get("definitelyKnewIt") + "\n");
+		  }
+		  // Compare
+		  assertEquals(sb.toString(), asImpl.generateCsvAllData());
+	  }
+	  
+	
 }
