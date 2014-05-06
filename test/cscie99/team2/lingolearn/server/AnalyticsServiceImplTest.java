@@ -487,35 +487,6 @@ public class AnalyticsServiceImplTest {
 		  assertEquals(asImpl.getCourseMetricsDataResearcherView(courseId), asImpl.getCourseMetricsDataInstructorView(courseId, sessionId) );
 	  }
 	  
-	  @Test
-	  public void testGetAllBiographicalData() {
-		  AnalyticsServiceImpl asImpl = new AnalyticsServiceImpl();
-		  Map<String, Map<String, String>> data = new HashMap<String, Map<String, String>>();
-
-		  List<User> students = asImpl.getAllStudents();
-
-		  for (User s: students) {
-			  Map<String, String> bioData = asImpl.getBiographicalData(s.getGplusId());
-			  data.put(s.getUserId().toString(), bioData);
-		  }
-		  // Compare
-		  assertEquals(data, asImpl.getAllBiographicalData());
-	  }
-	  
-	  @Test
-	  public void testGetAllMetricsData() {
-		  AnalyticsServiceImpl asImpl = new AnalyticsServiceImpl();
-		  Map<String, Map<String, Float>> data = new HashMap<String, Map<String, Float>>();
-
-		  List<User> students = asImpl.getAllStudents();
-
-		  for (User s: students) {
-			  Map<String, Float> metricsData = asImpl.getMetricsData (s.getGplusId());
-			  data.put(s.getUserId().toString(), metricsData);
-		  }
-		  // Compare
-		  assertEquals(data, asImpl.getAllMetricsData());
-	  }
 	  
 	  @Test
 	  public void testGenerateCsvAllData() {
@@ -547,8 +518,7 @@ public class AnalyticsServiceImplTest {
 		  // Compare
 		  assertEquals(sb.toString(), asImpl.generateCsvAllData());
 	  }
-	  
-
+	
 	@Test
 	public void testCalculateAvgQuizReactionTime() {
 		String gplusId = "gplusID";  
