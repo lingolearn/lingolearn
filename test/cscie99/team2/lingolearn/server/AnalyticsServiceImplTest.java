@@ -29,6 +29,7 @@ import cscie99.team2.lingolearn.server.datastore.CourseTestDAO;
 import cscie99.team2.lingolearn.server.datastore.FlashCardResponseDAO;
 import cscie99.team2.lingolearn.server.datastore.LessonDAO;
 import cscie99.team2.lingolearn.server.datastore.QuizDAO;
+import cscie99.team2.lingolearn.server.datastore.QuizResponseDAO;
 import cscie99.team2.lingolearn.server.datastore.UserDAO;
 import cscie99.team2.lingolearn.server.datastore.UserSessionDAO;
 import cscie99.team2.lingolearn.shared.Assessment;
@@ -43,6 +44,7 @@ import cscie99.team2.lingolearn.shared.Language;
 import cscie99.team2.lingolearn.shared.Lesson;
 import cscie99.team2.lingolearn.shared.OutsideCourse;
 import cscie99.team2.lingolearn.shared.Quiz;
+import cscie99.team2.lingolearn.shared.QuizResponse;
 import cscie99.team2.lingolearn.shared.Session;
 import cscie99.team2.lingolearn.shared.SessionTypes;
 import cscie99.team2.lingolearn.shared.Sound;
@@ -216,6 +218,11 @@ public class AnalyticsServiceImplTest {
 		  courseAccessor.storeCourse(c1);
 		  courseAccessor.storeCourse(c2);
 		  courseAccessor.storeCourse(c3);
+		  
+		  QuizResponse qr1 = new QuizResponse(111L, 111L, 111L, 101L, "gplusID",
+				  "difficultConfuser", false, false, 2.5f, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z" ).parse("2014-04-15 20:27:30 EST"),3,"dog,bird,cow", "Sequence");
+		  QuizResponseDAO qAccessor = QuizResponseDAO.getInstance();
+		  qAccessor.storeQuizResponse(qr1);
 	  }
 	  
 	  @After
@@ -541,5 +548,92 @@ public class AnalyticsServiceImplTest {
 		  assertEquals(sb.toString(), asImpl.generateCsvAllData());
 	  }
 	  
+
+	@Test
+	public void testCalculateAvgQuizReactionTime() {
+		String gplusId = "gplusID";  
+		MetricsCalculator mc = new MetricsCalculator();
+		float totalQuizTimeToAnswer = 0.0f;
+		int questionsSeen = 0;
+		List<QuizResponse> qResps = mc.getAllQuizResponsesByUser(gplusId);
+		if (qResps == null) {
+			assertEquals(mc.calculateAvgQuizReactionTime(gplusId), 0.0f, 0.005);
+		}
+		if (!qResps.isEmpty()) {
+			for (QuizResponse qr: qResps) {
+				questionsSeen++;
+				totalQuizTimeToAnswer = totalQuizTimeToAnswer + qr.getTimeToAnswer();
+			}
+		}
+		assertEquals(mc.calculateAvgQuizReactionTime(gplusId), totalQuizTimeToAnswer/(float)questionsSeen, 0.005);
+	}
 	
+	@Test
+	public void testCalculateAvgFlashCardReactionTime() {
+		String gplusId = "gplusID";  
+		MetricsCalculator mc = new MetricsCalculator();
+		float totalFlashCardTimeToAnswer = 0.0f;
+		int cardsSeen = 0;
+		List<FlashCardResponse> fcResps = mc.getAllFlashCardResponsesByUser(gplusId);
+		if (fcResps == null) {
+			assertEquals(mc.getAllFlashCardResponsesByUser(gplusId), 0.0f);
+		}
+		for (FlashCardResponse fcr: fcResps) {
+			cardsSeen++;
+			totalFlashCardTimeToAnswer = totalFlashCardTimeToAnswer + fcr.getTimeToAnswer();
+		}
+		assertEquals(mc.calculateAvgFlashCardReactionTime(gplusId), totalFlashCardTimeToAnswer/(float)cardsSeen, 0.005);
+	}
+	
+	@Test
+	public void testCalculateIndecisionRate() {
+		String gplusId = "gplusID";  
+		MetricsCalculator mc = new MetricsCalculator();
+		int changedAnswers = 0;
+		int questionsSeen = 0;
+		List<QuizResponse> qResps = mc.getAllQuizResponsesByUser(gplusId);
+		if (qResps == null) {
+			assertEquals(mc.calculateIndecisionRate(gplusId), 0.0f, 0.005);
+		}
+		for (QuizResponse qr: qResps) {
+			questionsSeen++;
+			changedAnswers += (qr.isChanged()) ? 1 : 0;
+		}
+		assertEquals(mc.calculateIndecisionRate(gplusId), (float)changedAnswers/(float)questionsSeen, 0.05);
+	}
+	
+	@Test
+	public void testCalculateDropRate() {
+		String gplusId = "gplusID";  
+		MetricsCalculator mc = new MetricsCalculator();
+		int droppedCards = 0;
+		int cardsSeen = 0;
+		List<FlashCardResponse> fcResps = mc.getAllFlashCardResponsesByUser(gplusId);
+		if (fcResps == null) {
+			assertEquals(mc.calculateDropRate(gplusId), 0.0f, 0.005);
+		}
+		for (FlashCardResponse fcr: fcResps) {
+			cardsSeen++;
+			droppedCards += (fcr.isDropped()) ? 1 : 0;
+		}
+		assertEquals(mc.calculateDropRate(gplusId), (float)droppedCards/(float)cardsSeen, 0.005);
+	}
+	
+	@Test
+	public void testCalculateAverageSessionTime() {
+		String gplusId = "gplusID";  
+		MetricsCalculator mc = new MetricsCalculator();
+		float totalSessionTime = 0.0f;
+		int noSessions = 0;
+		List<UserSession> usResps = mc.getAllUserSessionsByUser(gplusId);
+		if (usResps == null) {
+			assertEquals(mc.calculateAverageSessionTime(gplusId), 0.0f, 0.005);
+		}
+		for (UserSession us: usResps) {
+			noSessions++;
+			float length = (float)(us.getSessEnd().getTime() - us.getSessStart().getTime());
+			totalSessionTime = totalSessionTime + length;
+		}
+		assertEquals(mc.calculateAverageSessionTime(gplusId), totalSessionTime/(float)noSessions, 0.005);
+	}
 }
