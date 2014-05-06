@@ -94,6 +94,7 @@ public class UserDAOTest {
 		assertNotNull(u);
 		result = u.getLastName();
 		assertEquals("Retrieval user by userId failed: expected Smith, but obtained: ", result, "Smith");
+		assertEquals(userAccessor.getUserByGplusId(""), null);
 	}
 
 	@Test
@@ -109,6 +110,8 @@ public class UserDAOTest {
 		assertNotNull(userList);
 		// The list should contain 2 Users
 		assertEquals("Retrieval of the Users list with the same Native Language failed: expected " + size + " User(s), but obtained: " + userList.size(), userList.size(), size);
+		nLang = "non-existing";
+		assertEquals(userAccessor.getAllUsersByNativeLanguage(nLang), null);
 	}
 
 	@Test
@@ -124,6 +127,8 @@ public class UserDAOTest {
 		assertNotNull(userList);
 		// The list should contain 1 Users
 		assertEquals("Retrieval of the Users list with the same Other Language failed: expected " + size + " User(s), but obtained: " + userList.size(), userList.size(), size);
+		lang = "non-existing";
+		assertEquals(userAccessor.getAllUsersByLanguage(lang), null);
 	}
 
 	@Test
@@ -139,6 +144,8 @@ public class UserDAOTest {
 		assertNotNull(userList);
 		// The list should contain 1 Users
 		assertEquals("Retrieval of the Users list with the same Textbook failed: expected " + size + " User(s), but obtained: " + userList.size(), userList.size(), size);
+		book = "non-existing";
+		assertEquals(userAccessor.getAllUsersByTextbook(book), null);
 	}
 
 	@Test
@@ -154,6 +161,8 @@ public class UserDAOTest {
 		assertNotNull(userList);
 		// The list should contain 1 Users
 		assertEquals("Retrieval of the Users list with the same Outside Course failed: expected " + size + " User(s), but obtained: " + userList.size(), userList.size(), size);
+		course = "non-existing";
+		assertEquals(userAccessor.getAllUsersByOutsideCourse(course), null);
 	}
 
 	@Test
@@ -169,18 +178,8 @@ public class UserDAOTest {
 		assertNotNull(userList);
 		// The list should contain 1 Users
 		assertEquals("Retrieval of the Users list with the same Outside Institition failed: expected " + size + " User(s), but obtained: " + userList.size(), userList.size(), size);
-	}
-
-	@Test
-	public void testGetListByGender() {
-		UserDAO userAccessor = UserDAO.getInstance();
-		List<User> userList = null;
-		Gender gender = Gender.Male;
-		int size = 2;
-		userList = userAccessor.getAllUsersByGender(gender);
-		assertNotNull(userList);
-		// The list should contain 2 Users
-		assertEquals("Retrieval of the Users list with of same Gender failed: expected " + size + " User(s), but obtained: " + userList.size(), userList.size(), size);
+		inst = "non-existing";
+		assertEquals(userAccessor.getAllUsersByOutsideInstitution(inst), null);
 	}
 
 	@Test
@@ -195,6 +194,8 @@ public class UserDAOTest {
 		assertNotNull(userList);
 		// The list should contain 3 Users
 		assertEquals("Retrieval of the all Users list failed: expected " + size + " User(s), but obtained: " + userList.size(), userList.size(), size);
+		userList = null;
+		assertEquals(userList, null);
 	}
 
 	@Test
@@ -242,6 +243,28 @@ public class UserDAOTest {
 		userAccessor.deleteUserByUid(uid);
 		u = userAccessor.getUserById(uid);
 		assertNull(u);
+	}
+	
+	@Test
+	public void testGetListByGender() {
+		UserDAO userAccessor = UserDAO.getInstance();
+		List<User> userList = null;
+		Gender gender = Gender.Female;
+		int size = 1;
+		userList = userAccessor.getAllUsersByGender(gender);
+		assertNotNull(userList);
+		// The list should contain 1 User
+		assertEquals("Retrieval of the Users list with of same Gender failed: expected " + size + " User(s), but obtained: " + userList.size(), userList.size(), size);
+		long uid;
+		User u = null;
+		u = userAccessor.getUserByGplusId("googleID3");
+		assertNotNull(u);
+		uid = u.getUserId();
+		u = userAccessor.getUserById(uid);
+		assertNotNull(u);
+		userAccessor.deleteUserByUid(uid);
+		userList = userAccessor.getAllUsersByGender(gender);
+		assertNull(userList);
 	}
 	
 	@Test
