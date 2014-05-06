@@ -5,9 +5,13 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.LIElement;
+import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.TableElement;
 import com.google.gwt.dom.client.TableRowElement;
+import com.google.gwt.dom.client.UListElement;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Anchor;
@@ -27,7 +31,7 @@ import com.google.gwt.visualization.client.visualizations.corechart.CoreChart;
 import com.google.gwt.visualization.client.visualizations.corechart.PieChart;
 
 import cscie99.team2.lingolearn.shared.Course;
-import cscie99.team2.lingolearn.shared.Lesson;
+import cscie99.team2.lingolearn.shared.Quiz;
 import cscie99.team2.lingolearn.shared.Session;
 import cscie99.team2.lingolearn.shared.SessionTypes;
 
@@ -42,6 +46,8 @@ public class CourseView extends Composite {
   @UiField HTMLPanel assignments;
   @UiField HTMLPanel lessons;
   @UiField HTMLPanel quizes;
+  @UiField UListElement lessons_list;
+  @UiField UListElement quizes_list;
   @UiField Element addAssignmentLink;
   @UiField TableElement analytics;
   @UiField VerticalPanel flashCardAssessments;
@@ -86,41 +92,46 @@ public class CourseView extends Composite {
   
   
   private void addAssignmentLinks( Session session ){
+	Long sessionId = session.getSessionId();
+	Anchor anchor = new Anchor(session.getDeck().getDesc() + " (Deck #" +
+			session.getDeck().getId() + ")", "app.html?sessionId=" +
+			sessionId + "#session");
   	
-  	ArrayList<Anchor> sessionLinks = new ArrayList<Anchor>();
-	    
-  	Long sessionId = session.getSessionId();
-    Anchor mainAnchor = new Anchor(session.getDeck().getDesc() + " (Deck #" +
-		session.getDeck().getId() + ")", "app.html?sessionId=" +
-		sessionId + "#session");
-		mainAnchor.setStyleName("list-group-item");
+  	// GWT doesn't support create LI elements, we have to do it manually... sigh.
+	final LIElement topItem = Document.get().createLIElement();
+	topItem.appendChild(anchor.getElement());
+	
+	// We only display the session type choices for lessons.
+	// quiz session types are set by the instructor
+	if (session instanceof Quiz) {
+		quizes_list.appendChild(topItem);
+		quizes.removeStyleName("hidden");  // might already be removed
+	} else {
+		anchor.setStyleName("dropdown-toggle");
+		anchor.getElement().setAttribute("data-toggle", "dropdown");
 		
-		sessionLinks.add(mainAnchor);
+		final SpanElement caret = Document.get().createSpanElement();
+		caret.setClassName("caret");
+		anchor.getElement().appendChild(caret);
 		
-		// We only display the session type choices for lessons.
-		// quiz session types are set by the instructor
-		if( session instanceof Lesson ){
-			for( SessionTypes type : SessionTypes.values() ){
-				String href = "app.html?sessionId=" + sessionId
-									+ "&type=" + type.name() + "#session";
-				Anchor typeAnchor = new Anchor(type.toString(), href);
-				typeAnchor.setStyleName("list-group-item session-type-anchor");
-				sessionLinks.add(typeAnchor);
-			}
-		}
-		HTMLPanel assignmentPanel = null;
-		if (session instanceof Lesson) {
-			assignmentPanel = ((HTMLPanel) lessons.getWidget(0));
-			lessons.removeStyleName("hidden"); // might already be removed
-		} else {
-			assignmentPanel = ((HTMLPanel) quizes.getWidget(0));
-			quizes.removeStyleName("hidden");
-		}
+		lessons_list.appendChild(topItem);
+		lessons.removeStyleName("hidden");  // might already be removed
 		
-		for( Anchor anchor : sessionLinks ){
-			assignmentPanel.add(anchor);
+		UListElement dropdown = Document.get().createULElement();
+		dropdown.setClassName("dropdown-menu");
+		
+		for (SessionTypes type : SessionTypes.values()) {
+			String href = "app.html?sessionId=" + sessionId
+								+ "&type=" + type.name() + "#session";
+			Anchor typeAnchor = new Anchor(type.toString(), href);
+			
+			final LIElement item = Document.get().createLIElement();
+			item.appendChild(typeAnchor.getElement());
+			
+			dropdown.appendChild(item);
 		}
-
+		topItem.appendChild(dropdown);
+	}
   }
   
   public void setSessionList(List<Session> sessions) {
