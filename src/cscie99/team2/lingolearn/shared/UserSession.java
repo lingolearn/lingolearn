@@ -53,7 +53,7 @@ public class UserSession implements Serializable {
 
 	public void setSessionType(SessionTypes type){
 		if (type == null) {
-			type = SessionTypes.Confusor;
+			type = SessionTypes.Kanji_Translation;
 		}
 		this.sessionType = type.toString();
 	}
