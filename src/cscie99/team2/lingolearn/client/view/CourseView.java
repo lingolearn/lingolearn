@@ -1,6 +1,7 @@
 package cscie99.team2.lingolearn.client.view;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
@@ -12,6 +13,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -43,6 +45,8 @@ public class CourseView extends Composite {
   @UiField Element addAssignmentLink;
   @UiField TableElement analytics;
   @UiField VerticalPanel flashCardAssessments;
+  @UiField ListBox sessionList;
+  private List<Session> listOfSessions;
   
   public CourseView() {
 	  initWidget(binder.createAndBindUi(this));
@@ -74,6 +78,12 @@ public class CourseView extends Composite {
 	  	addAssignmentLinks( sessions.get(i) );
 	  }	  
   }
+  
+  
+  public void hideFlashCardAssessments() {
+	  flashCardAssessments.setVisible(false);
+  }
+  
   
   private void addAssignmentLinks( Session session ){
   	
@@ -113,6 +123,29 @@ public class CourseView extends Composite {
 
   }
   
+  public void setSessionList(List<Session> sessions) {
+	  listOfSessions = sessions;
+	  
+	  //Add the null course to represent "all sessions"
+	  listOfSessions.add(0,null);
+	  sessionList.addItem("All sessions");
+	  
+	  for (int i=1;i<sessions.size();i++) {
+		  sessionList.addItem(sessions.get(i).getDeck().getDesc());
+	  }
+  }
+  
+  public Session getSelectedSession() {
+	  int idx = sessionList.getSelectedIndex();
+	  Session s = listOfSessions.get(idx);
+	  return s;
+  }
+  
+  public ListBox getSessionListControl() {
+	  return sessionList;
+  }
+  
+  
   public void setStatisticsHeader(String[] data) {
 	  TableRowElement row = analytics.getTHead().insertRow(-1);
 	  for (String element : data) {
@@ -125,6 +158,15 @@ public class CourseView extends Composite {
 	  for (String element : data) {
 		  row.insertCell(-1).setInnerText(element);
 	  }
+  }
+  
+  public void resetStatistics() {
+	  analytics.removeAllChildren();
+	  analytics.setInnerHTML("<thead></thead><tbody></tbody>");
+  }
+  
+  public void resetVisualizations() {
+	  flashCardAssessments.clear();
   }
   
   public void setVisualizations(final float noClue, final float sortaKnewIt, final float definitelyKnewIt) {
@@ -152,7 +194,7 @@ public class CourseView extends Composite {
 	    options.setWidth(500);
 	    options.setHeight(300);
 	    options.set3D(true);
-	    options.setTitle("Course Aggregate Flash Card Assessments");
+	    options.setTitle("Responses");
 	    options.set("tooltip.text", "percentage");
 	    return options;
 	  }

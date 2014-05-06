@@ -34,7 +34,9 @@
     </div>
     
     <div class='panel panel-default'>
-      <div class='panel-heading'>Analytics</div>
+      <div class='panel-heading'>Analytics
+      	<div class='pull-right'><g:ListBox ui:field='sessionList' styleName='form-control'></g:ListBox></div>
+      </div>
       <div class='panel-body'>
         <table class="table table-striped" ui:field='analytics'>
         	<thead>
