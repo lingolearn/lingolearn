@@ -74,6 +74,21 @@ a.session-type-anchor {
 	font-size: small;
 }
 
+.quiz-controls { 
+	width: 185px;
+	border-right:1px solid black;	
+ }
+
+.quiz-controls .confuser-supported, span.confuser-supported {
+	color: #3276B1;
+	font-weight:bold;
+}
+
+p.legend {
+	padding:1%;
+	
+}
+
 .card-container {
   -webkit-perspective:1000;
   perspective:1000;

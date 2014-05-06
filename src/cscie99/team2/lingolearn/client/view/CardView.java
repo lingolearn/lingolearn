@@ -89,7 +89,6 @@ public class CardView extends Composite {
 				frontValue.setText(card.getHiragana());
 				backValue.setText(card.getKanji());
 				break;
-			case Confusor:
 			default:
 				if (card.getKatakana().equals(""))
 					frontValue.setText(card.getKanji() + "  —  " + card.getHiragana());
