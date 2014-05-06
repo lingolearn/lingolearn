@@ -150,9 +150,9 @@ public class SessionPresenter implements Presenter {
 						  Quiz q = (Quiz) session;
 						  type = q.getSessionType();
 						  if (q.getMode().equals("yes")) {
-							  quizPresenter.setUseConfusers(true);
+							  quizPresenter.setUseConfusers(true, q.getSessionType());
 						  } else {
-							  quizPresenter.setUseConfusers(false);
+							  quizPresenter.setUseConfusers(false, q.getSessionType());
 						  }
 					  }else{
 					  	try{

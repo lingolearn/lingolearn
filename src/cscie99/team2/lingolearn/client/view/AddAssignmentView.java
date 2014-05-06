@@ -79,8 +79,7 @@ public class AddAssignmentView extends Composite {
   	for( int i = 0; i < types.length; i++ ){
   		SessionTypes type = types[i];
   		RadioButton radioButton = new RadioButton(radioGroup, type.toString());
-  		if( type == SessionTypes.Kanji_Translation ||
-  				type == SessionTypes.Hiragana_Translation){
+  		if( !SessionTypes.confuserSupported(type) ){
   			radioButton.setStyleName("session-type-radio no-confuser");
   		}else{
   			radioButton.setStyleName("session-type-radio confuser-supported");
