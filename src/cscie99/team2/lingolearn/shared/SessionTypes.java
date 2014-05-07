@@ -6,8 +6,7 @@ public enum SessionTypes {
 	Translation_Kanji("Translation / Kanji"),
 	Translation_Hiragana("Translation / Hiragana"),
 	Kanji_Hiragana("Kanji / Hiragana"),
-	Hiragana_Kanji("Hiragana / Kanji"),
-	Confusor("Confusor");
+	Hiragana_Kanji("Hiragana / Kanji");
 	
 	// The text returned by toString()
 	private String text;
@@ -41,5 +40,16 @@ public enum SessionTypes {
 	@Override
 	public String toString() {
 		return text;
+	}
+	
+	public static boolean confuserSupported( SessionTypes sessionType ){
+		switch( sessionType ){
+			case Kanji_Translation:
+			case Hiragana_Translation:
+				return false;
+				
+			default:
+				return true;
+		}
 	}
 }

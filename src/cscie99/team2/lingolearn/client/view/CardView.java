@@ -40,6 +40,13 @@ public class CardView extends Composite {
 	  this.front.add(flipButton);
   }
   
+  public void disableButtons() {
+	  knowledgeLow.setEnabled(false);
+	  knowledgeMedium.setEnabled(false);
+	  knowledgeHigh.setEnabled(false);
+	  flipButton.setEnabled(false);
+  }
+  
   public HasClickHandlers getFlipButton() {
 	  return flipButton;
   }
@@ -89,7 +96,6 @@ public class CardView extends Composite {
 				frontValue.setText(card.getHiragana());
 				backValue.setText(card.getKanji());
 				break;
-			case Confusor:
 			default:
 				if (card.getKatakana().equals(""))
 					frontValue.setText(card.getKanji() + "  —  " + card.getHiragana());

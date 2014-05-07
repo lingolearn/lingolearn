@@ -46,6 +46,11 @@ public class QuizView extends Composite {
 	  submitButton.setEnabled(false);
   }
   
+  public void hideButtons() {
+	  submitButton.setVisible(false);
+	  nextButton.setVisible(false);	
+  }
+  
   public void showSubmitButton() {
 	  submitButton.setVisible(true);
 	  nextButton.setVisible(false);

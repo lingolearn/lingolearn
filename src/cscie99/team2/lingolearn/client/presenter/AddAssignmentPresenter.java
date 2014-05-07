@@ -58,7 +58,7 @@ public class AddAssignmentPresenter implements Presenter {
 		if( userIsInstructor ){
 			createQuizButton();
 		}else{
-			display.getCreateQuizButton().setEnabled(false);
+			display.hideQuizControls();
 		}
 		
 		display.setSessionTypes(SessionTypes.values());

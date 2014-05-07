@@ -44,8 +44,9 @@ public class QuizPresenter implements Presenter {
 	  return this.display;
   }
   
-  public void setUseConfusers(Boolean useConfusers) {
-	  this.useConfusers = useConfusers;
+  public void setUseConfusers(Boolean useConfusers, SessionTypes sessionType ) {
+	  this.useConfusers = 
+	  				useConfusers && SessionTypes.confuserSupported(sessionType);
   }
   
   public void bind() {
@@ -113,7 +114,7 @@ public class QuizPresenter implements Presenter {
 	
 			@Override
 			public void onFailure(Throwable caught) {
-				useAsWrongAnswers(otherCards);
+				useAsWrongAnswers(otherCards, sessionType);
 			}
 			
 			@Override
@@ -154,7 +155,7 @@ public class QuizPresenter implements Presenter {
 			  
 		  });
 	  } else {
-		  useAsWrongAnswers(otherCards);
+		  useAsWrongAnswers(otherCards, sessionType);
 	  }
 	  
   }
@@ -201,16 +202,18 @@ public class QuizPresenter implements Presenter {
   	}
   }
   
-  private void useAsWrongAnswers(ArrayList<Card> otherCards) {
-	currentNumConfusers = 0;
-	currentWrongAnswers = "";
-	for (int i=0;i<otherCards.size();i++) {
-		display.addAnswer(otherCards.get(i).getDisplayString());
-		currentWrongAnswers += otherCards.get(i).getDisplayString();
-		if (i != (otherCards.size()-1)) {
-			currentWrongAnswers += ";";
+  private void useAsWrongAnswers(ArrayList<Card> otherCards, SessionTypes sessionType) {
+		currentNumConfusers = 0;
+		currentWrongAnswers = "";
+		for (int i=0;i<otherCards.size();i++) {
+			Card otherCard = otherCards.get(i);
+			String cardAnswer = getCorrectAnswer( otherCard, sessionType );
+			display.addAnswer( cardAnswer );
+			currentWrongAnswers += cardAnswer;
+			if (i != (otherCards.size()-1)) {
+				currentWrongAnswers += ";";
+			}
 		}
-	}
   }
 
 }
