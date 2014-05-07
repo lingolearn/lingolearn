@@ -141,7 +141,7 @@ public class QuizView extends Composite {
 	  for (RadioButton element : answerNodes) {
 		  element.setEnabled(false);
 		  if (element.getHTML().equals(correctAnswer))
-			  element.addStyleName("text-success");
+			  element.addStyleName("quiz-success");
 	  }
 	  
 	  showNextButton();
