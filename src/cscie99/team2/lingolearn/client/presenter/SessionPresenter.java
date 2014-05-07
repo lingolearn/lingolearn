@@ -255,7 +255,7 @@ public class SessionPresenter implements Presenter {
 	  }
 	  
 	  if (!cardDrawn) {
-		  Notice.showNotice("Unable to draw card","warning");
+		  Notice.showNotice("Deck complete! Good job!","success");
 	  }
   }
   
