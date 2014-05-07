@@ -83,6 +83,8 @@ public class QuizView extends Composite {
 	  InlineHTML stem = new InlineHTML();
 	  stem.setHTML(stemText);
 	  stemContainer.add(stem);
+	  
+	  resizeCardText();
   }
   
   public void addAnswer(String answerText) {
@@ -180,6 +182,10 @@ public class QuizView extends Composite {
 		  answerContainer.add(answerNodes.get(i));
 	  }
   }
+  
+  private static native void resizeCardText() /*-{
+  	$wnd.jQuery('.quiz-question').textfill();
+  }-*/;
   
   public Widget asWidget() {
     return this;

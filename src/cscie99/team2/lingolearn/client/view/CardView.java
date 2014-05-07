@@ -116,7 +116,7 @@ public class CardView extends Composite {
 		timer.schedule(1000);
   	}
   
-  public static native void resizeCardText() /*-{
+  private static native void resizeCardText() /*-{
   	$wnd.jQuery('.card-value').textfill();
   }-*/;
   

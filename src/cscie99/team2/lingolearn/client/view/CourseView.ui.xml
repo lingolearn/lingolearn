@@ -23,7 +23,6 @@
           	<g:HTMLPanel ui:field='lessons' styleName='hidden'>
           		<h4>Lessons</h4>
           		<ul class='nav nav-pills nav-stacked' ui:field="lessons_list">
-          		
           		</ul>
           	</g:HTMLPanel>
           	
@@ -38,7 +37,7 @@
     
     <div class='panel panel-default'>
       <div class='panel-heading'>Analytics
-      	<div class='pull-right'><g:ListBox ui:field='sessionList' styleName='form-control'></g:ListBox></div>
+      	<div class='pull-right'><g:ListBox ui:field='sessionList' styleName='form-control input-sm'></g:ListBox></div>
       </div>
       <div class='panel-body'>
         <table class="table table-striped" ui:field='analytics'>
