@@ -40,6 +40,13 @@ public class CardView extends Composite {
 	  this.front.add(flipButton);
   }
   
+  public void disableButtons() {
+	  knowledgeLow.setEnabled(false);
+	  knowledgeMedium.setEnabled(false);
+	  knowledgeHigh.setEnabled(false);
+	  flipButton.setEnabled(false);
+  }
+  
   public HasClickHandlers getFlipButton() {
 	  return flipButton;
   }

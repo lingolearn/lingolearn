@@ -256,6 +256,11 @@ public class SessionPresenter implements Presenter {
 	  
 	  if (!cardDrawn) {
 		  Notice.showNotice("Deck complete! Good job!","success");
+		  if (session instanceof Lesson) {
+			  cardPresenter.getDisplay().disableButtons();
+		  } else {
+			  quizPresenter.getDisplay().hideButtons();
+		  }
 	  }
   }
   
