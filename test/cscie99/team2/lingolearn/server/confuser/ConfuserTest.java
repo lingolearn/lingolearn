@@ -52,19 +52,19 @@ public class ConfuserTest {
 		assertEquals("ええ", results.get(0));
 		
 		// Test to make sure おばさん (aunt) is extended correctly
-		String expected[] = new String[] { "おおばさん", "おばあさん", "おばさあん" };
+		String expected[] = new String[] { "おばあさん", "おばさあん" };
 		checkResults(confuser.getHiraganaManipulation("おばさん"), expected);
 		
 		// Test to make sure おばあさん (grandmother) is extended correctly
-		expected = new String[] { "おおばあさん", "おばあさあん" };
+		expected = new String[] { "おばあさあん" };
 		checkResults(confuser.getHiraganaManipulation("おばあさん"), expected);
 		
 		// Test to make sure おじさん (uncle) is extended correctly
-		expected = new String[] { "おおじさん", "おじいさん", "おじさあん" };
+		expected = new String[] { "おじいさん", "おじさあん" };
 		checkResults(confuser.getHiraganaManipulation("おじさん"), expected);
 		
 		// Test to make sure おじいさん (grandfather) is extended correctly
-		expected = new String[] { "おおじいさん", "おじいさあん" };
+		expected = new String[] { "おじいさあん" };
 		checkResults(confuser.getHiraganaManipulation("おじいさん"), expected);
 	}
 	
