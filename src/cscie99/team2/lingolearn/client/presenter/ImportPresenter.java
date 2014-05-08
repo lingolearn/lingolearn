@@ -26,18 +26,14 @@ import cscie99.team2.lingolearn.client.view.ImportView;
 public class ImportPresenter implements Presenter {
 		public static final String CSV_UPLOAD_NAME = "csv_blob_upload";
 	
-	  private final UserServiceAsync userService;		/* Not sure if needed */
 	  private final StorageServiceAsync storageService;
-	  private final HandlerManager eventBus;
 	  private final ImportView display;
 	  
 	  public ImportPresenter( UserServiceAsync userService,
 			    StorageServiceAsync storageService,
 				HandlerManager eventBus, ImportView view ){
 		  
-		  this.userService = userService;
 		  this.storageService = storageService;
-		  this.eventBus = eventBus;
 		  this.display = view;
 
 	  }

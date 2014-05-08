@@ -22,7 +22,6 @@ public class HomePresenter implements Presenter {
 	
 	public static final String UID_QUERY_KEY = "profile";
 	
-  private final HandlerManager eventBus;
   private final HomeView display;
   private final CourseServiceAsync courseService;
   private final UserServiceAsync userService;
@@ -39,8 +38,7 @@ public class HomePresenter implements Presenter {
   	
 	  this.userService = userService;
     this.courseService = courseService;
-	  this.eventBus = eventBus;
-    this.display = display;
+	  this.display = display;
     this.profiledUser = currentUser;  
   }
   
@@ -101,7 +99,7 @@ public class HomePresenter implements Presenter {
 		  public void onSuccess(ArrayList<Course> courses) {
 			  for (int i=0;i<courses.size();i++) {
 				  Course course = courses.get(i);
-				  HasClickHandlers anchor = display.addCourseUserIsInstructing(course);
+				  display.addCourseUserIsInstructing(course);
 			  }
 	     }
 	      
@@ -114,7 +112,7 @@ public class HomePresenter implements Presenter {
 		  public void onSuccess(ArrayList<Course> courses) {
 			  for (int i=0;i<courses.size();i++) {
 				  Course course = courses.get(i);
-				  HasClickHandlers anchor = display.addCourseUserIsEnrolledIn(course);
+				  display.addCourseUserIsEnrolledIn(course);
 			  }
 	     }
 	      

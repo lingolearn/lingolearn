@@ -15,7 +15,6 @@ import cscie99.team2.lingolearn.shared.error.DeckNotFoundException;
 @SuppressWarnings("serial")
 public class DeckServiceImpl extends RemoteServiceServlet implements DeckService {
 
-	private static final boolean Retrivining = false;
 	private DeckDAO deckAccessor = DeckDAO.getInstance();
 
 	public void deleteDeckById(Long deckId) {

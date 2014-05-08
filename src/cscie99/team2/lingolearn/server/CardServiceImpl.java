@@ -17,7 +17,6 @@ import cscie99.team2.lingolearn.shared.error.ConfuserException;
 @SuppressWarnings("serial")
 public class CardServiceImpl extends RemoteServiceServlet implements CardService {
 	
-	private static final boolean Retrivining = false;
 	CardDAO cardAccessor = CardDAO.getInstance();
 	
 	/**

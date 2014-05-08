@@ -22,7 +22,6 @@ import cscie99.team2.lingolearn.shared.User;
 
 public class AddAssignmentPresenter implements Presenter {
 
-	private final HandlerManager eventBus;
 	private final AddAssignmentView display;
 	private final CourseServiceAsync courseService;
 	private final DeckServiceAsync deckService;
@@ -37,7 +36,6 @@ public class AddAssignmentPresenter implements Presenter {
 			AddAssignmentView display) {
 		this.courseService = courseService;
 		this.deckService = deckService;
-		this.eventBus = eventBus;
 		this.display = display;
 		this.currentUser = user;
 	}

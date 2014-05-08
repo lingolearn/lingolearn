@@ -21,7 +21,6 @@ public class ResearchPresenter implements Presenter {
 
   private final AnalyticsServiceAsync analyticsService;
   private final CourseServiceAsync courseService;
-  private final HandlerManager eventBus;
   private final ResearchView display;
   private String allCsvDataUri;
   private String flashCardCsvDataUri;
@@ -31,7 +30,6 @@ public class ResearchPresenter implements Presenter {
 		  HandlerManager eventBus, ResearchView display) {
     this.analyticsService = analyticsService;
     this.courseService = courseService;
-    this.eventBus = eventBus;
     this.display = display;
     this.allCsvDataUri = "";
     this.flashCardCsvDataUri = "";
