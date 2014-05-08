@@ -9,6 +9,8 @@ import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.Session;
 import cscie99.team2.lingolearn.shared.User;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -43,6 +45,21 @@ public class CoursePresenter implements Presenter {
   
   public void bind() {
     
+	  display.getSessionListControl().addChangeHandler(new ChangeHandler() {
+
+		@Override
+		public void onChange(ChangeEvent event) {
+			display.resetStatistics();
+			display.resetVisualizations();
+			if (display.getSelectedSession() != null) {
+				populateAnalyticsWithInstructorView(display.getSelectedSession().getSessionId());
+			} else {
+				populateAnalyticsWithInstructorView(null);
+			}
+		}
+		  
+	  });
+	  
   }
   
   public void go(final HasWidgets container) {
@@ -77,6 +94,7 @@ public class CoursePresenter implements Presenter {
 			  new AsyncCallback<ArrayList<Session>>() {
 		  public void onSuccess(ArrayList<Session> sessions) {
 	          display.setAssignmentList(sessions);
+	          display.setSessionList(sessions);
 	      }
 	      
 	      public void onFailure(Throwable caught) {
@@ -101,9 +119,12 @@ public class CoursePresenter implements Presenter {
 				}
 			}
 			if (isInstructor) {
-				populateAnalyticsWithInstructorView();
+				populateAnalyticsWithInstructorView(null);
+				
 			} else {
 				populateAnalyticsWithStudentView();
+				display.getSessionListControl().setVisible(false);
+				display.hideFlashCardAssessments();
 			}
 		}
 		  
@@ -111,8 +132,8 @@ public class CoursePresenter implements Presenter {
 	  
   }
   
-  private void populateAnalyticsWithInstructorView() {
-	  analyticsService.getCourseMetricsDataInstructorView(this.course.getCourseId(), null,  
+  private void populateAnalyticsWithInstructorView(Long sessionId) {
+	  analyticsService.getCourseMetricsDataInstructorView(this.course.getCourseId(), sessionId,  
 			  new AsyncCallback<Map<String, Map<String, Float>>>() {
 		  public void onSuccess(Map<String, Map<String, Float>> data) {
 			  
@@ -217,7 +238,12 @@ public class CoursePresenter implements Presenter {
 
   
   private String percentage_format(Float value) {
-	  return (double)Math.round(value * 1000) / 10 + "%";
+	  double dblval = (double)Math.round(value * 1000) / 10;
+	  if (Double.isNaN(dblval)) {
+		  return "";
+	  } else {
+		  return dblval + "%";
+	  }
   }
   
 

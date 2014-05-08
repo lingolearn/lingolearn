@@ -197,7 +197,7 @@ public class User implements Serializable {
 		return true;
 	}	
 	
-	@Override
+/*	@Override
 	public String toString() {
 		String result = null;
 		result  = "User Id   : " + this.getGplusId() + "\n";
@@ -216,7 +216,7 @@ public class User implements Serializable {
 			result += "     Other Courses  : " + oc.getInstitution() + "\n";
 		}
 		return result;	
-	}
+	}*/
 	
 	public String getFullName(){
 	 	return firstName + " " + lastName;

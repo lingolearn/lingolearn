@@ -46,6 +46,11 @@ public class QuizView extends Composite {
 	  submitButton.setEnabled(false);
   }
   
+  public void hideButtons() {
+	  submitButton.setVisible(false);
+	  nextButton.setVisible(false);	
+  }
+  
   public void showSubmitButton() {
 	  submitButton.setVisible(true);
 	  nextButton.setVisible(false);
@@ -78,6 +83,8 @@ public class QuizView extends Composite {
 	  InlineHTML stem = new InlineHTML();
 	  stem.setHTML(stemText);
 	  stemContainer.add(stem);
+	  
+	  resizeCardText();
   }
   
   public void addAnswer(String answerText) {
@@ -134,7 +141,7 @@ public class QuizView extends Composite {
 	  for (RadioButton element : answerNodes) {
 		  element.setEnabled(false);
 		  if (element.getHTML().equals(correctAnswer))
-			  element.addStyleName("text-success");
+			  element.addStyleName("quiz-success");
 	  }
 	  
 	  showNextButton();
@@ -175,6 +182,10 @@ public class QuizView extends Composite {
 		  answerContainer.add(answerNodes.get(i));
 	  }
   }
+  
+  private static native void resizeCardText() /*-{
+  	$wnd.jQuery('.quiz-question').textfill();
+  }-*/;
   
   public Widget asWidget() {
     return this;

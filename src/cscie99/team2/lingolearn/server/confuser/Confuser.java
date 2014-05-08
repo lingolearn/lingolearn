@@ -37,9 +37,8 @@ public class Confuser {
 		Map<Character, String> map = new HashMap<Character, String>();
 		map.put('あ', "かさたなはまやらわがざだばぱ");
 		map.put('い', "きしちにひみりぎじびぴ");
-		map.put('う', "くすつぬふむゆるぐずぶぷ");
+		map.put('う', "くすつぬふむゆるぐずぶぷこそとのほもよろをごぞどぼぽ");
 		map.put('え', "けせてねへめれげぜでべぺ");
-		map.put('お', "こそとのほもよろをごぞどぼぽ");
 		vowelCombinations = Collections.unmodifiableMap(map);
 	};
 	
@@ -412,9 +411,11 @@ public class Confuser {
 		// The following are the parameters for xtsu (っ, ッ) manipulation
 		char xtsu = 'っ';
 		String characters = "かきくけこさしたちつてとはひふへほぱぴぷぺぽ";
+		String invalidFollowers = "あいうえおんなにぬねの";
 		if (ConfuserTools.checkCharacter(phrase.charAt(0)) == CharacterType.Katakana) {
 			xtsu = 'ッ';
 			characters = "カキクケコサシタチツテトハヒフヘホパピプペポ";
+			invalidFollowers = "アイウエオンナニヌネノ";
 		}
 		// Now start scanning through the phrase for relevant matches for this 
 		// we are only focusing on the characters that are in the middle of 
@@ -422,6 +423,14 @@ public class Confuser {
 		List<String> phrases = new ArrayList<String>();
 		for (int ndx = 0; ndx < phrase.length(); ndx++) {
 			char ch = phrase.charAt(ndx);
+			// Get the next character and check to see if it is invalid, if so
+			// we can just press on
+			if (ndx != phrase.length() - 1) {
+				char next = phrase.charAt(ndx + 1);
+				if (invalidFollowers.contains(String.valueOf(next))) {
+					continue;
+				}
+			}
 			// If this is a small tsu character, remove it
 			if (ch == xtsu) {
 				phrases.add(phrase.substring(0, ndx) + phrase.substring(ndx + 1));

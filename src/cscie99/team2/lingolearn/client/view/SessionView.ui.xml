@@ -4,11 +4,11 @@
 
   <g:HTMLPanel>
 
-    <g:FlowPanel ui:field='sessionHeader'></g:FlowPanel>
+    <h2 ui:field='sessionHeader'></h2>
 
     <g:FlowPanel ui:field='cardArea'></g:FlowPanel>
     
-    <g:FlowPanel>
+    <g:FlowPanel styleName="card-footer">
         <g:Anchor ui:field='courseLink'>Back to course</g:Anchor>
     </g:FlowPanel>
 

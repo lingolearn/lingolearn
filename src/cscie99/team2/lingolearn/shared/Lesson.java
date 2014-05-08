@@ -12,10 +12,6 @@ public class Lesson extends Session implements Serializable {
 	public Lesson() {
 		super();
 	}
-
-	public Lesson(Long sessId, Deck deck, Long courseId) {
-		super(sessId, deck, courseId);
-	}
 	
 	public Lesson(Long sessId, Deck deck, Long courseId, 
 																SessionTypes sessionType) {

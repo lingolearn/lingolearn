@@ -61,6 +61,12 @@ public class AddAssignmentView extends Composite {
 	  return d;
   }
   
+  public void hideQuizControls(){
+  	this.sessionTypeRadios.setVisible(false);
+  	this.useConfuser.setVisible(false);
+  	this.createQuizButton.setEnabled(false);
+  }
+  
   public void setDeckList(List<Deck> decks) {
 	  listOfDecks = decks;
 	  for (int i=0;i<decks.size();i++) {
@@ -73,8 +79,12 @@ public class AddAssignmentView extends Composite {
   	for( int i = 0; i < types.length; i++ ){
   		SessionTypes type = types[i];
   		RadioButton radioButton = new RadioButton(radioGroup, type.toString());
-  		radioButton.setStyleName("session-type-radio");
-  		if( type == SessionTypes.Kanji_Translation ) {
+  		if( !SessionTypes.confuserSupported(type) ){
+  			radioButton.setStyleName("session-type-radio no-confuser");
+  		}else{
+  			radioButton.setStyleName("session-type-radio confuser-supported");
+  		}
+  		if( type == SessionTypes.Translation_Kanji ) {
   			radioButton.setValue(true);
   		}
   		sessionTypeRadios.add(radioButton);
@@ -106,19 +116,6 @@ public class AddAssignmentView extends Composite {
   	return null;
   }
   
-  public class RadioClickHandler implements ClickHandler {
-  	
-  	private RadioButton clicked;
-  	private AddAssignmentView display; 
-  	
-  	public RadioClickHandler( RadioButton clicked, AddAssignmentView display ){
-  		this.clicked = clicked;
-  		this.display = display;
-  	}
-  	
-  	public void onClick( ClickEvent event ){
-  		//display.selectedButton = clicked;
-  	}
-  }
+
   
 }

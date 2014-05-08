@@ -161,7 +161,31 @@ public class DeckDAOTest {
 		result = d.getId();
 		assertEquals("Retrieval card by DeckId failed: expected 101, but obtained: " + result, (long)101, result);
 	}
+	
+	@Test
+	/**
+	 * Test card retrieval by "deckId" 
+	 */
+	public void testGetByDeckIdNonExisting() {
+		DeckDAO deckAccessor = DeckDAO.getInstance();
+		// Retrieve existing deck d1 with deckId=12121
+		try {
+			Deck d = deckAccessor.getDeckById((long)12121);
+		} catch (DeckNotFoundException e) {
+			assertTrue(true);
+		}
+	}
 
+	@Test
+	/**
+	 * Test get all Decks 
+	 */
+	public void testGetAllDecks() {
+		DeckDAO deckAccessor = DeckDAO.getInstance();
+		int size = 2;
+		assertEquals(deckAccessor.getAllDecks().size(), size);
+	}
+	
 	@Test
 	/**
 	 * Test card retrieval by "deckId" 

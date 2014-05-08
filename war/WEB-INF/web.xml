@@ -6,7 +6,17 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 
   <!-- Servlets -->
-    <servlet>
+  <servlet>
+    <servlet-name>LoadTestServlet</servlet-name>
+    <servlet-class>cscie99.team2.lingolearn.server.LoadTestServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>LoadTestServlet</servlet-name>
+    <url-pattern>/loadtest</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>cscie99.team2.lingolearn.server.LoginServlet</servlet-class>
   </servlet>

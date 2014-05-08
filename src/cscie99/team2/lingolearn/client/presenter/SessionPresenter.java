@@ -150,9 +150,9 @@ public class SessionPresenter implements Presenter {
 						  Quiz q = (Quiz) session;
 						  type = q.getSessionType();
 						  if (q.getMode().equals("yes")) {
-							  quizPresenter.setUseConfusers(true);
+							  quizPresenter.setUseConfusers(true, q.getSessionType());
 						  } else {
-							  quizPresenter.setUseConfusers(false);
+							  quizPresenter.setUseConfusers(false, q.getSessionType());
 						  }
 					  }else{
 					  	try{
@@ -255,7 +255,12 @@ public class SessionPresenter implements Presenter {
 	  }
 	  
 	  if (!cardDrawn) {
-		  Notice.showNotice("Unable to draw card","warning");
+		  Notice.showNotice("Deck complete! Good job!","success");
+		  if (session instanceof Lesson) {
+			  cardPresenter.getDisplay().disableButtons();
+		  } else {
+			  quizPresenter.getDisplay().hideButtons();
+		  }
 	  }
   }
   

@@ -314,37 +314,6 @@ public class AnalyticsServiceImpl extends RemoteServiceServlet implements Analyt
 		return data;
 	}
 
-	/**
-	 * Pulls all biographical data for all students in the system.
-	 */
-	public Map<String, Map<String, String>> getAllBiographicalData() {
-		Map<String, Map<String, String>> data = new HashMap<String, Map<String, String>>();
-		
-		List<User> students = getAllStudents();
-		
-		for (User s: students) {
-			Map<String, String> bioData = this.getBiographicalData(s.getGplusId());
-			data.put(s.getUserId().toString(), bioData);
-		}
-		
-		return data;
-	}
-
-	/**
-	 * Pulls all metrics data for all students in the system.
-	 */
-	public Map<String, Map<String, Float>> getAllMetricsData() {
-		Map<String, Map<String, Float>> data = new HashMap<String, Map<String, Float>>();
-		
-		List<User> students = getAllStudents();
-		
-		for (User s: students) {
-			Map<String, Float> metricsData = getMetricsData (s.getGplusId());
-			data.put(s.getUserId().toString(), metricsData);
-		}
-		
-		return data;
-	}
 	
 	public String generateCsvAllData() {
 		

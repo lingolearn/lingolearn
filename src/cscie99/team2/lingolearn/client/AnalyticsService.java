@@ -34,9 +34,6 @@ public interface AnalyticsService extends RemoteService{
 	public Map<String, Map<String, Float>> getCourseMetricsDataInstructorView (Long courseId, Long sessionId);
 	public List<List<Object>> getCourseMetricsDataStudentView (Long courseId, String gplusId);
 	
-	public Map<String, Map<String, String>> getAllBiographicalData();
-	public Map<String, Map<String, Float>> getAllMetricsData();
-	
 	public FlashCardResponse storeFlashCardResponse(FlashCardResponse fcResp);
 	public QuizResponse storeQuizResponse(QuizResponse qResp);
 	public void deleteQuizResponseById(Long sessionId);
