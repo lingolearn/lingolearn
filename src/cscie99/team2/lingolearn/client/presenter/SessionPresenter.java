@@ -95,7 +95,7 @@ public class SessionPresenter implements Presenter {
 		  public void onPreviewNativeEvent(NativePreviewEvent event) { 
 			  NativeEvent ne = event.getNativeEvent();
 
-			  if ("keydown".equals(ne.getType())) {
+			  if (event.getTypeInt() == Event.ONKEYDOWN) {
 				  if (ne.getKeyCode() == KeyCodes.KEY_ENTER || ne.getKeyCode() == KeyCodes.KEY_SPACE) {
 					  ne.preventDefault();
 					  if (session instanceof Lesson) {
@@ -123,6 +123,7 @@ public class SessionPresenter implements Presenter {
 				  } else {
 					  if (ne.getKeyCode() == KeyCodes.KEY_ONE || ne.getKeyCode() == KeyCodes.KEY_TWO ||
 							  ne.getKeyCode() == KeyCodes.KEY_THREE || ne.getKeyCode() == KeyCodes.KEY_FOUR) {
+						  ne.preventDefault();
 						  quizPresenter.getDisplay().setSelectedAnswer(ne.getKeyCode() - KeyCodes.KEY_ONE);
 					  }
 					  
