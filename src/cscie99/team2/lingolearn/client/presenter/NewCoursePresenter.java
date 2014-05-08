@@ -15,6 +15,7 @@ import cscie99.team2.lingolearn.shared.User;
 
 public class NewCoursePresenter implements Presenter {  
 
+  private final HandlerManager eventBus;
   private final NewCourseView display;
   private final CourseServiceAsync courseService;
   private final UserServiceAsync userService;
@@ -25,6 +26,7 @@ public class NewCoursePresenter implements Presenter {
   		UserServiceAsync userService, HandlerManager eventBus, 
 		  NewCourseView display) {
       this.courseService = courseService;
+      this.eventBus = eventBus;
       this.display = display;
       this.userService = userService;
   }

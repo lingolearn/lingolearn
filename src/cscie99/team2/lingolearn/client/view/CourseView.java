@@ -215,10 +215,15 @@ public class CourseView extends Composite {
 		// TODO Refactor or remove the usage of "messae" in this function
 	    @Override
 	    public void onSelect(SelectEvent event) {
+	      String message = "";
+	      
 	      // May be multiple selections.
 	      JsArray<Selection> selections = chart.getSelections();
 
 	      for (int i = 0; i < selections.length(); i++) {
+	        // add a new line for each selection
+	        message += i == 0 ? "" : "\n";
+	        
 	        Selection selection = selections.get(i);
 
 	        if (selection.isCell()) {
@@ -228,12 +233,17 @@ public class CourseView extends Composite {
 	          int row = selection.getRow();
 	          // getColumn() returns the column number of the selected cell.
 	          int column = selection.getColumn();
+	          message += "cell " + row + ":" + column + " selected";
 	        } else if (selection.isRow()) {
 	          // isRow() returns true if an entire row has been selected.
 	           
 	          // getRow() returns the row number of the selected row.
 	          int row = selection.getRow();
+	          message += "row " + row + " selected";
 	        } else {
+	          // unreachable
+	          message += "Pie chart selections should be either row selections or cell selections.";
+	          message += "  Other visualizations support column selections as well.";
 	        }
 	      }
 	        

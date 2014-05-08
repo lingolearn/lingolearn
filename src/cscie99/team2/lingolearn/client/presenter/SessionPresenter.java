@@ -14,6 +14,7 @@ import cscie99.team2.lingolearn.client.view.CardView;
 import cscie99.team2.lingolearn.client.view.QuizView;
 import cscie99.team2.lingolearn.client.view.SessionView;
 import cscie99.team2.lingolearn.shared.Assessment;
+import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Course;
 import cscie99.team2.lingolearn.shared.FlashCardResponse;
 import cscie99.team2.lingolearn.shared.Lesson;

@@ -17,6 +17,7 @@ import cscie99.team2.lingolearn.shared.User;
 public class RegistrationPresenter implements Presenter {
 	
 	  private final UserServiceAsync userService;
+	  private final HandlerManager eventBus;
 	  private final AppRegisterView display;
 	  
 	  private String gmail;
@@ -26,6 +27,7 @@ public class RegistrationPresenter implements Presenter {
 				HandlerManager eventBus, AppRegisterView view ){
 		  
 		  this.userService = userService;
+		  this.eventBus = eventBus;
 		  this.display = view;
 
 		}

@@ -19,10 +19,12 @@ import cscie99.team2.lingolearn.shared.SessionTypes;
 public class QuizPresenter implements Presenter {  
 
   private final CardServiceAsync cardService;
+  private final HandlerManager eventBus;
   private final QuizView display;
   private final SessionPresenter sessionPresenter;
   private Card currentCard;
   private int currentNumConfusers;
+  private String currentConfuserType;  //TODO
   private String currentWrongAnswers;
   private String currentCorrectAnswer;
   private boolean useConfusers;
@@ -30,9 +32,11 @@ public class QuizPresenter implements Presenter {
   public QuizPresenter(CardServiceAsync cardService, HandlerManager eventBus, 
 		  QuizView display, SessionPresenter sessionPresenter) {
     this.cardService = cardService;
+    this.eventBus = eventBus;
     this.display = display;
     this.sessionPresenter = sessionPresenter;
     currentNumConfusers = 0;
+    currentConfuserType = "";
     useConfusers = true;
   }
   

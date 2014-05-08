@@ -5,6 +5,9 @@ package cscie99.team2.lingolearn.shared;
  */
 public class CardSelectorImpl implements CardSelector {
 	
+	private String algId, 	// Unique algorithm Id
+				   algDesc; // Description of the algorithm
+	
 	public void load(Deck deck){
 		
 	};

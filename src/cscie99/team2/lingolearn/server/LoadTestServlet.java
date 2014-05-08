@@ -26,7 +26,7 @@ public class LoadTestServlet extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-		req.getSession();
+		HttpSession session = req.getSession();
 		boolean testDecks = false;
 		boolean testCards = false;
 		String getDecks = (String)req.getParameter(ALL_DECKS_KEY);

@@ -15,6 +15,7 @@ public class UserProfilePresenter implements Presenter {
 	public final String UID_QUERY_KEY = "profile";
 	
   private final UserServiceAsync userService;
+  private final HandlerManager eventBus;
   private final UserProfileView display;
   
   private User currentUser;
@@ -24,6 +25,7 @@ public class UserProfilePresenter implements Presenter {
 			HandlerManager eventBus, UserProfileView view ){
 	  
 	  this.userService = userService;
+	  this.eventBus = eventBus;
 	  this.display = view;
 
 	}

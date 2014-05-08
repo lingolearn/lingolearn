@@ -16,6 +16,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import java.util.Map.Entry;
 
 public class CoursePresenter implements Presenter {  
 
+  private final HandlerManager eventBus;
   private final CourseView display;
   private final CourseServiceAsync courseService;
   private Course course;
@@ -35,7 +37,8 @@ public class CoursePresenter implements Presenter {
 		  CourseView display) {
       this.courseService = courseService;
       this.analyticsService = analyticsService;
-	  this.display = display;
+	  this.eventBus = eventBus;
+      this.display = display;
       this.course = null;
       this.currentUser = currentUser;
   }
