@@ -29,11 +29,14 @@ public class CardPresenter implements Presenter {
     
 	display.getFlipButton().addClickHandler(new ClickHandler() {   
       public void onClick(ClickEvent event) {
-        eventBus.fireEvent(new FlippedCardEvent());
-    	display.flipCard();
+    	  flipCard();
       }
     });
-    
+  }
+  
+  public void flipCard() {
+	  eventBus.fireEvent(new FlippedCardEvent());
+	  display.flipCard();
   }
   
   public void go(final HasWidgets container) {

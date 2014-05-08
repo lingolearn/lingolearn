@@ -18,8 +18,8 @@
 			    </g:FlowPanel>
 			    
 			    <g:FlowPanel>
-			    	<g:Button ui:field='submitButton' styleName='btn btn-primary btn-lg'>Submit</g:Button>
-			    	<g:Button ui:field='nextButton' styleName='btn btn-default btn-lg'>Next</g:Button>
+			    	<g:Button ui:field='submitButton' styleName='btn btn-primary btn-lg' title='Keyboard: &lt;enter&gt; or &lt;space&gt;'>Submit</g:Button>
+			    	<g:Button ui:field='nextButton' styleName='btn btn-default btn-lg' title='Keyboard: &lt;enter&gt; or &lt;space&gt;'>Next</g:Button>
 			    </g:FlowPanel>
 			    <g:FlowPanel ui:field='responseArea'> </g:FlowPanel>
 	    

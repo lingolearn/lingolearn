@@ -29,15 +29,15 @@ public class CardView extends Composite {
   @UiField Button knowledgeLow;
   @UiField Button knowledgeMedium;
   @UiField Button knowledgeHigh;
-  private Button flipButton;
+  @UiField Button flipButton;
   
   public CardView() {
 	  initWidget(binder.createAndBindUi(this));
-	  
-	  this.flipButton = new Button();
-	  this.flipButton.setText("Flip");
-	  this.flipButton.setStyleName("btn btn-primary btn-lg");
-	  this.front.add(flipButton);
+  }
+  
+  public void onLoad() {
+	  // Set up tooltips
+	  intializeTooltips();
   }
   
   public void disableButtons() {
@@ -127,6 +127,10 @@ public class CardView extends Composite {
 		  this.card_container.addStyleName("card-flipped");
   }
   
+  private static native void intializeTooltips() /*-{
+  	$wnd.jQuery('.btn').tooltip({placement: "bottom"});
+  }-*/;
+  
   public Widget asWidget() {
     return this;
   }
@@ -134,6 +138,7 @@ public class CardView extends Composite {
   private void clearCard(){
 	  //"unflip" the card if it is flipped
 	  this.card_container.removeStyleName("card-flipped");
+	  
 	  //clear DOM nodes
 	  this.cardFrontValue.clear();
 	  this.cardBackValue.clear();

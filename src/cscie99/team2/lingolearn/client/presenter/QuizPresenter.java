@@ -51,39 +51,42 @@ public class QuizPresenter implements Presenter {
   
   public void bind() {
     
-	display.getSubmitButton().addClickHandler(new ClickHandler() {   
-      public void onClick(ClickEvent event) {
-    	  boolean wasCorrect = display.getSelectedAnswer().equals(currentCorrectAnswer);
-    	  
-    	  //Check answer and emit event saying user has submitted
-    	  if (wasCorrect) {
-    		  display.showCorrect();
-    		  sessionPresenter.gotoNextCard();
-    	  } else {
-    		  display.showIncorrect(currentCorrectAnswer);
-    	  }
-    	  
-    	  //Send knowledge to the analytics service
-    	  QuizResponse quizResponse = new QuizResponse();
-    	  quizResponse.setCardId(currentCard.getId());
-    	  quizResponse.setCorrect(wasCorrect);
-    	  quizResponse.setNumConfusersUsed(currentNumConfusers);
-    	  quizResponse.setWrongAnswers(currentWrongAnswers);
-    	  sessionPresenter.recordQuizResponse(quizResponse);
-      }
-    });
+	  display.getSubmitButton().addClickHandler(new ClickHandler() {   
+		  public void onClick(ClickEvent event) {
+			  submit();
+		  }
+	  });
     
   }
   
+  public void submit() {
+	  boolean wasCorrect = display.getSelectedAnswer().equals(currentCorrectAnswer);
+	  
+	  //Check answer and emit event saying user has submitted
+	  if (wasCorrect) {
+		  display.showCorrect();
+		  sessionPresenter.gotoNextCard();
+	  } else {
+		  display.showIncorrect(currentCorrectAnswer);
+	  }
+	  
+	  //Send knowledge to the analytics service
+	  QuizResponse quizResponse = new QuizResponse();
+	  quizResponse.setCardId(currentCard.getId());
+	  quizResponse.setCorrect(wasCorrect);
+	  quizResponse.setNumConfusersUsed(currentNumConfusers);
+	  quizResponse.setWrongAnswers(currentWrongAnswers);
+	  sessionPresenter.recordQuizResponse(quizResponse);
+  }
+  
   public void go(final HasWidgets container) {
-    bind();
-    container.clear();
-    container.add(display.asWidget());
+	  bind();
+	  container.clear();
+	  container.add(display.asWidget());
   }
   
   public void setCardData(Long cardId, ArrayList<Long> otherOptionIds,
   												final SessionTypes sessionType ) {
-	  
 	  ArrayList<Long> requestedIds = otherOptionIds;
 	  requestedIds.add(cardId);
 	  

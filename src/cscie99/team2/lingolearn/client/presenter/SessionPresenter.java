@@ -27,11 +27,16 @@ import cscie99.team2.lingolearn.shared.User;
 import cscie99.team2.lingolearn.shared.UserSession;
 import cscie99.team2.lingolearn.shared.error.SpacedRepetitionException;
 
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
+import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
@@ -86,6 +91,48 @@ public class SessionPresenter implements Presenter {
 		  }
 	  });
 	  
+	  Event.addNativePreviewHandler(new NativePreviewHandler() { 
+		  @Override 
+		  public void onPreviewNativeEvent(NativePreviewEvent event) { 
+			  NativeEvent ne = event.getNativeEvent();
+
+			  if ("keydown".equals(ne.getType())) {
+				  if (ne.getKeyCode() == KeyCodes.KEY_ENTER || ne.getKeyCode() == KeyCodes.KEY_SPACE) {
+					  ne.preventDefault();
+					  if (session instanceof Lesson) {
+						  cardPresenter.flipCard();
+					  } else {
+						  if (quizPresenter.getDisplay().isAnswered())
+							  gotoNextCard();
+						  else
+							  quizPresenter.submit();
+					  }
+				  }
+			  
+				  
+				  if (session instanceof Lesson) {
+					  if (ne.getKeyCode() == KeyCodes.KEY_ONE || ne.getKeyCode() == KeyCodes.KEY_NUM_ONE) {
+						  ne.preventDefault();
+						  recordKnowledge(Assessment.NOCLUE);
+					  } else if (ne.getKeyCode() == KeyCodes.KEY_TWO || ne.getKeyCode() == KeyCodes.KEY_NUM_TWO) {
+						  ne.preventDefault();
+						  recordKnowledge(Assessment.SORTAKNEWIT);
+					  } else if (ne.getKeyCode() == KeyCodes.KEY_THREE || ne.getKeyCode() == KeyCodes.KEY_NUM_THREE) {
+						  ne.preventDefault();
+						  recordKnowledge(Assessment.DEFINITELYKNEWIT);
+					  }
+				  } else {
+					  if (ne.getKeyCode() == KeyCodes.KEY_ONE || ne.getKeyCode() == KeyCodes.KEY_TWO ||
+							  ne.getKeyCode() == KeyCodes.KEY_THREE || ne.getKeyCode() == KeyCodes.KEY_FOUR) {
+						  quizPresenter.getDisplay().setSelectedAnswer(ne.getKeyCode() - KeyCodes.KEY_ONE);
+					  }
+					  
+				  }
+			  
+			  }
+		  }
+	  });
+	  
   }
   
   public void go(final HasWidgets container) {
@@ -96,7 +143,6 @@ public class SessionPresenter implements Presenter {
     try{
     	//Set session based on query parameter in URL
     	Long sessionId = (long) 0;
-    	
     	
     	sessionId = Long.valueOf(Window.Location.getParameter("sessionId"));
     	this.setSession(sessionId);

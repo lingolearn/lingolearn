@@ -38,6 +38,11 @@ public class QuizView extends Composite {
 	  answerNodes = new ArrayList<RadioButton>();
   }
   
+  public void onLoad() {
+	  // Set up tooltips
+	  intializeTooltips();
+  }
+  
   public void enableSubmitButton() {
 	  submitButton.setEnabled(true);
   }
@@ -63,6 +68,10 @@ public class QuizView extends Composite {
   public void showNextButton() {
 	  submitButton.setVisible(false);
 	  nextButton.setVisible(true);
+  }
+  
+  public boolean isAnswered() {
+	  return !submitButton.isVisible();
   }
   
   public HasClickHandlers getNextButton() {
@@ -147,6 +156,12 @@ public class QuizView extends Composite {
 	  showNextButton();
   }
   
+  
+  public void setSelectedAnswer(int i) {
+	  answerNodes.get(i).setValue(true);
+	  enableSubmitButton();
+  }
+  
   public String getSelectedAnswer() {
 	  String res = "";
 	  for (int i=0;i<answerNodes.size();i++) {
@@ -186,6 +201,10 @@ public class QuizView extends Composite {
   private static native void resizeCardText() /*-{
   	$wnd.jQuery('.quiz-question').textfill();
   }-*/;
+  
+  private static native void intializeTooltips() /*-{
+	$wnd.jQuery('.btn').tooltip({placement: "bottom"});
+}-*/;
   
   public Widget asWidget() {
     return this;
