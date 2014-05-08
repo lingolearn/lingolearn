@@ -8,7 +8,6 @@ import com.google.gwt.user.client.Random;
 
 import cscie99.team2.lingolearn.shared.Card;
 import cscie99.team2.lingolearn.shared.Deck;
-import cscie99.team2.lingolearn.shared.error.CardNotFoundException;
 import cscie99.team2.lingolearn.shared.error.SpacedRepetitionException;
 
 /**
