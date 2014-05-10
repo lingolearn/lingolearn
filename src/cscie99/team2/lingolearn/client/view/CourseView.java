@@ -93,9 +93,16 @@ public class CourseView extends Composite {
   
   private void addAssignmentLinks( Session session ){
 	Long sessionId = session.getSessionId();
-	Anchor anchor = new Anchor(session.getDeck().getDesc() + " (Deck #" +
-			session.getDeck().getId() + ")", "app.html?sessionId=" +
+	Anchor anchor;
+	
+	if (session instanceof Quiz) {
+		anchor = new Anchor(session.getDeck().getDesc() + " (" +
+			session.getSessionType() + ")", "app.html?sessionId=" +
 			sessionId + "#session");
+	} else {
+		anchor = new Anchor(session.getDeck().getDesc(), 
+			"app.html?sessionId=" + sessionId + "#session");
+	}
   	
   	// GWT doesn't support create LI elements, we have to do it manually... sigh.
 	final LIElement topItem = Document.get().createLIElement();
@@ -142,7 +149,12 @@ public class CourseView extends Composite {
 	  sessionList.addItem("All sessions");
 	  
 	  for (int i=1;i<sessions.size();i++) {
-		  sessionList.addItem(sessions.get(i).getDeck().getDesc());
+		  Session s = sessions.get(i);
+		  if (s instanceof Quiz) {
+			  sessionList.addItem(s.getDeck().getDesc() + " (" + s.getSessionType() + ")");
+		  } else {
+			  sessionList.addItem(s.getDeck().getDesc());
+		  }
 	  }
   }
   

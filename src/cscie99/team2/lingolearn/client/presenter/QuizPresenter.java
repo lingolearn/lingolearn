@@ -128,11 +128,7 @@ public class QuizPresenter implements Presenter {
 				if (result != null) {
 					for (int i=0;i<result.size();i++) {
 						count++;
-						if (currentCard.getKatakana().equals("")) {
-							wrongAns = result.get(i) + "  —  " + currentCard.getHiragana();
-						} else {
-							wrongAns = result.get(i);
-						}
+						wrongAns = result.get(i);
 						wrongAnswerList.add(wrongAns);
 						display.addAnswer(wrongAns);
 					}
@@ -140,8 +136,10 @@ public class QuizPresenter implements Presenter {
 				currentNumConfusers = count;
 				for (int i=count;i<3;i++) {
 					if (otherCards.get(i) != null) {
-						display.addAnswer(otherCards.get(i).getDisplayString());
-						wrongAnswerList.add(otherCards.get(i).getDisplayString());
+						display.addAnswer(getCorrectAnswer(otherCards.get(i),sessionType));
+						//display.addAnswer(otherCards.get(i).getDisplayString());
+						wrongAnswerList.add(getCorrectAnswer(otherCards.get(i),sessionType));
+						//wrongAnswerList.add(otherCards.get(i).getDisplayString());
 					}
 				}
 				
