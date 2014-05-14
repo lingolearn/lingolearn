@@ -57,7 +57,7 @@ public class CsvBlobstoreServlet extends HttpServlet {
 			BlobstoreInputStream is = new BlobstoreInputStream(blobKey);
 
 			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(is));
+					new InputStreamReader(is, "UTF-8"));
 			CardFileLoader cardLoader = new CardFileLoader();
 			List<Card> importedCards = cardLoader.loadCards(reader);
 			Iterator<Card> cardItr = importedCards.iterator();
