@@ -20,40 +20,9 @@ h2 {
 	opacity: 0;
 }
 
-kbd {
-	background-color: rgba(0,0,0,0.5);
-	margin-left: 6px;
-	font-size: 8px;
-	vertical-align: middle;
-	position: relative;
-	top: -1px;
-	-webkit-animation-duration: 0.5s;
-  	animation-duration: 0.5s;
-}
-
-.btn kbd {
-	display: none;
-}
-
-.btn:hover kbd {
-	display: inline;
-}
-
 /*
  * Header
  */
-
-#login-container {
-  margin: 0 auto;
-  padding-bottom: 20px;
-  width: 300px;
-  text-align: center;
-  text-align: center;
-  border: 1px solid #d3d3d3;
-  /*box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);*/
-  background: #FFFFFF;
-  border-radius: 4px;
-}
 
 .login-brand {
   font-weight: 300;
@@ -67,6 +36,70 @@ kbd {
 
 .navbar-brand {
   font-weight: 300;
+}
+
+/*
+ * Landing page
+ */
+
+body#landing {
+	background: url("/images/background.png") #00192d;
+	background-size: cover;
+	color: white;
+}
+
+#landing .navbar-default {
+	background: none;
+	border: none;
+}
+
+#landing .navbar-brand {
+	color: white;
+}
+
+.hero {
+	margin-top: 120px;
+}
+
+.hero img {
+	float: right;
+	width: 600px;
+	position: relative;
+	left: 30px;
+}
+
+.hero h2 {
+	margin-top: 60px;
+	font-size: 60px;
+	text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+             0px 8px 13px rgba(0,0,0,0.1),
+             0px 18px 23px rgba(0,0,0,0.1);
+}
+
+.hero p {
+	margin-top: 20px;
+	font-size: 26px;
+	text-shadow: 0 -2px rgba(0, 0, 0, 0.4);
+}
+
+#login-container {
+	margin-top: 50px;
+	padding: 10px 0 8px 14px;
+  	width: 270px;
+  	border: 1px solid #d3d3d3;
+  	border-radius: 4px;
+  	overflow: auto;
+}
+
+#login-container span {
+	float: left;
+	font-size: 22px;
+	padding-right: 12px;
+	font-weight: 100;
+}
+
+#gplus-form-container {
+	display: inline;
 }
 
 /*
@@ -220,4 +253,6 @@ p.legend {
 .quiz-success {
 	color: #2DBB28;
 }
+
+
 
