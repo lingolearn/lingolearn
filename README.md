@@ -1,12 +1,18 @@
 # lingolearn
 
 ## Introduction
-Lingolearn is the final project for ALM IT capstone for Team Two.
+Lingolearn grew out of the Master's capstone project for [CSCI E-99](http://www.extension.harvard.edu/courses/software-engineering) 
+at [Harvard Extension School](http://www.extension.harvard.edu/) and focuses primarily on providing tools for learning 
+Japanese through the use of digital flashcards coupled with "confuser" characters and phrases that are programmatically 
+generated for tests and quizzes.
+
+## Confusers
+Confusers are the innovative approach used in this application and the algorithms involved can be found in the 
+[cscie99.team2.lingolearn.server.confuser](src/cscie99/team2/lingolearn/server/confuser) package in the repository.
 
 ## Project Dependences
-In order to build the project locally, you must provide the configuration 
-which is dependent upon the IDE that you use. The following instructions 
-are for Eclipse Juno.
+In order to build the project locally, you must provide the configuration which is dependent upon the IDE that you use.
+The following instructions are for Eclipse Juno.
 
 1. Make sure [Google Plugin for Eclipse](https://developers.google.com/eclipse/) is installed
 2. Clone the repository to your local storage and import the project
