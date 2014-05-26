@@ -98,7 +98,6 @@ public class FlashCardResponse implements Serializable {
 		this.assessment = assessment;
 		this.answerTimeRec = answerTimeRec;
 		this.seq = seq;
-		seq = DEFAULT_SEQUENCE;
 	}
 	
 	public Long getSessionId() {

@@ -113,7 +113,6 @@ public class QuizResponse implements Serializable {
 		this.numConfusersUsed = numConfusersUsed;
 		this.wrongAnswers = wrongAnswers;
 		this.seq = seq;
-		seq = DEFAULT_SEQUENCE;
 	}
 	
 	public Long getSessionId() {

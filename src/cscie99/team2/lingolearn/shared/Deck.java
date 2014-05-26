@@ -138,7 +138,7 @@ public class Deck implements Serializable {
 		}
 		// Remove the card id from the list of ids
 		for (int ndx = 0; ndx < cardIds.size(); ndx++) {
-			if (cardIds.get(ndx) == card.getId()) {
+			if (cardIds.get(ndx).equals(card.getId())) {
 				cardIds.remove(ndx);
 				break;
 			}
