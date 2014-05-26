@@ -42,12 +42,11 @@ public enum SessionTypes {
 		return text;
 	}
 	
-	public static boolean confuserSupported( SessionTypes sessionType ){
+	public static boolean confuserSupported(SessionTypes sessionType){
 		switch( sessionType ){
 			case Kanji_Translation:
 			case Hiragana_Translation:
 				return false;
-				
 			default:
 				return true;
 		}

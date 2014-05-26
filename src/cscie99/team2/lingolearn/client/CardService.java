@@ -14,8 +14,8 @@ public interface CardService extends RemoteService {
 	public void deleteCardById(Long cardId);
 	public Card getCardById(Long cardId);
 	public ArrayList<Card> getCardsByIds(ArrayList<Long> cardIds);
-	public Card getCardByKanji(String kanji);
 	public Card getCardByHiragana(String hiragana);
+	public Card getCardByKanji(String kanji);
 	public Card getCardByKatakana(String katakana);
 	public Card getCardByTranslation(String translation);
 	public Card getCardByDescription(String desc);

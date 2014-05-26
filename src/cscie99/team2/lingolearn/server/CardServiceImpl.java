@@ -16,17 +16,18 @@ import cscie99.team2.lingolearn.shared.error.ConfuserException;
 
 @SuppressWarnings("serial")
 public class CardServiceImpl extends RemoteServiceServlet implements CardService {
+	// The number of confusers to be returned
+	private final static int CONFUSER_LIST_SIZE = 3;
 	
 	private static final boolean Retrivining = false;
+	
 	CardDAO cardAccessor = CardDAO.getInstance();
 	
 	/**
 	 * Soon to be replaced by real DAO implementation 
 	 */
 	public Card getCardById(Long cardId) {
-		Card c = null;
-		c = cardAccessor.getCardById(cardId);
-		return c;
+		return cardAccessor.getCardById(cardId);
 	}
 	
 	public ArrayList<Card> getCardsByIds(ArrayList<Long> cardIds) {
@@ -65,6 +66,7 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 		}
 		return c;
 	};
+	
 	public Card getCardByHiragana(String hiragana) {
 		Card c = null;
 		try {
@@ -75,6 +77,7 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 		}
 		return c;
 	};
+	
 	public Card getCardByKatakana(String katakana) {
 		Card c = null;
 		try {
@@ -85,6 +88,7 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 		}
 		return c;
 	};
+	
 	public Card getCardByTranslation(String translation) {
 		Card c = null;
 		try {
@@ -95,6 +99,7 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 		}
 		return c;
 	};
+	
 	public Card getCardByDescription(String desc) {
 		Card c = null;
 		try {
@@ -105,6 +110,7 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 		}
 		return c;
 	};
+	
 	public List<Card> getAllCardsByKanji(String kanji) {
 		List<Card> cards = new ArrayList<>();
 		try {
@@ -115,6 +121,7 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 		}
 		return cards;
 	}
+	
 	public List<Card> getAllCardsByLanguage (String lang) {
 		List<Card> cards = new ArrayList<>();
 		try {
@@ -153,41 +160,34 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 		return confuserStrings;
 	}
 
-
 	@Override
 	public List<String> getConfusersForCard(Card card, SessionTypes type) {
-		List<String> confuserStrings = new ArrayList<String>();
-		Confuser confuser = new Confuser();
-		CharacterType charType = CharacterType.Kanji;
-		switch(type)
-		{
-			case Translation_Kanji:
-				charType = CharacterType.Kanji;
-				break;
-			case Translation_Hiragana:
-				charType = CharacterType.Hiragana;
-				break;	
-			case Kanji_Hiragana:
-				charType = CharacterType.Hiragana;
-				break;
-			case Hiragana_Kanji:
-				charType = CharacterType.Kanji;
-				break;	
-			default:
-					return confuserStrings;
-		}
-		
-		try{
-			if (charType == CharacterType.Kanji ) {
-				confuserStrings = confuser.getConfusers(card, CharacterType.Kanji, 3);
-			} else {
-				confuserStrings = confuser.getConfusers(card, CharacterType.Hiragana, 3);
+		try {
+			// Generate the confers on the basis of the session type
+			Confuser confuser = new Confuser();
+			switch(type)
+			{
+				// Get confusers for kanji answers
+				case Translation_Kanji:
+				case Hiragana_Kanji:
+					return confuser.getConfusers(card, CharacterType.Kanji, CONFUSER_LIST_SIZE);
+				// Get confuser for hiragana answers
+				case Kanji_Hiragana:
+				case Translation_Hiragana:
+					return confuser.getConfusers(card, CharacterType.Hiragana, CONFUSER_LIST_SIZE);
+				// Confusers are not supported for the translations
+				case Hiragana_Translation:
+				case Kanji_Translation:
+				default:
+					return new ArrayList<String>();
 			}
-		}catch( ConfuserException ce ){
-			return confuserStrings;
+		} catch (ConfuserException ex) {
+			// Generally this shouldn't happen so log the situation and return 
+			// and empty list back to the client
+			// TODO Add Log4j trace
+			System.err.println("A confuser exception occured in getConfusersForCard!");
+			System.err.println(ex.getMessage());			
+			return new ArrayList<String>();
 		}
-		return confuserStrings;
-	
 	}
-
 }
