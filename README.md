@@ -7,8 +7,12 @@ Japanese through the use of digital flashcards coupled with "confuser" character
 generated for tests and quizzes.
 
 ## Confusers
-Confusers are the innovative approach used in this application and the algorithms involved can be found in the 
-[cscie99.team2.lingolearn.server.confuser](src/cscie99/team2/lingolearn/server/confuser) package in the repository.
+Confusers are an innovative approach to language instruction and involve the generation of phrases based upon the kanji,
+hiragana, or katakana of a given word or phrase. In general, this approach appears to work best on students that have
+already been exposed to the word or phrase repetitively since it forces them to pick the correct option from several 
+that look like they could be the same at first glance. However, this approach has not be tested yet in a classroom 
+setting and should still be considered experimental. The algorithms involved can be found in the [cscie99.team2.lingolearn.server.confuser](src/cscie99/team2/lingolearn/server/confuser) package in the repository.
+ 
 
 ## Project Dependences
 In order to build the project locally, you must provide the configuration which is dependent upon the IDE that you use.
