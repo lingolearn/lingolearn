@@ -119,7 +119,7 @@ public class QuizView extends Composite {
 	  successOverlay.addStyleName("card-overlay-forefront");
 	  successOverlay.addStyleName("card-overlay-show");
 	  
-	  // has to be done in two seperate steps to avoid covering up the form elements
+	  // This has to be done in two separate steps to avoid covering up the form elements
 	  Timer overlay_timer = new Timer() {
 	      public void run() {
 	    	  successOverlay.removeStyleName("card-overlay-show");

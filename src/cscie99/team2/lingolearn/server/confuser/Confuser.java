@@ -334,7 +334,10 @@ public class Confuser {
 	 * @return A list of manipulations or an empty list if there is no valid
 	 * work to be done.
 	 */
-	public List<String> getNManipulation(String phrase) {
+	public List<String> getNManipulation(String phrase) throws ConfuserException {
+		if (phrase == null || phrase.isEmpty()) {
+			throw new ConfuserException("The phrase provided was null or empty."); 
+		}
 		// Determine if the phrase is in hiragana or katakana and adjust
 		// our assumptions accordingly
 		char n = 'ん';

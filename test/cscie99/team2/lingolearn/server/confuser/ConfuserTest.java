@@ -1,11 +1,10 @@
 package cscie99.team2.lingolearn.server.confuser;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import cscie99.team2.lingolearn.shared.Card;
@@ -185,7 +184,7 @@ public class ConfuserTest {
 	 * for hiragana and katakana.
 	 */
 	@Test
-	public void nManipulation() {
+	public void nManipulation() throws ConfuserException {
 		// Test to make sure テニス (tennis) is manipulated correctly
 		List<String> results = confuser.getNManipulation("テニス");
 		assertEquals(1, results.size());

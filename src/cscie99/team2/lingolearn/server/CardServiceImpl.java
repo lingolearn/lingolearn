@@ -19,8 +19,6 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 	// The number of confusers to be returned
 	private final static int CONFUSER_LIST_SIZE = 3;
 	
-	private static final boolean Retrivining = false;
-	
 	CardDAO cardAccessor = CardDAO.getInstance();
 	
 	/**
@@ -171,13 +169,17 @@ public class CardServiceImpl extends RemoteServiceServlet implements CardService
 				case Translation_Kanji:
 				case Hiragana_Kanji:
 					return confuser.getConfusers(card, CharacterType.Kanji, CONFUSER_LIST_SIZE);
-				// Get confuser for hiragana answers
+				// Get confusers for katakana answers
+				case Translation_Katakana:
+					return confuser.getConfusers(card, CharacterType.Katakana, CONFUSER_LIST_SIZE);
+				// Get confusers for hiragana answers
 				case Kanji_Hiragana:
 				case Translation_Hiragana:
 					return confuser.getConfusers(card, CharacterType.Hiragana, CONFUSER_LIST_SIZE);
 				// Confusers are not supported for the translations
 				case Hiragana_Translation:
 				case Kanji_Translation:
+				case Katakana_Translation:
 				default:
 					return new ArrayList<String>();
 			}

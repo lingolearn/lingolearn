@@ -1,21 +1,27 @@
 package cscie99.team2.lingolearn.shared;
 
 public enum SessionTypes {
-	Kanji_Translation("Kanji / Translation"), 
-	Hiragana_Translation("Hiragana / Translation"),
-	Translation_Kanji("Translation / Kanji"),
-	Translation_Hiragana("Translation / Hiragana"),
-	Kanji_Hiragana("Kanji / Hiragana"),
-	Hiragana_Kanji("Hiragana / Kanji");
+	Kanji_Translation("Kanji / Translation", false), 
+	Katakana_Translation("Katakana / Translation", false),
+	Hiragana_Translation("Hiragana / Translation", false),
+	Translation_Kanji("Translation / Kanji", true),
+	Translation_Katakana("Translation / Katakana", true),
+	Translation_Hiragana("Translation / Hiragana", true),
+	Kanji_Hiragana("Kanji / Hiragana", true),
+	Hiragana_Kanji("Hiragana / Kanji", true);
+	
+	// Flag to indicate if confusers are supported by this type
+	private boolean confuserSupported;
 	
 	// The text returned by toString()
 	private String text;
 	
 	/**
-	 * Constructor, set the text for toString().
+	 * Constructor.
 	 */
-	private SessionTypes(String value) {
+	private SessionTypes(String value, boolean confuserSupported) {
 		text = value;
+		this.confuserSupported = confuserSupported;
 	}
 	
 	/**
@@ -37,18 +43,17 @@ public enum SessionTypes {
 		throw new IllegalArgumentException("The value was not recognized: " + value);
 	}
 	
+	/**
+	 * Check to see if confusers are supported by this session type.
+	 * 
+	 * @return True if they are supported, false otherwise.
+	 */
+	public boolean isConfuserSupported() {
+		return confuserSupported;
+	}
+	
 	@Override
 	public String toString() {
 		return text;
-	}
-	
-	public static boolean confuserSupported(SessionTypes sessionType){
-		switch( sessionType ){
-			case Kanji_Translation:
-			case Hiragana_Translation:
-				return false;
-			default:
-				return true;
-		}
 	}
 }
