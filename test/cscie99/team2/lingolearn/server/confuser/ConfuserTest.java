@@ -17,15 +17,7 @@ import cscie99.team2.lingolearn.shared.error.ConfuserException;
  */
 public class ConfuserTest {
 	// The confuser instance to use for tests
-	private static Confuser confuser;
-
-	/**
-	 * Make sure the confuser algorithm code is using the correct data.
-	 */
-	@Before
-	public void setUp() {
-		ConfuserTest.confuser = new Confuser();
-	}
+	private final Confuser confuser = new Confuser();
 
 	/**
 	 * This helper function checks to ensure that the results provided

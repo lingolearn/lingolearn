@@ -1,10 +1,10 @@
-/**
- * 
- */
 package cscie99.team2.lingolearn.server;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,8 +17,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -53,8 +51,6 @@ import cscie99.team2.lingolearn.shared.User;
 import cscie99.team2.lingolearn.shared.UserSession;
 
 /**
- * @author YPolyanskyy
- * 
  * Unit tests for AnalyticsServiceImpl class.
  * 
  * Make sure the following jars are in the classpath:
@@ -63,7 +59,6 @@ import cscie99.team2.lingolearn.shared.UserSession;
  * ${SDK_ROOT}/lib/impl/appengine-api.jar
  * ${SDK_ROOT}/lib/impl/appengine-api-labs.jar
  * ${SDK_ROOT}/lib/impl/appengine-api-stubs.jar
- * 
  */
 public class AnalyticsServiceImplTest {
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
@@ -545,9 +540,7 @@ public class AnalyticsServiceImplTest {
 		float totalFlashCardTimeToAnswer = 0.0f;
 		int cardsSeen = 0;
 		List<FlashCardResponse> fcResps = mc.getAllFlashCardResponsesByUser(gplusId);
-		if (fcResps == null) {
-			assertEquals(mc.getAllFlashCardResponsesByUser(gplusId), 0.0f);
-		}
+		assertEquals(fcResps.size(), 1);
 		for (FlashCardResponse fcr: fcResps) {
 			cardsSeen++;
 			totalFlashCardTimeToAnswer = totalFlashCardTimeToAnswer + fcr.getTimeToAnswer();
