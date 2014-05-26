@@ -97,7 +97,7 @@ public class LeitnerSystem extends SpacedRepetition {
 		for (int ndx = 0; ndx <= currentSession; ndx++) {
 			for (int ndy = 0; ndy < sessions.get(ndx).size(); ndy++) {
 				// If this isn't the right card, press on
-				if (sessions.get(ndx).get(ndy) != card.getId()) {
+				if (!sessions.get(ndx).get(ndy).equals(card.getId())) {
 					continue;
 				}
 				// We found the right card, so remove it 
