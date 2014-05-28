@@ -18,13 +18,14 @@ import cscie99.team2.lingolearn.shared.SessionTypes;
 
 public class QuizPresenter implements Presenter {
 
+	// The number of confusers to get from the server
+	private final static int CONFUSER_COUNT = 3;
+	
 	private final CardServiceAsync cardService;
-	private final HandlerManager eventBus;
 	private final QuizView display;
 	private final SessionPresenter sessionPresenter;
 	private Card currentCard;
 	private int currentNumConfusers;
-	private String currentConfuserType; // TODO
 	private String currentWrongAnswers;
 	private String currentCorrectAnswer;
 	private boolean useConfusers;
@@ -32,11 +33,9 @@ public class QuizPresenter implements Presenter {
 	public QuizPresenter(CardServiceAsync cardService, HandlerManager eventBus,
 			QuizView display, SessionPresenter sessionPresenter) {
 		this.cardService = cardService;
-		this.eventBus = eventBus;
 		this.display = display;
 		this.sessionPresenter = sessionPresenter;
 		currentNumConfusers = 0;
-		currentConfuserType = "";
 		useConfusers = true;
 	}
 
@@ -119,30 +118,33 @@ public class QuizPresenter implements Presenter {
 
 					@Override
 					public void onSuccess(List<String> result) {
-						int count = 0;
-						ArrayList<String> wrongAnswerList = new ArrayList<String>();
-						String wrongAns;
-						if (result != null) {
-							for (int i = 0; i < result.size(); i++) {
-								count++;
-								wrongAns = result.get(i);
-								wrongAnswerList.add(wrongAns);
-								display.addAnswer(wrongAns);
-							}
+						// First, make sure we actually have something returned
+						if (result == null || result.size() == 0) {
+							useAsWrongAnswers(otherCards, sessionType);
+							return;
 						}
-						currentNumConfusers = count;
-						for (int i = count; i < 3; i++) {
+						
+						// Add the wrong confusers to the answer display
+						ArrayList<String> wrongAnswerList = new ArrayList<String>(result);
+						for (String answer : result) {
+							display.addAnswer(answer);
+						}
+						currentNumConfusers = wrongAnswerList.size();
+						
+						// Pad the wrong answers with random selections if need be
+						for (int i = currentNumConfusers; i < CONFUSER_COUNT; i++) {
 							if (otherCards.get(i) != null) {
 								display.addAnswer(getCorrectAnswer(otherCards.get(i), sessionType));
 								wrongAnswerList.add(getCorrectAnswer(otherCards.get(i), sessionType));
 							}
 						}
+						
+						// Prepare the wrong answer list
 						currentWrongAnswers = "";
+						String delimiter = "";
 						for (int i = 0; i < wrongAnswerList.size(); i++) {
-							currentWrongAnswers += wrongAnswerList.get(i);
-							if (i != (wrongAnswerList.size() - 1)) {
-								currentWrongAnswers += ";";
-							}
+							currentWrongAnswers += delimiter + wrongAnswerList.get(i);
+							delimiter = ";";
 						}
 					}
 				});
