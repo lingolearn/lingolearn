@@ -259,8 +259,8 @@ public class SessionPresenter implements Presenter {
 	}
 
 	public void gotoNextCard() {
-		boolean cardDrawn = true;
-		if (spacedRepetitionSystem.cardsRemaining()) {
+		boolean cardDrawn = false;
+		while (spacedRepetitionSystem.cardsRemaining() && !cardDrawn) {
 			try {
 				currentCardId = spacedRepetitionSystem.drawCard();
 				if (session instanceof Lesson) {
@@ -270,14 +270,12 @@ public class SessionPresenter implements Presenter {
 							selectThreeOtherCardsFromDeck(),
 							session.getSessionType());
 				}
-			} catch (SpacedRepetitionException e) {
-				cardDrawn = false;
+				cardDrawn = true;
+			} catch (SpacedRepetitionException ex) {
+				System.err.println("Error drawing next card: " + ex.getMessage());
 			}
-		} else {
-			cardDrawn = false;
 		}
-
-		if (!cardDrawn) {
+		if  (!cardDrawn) { 
 			Notice.showNotice("Deck complete! Good job!", "success");
 			if (session instanceof Lesson) {
 				cardPresenter.getDisplay().disableButtons();
@@ -298,14 +296,11 @@ public class SessionPresenter implements Presenter {
 					isValid = false;
 				}
 			}
-			if (allIds.get(idx).equals(currentCardId)) {
-				isValid = false;
+			if (allIds.get(idx).equals(currentCardId) || !isValid) {
+				continue;
 			}
-			if (isValid) {
-				selectedIds.add(allIds.get(idx));
-			}
+			selectedIds.add(allIds.get(idx));
 		}
 		return selectedIds;
 	}
-
 }

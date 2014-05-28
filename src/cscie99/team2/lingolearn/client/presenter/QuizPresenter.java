@@ -83,14 +83,22 @@ public class QuizPresenter implements Presenter {
 	public void setCardData(Long cardId, ArrayList<Long> otherOptionIds, final SessionTypes sessionType) {
 		ArrayList<Long> requestedIds = otherOptionIds;
 		requestedIds.add(cardId);
-
 		cardService.getCardsByIds(requestedIds,
 				new AsyncCallback<ArrayList<Card>>() {
 					public void onSuccess(ArrayList<Card> cards) {
 						Card card = cards.remove(cards.size() - 1);
+						// If we are using katakana confusers, make sure we have something 
+						// to actually work with
+						// HACK This is a bit of a hack since the rendering can make things
+						// HACK a bit unusual. A better approach requires a touch more 
+						// HACK refactoring to make sure Translation to Katakana can't be 
+						// HACK selected for decks without katakana
+						if (sessionType == SessionTypes.Translation_Katakana && card.getKatakana().isEmpty()) {
+							sessionPresenter.gotoNextCard();
+							return;
+						}
 						populateQuizInfo(card, cards, sessionType);
 					}
-
 					public void onFailure(Throwable caught) {
 						Window.alert("Error fetching card.");
 					}
@@ -197,14 +205,13 @@ public class QuizPresenter implements Presenter {
 	private void useAsWrongAnswers(ArrayList<Card> otherCards, SessionTypes sessionType) {
 		currentNumConfusers = 0;
 		currentWrongAnswers = "";
+		String delimiter = "";
 		for (int i = 0; i < otherCards.size(); i++) {
 			Card otherCard = otherCards.get(i);
 			String cardAnswer = getCorrectAnswer(otherCard, sessionType);
 			display.addAnswer(cardAnswer);
-			currentWrongAnswers += cardAnswer;
-			if (i != (otherCards.size() - 1)) {
-				currentWrongAnswers += ";";
-			}
+			currentWrongAnswers += delimiter + cardAnswer;
+			delimiter = ";";
 		}
 	}
 }
