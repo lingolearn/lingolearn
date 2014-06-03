@@ -24,8 +24,6 @@ import cscie99.team2.lingolearn.shared.Deck;
 import cscie99.team2.lingolearn.shared.error.FileLoadException;
 
 /**
- * CsvBlobstoreServlet.java
- * 
  * This servlet is used to parse imported files, and store their contained data
  * in the blobstore. Each row is meant to represent an entity (e.g. Card)
  */
@@ -56,21 +54,20 @@ public class CsvBlobstoreServlet extends HttpServlet {
 			BlobKey blobKey = blobs.get(ImportPresenter.CSV_UPLOAD_NAME).get(0);
 			BlobstoreInputStream is = new BlobstoreInputStream(blobKey);
 
-			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(is, "UTF-8"));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					is, "UTF-8"));
 			CardFileLoader cardLoader = new CardFileLoader();
 			List<Card> importedCards = cardLoader.loadCards(reader);
 			Iterator<Card> cardItr = importedCards.iterator();
 
 			Deck deck = new Deck();
 			while (cardItr.hasNext()) {
-				//TODO break cards into separate decks based on description?
+				// TODO break cards into separate decks based on description?
 				Card c = cardItr.next();
 				deck.add(c);
 				deck.setDesc(c.getDesc());
 			}
 			deck = deckAccessor.storeDeck(deck);
-
 			resp.sendRedirect("/import?deckId=" + deck.getId());
 		} catch (FileLoadException fle) {
 			fle.printStackTrace();
