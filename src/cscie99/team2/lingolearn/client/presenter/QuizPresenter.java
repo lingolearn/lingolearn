@@ -21,6 +21,11 @@ public class QuizPresenter implements Presenter {
 	// The number of confusers to get from the server
 	private final static int CONFUSER_COUNT = 3;
 	
+	// The phrases that are used for null strings
+	private final static String NO_HIRAGANA_PHRASE = "[No Hiragana]";
+	private final static String NO_KANJI_PHARSE = "[No Kanji]";
+	private final static String NO_KATAKANA_PHRASE = "[No Katakana]";
+		
 	private final CardServiceAsync cardService;
 	private final QuizView display;
 	private final SessionPresenter sessionPresenter;
@@ -190,12 +195,12 @@ public class QuizPresenter implements Presenter {
 				return card.getTranslation();
 			case Hiragana_Kanji:
 			case Translation_Kanji:
-				return card.getKanji();
+				return (!card.getKanji().isEmpty()) ? card.getKanji() : NO_KANJI_PHARSE;
 			case Translation_Katakana:
-				return card.getKatakana();
+				return (!card.getKatakana().isEmpty()) ? card.getKatakana() : NO_KATAKANA_PHRASE;
 			case Translation_Hiragana:
 			case Kanji_Hiragana:
-				return card.getHiragana();
+				return (!card.getHiragana().isEmpty()) ? card.getHiragana() : NO_HIRAGANA_PHRASE;
 		}
 		// If we got here then the options were exhausted, so throw an error
 		throw new IllegalStateException("The session type provided, "
