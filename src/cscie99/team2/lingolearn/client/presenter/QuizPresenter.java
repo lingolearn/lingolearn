@@ -98,7 +98,7 @@ public class QuizPresenter implements Presenter {
 						// HACK a bit unusual. A better approach requires a touch more 
 						// HACK refactoring to make sure Translation to Katakana can't be 
 						// HACK selected for decks without katakana
-						if (sessionType == SessionTypes.Translation_Katakana && card.getKatakana().isEmpty()) {
+						if (!isCardValid(card, sessionType)) {
 							sessionPresenter.gotoNextCard();
 							return;
 						}
@@ -145,9 +145,13 @@ public class QuizPresenter implements Presenter {
 						currentNumConfusers = wrongAnswerList.size();
 						
 						// Pad the wrong answers with random selections if need be
-						for (int i = currentNumConfusers; i < CONFUSER_COUNT; i++) {
+						for (int i = currentNumConfusers; wrongAnswerList.size() < CONFUSER_COUNT; i++) {
 							if (otherCards.get(i) != null) {
-								display.addAnswer(getCorrectAnswer(otherCards.get(i), sessionType));
+								String answer = getCorrectAnswer(otherCards.get(i), sessionType);
+								if (answer.isEmpty()) {
+									continue;
+								}
+								display.addAnswer(answer);
 								wrongAnswerList.add(getCorrectAnswer(otherCards.get(i), sessionType));
 							}
 						}
@@ -163,6 +167,12 @@ public class QuizPresenter implements Presenter {
 				});
 	}
 
+	/**
+	 * Set the question text that will be displayed to the user.
+	 * 
+	 * @param card The card to extract the text from.
+	 * @param sessionType The type of session the user requested.
+	 */
 	private void setQuestion(Card card, SessionTypes sessionType) {
 		switch (sessionType) {
 			case Kanji_Translation:
@@ -187,6 +197,12 @@ public class QuizPresenter implements Presenter {
 				+ sessionType + ", was not recognized.");
 	}
 
+	/**
+	 * 
+	 * @param card
+	 * @param sessionType
+	 * @return
+	 */
 	private String getCorrectAnswer(Card card, SessionTypes sessionType) {
 		switch (sessionType) {
 			case Kanji_Translation:
@@ -207,15 +223,57 @@ public class QuizPresenter implements Presenter {
 				+ sessionType + ", was not recognized.");
 	}
 
-	private void useAsWrongAnswers(ArrayList<Card> otherCards, SessionTypes sessionType) {
+	/**
+	 * Check to see if this card is valid for the selected session type.
+	 * 
+	 * @param card The card to check to see if it is valid.
+	 * @param sessionType The current session type we are running.
+	 * @return True if the combination is valid, false otherwise.
+	 */
+	private boolean isCardValid(Card card, SessionTypes sessionType) {
+		switch (sessionType) {
+			case Hiragana_Kanji:
+			case Hiragana_Translation:
+				return !card.getHiragana().isEmpty();
+			case Kanji_Hiragana:
+			case Kanji_Translation:
+				return !card.getKanji().isEmpty();
+			case Katakana_Translation:
+				return !card.getKatakana().isEmpty();
+			case Translation_Hiragana:
+			case Translation_Kanji:
+			case Translation_Katakana:
+				return !card.getTranslation().isEmpty();
+		}
+		// If we got here then the options were exhausted, so throw an error
+		throw new IllegalStateException("The session type provided, "
+				+ sessionType + ", was not recognized.");
+	}
+	
+	/**
+	 * Generate the wrong answers to use for the current card.
+	 * 
+	 * @param otherCards The other cards to choose the wrong answers from.
+	 * @param sessionType The session type that is currently being displayed.
+	 * @param confuserCount The current number of confusers.
+	 */
+	private void useAsWrongAnswers(List<Card> otherCards, SessionTypes sessionType) {
 		currentNumConfusers = 0;
 		currentWrongAnswers = "";
 		String delimiter = "";
-		for (int i = 0; i < otherCards.size(); i++) {
-			Card otherCard = otherCards.get(i);
-			String cardAnswer = getCorrectAnswer(otherCard, sessionType);
-			display.addAnswer(cardAnswer);
-			currentWrongAnswers += delimiter + cardAnswer;
+		// No blanks for wrong answers if the correct answer is blank
+		boolean blankUsed = currentCorrectAnswer.isEmpty();
+		for (Card card : otherCards) {
+			// Get the answer and make sure we limit the appearance of blanks 
+			// in the answers to just one occurrence 
+			String answer = getCorrectAnswer(card, sessionType);
+			if (answer.isEmpty() && blankUsed) {
+				continue;
+			}
+			blankUsed = (answer.isEmpty()) ? true : blankUsed;
+			// Add the wrong answer to the list
+			display.addAnswer(answer);
+			currentWrongAnswers += delimiter + answer;
 			delimiter = ";";
 		}
 	}
