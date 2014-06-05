@@ -148,7 +148,7 @@ public class QuizPresenter implements Presenter {
 						for (int i = currentNumConfusers; wrongAnswerList.size() < CONFUSER_COUNT; i++) {
 							if (otherCards.get(i) != null) {
 								String answer = getCorrectAnswer(otherCards.get(i), sessionType);
-								if (answer.isEmpty()) {
+								if (wrongAnswerList.contains(answer) || currentCorrectAnswer.equals(answer)) {
 									continue;
 								}
 								display.addAnswer(answer);
@@ -261,16 +261,13 @@ public class QuizPresenter implements Presenter {
 		currentNumConfusers = 0;
 		currentWrongAnswers = "";
 		String delimiter = "";
-		// No blanks for wrong answers if the correct answer is blank
-		boolean blankUsed = currentCorrectAnswer.isEmpty();
 		for (Card card : otherCards) {
 			// Get the answer and make sure we limit the appearance of blanks 
 			// in the answers to just one occurrence 
 			String answer = getCorrectAnswer(card, sessionType);
-			if (answer.isEmpty() && blankUsed) {
+			if (currentWrongAnswers.contains(answer) || currentCorrectAnswer.equals(answer)) {
 				continue;
 			}
-			blankUsed = (answer.isEmpty()) ? true : blankUsed;
 			// Add the wrong answer to the list
 			display.addAnswer(answer);
 			currentWrongAnswers += delimiter + answer;
