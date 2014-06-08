@@ -177,6 +177,11 @@ public class ConfuserTest {
 		results = confuser.getSmallTsuManiuplation("ヒト");
 		assertEquals(1, results.size());
 		assertEquals("ヒット", results.get(0));
+		
+		// Test to make sure としょかん (library) is manipulated correctly
+		results = confuser.getSmallTsuManiuplation("としょかん");
+		assertEquals(1, results.size());
+		assertEquals("とっしょかん", results.get(0));
 	}
 
 	/**

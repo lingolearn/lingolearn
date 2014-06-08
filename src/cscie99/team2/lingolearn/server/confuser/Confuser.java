@@ -414,7 +414,7 @@ public class Confuser {
 		// The following are the parameters for xtsu (っ, ッ) manipulation
 		char xtsu = 'っ';
 		String characters = "かきくけこさしたちつてとはひふへほぱぴぷぺぽ";
-		String invalidFollowers = "あいうえおんなにぬねの";
+		String invalidFollowers = "あいうえおんなにぬねのょ";
 		if (ConfuserTools.checkCharacter(phrase.charAt(0)) == CharacterType.Katakana) {
 			xtsu = 'ッ';
 			characters = "カキクケコサシタチツテトハヒフヘホパピプペポ";
