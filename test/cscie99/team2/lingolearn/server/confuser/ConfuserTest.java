@@ -38,12 +38,11 @@ public class ConfuserTest {
 	@Test
 	public void hiraganaVowelElongationTest() {
 		// Test to make sure え (picture) is extended correctly into ええ (yes)
-		List<String> results = confuser.getHiraganaManipulation("え");
-		assertEquals(1, results.size());
-		assertEquals("ええ", results.get(0));
+		String expected[] = new String[] { "ええ" };
+		checkResults(confuser.getHiraganaManipulation("え"), expected);
 		
 		// Test to make sure おばさん (aunt) is extended correctly
-		String expected[] = new String[] { "おばあさん", "おばさあん" };
+		expected = new String[] { "おばあさん", "おばさあん" };
 		checkResults(confuser.getHiraganaManipulation("おばさん"), expected);
 		
 		// Test to make sure おばあさん (grandmother) is extended correctly
@@ -57,6 +56,10 @@ public class ConfuserTest {
 		// Test to make sure おじいさん (grandfather) is extended correctly
 		expected = new String[] { "おじいさあん" };
 		checkResults(confuser.getHiraganaManipulation("おじいさん"), expected);
+		
+		// Test to make sure しょうたい (invitation) is extended correctly, in 
+		// theory, nothing should be returned
+		checkResults(confuser.getHiraganaManipulation("しょうたい"), new String[]{} );
 	}
 	
 	/**

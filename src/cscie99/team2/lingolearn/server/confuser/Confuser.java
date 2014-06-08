@@ -129,9 +129,12 @@ public class Confuser {
 				continue;
 			}
 			// Test to make sure if this is a vowel we can double
-			if (vowelCombinations.keySet().contains(ch) && next != ch) {
+			if (vowelCombinations.keySet().contains(ch)) {
+				// The only vowels that are doubled in regular use are お (o) and  え (e)
+				if (next != ch && (ch == 'え' || ch == 'お')) {
 					phrases.add(insertCharacter(phrase, ndx, ch));
-					continue;
+				}
+				continue;
 			}
 			// Iterate through the vowel combinations to find the character
 			// to use for the replacement
